@@ -1,0 +1,2477 @@
+
+<!doctype html>
+<html lang="el" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Εργαστηριακό υλικό μαθήματος — ΕΠΑΛ">
+      
+      
+        <meta name="author" content="Θόδωρος Θεμελής">
+      
+      
+        <link rel="canonical" href="https://ththemelis.github.io/python-mysql-site/04-filter-sort/lesson-04/">
+      
+      
+        <link rel="prev" href="../../03-python-connects/worksheet-03/">
+      
+      
+        <link rel="next" href="../worksheet-04/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>Μάθημα - Βάσεις δεδομένων με Python και MySQL</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/course.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#4" class="md-skip">
+          Μετάβαση στο περιεχόμενο
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Κεφαλίδα">
+    <a href="../.." title="Βάσεις δεδομένων με Python και MySQL" class="md-header__button md-logo" aria-label="Βάσεις δεδομένων με Python και MySQL" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Βάσεις δεδομένων με Python και MySQL
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Μάθημα
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Σκοτεινό θέμα"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Σκοτεινό θέμα" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Φωτεινό θέμα"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Φωτεινό θέμα" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Αναζήτηση" placeholder="Αναζήτηση" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Αναζήτηση">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Καθαρισμός" aria-label="Καθαρισμός" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Αρχικοποίηση αναζήτησης
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Πλοήγηση" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Βάσεις δεδομένων με Python και MySQL" class="md-nav__button md-logo" aria-label="Βάσεις δεδομένων με Python και MySQL" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Βάσεις δεδομένων με Python και MySQL
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Αρχική
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Εγκατάσταση και ρύθμιση
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 1 — Η πρώτη μου βάση δεδομένων
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 1 — Η πρώτη μου βάση δεδομένων
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01-first-database/lesson-01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01-first-database/worksheet-01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 2 — Η γλώσσα SQL: CREATE, INSERT, SELECT
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 2 — Η γλώσσα SQL: CREATE, INSERT, SELECT
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02-sql-basics/lesson-02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02-sql-basics/worksheet-02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 3 — Η Python συνδέεται με τη βάση
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 3 — Η Python συνδέεται με τη βάση
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03-python-connects/lesson-03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03-python-connects/worksheet-03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 4 — Φιλτράρω και ταξινομώ
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 4 — Φιλτράρω και ταξινομώ
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Πίνακας περιεχομένων">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Πίνακας περιεχομένων
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Αρχεία εργαστηρίου
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Η αποστολή
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στο τέλος θα μπορείς
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Πριν αρχίσεις
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-where" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Κύκλος 1 — Επιλέγω γραμμές με WHERE
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Κύκλος 1 — Επιλέγω γραμμές με WHERE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-where" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Η φράση WHERE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Τελεστές σύγκρισης
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-and-or-not" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 AND, OR και NOT
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-between-in" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4 BETWEEN και IN
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#15-where" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.5 Συνηθισμένα λάθη στη WHERE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-where_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 1 — Φιλτράρω με WHERE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 2 — Πολλές συνθήκες
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Κύκλος 2 — Ταξινομώ, περιορίζω, ψάχνω με μοτίβο
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Κύκλος 2 — Ταξινομώ, περιορίζω, ψάχνω με μοτίβο">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-order-by" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Σειρά με ORDER BY
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-limit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Όριο με LIMIT
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Η σειρά των φράσεων
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-like" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 Αναζήτηση με μοτίβο: LIKE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 3 — Σειρά, όριο και μοτίβο
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5 Η πρώτη σου συνάρτηση
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 4 — Ερωτήματα από την Python
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Έλεγχος πριν ολοκληρώσεις
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Για να θυμάσαι
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Λεξιλόγιο
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Δική σου εκδοχή
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../worksheet-04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 5 — Προσθέτω δεδομένα από την Python
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 5 — Προσθέτω δεδομένα από την Python
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05-insert-python/lesson-05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05-insert-python/worksheet-05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 6 — Αλλάζω και σβήνω
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 6 — Αλλάζω και σβήνω
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06-update-delete/lesson-06/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06-update-delete/worksheet-06/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Πίνακας περιεχομένων">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Πίνακας περιεχομένων
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Αρχεία εργαστηρίου
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Η αποστολή
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στο τέλος θα μπορείς
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Πριν αρχίσεις
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-where" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Κύκλος 1 — Επιλέγω γραμμές με WHERE
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Κύκλος 1 — Επιλέγω γραμμές με WHERE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-where" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Η φράση WHERE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Τελεστές σύγκρισης
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-and-or-not" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 AND, OR και NOT
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-between-in" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4 BETWEEN και IN
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#15-where" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.5 Συνηθισμένα λάθη στη WHERE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-where_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 1 — Φιλτράρω με WHERE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 2 — Πολλές συνθήκες
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Κύκλος 2 — Ταξινομώ, περιορίζω, ψάχνω με μοτίβο
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Κύκλος 2 — Ταξινομώ, περιορίζω, ψάχνω με μοτίβο">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-order-by" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Σειρά με ORDER BY
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-limit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Όριο με LIMIT
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Η σειρά των φράσεων
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-like" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 Αναζήτηση με μοτίβο: LIKE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 3 — Σειρά, όριο και μοτίβο
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5 Η πρώτη σου συνάρτηση
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 4 — Ερωτήματα από την Python
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Έλεγχος πριν ολοκληρώσεις
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Για να θυμάσαι
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Λεξιλόγιο
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Δική σου εκδοχή
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="4">Μάθημα 4: Φιλτράρω και ταξινομώ<a class="headerlink" href="#4" title="Permanent link">&para;</a></h1>
+<p><strong>Βάση δεδομένων:</strong> ερωτήματα που διαλέγουν <strong>μόνο</strong> τις γραμμές που θέλεις, με τη σειρά που θέλεις, και η πρώτη σου συνάρτηση στην Python<br />
+<strong>Διάρκεια:</strong> 2 κύκλοι × περίπου 45′ εργασία (2 διδακτικές ώρες)</p>
+<div class="admonition info">
+<p class="admonition-title">Φύλλο εργασίας</p>
+<p>Αυτή η σελίδα εξηγεί τις έννοιες. Οι ασκήσεις και οι οδηγίες για κάθε κύκλο βρίσκονται στο
+<a href="../worksheet-04/">Φύλλο εργασίας 4</a>. Δούλεψε με τις δύο σελίδες ανοιχτές.</p>
+</div>
+<h2 id="_1">Αρχεία εργαστηρίου<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Αρχείο</th>
+<th>Κύκλος</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../code/starter/01-where.sql">01-where.sql</a></td>
+<td>1</td>
+</tr>
+<tr>
+<td><a href="../code/starter/02-conditions.sql">02-conditions.sql</a></td>
+<td>1</td>
+</tr>
+<tr>
+<td><a href="../code/starter/03-sorting.sql">03-sorting.sql</a></td>
+<td>2</td>
+</tr>
+<tr>
+<td><a href="../code/starter/04-queries.py">04-queries.py</a></td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_2">Η αποστολή<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>Μέχρι τώρα κάθε <code>SELECT</code> έφερνε <strong>όλες</strong> τις γραμμές ενός πίνακα. Με δέκα παιχνίδια δεν πειράζει. Σε μια
+πραγματική βάση με χιλιάδες εγγραφές, όμως, κανείς δεν θέλει «όλα». Θέλει «τα παιχνίδια κάτω από 10 €», «τα τρία
+ακριβότερα», «όσα έχουν στον τίτλο τη λέξη Kart». Σήμερα μαθαίνεις να ρωτάς έτσι.</p>
+<p>Στο τέλος του μαθήματος τα ίδια ερωτήματα θα τρέχουν από πρόγραμμα Python, με μια <strong>συνάρτηση</strong> που
+εμφανίζει το αποτέλεσμα, ώστε να μη γράφεις τον ίδιο κώδικα έξι φορές. Και θυμάσαι το πρόγραμμα του Μαθήματος 3 που
+έβρισκε το ακριβότερο παιχνίδι με βρόχο; Με τη SQL της σημερινής ώρας το βρίσκεις με <strong>μία γραμμή</strong>.</p>
+<h2 id="_3">Στο τέλος θα μπορείς<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<ul>
+<li>να φιλτράρεις γραμμές με <code>WHERE</code> και τους τελεστές σύγκρισης (<code>=</code>, <code>&lt;&gt;</code>, <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code>).</li>
+<li>να συνδυάζεις συνθήκες με <code>AND</code>, <code>OR</code>, <code>NOT</code> και να χρησιμοποιείς παρενθέσεις.</li>
+<li>να χρησιμοποιείς <code>BETWEEN</code> και <code>IN</code> αντί για μεγάλες αλυσίδες συνθηκών.</li>
+<li>να ταξινομείς με <code>ORDER BY</code> (αύξουσα, φθίνουσα, με πολλές στήλες) και να περιορίζεις τα αποτελέσματα με <code>LIMIT</code>.</li>
+<li>να ψάχνεις με μοτίβα <code>LIKE</code> (<code>%</code> και <code>_</code>).</li>
+<li>να γράφεις τις φράσεις μιας <code>SELECT</code> με τη σωστή σειρά.</li>
+<li>να εξηγείς γιατί οι συγκρίσεις κειμένου δεν ξεχωρίζουν κεφαλαία από πεζά, και να προσέχεις την παγίδα του
+  ελληνικού και του λατινικού «Α».</li>
+<li>να γράφεις και να καλείς μια συνάρτηση (<code>def</code>) της Python, για να μην επαναλαμβάνεις κώδικα.</li>
+</ul>
+<h2 id="_4">Πριν αρχίσεις<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Ξεκίνα τη <strong>MySQL</strong> από το XAMPP Control Panel. Για τη SQL θα χρειαστείς και τον Apache (phpMyAdmin).</li>
+<li>Έλεγξε ότι η <code>game_library</code> έχει τον πίνακα <code>games</code> με δέκα εγγραφές και τον <code>platforms</code> με τέσσερις. Αν
+   λείπει ή διαφέρει, ζήτα από τον εκπαιδευτικό το αρχείο που τη φέρνει στη σωστή κατάσταση.</li>
+<li>Φτιάξε έναν φάκελο <code>04-filter-sort</code> μέσα στον φάκελο των μαθημάτων και κατέβασε εκεί τα τέσσερα αρχεία του
+   πίνακα. Κράτησε ακριβώς τα ονόματα (<code>.sql</code> και <code>.py</code>).</li>
+<li>Τα αρχεία <code>.sql</code> τα ανοίγεις σε επεξεργαστή κειμένου, συμπληρώνεις τα κενά και <strong>αντιγράφεις κάθε ερώτημα</strong>
+   στην καρτέλα SQL. Το <code>04-queries.py</code> το τρέχεις από το τερματικό του VS Code, όπως στο Μάθημα 3.</li>
+</ol>
+<div class="admonition tip">
+<p class="admonition-title">Ο κύκλος εργασίας</p>
+<p><strong>Πρόβλεψη → εκτέλεση → σύγκριση → εξήγηση.</strong> Σήμερα η πρόβλεψη είναι ακόμη πιο χρήσιμη: πριν τρέξεις ένα
+ερώτημα, πρόβλεψε <strong>πόσες γραμμές</strong> θα έχει το αποτέλεσμα. Το phpMyAdmin το γράφει πάνω από τον πίνακα
+(«Showing rows 0 - 4 (5 total)»).</p>
+</div>
+<hr />
+<h2 id="1-where">Κύκλος 1 — Επιλέγω γραμμές με <code>WHERE</code><a class="headerlink" href="#1-where" title="Permanent link">&para;</a></h2>
+<p>Σε αυτόν τον κύκλο μαθαίνεις να λες <strong>ποιες</strong> γραμμές θέλεις, και τρέχεις τα δύο πρώτα στάδια στο phpMyAdmin.</p>
+<h3 id="11-where">1.1 Η φράση <code>WHERE</code><a class="headerlink" href="#11-where" title="Permanent link">&para;</a></h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="err">στήλες</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="k">FROM</span><span class="w"> </span><span class="err">πίνακας</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="k">WHERE</span><span class="w"> </span><span class="err">συνθήκη</span><span class="p">;</span>
+</span></code></pre></div>
+<p>Η <strong>συνθήκη</strong> είναι μια ερώτηση με απάντηση «ναι» ή «όχι», όπως ο έλεγχος ενός <code>if</code> της Python. Η MySQL την ελέγχει
+<strong>για κάθε γραμμή</strong> και κρατά μόνο όσες απαντούν «ναι». Για <code>WHERE price &lt; 10</code>:</p>
+<table>
+<thead>
+<tr>
+<th><code>title</code></th>
+<th style="text-align: right;"><code>price</code></th>
+<th style="text-align: center;"><code>price &lt; 10</code>;</th>
+<th style="text-align: center;">Μπαίνει στο αποτέλεσμα;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Star Dodger</td>
+<td style="text-align: right;">4.99</td>
+<td style="text-align: center;">ναι</td>
+<td style="text-align: center;">✓</td>
+</tr>
+<tr>
+<td>Pixel Racer</td>
+<td style="text-align: right;">9.99</td>
+<td style="text-align: center;">ναι</td>
+<td style="text-align: center;">✓</td>
+</tr>
+<tr>
+<td>Puzzle Garden</td>
+<td style="text-align: right;">2.99</td>
+<td style="text-align: center;">ναι</td>
+<td style="text-align: center;">✓</td>
+</tr>
+<tr>
+<td>Dungeon of Echoes</td>
+<td style="text-align: right;">19.99</td>
+<td style="text-align: center;">όχι</td>
+<td style="text-align: center;">✗</td>
+</tr>
+<tr>
+<td>Neon Soccer</td>
+<td style="text-align: right;">14.99</td>
+<td style="text-align: center;">όχι</td>
+<td style="text-align: center;">✗</td>
+</tr>
+<tr>
+<td>…</td>
+<td style="text-align: right;">…</td>
+<td style="text-align: center;">…</td>
+<td style="text-align: center;">…</td>
+</tr>
+</tbody>
+</table>
+<p>Το ερώτημα και το αποτέλεσμά του στο phpMyAdmin:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="n">price</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="k">FROM</span><span class="w"> </span><span class="n">games</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">price</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span>
+</span></code></pre></div>
+<p><img alt="Αποτέλεσμα του ερωτήματος με WHERE price &lt; 10: 1 το μήνυμα «Showing rows 0 - 4 (5 total)», 2 ο πίνακας με πέντε παιχνίδια" src="../images/where-result.png" width="720" /></p>
+<p>Στο Μάθημα 3 έκανες το ίδιο με <code>for</code> και <code>if</code> στην Python: έφερνες όλες τις γραμμές και τις έλεγχες ένα-ένα. Εδώ το
+φιλτράρισμα γίνεται <strong>μέσα στη βάση</strong>, και στο πρόγραμμά σου φτάνουν μόνο οι γραμμές που χρειάζεσαι.</p>
+<h3 id="12">1.2 Τελεστές σύγκρισης<a class="headerlink" href="#12" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Τελεστής</th>
+<th>Σημαίνει</th>
+<th>Παράδειγμα</th>
+<th style="text-align: center;">Γραμμές (από τα δέκα)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><code>=</code></td>
+<td>ίσο</td>
+<td><code>genre = 'Αγωνιστικό'</code></td>
+<td style="text-align: center;">2</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>&lt;&gt;</code> ή <code>!=</code></td>
+<td>διαφορετικό</td>
+<td><code>genre &lt;&gt; 'Αγωνιστικό'</code></td>
+<td style="text-align: center;">8</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>&lt;</code></td>
+<td>μικρότερο</td>
+<td><code>price &lt; 10</code></td>
+<td style="text-align: center;">5</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>&gt;</code></td>
+<td>μεγαλύτερο</td>
+<td><code>price &gt; 15</code></td>
+<td style="text-align: center;">2</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>&lt;=</code></td>
+<td>μικρότερο ή ίσο</td>
+<td><code>release_year &lt;= 2020</code></td>
+<td style="text-align: center;">4</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>&gt;=</code></td>
+<td>μεγαλύτερο ή ίσο</td>
+<td><code>release_year &gt;= 2022</code></td>
+<td style="text-align: center;">4</td>
+</tr>
+</tbody>
+</table>
+<p>Τρεις κανόνες:</p>
+<ul>
+<li>Η ισότητα γράφεται με <strong>ένα</strong> <code>=</code> (όχι <code>==</code> της Python). Αν γράψεις <code>==</code> παίρνεις <code>#1064</code>.</li>
+<li>Το <strong>κείμενο</strong> μπαίνει σε <strong>μονά εισαγωγικά</strong> (<code>'Αγωνιστικό'</code>), οι <strong>αριθμοί</strong> χωρίς.</li>
+<li>Στη <code>WHERE</code> συγκρίνεις <strong>στήλη με τιμή</strong>: <code>price &lt; 10</code>. Το αντίστροφο (<code>10 &gt; price</code>) δουλεύει κι αυτό.</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Κεφαλαία, πεζά και τόνοι δεν μετράνε</p>
+<p>Δοκίμασε <code>WHERE genre = 'αγωνιστικο'</code> (πεζά, χωρίς τόνο). Βρίσκει τα δύο «Αγωνιστικό». Η σύγκριση κειμένου
+ακολουθεί τη <strong>σύνθεση</strong> (collation) της στήλης. Η δική μας είναι η <code>utf8mb4_general_ci</code>, και το <code>ci</code>
+σημαίνει <em>case insensitive</em>: δεν ξεχωρίζει κεφαλαία από πεζά, και στην πράξη ούτε τους τόνους. Στην Python το
+<code>"Παζλ" == "παζλ"</code> θα ήταν <code>False</code>· στη SQL είναι «ίσα».</p>
+</div>
+<h3 id="13-and-or-not">1.3 <code>AND</code>, <code>OR</code> και <code>NOT</code><a class="headerlink" href="#13-and-or-not" title="Permanent link">&para;</a></h3>
+<p>Όταν μία συνθήκη δεν αρκεί, τις συνδυάζεις:</p>
+<table>
+<thead>
+<tr>
+<th>Συνδυασμός</th>
+<th>Η γραμμή μπαίνει όταν…</th>
+<th>Παράδειγμα</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>A AND B</code></td>
+<td>ισχύουν <strong>και οι δύο</strong></td>
+<td><code>genre = 'Αγωνιστικό' AND price &lt; 15</code></td>
+</tr>
+<tr>
+<td><code>A OR B</code></td>
+<td>ισχύει <strong>τουλάχιστον μία</strong></td>
+<td><code>genre = 'Παζλ' OR genre = 'Αθλητικό'</code></td>
+</tr>
+<tr>
+<td><code>NOT A</code></td>
+<td><strong>δεν</strong> ισχύει η <code>A</code></td>
+<td><code>NOT genre = 'Αγωνιστικό'</code></td>
+</tr>
+</tbody>
+</table>
+<p>Λειτουργούν όπως τα <code>and</code>, <code>or</code>, <code>not</code> της Python. Μία παγίδα, ίδια με της Python: η <strong>προτεραιότητα</strong>. Το <code>AND</code>
+δένει <strong>πιο σφιχτά</strong> από το <code>OR</code>, όπως ο πολλαπλασιασμός από την πρόσθεση. Ποιο παιχνίδι θα φέρει αυτό το ερώτημα;</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="n">genre</span><span class="p">,</span><span class="w"> </span><span class="n">price</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="k">FROM</span><span class="w"> </span><span class="n">games</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">genre</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'Αγωνιστικό'</span><span class="w"> </span><span class="k">OR</span><span class="w"> </span><span class="n">genre</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'Αθλητικό'</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">price</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">15</span><span class="p">;</span>
+</span></code></pre></div>
+<p>Η MySQL το διαβάζει ως <code>genre = 'Αγωνιστικό' OR (genre = 'Αθλητικό' AND price &lt; 15)</code>: <strong>όλα</strong> τα αγωνιστικά, και
+μόνο τα αθλητικά που κοστίζουν κάτω από 15 €. Το αποτέλεσμα είναι τρεις γραμμές, με το <code>Turbo Kart Cup</code> (17.99 €).
+Αν θέλεις «αγωνιστικά ή αθλητικά, <strong>και</strong> φθηνότερα από 15 €», βάλε <strong>παρενθέσεις</strong>:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">WHERE</span><span class="w"> </span><span class="p">(</span><span class="n">genre</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'Αγωνιστικό'</span><span class="w"> </span><span class="k">OR</span><span class="w"> </span><span class="n">genre</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'Αθλητικό'</span><span class="p">)</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">price</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">15</span><span class="p">;</span>
+</span></code></pre></div>
+<p>Τώρα είναι δύο γραμμές. Όταν μια συνθήκη έχει και <code>AND</code> και <code>OR</code>, <strong>γράφε πάντα παρενθέσεις</strong>, ακόμη κι όταν δεν
+χρειάζονται: διαβάζεται πιο εύκολα και δεν αφήνει περιθώριο λάθους.</p>
+<h3 id="14-between-in">1.4 <code>BETWEEN</code> και <code>IN</code><a class="headerlink" href="#14-between-in" title="Permanent link">&para;</a></h3>
+<p>Δύο συντομογραφίες για συνθήκες που θα γράφεις συχνά:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1">-- τιμή από 5 έως 12 (και τα δύο όρια περιλαμβάνονται)</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">price</span><span class="w"> </span><span class="k">BETWEEN</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="mi">12</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="c1">-- ίδιο με:  price &gt;= 5 AND price &lt;= 12</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="c1">-- είδος ένα από τρία</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">genre</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="s1">'Παζλ'</span><span class="p">,</span><span class="w"> </span><span class="s1">'Ρόλων'</span><span class="p">,</span><span class="w"> </span><span class="s1">'Περιπέτεια'</span><span class="p">)</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="c1">-- ίδιο με:  genre = 'Παζλ' OR genre = 'Ρόλων' OR genre = 'Περιπέτεια'</span>
+</span></code></pre></div>
+<ul>
+<li>Το <code>BETWEEN</code> <strong>περιλαμβάνει</strong> τα δύο άκρα. Το <code>AND</code> εδώ ανήκει στο <code>BETWEEN</code> και δεν είναι ο λογικός τελεστής.</li>
+<li>Το <code>IN</code> παίρνει μια λίστα τιμών σε παρενθέσεις, χωρισμένες με κόμμα.</li>
+<li>Και τα δύο δέχονται <code>NOT</code>: <code>price NOT BETWEEN 5 AND 12</code>, <code>genre NOT IN ('Παζλ', 'Ρόλων')</code>.</li>
+</ul>
+<h3 id="15-where">1.5 Συνηθισμένα λάθη στη <code>WHERE</code><a class="headerlink" href="#15-where" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Εντολή</th>
+<th>Τι γίνεται</th>
+<th>Γιατί</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>WHERE title = Tiny Farm</code></td>
+<td><code>#1064</code> σφάλμα σύνταξης</td>
+<td>το κείμενο θέλει εισαγωγικά (εδώ και κενό)</td>
+</tr>
+<tr>
+<td><code>WHERE genre = Παζλ</code></td>
+<td><code>#1054 - Unknown column 'Παζλ' in 'WHERE'</code></td>
+<td>χωρίς εισαγωγικά, η MySQL το περνά για <strong>όνομα στήλης</strong></td>
+</tr>
+<tr>
+<td><code>WHERE price == 10</code></td>
+<td><code>#1064</code></td>
+<td>το <code>==</code> δεν υπάρχει στη SQL</td>
+</tr>
+<tr>
+<td><code>WHERE price &lt; 10 AND &lt; 20</code></td>
+<td><code>#1064</code></td>
+<td>κάθε μέρος του <code>AND</code> είναι ολόκληρη σύγκριση</td>
+</tr>
+<tr>
+<td><code>WHERE genre = 'Παζλ' OR 'Αθλητικό'</code></td>
+<td><strong>κανένα σφάλμα</strong>, αλλά βγαίνει μόνο το Παζλ</td>
+<td>το <code>'Αθλητικό'</code> μόνο του δεν είναι σύγκριση</td>
+</tr>
+</tbody>
+</table>
+<p>Η τελευταία γραμμή είναι <strong>σιωπηλό λάθος</strong>, όπως στο Μάθημα 2. Στην Python το ίδιο λάθος γράφεται
+<code>genre == "Παζλ" or "Αθλητικό"</code>. Η σωστή γραφή και στις δύο γλώσσες: κάθε μέρος του <code>OR</code> είναι <strong>πλήρης</strong> σύγκριση
+(<code>genre = 'Παζλ' OR genre = 'Αθλητικό'</code>), ή <code>genre IN ('Παζλ', 'Αθλητικό')</code>.</p>
+<h3 id="1-where_1">Στάδιο 1 — Φιλτράρω με <code>WHERE</code><a class="headerlink" href="#1-where_1" title="Permanent link">&para;</a></h3>
+<p>Άνοιξε το <code>01-where.sql</code>. Συμπλήρωσε τα έξι κενά (<code>____</code>) και τρέξε τα ερωτήματα <strong>ένα-ένα</strong> στην καρτέλα <strong>SQL</strong>.
+Πρώτα πρόβλεψε πόσες γραμμές θα έχει κάθε αποτέλεσμα.</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1">-- Στάδιο 1 — Φιλτράρω γραμμές με WHERE.</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="c1">--</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="c1">-- Πώς το τρέχεις:</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1">--   1. Συμπλήρωσε τα κενά (____) σε έναν επεξεργαστή κειμένου.</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="c1">--   2. Τρέξε κάθε ερώτημα ΞΕΧΩΡΙΣΤΑ στην καρτέλα SQL της βάσης game_library.</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="c1">--   3. ΠΡΩΤΑ πρόβλεψε πόσες γραμμές θα έχει το αποτέλεσμα. Το phpMyAdmin το γράφει πάνω από τον πίνακα:</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="c1">--      «Showing rows 0 - 4 (5 total)».</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="c1">-- Ερώτημα 1 (έτοιμο): τα αγωνιστικά παιχνίδια</span>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="n">price</span>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="k">FROM</span><span class="w"> </span><span class="n">games</span>
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">genre</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'Αγωνιστικό'</span><span class="p">;</span>
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>
+</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="c1">-- Ερώτημα 2: τα παιχνίδια που κοστίζουν λιγότερο από 10 €</span>
+</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="n">price</span>
+</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="k">FROM</span><span class="w"> </span><span class="n">games</span>
+</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">price</span><span class="w"> </span><span class="n">____</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span>
+</span><span id="__span-5-18"><a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a>
+</span><span id="__span-5-19"><a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a><span class="c1">-- Ερώτημα 3: τα παιχνίδια που κυκλοφόρησαν το 2022 ή αργότερα</span>
+</span><span id="__span-5-20"><a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="n">release_year</span>
+</span><span id="__span-5-21"><a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a><span class="k">FROM</span><span class="w"> </span><span class="n">games</span>
+</span><span id="__span-5-22"><a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">____</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">____</span><span class="p">;</span>
+</span><span id="__span-5-23"><a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a>
+</span><span id="__span-5-24"><a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a><span class="c1">-- Ερώτημα 4: όλα τα παιχνίδια που ΔΕΝ είναι αγωνιστικά (είδος διαφορετικό από «Αγωνιστικό»)</span>
+</span><span id="__span-5-25"><a id="__codelineno-5-25" name="__codelineno-5-25" href="#__codelineno-5-25"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="n">genre</span>
+</span><span id="__span-5-26"><a id="__codelineno-5-26" name="__codelineno-5-26" href="#__codelineno-5-26"></a><span class="k">FROM</span><span class="w"> </span><span class="n">games</span>
+</span><span id="__span-5-27"><a id="__codelineno-5-27" name="__codelineno-5-27" href="#__codelineno-5-27"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">genre</span><span class="w"> </span><span class="n">____</span><span class="w"> </span><span class="s1">'Αγωνιστικό'</span><span class="p">;</span>
+</span><span id="__span-5-28"><a id="__codelineno-5-28" name="__codelineno-5-28" href="#__codelineno-5-28"></a>
+</span><span id="__span-5-29"><a id="__codelineno-5-29" name="__codelineno-5-29" href="#__codelineno-5-29"></a><span class="c1">-- Ερώτημα 5: το παιχνίδι με τίτλο «Tiny Farm» (όλες οι στήλες)</span>
+</span><span id="__span-5-30"><a id="__codelineno-5-30" name="__codelineno-5-30" href="#__codelineno-5-30"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span>
+</span><span id="__span-5-31"><a id="__codelineno-5-31" name="__codelineno-5-31" href="#__codelineno-5-31"></a><span class="k">FROM</span><span class="w"> </span><span class="n">games</span>
+</span><span id="__span-5-32"><a id="__codelineno-5-32" name="__codelineno-5-32" href="#__codelineno-5-32"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">____</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">____</span><span class="p">;</span>
+</span></code></pre></div>
+<h3 id="2">Στάδιο 2 — Πολλές συνθήκες<a class="headerlink" href="#2" title="Permanent link">&para;</a></h3>
+<p>Άνοιξε το <code>02-conditions.sql</code>. Συμπλήρωσε τα έξι κενά και τρέξε τα ερωτήματα ένα-ένα. Το ερώτημα 5 έχει την
+παγίδα της προτεραιότητας: <strong>πρόβλεψε πρώτα</strong> πόσες γραμμές θα φέρει.</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1">-- Στάδιο 2 — Πολλές συνθήκες: AND, OR, BETWEEN, IN και παρενθέσεις.</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="c1">--</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="c1">-- Τρέξε κάθε ερώτημα ΞΕΧΩΡΙΣΤΑ στην καρτέλα SQL της βάσης game_library, αφού συμπληρώσεις τα κενά (____).</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1">-- ΠΡΩΤΑ πρόβλεψε πόσες γραμμές θα έχει το αποτέλεσμα.</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="c1">-- Ερώτημα 1 (έτοιμο): αγωνιστικά ΚΑΙ φθηνότερα από 15 €</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="n">genre</span><span class="p">,</span><span class="w"> </span><span class="n">price</span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="k">FROM</span><span class="w"> </span><span class="n">games</span>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">genre</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'Αγωνιστικό'</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">price</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">15</span><span class="p">;</span>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="c1">-- Ερώτημα 2: είδος «Παζλ» Ή είδος «Αθλητικό»</span>
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="n">genre</span>
+</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="k">FROM</span><span class="w"> </span><span class="n">games</span>
+</span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">genre</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'Παζλ'</span><span class="w"> </span><span class="n">____</span><span class="w"> </span><span class="n">genre</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'Αθλητικό'</span><span class="p">;</span>
+</span><span id="__span-6-15"><a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a>
+</span><span id="__span-6-16"><a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a><span class="c1">-- Ερώτημα 3: τιμή από 5 έως 12 € (και τα δύο όρια περιλαμβάνονται)</span>
+</span><span id="__span-6-17"><a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="n">price</span>
+</span><span id="__span-6-18"><a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a><span class="k">FROM</span><span class="w"> </span><span class="n">games</span>
+</span><span id="__span-6-19"><a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">price</span><span class="w"> </span><span class="n">____</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="n">____</span><span class="w"> </span><span class="mi">12</span><span class="p">;</span>
+</span><span id="__span-6-20"><a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a>
+</span><span id="__span-6-21"><a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a><span class="c1">-- Ερώτημα 4: είδος «Παζλ», «Ρόλων» ή «Περιπέτεια», με ένα μόνο έλεγχο</span>
+</span><span id="__span-6-22"><a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="n">genre</span>
+</span><span id="__span-6-23"><a id="__codelineno-6-23" name="__codelineno-6-23" href="#__codelineno-6-23"></a><span class="k">FROM</span><span class="w"> </span><span class="n">games</span>
+</span><span id="__span-6-24"><a id="__codelineno-6-24" name="__codelineno-6-24" href="#__codelineno-6-24"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">genre</span><span class="w"> </span><span class="n">____</span><span class="w"> </span><span class="p">(</span><span class="s1">'Παζλ'</span><span class="p">,</span><span class="w"> </span><span class="s1">'Ρόλων'</span><span class="p">,</span><span class="w"> </span><span class="s1">'Περιπέτεια'</span><span class="p">);</span>
+</span><span id="__span-6-25"><a id="__codelineno-6-25" name="__codelineno-6-25" href="#__codelineno-6-25"></a>
+</span><span id="__span-6-26"><a id="__codelineno-6-26" name="__codelineno-6-26" href="#__codelineno-6-26"></a><span class="c1">-- Ερώτημα 5 (έτοιμο): χωρίς παρενθέσεις. Πόσες γραμμές περιμένεις; Πρώτα πρόβλεψε, μετά τρέξ' το.</span>
+</span><span id="__span-6-27"><a id="__codelineno-6-27" name="__codelineno-6-27" href="#__codelineno-6-27"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="n">genre</span><span class="p">,</span><span class="w"> </span><span class="n">price</span>
+</span><span id="__span-6-28"><a id="__codelineno-6-28" name="__codelineno-6-28" href="#__codelineno-6-28"></a><span class="k">FROM</span><span class="w"> </span><span class="n">games</span>
+</span><span id="__span-6-29"><a id="__codelineno-6-29" name="__codelineno-6-29" href="#__codelineno-6-29"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">genre</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'Αγωνιστικό'</span><span class="w"> </span><span class="k">OR</span><span class="w"> </span><span class="n">genre</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'Αθλητικό'</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">price</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">15</span><span class="p">;</span>
+</span><span id="__span-6-30"><a id="__codelineno-6-30" name="__codelineno-6-30" href="#__codelineno-6-30"></a>
+</span><span id="__span-6-31"><a id="__codelineno-6-31" name="__codelineno-6-31" href="#__codelineno-6-31"></a><span class="c1">-- Ερώτημα 6: θέλουμε (αγωνιστικά Ή αθλητικά) ΚΑΙ φθηνότερα από 15 €. Βάλε τις παρενθέσεις στη σωστή θέση.</span>
+</span><span id="__span-6-32"><a id="__codelineno-6-32" name="__codelineno-6-32" href="#__codelineno-6-32"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="n">genre</span><span class="p">,</span><span class="w"> </span><span class="n">price</span>
+</span><span id="__span-6-33"><a id="__codelineno-6-33" name="__codelineno-6-33" href="#__codelineno-6-33"></a><span class="k">FROM</span><span class="w"> </span><span class="n">games</span>
+</span><span id="__span-6-34"><a id="__codelineno-6-34" name="__codelineno-6-34" href="#__codelineno-6-34"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">____</span><span class="w"> </span><span class="n">genre</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'Αγωνιστικό'</span><span class="w"> </span><span class="k">OR</span><span class="w"> </span><span class="n">genre</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'Αθλητικό'</span><span class="w"> </span><span class="n">____</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">price</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">15</span><span class="p">;</span>
+</span></code></pre></div>
+<p><strong>Συνέχισε στο Φύλλο εργασίας, Κύκλος 1.</strong></p>
+<hr />
+<h2 id="2_1">Κύκλος 2 — Ταξινομώ, περιορίζω, ψάχνω με μοτίβο<a class="headerlink" href="#2_1" title="Permanent link">&para;</a></h2>
+<p>Σε αυτόν τον κύκλο μαθαίνεις να λες <strong>με ποια σειρά</strong> και <strong>πόσες</strong> γραμμές θέλεις, να ψάχνεις με μοτίβα, και
+γράφεις την πρώτη σου συνάρτηση στην Python.</p>
+<h3 id="21-order-by">2.1 Σειρά με <code>ORDER BY</code><a class="headerlink" href="#21-order-by" title="Permanent link">&para;</a></h3>
+<p>Χωρίς <code>ORDER BY</code>, η MySQL επιστρέφει τις γραμμές με <strong>όποια σειρά τη βολεύει</strong>. Συνήθως είναι η σειρά
+εισαγωγής, αλλά δεν υπάρχει καμία εγγύηση. Αν η σειρά έχει σημασία, τη ζητάς ρητά:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="n">price</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="k">FROM</span><span class="w"> </span><span class="n">games</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">price</span><span class="p">;</span>
+</span></code></pre></div>
+<ul>
+<li><code>ORDER BY price</code> ταξινομεί <strong>αύξουσα</strong> (το φθηνότερο πρώτο). Η προεπιλογή λέγεται <code>ASC</code>.</li>
+<li><code>ORDER BY price DESC</code> ταξινομεί <strong>φθίνουσα</strong> (το ακριβότερο πρώτο).</li>
+<li>Με <strong>πολλές στήλες</strong>, η δεύτερη κρίνει τις ισοπαλίες της πρώτης: <code>ORDER BY genre, title</code> ταξινομεί κατά είδος
+  και, μέσα σε κάθε είδος, κατά τίτλο. Κάθε στήλη μπορεί να έχει δικό της <code>ASC</code> ή <code>DESC</code>:
+  <code>ORDER BY release_year DESC, title</code>.</li>
+<li>Το κείμενο ταξινομείται <strong>αλφαβητικά</strong> με τους κανόνες της σύνθεσης: τα ελληνικά βγαίνουν στη σωστή σειρά.</li>
+</ul>
+<h3 id="22-limit">2.2 Όριο με <code>LIMIT</code><a class="headerlink" href="#22-limit" title="Permanent link">&para;</a></h3>
+<p>Το <code>LIMIT n</code> κρατά μόνο τις <strong>πρώτες <code>n</code></strong> γραμμές του αποτελέσματος. Μαζί με το <code>ORDER BY</code> βρίσκεις «τους
+καλύτερους»:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="n">price</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="k">FROM</span><span class="w"> </span><span class="n">games</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">price</span><span class="w"> </span><span class="k">DESC</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="k">LIMIT</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span>
+</span></code></pre></div>
+<p><img alt="Αποτέλεσμα του ερωτήματος με ORDER BY price DESC LIMIT 3: 1 το μήνυμα «Showing rows 0 - 2 (3 total)», 2 οι τρεις ακριβότερες τιμές 19.99, 17.99 και 14.99" src="../images/order-limit.png" width="720" /></p>
+<p>Το ακριβότερο παιχνίδι είναι η ίδια ερώτηση με <code>LIMIT 1</code>:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="n">price</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">games</span><span class="w"> </span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">price</span><span class="w"> </span><span class="k">DESC</span><span class="w"> </span><span class="k">LIMIT</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+</span></code></pre></div>
+<p>Αυτό που έκανες με δέκα γραμμές Python στο Μάθημα 3 (<code>07-most-expensive.py</code>) γίνεται με μία. Και, κυρίως, η βάση
+<strong>δεν στέλνει</strong> στο πρόγραμμα τις άλλες εννέα γραμμές.</p>
+<p>Το <code>LIMIT</code> δέχεται και <strong>αφετηρία</strong>: <code>LIMIT 3, 3</code> (ή <code>LIMIT 3 OFFSET 3</code>) παραλείπει τις 3 πρώτες γραμμές και
+φέρνει τις επόμενες 3. Έτσι φτιάχνονται οι «σελίδες» των αποτελεσμάτων.</p>
+<h3 id="23">2.3 Η σειρά των φράσεων<a class="headerlink" href="#23" title="Permanent link">&para;</a></h3>
+<p>Οι φράσεις μιας <code>SELECT</code> γράφονται <strong>πάντα</strong> με αυτή τη σειρά:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>SELECT   ποιες στήλες
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>FROM     από ποιον πίνακα
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>WHERE    ποιες γραμμές
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>ORDER BY με ποια σειρά
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>LIMIT    πόσες
+</span></code></pre></div>
+<p>Δεν είναι υποχρεωτικές όλες, αλλά όσες γράφεις <strong>πρέπει να τηρούν τη σειρά</strong>. Το <code>ORDER BY price WHERE price &lt; 10</code>
+δίνει <code>#1064</code> με <code>near 'WHERE price &lt; 10'</code>. Ένας τρόπος να το θυμάσαι: ρώτα με τη σειρά «τι, από πού, ποιες, πώς
+ταξινομημένες, πόσες».</p>
+<h3 id="24-like">2.4 Αναζήτηση με μοτίβο: <code>LIKE</code><a class="headerlink" href="#24-like" title="Permanent link">&para;</a></h3>
+<p>Όταν δεν ξέρεις ολόκληρη την τιμή, ψάχνεις με <strong>μοτίβο</strong>. Στο <code>LIKE</code> υπάρχουν δύο ειδικά σύμβολα:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Σύμβολο</th>
+<th>Αντιστοιχεί σε</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><code>%</code></td>
+<td><strong>οποιονδήποτε</strong> αριθμό χαρακτήρων (και κανέναν)</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>_</code></td>
+<td><strong>έναν</strong> ακριβώς οποιονδήποτε χαρακτήρα</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Μοτίβο</th>
+<th>Τι βρίσκει</th>
+<th>Παράδειγμα αποτελέσματος</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>title LIKE 'S%'</code></td>
+<td>αρχίζει από S</td>
+<td>Star Dodger, Space Miners</td>
+</tr>
+<tr>
+<td><code>title LIKE '%Kart%'</code></td>
+<td>περιέχει «Kart»</td>
+<td>Turbo Kart Cup</td>
+</tr>
+<tr>
+<td><code>title LIKE '%er'</code></td>
+<td>τελειώνει σε «er»</td>
+<td>Star Dodger, Pixel Racer, Neon Soccer, Castle Jumper</td>
+</tr>
+<tr>
+<td><code>title LIKE '_i%'</code></td>
+<td>δεύτερο γράμμα <code>i</code></td>
+<td>Pixel Racer, Tiny Farm</td>
+</tr>
+<tr>
+<td><code>title NOT LIKE 'S%'</code></td>
+<td><strong>δεν</strong> αρχίζει από S</td>
+<td>οι υπόλοιποι οκτώ</td>
+</tr>
+</tbody>
+</table>
+<p>Όπως στο <code>=</code>, δεν ξεχωρίζουν κεφαλαία από πεζά: το <code>LIKE 's%'</code> βρίσκει τα ίδια παιχνίδια με το <code>LIKE 'S%'</code>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Το ελληνικό «Α» και το λατινικό «A» είναι διαφορετικά γράμματα</p>
+<p>Στο πληκτρολόγιο φαίνονται ίδια. Το <code>genre LIKE 'Α%'</code> με <strong>ελληνικό</strong> Α βρίσκει τα τρία είδη που αρχίζουν από
+Α (<code>Αγωνιστικό</code> δύο φορές και <code>Αθλητικό</code>). Με <strong>λατινικό</strong> A βρίσκει μόνο το <code>Arcade</code>. Αν ένα ερώτημα «δεν
+βρίσκει» κάτι που βλέπεις μπροστά σου, έλεγξε ποια γλώσσα είχε το πληκτρολόγιό σου όταν έγραψες το γράμμα.</p>
+</div>
+<h3 id="3">Στάδιο 3 — Σειρά, όριο και μοτίβο<a class="headerlink" href="#3" title="Permanent link">&para;</a></h3>
+<p>Άνοιξε το <code>03-sorting.sql</code>. Συμπλήρωσε τα οκτώ κενά και τρέξε τα ερωτήματα ένα-ένα. Πρόβλεψε πρώτα ποιο
+παιχνίδι θα είναι στην πρώτη γραμμή.</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1">-- Στάδιο 3 — Σειρά, όριο και αναζήτηση με μοτίβο: ORDER BY, LIMIT, LIKE.</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="c1">--</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="c1">-- Τρέξε κάθε ερώτημα ΞΕΧΩΡΙΣΤΑ στην καρτέλα SQL της βάσης game_library, αφού συμπληρώσεις τα κενά (____).</span>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="c1">-- ΠΡΩΤΑ πρόβλεψε ποιο παιχνίδι θα βρίσκεται στην πρώτη γραμμή.</span>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="c1">-- Ερώτημα 1 (έτοιμο): από το φθηνότερο στο ακριβότερο</span>
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="n">price</span>
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="k">FROM</span><span class="w"> </span><span class="n">games</span>
+</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">price</span><span class="p">;</span>
+</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>
+</span><span id="__span-11-11"><a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a><span class="c1">-- Ερώτημα 2: από το ακριβότερο στο φθηνότερο</span>
+</span><span id="__span-11-12"><a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="n">price</span>
+</span><span id="__span-11-13"><a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a><span class="k">FROM</span><span class="w"> </span><span class="n">games</span>
+</span><span id="__span-11-14"><a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">price</span><span class="w"> </span><span class="n">____</span><span class="p">;</span>
+</span><span id="__span-11-15"><a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a>
+</span><span id="__span-11-16"><a id="__codelineno-11-16" name="__codelineno-11-16" href="#__codelineno-11-16"></a><span class="c1">-- Ερώτημα 3: τα τρία ακριβότερα παιχνίδια</span>
+</span><span id="__span-11-17"><a id="__codelineno-11-17" name="__codelineno-11-17" href="#__codelineno-11-17"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="n">price</span>
+</span><span id="__span-11-18"><a id="__codelineno-11-18" name="__codelineno-11-18" href="#__codelineno-11-18"></a><span class="k">FROM</span><span class="w"> </span><span class="n">games</span>
+</span><span id="__span-11-19"><a id="__codelineno-11-19" name="__codelineno-11-19" href="#__codelineno-11-19"></a><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">price</span><span class="w"> </span><span class="k">DESC</span>
+</span><span id="__span-11-20"><a id="__codelineno-11-20" name="__codelineno-11-20" href="#__codelineno-11-20"></a><span class="n">____</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span>
+</span><span id="__span-11-21"><a id="__codelineno-11-21" name="__codelineno-11-21" href="#__codelineno-11-21"></a>
+</span><span id="__span-11-22"><a id="__codelineno-11-22" name="__codelineno-11-22" href="#__codelineno-11-22"></a><span class="c1">-- Ερώτημα 4: πρώτα κατά είδος και, μέσα σε κάθε είδος, κατά τίτλο</span>
+</span><span id="__span-11-23"><a id="__codelineno-11-23" name="__codelineno-11-23" href="#__codelineno-11-23"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">genre</span><span class="p">,</span><span class="w"> </span><span class="n">title</span>
+</span><span id="__span-11-24"><a id="__codelineno-11-24" name="__codelineno-11-24" href="#__codelineno-11-24"></a><span class="k">FROM</span><span class="w"> </span><span class="n">games</span>
+</span><span id="__span-11-25"><a id="__codelineno-11-25" name="__codelineno-11-25" href="#__codelineno-11-25"></a><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">____</span><span class="p">,</span><span class="w"> </span><span class="n">____</span><span class="p">;</span>
+</span><span id="__span-11-26"><a id="__codelineno-11-26" name="__codelineno-11-26" href="#__codelineno-11-26"></a>
+</span><span id="__span-11-27"><a id="__codelineno-11-27" name="__codelineno-11-27" href="#__codelineno-11-27"></a><span class="c1">-- Ερώτημα 5: οι τίτλοι που ΑΡΧΙΖΟΥΝ από S</span>
+</span><span id="__span-11-28"><a id="__codelineno-11-28" name="__codelineno-11-28" href="#__codelineno-11-28"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">title</span>
+</span><span id="__span-11-29"><a id="__codelineno-11-29" name="__codelineno-11-29" href="#__codelineno-11-29"></a><span class="k">FROM</span><span class="w"> </span><span class="n">games</span>
+</span><span id="__span-11-30"><a id="__codelineno-11-30" name="__codelineno-11-30" href="#__codelineno-11-30"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">title</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="n">____</span><span class="p">;</span>
+</span><span id="__span-11-31"><a id="__codelineno-11-31" name="__codelineno-11-31" href="#__codelineno-11-31"></a>
+</span><span id="__span-11-32"><a id="__codelineno-11-32" name="__codelineno-11-32" href="#__codelineno-11-32"></a><span class="c1">-- Ερώτημα 6: οι τίτλοι που ΠΕΡΙΕΧΟΥΝ τη λέξη «Kart»</span>
+</span><span id="__span-11-33"><a id="__codelineno-11-33" name="__codelineno-11-33" href="#__codelineno-11-33"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">title</span>
+</span><span id="__span-11-34"><a id="__codelineno-11-34" name="__codelineno-11-34" href="#__codelineno-11-34"></a><span class="k">FROM</span><span class="w"> </span><span class="n">games</span>
+</span><span id="__span-11-35"><a id="__codelineno-11-35" name="__codelineno-11-35" href="#__codelineno-11-35"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">title</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="n">____</span><span class="p">;</span>
+</span><span id="__span-11-36"><a id="__codelineno-11-36" name="__codelineno-11-36" href="#__codelineno-11-36"></a>
+</span><span id="__span-11-37"><a id="__codelineno-11-37" name="__codelineno-11-37" href="#__codelineno-11-37"></a><span class="c1">-- Ερώτημα 7 (έτοιμο): οι τίτλοι με δεύτερο γράμμα το i (το _ αντιστοιχεί σε ΕΝΑ οποιοδήποτε γράμμα)</span>
+</span><span id="__span-11-38"><a id="__codelineno-11-38" name="__codelineno-11-38" href="#__codelineno-11-38"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">title</span>
+</span><span id="__span-11-39"><a id="__codelineno-11-39" name="__codelineno-11-39" href="#__codelineno-11-39"></a><span class="k">FROM</span><span class="w"> </span><span class="n">games</span>
+</span><span id="__span-11-40"><a id="__codelineno-11-40" name="__codelineno-11-40" href="#__codelineno-11-40"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">title</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="s1">'_i%'</span><span class="p">;</span>
+</span><span id="__span-11-41"><a id="__codelineno-11-41" name="__codelineno-11-41" href="#__codelineno-11-41"></a>
+</span><span id="__span-11-42"><a id="__codelineno-11-42" name="__codelineno-11-42" href="#__codelineno-11-42"></a><span class="c1">-- Ερώτημα 8: από τα παιχνίδια που κοστίζουν λιγότερο από 15 €, οι δύο πιο πρόσφατοι τίτλοι</span>
+</span><span id="__span-11-43"><a id="__codelineno-11-43" name="__codelineno-11-43" href="#__codelineno-11-43"></a><span class="c1">-- (πρώτα η πιο πρόσφατη χρονιά, και σε ισοπαλία κατά τίτλο). Πρόσεξε τη σειρά των φράσεων.</span>
+</span><span id="__span-11-44"><a id="__codelineno-11-44" name="__codelineno-11-44" href="#__codelineno-11-44"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="n">release_year</span>
+</span><span id="__span-11-45"><a id="__codelineno-11-45" name="__codelineno-11-45" href="#__codelineno-11-45"></a><span class="k">FROM</span><span class="w"> </span><span class="n">games</span>
+</span><span id="__span-11-46"><a id="__codelineno-11-46" name="__codelineno-11-46" href="#__codelineno-11-46"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">____</span>
+</span><span id="__span-11-47"><a id="__codelineno-11-47" name="__codelineno-11-47" href="#__codelineno-11-47"></a><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">release_year</span><span class="w"> </span><span class="k">DESC</span><span class="p">,</span><span class="w"> </span><span class="n">title</span>
+</span><span id="__span-11-48"><a id="__codelineno-11-48" name="__codelineno-11-48" href="#__codelineno-11-48"></a><span class="k">LIMIT</span><span class="w"> </span><span class="n">____</span><span class="p">;</span>
+</span></code></pre></div>
+<h3 id="25">2.5 Η πρώτη σου συνάρτηση<a class="headerlink" href="#25" title="Permanent link">&para;</a></h3>
+<p>Στο Μάθημα 3, για κάθε ερώτημα έγραφες <code>execute</code>, <code>fetchall</code>, έναν βρόχο και την εκτύπωση: περίπου δώδεκα γραμμές.
+Για έξι ερωτήματα θα ήταν εβδομήντα δύο γραμμές, σχεδόν ίδιες. Η λύση είναι μια <strong>συνάρτηση</strong>: ένα κομμάτι κώδικα
+με όνομα, που το γράφεις <strong>μία</strong> φορά και το <strong>καλείς</strong> όσες φορές θέλεις.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">show</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">sql</span><span class="p">):</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">    </span><span class="sd">"""Στέλνει το ερώτημα sql και εμφανίζει το αποτέλεσμα κάτω από τον τίτλο title."""</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>    <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>    <span class="n">rows</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>    <span class="nb">print</span><span class="p">()</span>
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">"-"</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">title</span><span class="p">))</span>
+</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">" | "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cursor</span><span class="o">.</span><span class="n">column_names</span><span class="p">))</span>
+</span><span id="__span-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a>    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
+</span><span id="__span-12-11"><a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a>        <span class="n">texts</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span id="__span-12-12"><a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a>        <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">row</span><span class="p">:</span>
+</span><span id="__span-12-13"><a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a>            <span class="n">texts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
+</span><span id="__span-12-14"><a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">" | "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">texts</span><span class="p">))</span>
+</span><span id="__span-12-15"><a id="__codelineno-12-15" name="__codelineno-12-15" href="#__codelineno-12-15"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Γραμμές: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span></code></pre></div>
+<p>Τα κομμάτια του ορισμού:</p>
+<table>
+<thead>
+<tr>
+<th>Κομμάτι</th>
+<th>Τι κάνει</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>def</code></td>
+<td>δηλώνει ότι ορίζεις συνάρτηση</td>
+</tr>
+<tr>
+<td><code>show</code></td>
+<td>το <strong>όνομά</strong> της· με αυτό θα την καλέσεις</td>
+</tr>
+<tr>
+<td><code>(cursor, title, sql)</code></td>
+<td>οι <strong>παράμετροι</strong>: οι τιμές που χρειάζεται για να δουλέψει. Είναι «κενές θέσεις» που γεμίζουν όταν την καλείς</td>
+</tr>
+<tr>
+<td><code>:</code> και η <strong>εσοχή</strong></td>
+<td>το σώμα της συνάρτησης είναι όσες γραμμές έχουν εσοχή</td>
+</tr>
+<tr>
+<td><code>"""…"""</code></td>
+<td>η <strong>περιγραφή</strong> (docstring): τι κάνει η συνάρτηση</td>
+</tr>
+</tbody>
+</table>
+<p>Ο ορισμός <strong>δεν εκτελεί</strong> τίποτα. Απλώς «μαθαίνει» στην Python τη <code>show</code>. Ο κώδικας τρέχει μόνο όταν την <strong>καλέσεις</strong>,
+δίνοντας <strong>ορίσματα</strong> με την ίδια σειρά με τις παραμέτρους:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="n">show</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="s2">"Παιχνίδια του 2023"</span><span class="p">,</span> <span class="s2">"SELECT title, price FROM games WHERE release_year = 2023"</span><span class="p">)</span>
+</span></code></pre></div>
+<p>Σε αυτή την κλήση η Python βάζει <code>cursor</code> → <code>cursor</code>, <code>title</code> → <code>"Παιχνίδια του 2023"</code> και <code>sql</code> → το ερώτημα, και μετά
+εκτελεί το σώμα. Την επόμενη κλήση με άλλα ορίσματα η <code>sql</code> έχει άλλο ερώτημα και η <code>title</code> άλλον τίτλο.</p>
+<p>Μερικές λεπτομέρειες του σώματος:</p>
+<ul>
+<li>Η <code>cursor.column_names</code> είναι οι <strong>επικεφαλίδες</strong> του αποτελέσματος, όπως τις ορίζει το <code>SELECT</code>.</li>
+<li>Το <code>texts = []</code> φτιάχνει κενή <strong>λίστα</strong>, και το <code>texts.append(str(value))</code> προσθέτει στο τέλος της τη
+  <strong>μετατροπή σε κείμενο</strong> κάθε τιμής (το <code>str</code> χρειάζεται, γιατί οι τιμές μπορεί να είναι αριθμοί ή <code>Decimal</code>).</li>
+<li>Το <code>" | ".join(texts)</code> <strong>κολλά</strong> τα στοιχεία της λίστας με το <code>" | "</code> ανάμεσά τους: <code>Star Dodger | 4.99</code>.</li>
+<li>Οι μεταβλητές που δημιουργείς <strong>μέσα</strong> στη συνάρτηση (<code>rows</code>, <code>texts</code>, <code>row</code>) υπάρχουν μόνο όσο τρέχει. Εκτός
+  συνάρτησης δεν τις βλέπεις.</li>
+</ul>
+<p>Για ερωτήματα που γράφονται σε πολλές γραμμές χρησιμοποιούμε <strong>τριπλά εισαγωγικά</strong>, όπως έμαθες στο Μάθημα 3:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="n">show</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="s2">"Τα τρία ακριβότερα"</span><span class="p">,</span> <span class="s2">"""</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="s2">    SELECT title, price</span>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="s2">    FROM games</span>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="s2">    ORDER BY price DESC</span>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="s2">    LIMIT 3</span>
+</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="s2">"""</span><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="4-python">Στάδιο 4 — Ερωτήματα από την Python<a class="headerlink" href="#4-python" title="Permanent link">&para;</a></h3>
+<p>Άνοιξε το <code>04-queries.py</code>. Η συνάρτηση <code>show</code> είναι έτοιμη. Συμπλήρωσε τα οκτώ κενά <strong>μέσα στα ερωτήματα SQL</strong>
+και τρέξε το πρόγραμμα. Πρόβλεψε πρώτα πόσες γραμμές θα έχει το αποτέλεσμα κάθε κλήσης.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="sd">"""Στάδιο 4 — Ερωτήματα από την Python.</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="sd">Το πρόγραμμα ορίζει μία συνάρτηση, τη show, που στέλνει ένα ερώτημα στη βάση και εμφανίζει το αποτέλεσμα σε</span>
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="sd">πίνακα. Μετά την καλεί έξι φορές, με έξι διαφορετικά ερωτήματα SQL: ο ίδιος κώδικας, διαφορετικά ερωτήματα.</span>
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>
+</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="sd">Συμπλήρωσε τα οκτώ κενά (____) μέσα στα ερωτήματα SQL.</span>
+</span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="sd">"""</span>
+</span><span id="__span-15-8"><a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>
+</span><span id="__span-15-9"><a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a><span class="kn">import</span><span class="w"> </span><span class="nn">mysql.connector</span>
+</span><span id="__span-15-10"><a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a>
+</span><span id="__span-15-11"><a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a><span class="n">HOST</span> <span class="o">=</span> <span class="s2">"localhost"</span>
+</span><span id="__span-15-12"><a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a><span class="n">USER</span> <span class="o">=</span> <span class="s2">"root"</span>
+</span><span id="__span-15-13"><a id="__codelineno-15-13" name="__codelineno-15-13" href="#__codelineno-15-13"></a><span class="n">PASSWORD</span> <span class="o">=</span> <span class="s2">""</span>
+</span><span id="__span-15-14"><a id="__codelineno-15-14" name="__codelineno-15-14" href="#__codelineno-15-14"></a><span class="n">DATABASE</span> <span class="o">=</span> <span class="s2">"game_library"</span>
+</span><span id="__span-15-15"><a id="__codelineno-15-15" name="__codelineno-15-15" href="#__codelineno-15-15"></a>
+</span><span id="__span-15-16"><a id="__codelineno-15-16" name="__codelineno-15-16" href="#__codelineno-15-16"></a>
+</span><span id="__span-15-17"><a id="__codelineno-15-17" name="__codelineno-15-17" href="#__codelineno-15-17"></a><span class="k">def</span><span class="w"> </span><span class="nf">show</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">sql</span><span class="p">):</span>
+</span><span id="__span-15-18"><a id="__codelineno-15-18" name="__codelineno-15-18" href="#__codelineno-15-18"></a><span class="w">    </span><span class="sd">"""Στέλνει το ερώτημα sql και εμφανίζει το αποτέλεσμα κάτω από τον τίτλο title."""</span>
+</span><span id="__span-15-19"><a id="__codelineno-15-19" name="__codelineno-15-19" href="#__codelineno-15-19"></a>    <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
+</span><span id="__span-15-20"><a id="__codelineno-15-20" name="__codelineno-15-20" href="#__codelineno-15-20"></a>    <span class="n">rows</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+</span><span id="__span-15-21"><a id="__codelineno-15-21" name="__codelineno-15-21" href="#__codelineno-15-21"></a>
+</span><span id="__span-15-22"><a id="__codelineno-15-22" name="__codelineno-15-22" href="#__codelineno-15-22"></a>    <span class="nb">print</span><span class="p">()</span>
+</span><span id="__span-15-23"><a id="__codelineno-15-23" name="__codelineno-15-23" href="#__codelineno-15-23"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+</span><span id="__span-15-24"><a id="__codelineno-15-24" name="__codelineno-15-24" href="#__codelineno-15-24"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">"-"</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">title</span><span class="p">))</span>
+</span><span id="__span-15-25"><a id="__codelineno-15-25" name="__codelineno-15-25" href="#__codelineno-15-25"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">" | "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cursor</span><span class="o">.</span><span class="n">column_names</span><span class="p">))</span>
+</span><span id="__span-15-26"><a id="__codelineno-15-26" name="__codelineno-15-26" href="#__codelineno-15-26"></a>    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
+</span><span id="__span-15-27"><a id="__codelineno-15-27" name="__codelineno-15-27" href="#__codelineno-15-27"></a>        <span class="n">texts</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span id="__span-15-28"><a id="__codelineno-15-28" name="__codelineno-15-28" href="#__codelineno-15-28"></a>        <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">row</span><span class="p">:</span>
+</span><span id="__span-15-29"><a id="__codelineno-15-29" name="__codelineno-15-29" href="#__codelineno-15-29"></a>            <span class="n">texts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
+</span><span id="__span-15-30"><a id="__codelineno-15-30" name="__codelineno-15-30" href="#__codelineno-15-30"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">" | "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">texts</span><span class="p">))</span>
+</span><span id="__span-15-31"><a id="__codelineno-15-31" name="__codelineno-15-31" href="#__codelineno-15-31"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Γραμμές: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span><span id="__span-15-32"><a id="__codelineno-15-32" name="__codelineno-15-32" href="#__codelineno-15-32"></a>
+</span><span id="__span-15-33"><a id="__codelineno-15-33" name="__codelineno-15-33" href="#__codelineno-15-33"></a>
+</span><span id="__span-15-34"><a id="__codelineno-15-34" name="__codelineno-15-34" href="#__codelineno-15-34"></a><span class="n">connection</span> <span class="o">=</span> <span class="n">mysql</span><span class="o">.</span><span class="n">connector</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="n">HOST</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="n">USER</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">PASSWORD</span><span class="p">,</span> <span class="n">database</span><span class="o">=</span><span class="n">DATABASE</span><span class="p">)</span>
+</span><span id="__span-15-35"><a id="__codelineno-15-35" name="__codelineno-15-35" href="#__codelineno-15-35"></a><span class="n">cursor</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+</span><span id="__span-15-36"><a id="__codelineno-15-36" name="__codelineno-15-36" href="#__codelineno-15-36"></a>
+</span><span id="__span-15-37"><a id="__codelineno-15-37" name="__codelineno-15-37" href="#__codelineno-15-37"></a><span class="c1"># TODO 1: η συνθήκη: τα παιχνίδια που κυκλοφόρησαν το 2023</span>
+</span><span id="__span-15-38"><a id="__codelineno-15-38" name="__codelineno-15-38" href="#__codelineno-15-38"></a><span class="n">show</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="s2">"Παιχνίδια του 2023"</span><span class="p">,</span> <span class="s2">"""</span>
+</span><span id="__span-15-39"><a id="__codelineno-15-39" name="__codelineno-15-39" href="#__codelineno-15-39"></a><span class="s2">    SELECT title, price</span>
+</span><span id="__span-15-40"><a id="__codelineno-15-40" name="__codelineno-15-40" href="#__codelineno-15-40"></a><span class="s2">    FROM games</span>
+</span><span id="__span-15-41"><a id="__codelineno-15-41" name="__codelineno-15-41" href="#__codelineno-15-41"></a><span class="s2">    WHERE ____</span>
+</span><span id="__span-15-42"><a id="__codelineno-15-42" name="__codelineno-15-42" href="#__codelineno-15-42"></a><span class="s2">"""</span><span class="p">)</span>
+</span><span id="__span-15-43"><a id="__codelineno-15-43" name="__codelineno-15-43" href="#__codelineno-15-43"></a>
+</span><span id="__span-15-44"><a id="__codelineno-15-44" name="__codelineno-15-44" href="#__codelineno-15-44"></a><span class="c1"># TODO 2: ταξινόμηση κατά τιμή (από το φθηνότερο)</span>
+</span><span id="__span-15-45"><a id="__codelineno-15-45" name="__codelineno-15-45" href="#__codelineno-15-45"></a><span class="n">show</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="s2">"Φθηνά παιχνίδια (έως 8 €)"</span><span class="p">,</span> <span class="s2">"""</span>
+</span><span id="__span-15-46"><a id="__codelineno-15-46" name="__codelineno-15-46" href="#__codelineno-15-46"></a><span class="s2">    SELECT title, price</span>
+</span><span id="__span-15-47"><a id="__codelineno-15-47" name="__codelineno-15-47" href="#__codelineno-15-47"></a><span class="s2">    FROM games</span>
+</span><span id="__span-15-48"><a id="__codelineno-15-48" name="__codelineno-15-48" href="#__codelineno-15-48"></a><span class="s2">    WHERE price &lt;= 8</span>
+</span><span id="__span-15-49"><a id="__codelineno-15-49" name="__codelineno-15-49" href="#__codelineno-15-49"></a><span class="s2">    ORDER BY ____</span>
+</span><span id="__span-15-50"><a id="__codelineno-15-50" name="__codelineno-15-50" href="#__codelineno-15-50"></a><span class="s2">"""</span><span class="p">)</span>
+</span><span id="__span-15-51"><a id="__codelineno-15-51" name="__codelineno-15-51" href="#__codelineno-15-51"></a>
+</span><span id="__span-15-52"><a id="__codelineno-15-52" name="__codelineno-15-52" href="#__codelineno-15-52"></a><span class="c1"># TODO 3: τα τρία ακριβότερα: φθίνουσα σειρά και όριο γραμμών (δύο κενά)</span>
+</span><span id="__span-15-53"><a id="__codelineno-15-53" name="__codelineno-15-53" href="#__codelineno-15-53"></a><span class="n">show</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="s2">"Τα τρία ακριβότερα"</span><span class="p">,</span> <span class="s2">"""</span>
+</span><span id="__span-15-54"><a id="__codelineno-15-54" name="__codelineno-15-54" href="#__codelineno-15-54"></a><span class="s2">    SELECT title, price</span>
+</span><span id="__span-15-55"><a id="__codelineno-15-55" name="__codelineno-15-55" href="#__codelineno-15-55"></a><span class="s2">    FROM games</span>
+</span><span id="__span-15-56"><a id="__codelineno-15-56" name="__codelineno-15-56" href="#__codelineno-15-56"></a><span class="s2">    ORDER BY price ____</span>
+</span><span id="__span-15-57"><a id="__codelineno-15-57" name="__codelineno-15-57" href="#__codelineno-15-57"></a><span class="s2">    LIMIT ____</span>
+</span><span id="__span-15-58"><a id="__codelineno-15-58" name="__codelineno-15-58" href="#__codelineno-15-58"></a><span class="s2">"""</span><span class="p">)</span>
+</span><span id="__span-15-59"><a id="__codelineno-15-59" name="__codelineno-15-59" href="#__codelineno-15-59"></a>
+</span><span id="__span-15-60"><a id="__codelineno-15-60" name="__codelineno-15-60" href="#__codelineno-15-60"></a><span class="c1"># TODO 4: τίτλοι που περιέχουν τη λέξη «Kart» ή τη λέξη «Soccer» (δύο κενά, με μοτίβα LIKE)</span>
+</span><span id="__span-15-61"><a id="__codelineno-15-61" name="__codelineno-15-61" href="#__codelineno-15-61"></a><span class="n">show</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="s2">"Kart ή Soccer"</span><span class="p">,</span> <span class="s2">"""</span>
+</span><span id="__span-15-62"><a id="__codelineno-15-62" name="__codelineno-15-62" href="#__codelineno-15-62"></a><span class="s2">    SELECT title, genre</span>
+</span><span id="__span-15-63"><a id="__codelineno-15-63" name="__codelineno-15-63" href="#__codelineno-15-63"></a><span class="s2">    FROM games</span>
+</span><span id="__span-15-64"><a id="__codelineno-15-64" name="__codelineno-15-64" href="#__codelineno-15-64"></a><span class="s2">    WHERE title LIKE ____ OR title LIKE ____</span>
+</span><span id="__span-15-65"><a id="__codelineno-15-65" name="__codelineno-15-65" href="#__codelineno-15-65"></a><span class="s2">"""</span><span class="p">)</span>
+</span><span id="__span-15-66"><a id="__codelineno-15-66" name="__codelineno-15-66" href="#__codelineno-15-66"></a>
+</span><span id="__span-15-67"><a id="__codelineno-15-67" name="__codelineno-15-67" href="#__codelineno-15-67"></a><span class="c1"># TODO 5: είδος ανάμεσα σε μια λίστα τιμών, και δεύτερο κριτήριο ταξινόμησης (δύο κενά)</span>
+</span><span id="__span-15-68"><a id="__codelineno-15-68" name="__codelineno-15-68" href="#__codelineno-15-68"></a><span class="n">show</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="s2">"Αγωνιστικά και αθλητικά"</span><span class="p">,</span> <span class="s2">"""</span>
+</span><span id="__span-15-69"><a id="__codelineno-15-69" name="__codelineno-15-69" href="#__codelineno-15-69"></a><span class="s2">    SELECT title, genre, release_year</span>
+</span><span id="__span-15-70"><a id="__codelineno-15-70" name="__codelineno-15-70" href="#__codelineno-15-70"></a><span class="s2">    FROM games</span>
+</span><span id="__span-15-71"><a id="__codelineno-15-71" name="__codelineno-15-71" href="#__codelineno-15-71"></a><span class="s2">    WHERE genre ____ ('Αγωνιστικό', 'Αθλητικό')</span>
+</span><span id="__span-15-72"><a id="__codelineno-15-72" name="__codelineno-15-72" href="#__codelineno-15-72"></a><span class="s2">    ORDER BY release_year, ____</span>
+</span><span id="__span-15-73"><a id="__codelineno-15-73" name="__codelineno-15-73" href="#__codelineno-15-73"></a><span class="s2">"""</span><span class="p">)</span>
+</span><span id="__span-15-74"><a id="__codelineno-15-74" name="__codelineno-15-74" href="#__codelineno-15-74"></a>
+</span><span id="__span-15-75"><a id="__codelineno-15-75" name="__codelineno-15-75" href="#__codelineno-15-75"></a><span class="c1"># Ερώτημα 6 (έτοιμο): ερώτημα σε άλλον πίνακα. Η ίδια συνάρτηση, άλλα δεδομένα.</span>
+</span><span id="__span-15-76"><a id="__codelineno-15-76" name="__codelineno-15-76" href="#__codelineno-15-76"></a><span class="n">show</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="s2">"Πλατφόρμες από το 2020"</span><span class="p">,</span> <span class="s2">"""</span>
+</span><span id="__span-15-77"><a id="__codelineno-15-77" name="__codelineno-15-77" href="#__codelineno-15-77"></a><span class="s2">    SELECT name, maker</span>
+</span><span id="__span-15-78"><a id="__codelineno-15-78" name="__codelineno-15-78" href="#__codelineno-15-78"></a><span class="s2">    FROM platforms</span>
+</span><span id="__span-15-79"><a id="__codelineno-15-79" name="__codelineno-15-79" href="#__codelineno-15-79"></a><span class="s2">    WHERE release_year &gt;= 2020</span>
+</span><span id="__span-15-80"><a id="__codelineno-15-80" name="__codelineno-15-80" href="#__codelineno-15-80"></a><span class="s2">    ORDER BY name</span>
+</span><span id="__span-15-81"><a id="__codelineno-15-81" name="__codelineno-15-81" href="#__codelineno-15-81"></a><span class="s2">"""</span><span class="p">)</span>
+</span><span id="__span-15-82"><a id="__codelineno-15-82" name="__codelineno-15-82" href="#__codelineno-15-82"></a>
+</span><span id="__span-15-83"><a id="__codelineno-15-83" name="__codelineno-15-83" href="#__codelineno-15-83"></a><span class="n">cursor</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span><span id="__span-15-84"><a id="__codelineno-15-84" name="__codelineno-15-84" href="#__codelineno-15-84"></a><span class="n">connection</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span></code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>Παιχνίδια του 2023
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>------------------
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>title | price
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>Neon Soccer | 14.99
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>Turbo Kart Cup | 17.99
+</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>Γραμμές: 2
+</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>
+</span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>Φθηνά παιχνίδια (έως 8 €)
+</span><span id="__span-16-9"><a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a>-------------------------
+</span><span id="__span-16-10"><a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a>...
+</span></code></pre></div>
+<p><strong>Συνέχισε στο Φύλλο εργασίας, Κύκλος 2.</strong></p>
+<hr />
+<h2 id="_5">Έλεγχος πριν ολοκληρώσεις<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<ul>
+<li>□ Τα ερωτήματα των Σταδίων 1–3 έτρεξαν και οι προβλέψεις σου για το πλήθος γραμμών ταίριαξαν (ή κατάλαβες γιατί
+  όχι).</li>
+<li>□ Μπορείς να εξηγήσεις τη διαφορά ανάμεσα στο <code>A OR B AND C</code> και στο <code>(A OR B) AND C</code>.</li>
+<li>□ Γράφεις τις φράσεις με τη σωστή σειρά: <code>SELECT</code>, <code>FROM</code>, <code>WHERE</code>, <code>ORDER BY</code>, <code>LIMIT</code>.</li>
+<li>□ Το <code>04-queries.py</code> τρέχει και εμφανίζει έξι πίνακες.</li>
+<li>□ Μπορείς να πεις τι είναι ο ορισμός, η κλήση, η παράμετρος και το όρισμα μιας συνάρτησης.</li>
+<li>□ Όταν τελείωσες, σταμάτησες τον Apache και τη MySQL.</li>
+</ul>
+<h2 id="_6">Για να θυμάσαι<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Η <code>WHERE</code> κρατά τις γραμμές για τις οποίες η συνθήκη ισχύει. Η ισότητα είναι <code>=</code>, η διαφορά <code>&lt;&gt;</code>.</li>
+<li>Το κείμενο μπαίνει σε μονά εισαγωγικά. Οι συγκρίσεις κειμένου δεν ξεχωρίζουν κεφαλαία από πεζά και τόνους.</li>
+<li>Το <code>AND</code> δένει πιο σφιχτά από το <code>OR</code>. Με <code>AND</code> και <code>OR</code> μαζί, <strong>γράφε παρενθέσεις</strong>.</li>
+<li><code>BETWEEN a AND b</code> περιλαμβάνει τα άκρα. Το <code>IN (…)</code> είναι συντομογραφία για πολλά <code>OR</code>.</li>
+<li>Χωρίς <code>ORDER BY</code> δεν υπάρχει εγγυημένη σειρά. Το <code>DESC</code> αντιστρέφει. Το <code>LIMIT n</code> κρατά τις πρώτες <code>n</code>.</li>
+<li>Σειρά φράσεων: <code>SELECT</code>, <code>FROM</code>, <code>WHERE</code>, <code>ORDER BY</code>, <code>LIMIT</code>.</li>
+<li>Στο <code>LIKE</code>: το <code>%</code> είναι «οτιδήποτε», το <code>_</code> είναι «ένα γράμμα». Προσοχή στο ελληνικό και στο λατινικό «Α».</li>
+<li>Μια <strong>συνάρτηση</strong> ορίζεται με <code>def</code>, καλείται με ορίσματα και γλιτώνει τον επαναλαμβανόμενο κώδικα.</li>
+</ul>
+<h2 id="_7">Λεξιλόγιο<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<p><strong>συνθήκη</strong>, <strong><code>WHERE</code></strong>, <strong>τελεστής σύγκρισης</strong>, <strong>προτεραιότητα</strong>, <strong>παρένθεση</strong>, <strong><code>BETWEEN</code></strong>, <strong><code>IN</code></strong>,
+<strong><code>ORDER BY</code></strong>, <strong>αύξουσα / φθίνουσα σειρά</strong> (<code>ASC</code> / <code>DESC</code>), <strong><code>LIMIT</code></strong>, <strong>μοτίβο</strong> (<code>LIKE</code>), <strong>σύνθεση</strong>
+(collation), <strong>συνάρτηση</strong>, <strong>ορισμός</strong>, <strong>κλήση</strong>, <strong>παράμετρος</strong>, <strong>όρισμα</strong>, <strong>docstring</strong>.</p>
+<h2 id="_8">Δική σου εκδοχή<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
+<p>Αν τελειώσεις νωρίτερα, δούλεψε <strong>με μία αλλαγή τη φορά</strong> και δοκίμαζε μετά από κάθε αλλαγή:</p>
+<ul>
+<li>Πρόσθεσε στο <code>04-queries.py</code> ένα έβδομο ερώτημα της επιλογής σου (π.χ. παιχνίδια <strong>εκτός</strong> από κάποιο είδος, με
+  <code>NOT IN</code>, ή τίτλοι χωρίς «S» στην αρχή, με <code>NOT LIKE</code>).</li>
+<li>Άλλαξε τη <code>show</code> ώστε να τυπώνει και το ερώτημα SQL που έστειλε (πρόσθεσε μία γραμμή <code>print(sql)</code>). Τι
+  διευκολύνει αυτό όταν ένα ερώτημα δεν δίνει αυτό που περίμενες;</li>
+<li><strong>Πρόκληση 1:</strong> το <code>SELECT title FROM games ORDER BY price DESC LIMIT 3, 3;</code> δεν φέρνει τα τρία ακριβότερα.
+  Ποια φέρνει; Πρόβλεψε τα τρία παιχνίδια, μετά τρέξ' το.</li>
+<li><strong>Πρόκληση 2:</strong> το <code>WHERE genre = 'Παζλ' OR 'Αθλητικό'</code> δεν δίνει σφάλμα. Τρέξε το <strong>μαζί</strong> με την εντολή
+  <code>SHOW WARNINGS;</code> (δύο εντολές, χωρισμένες με <code>;</code>, στην ίδια εκτέλεση) και διάβασε το μήνυμα προειδοποίησης.
+  Τι νομίζεις ότι κάνει η MySQL με το <code>'Αθλητικό'</code> όταν το βρίσκει μόνο του σε μια συνθήκη;</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Επιστροφή στην αρχή
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Υποσέλιδο" >
+        
+          
+          <a href="../../03-python-connects/worksheet-03/" class="md-footer__link md-footer__link--prev" aria-label="Προηγούμενο: Φύλλο εργασίας">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Προηγούμενο
+              </span>
+              <div class="md-ellipsis">
+                Φύλλο εργασίας
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../worksheet-04/" class="md-footer__link md-footer__link--next" aria-label="Επόμενο: Φύλλο εργασίας">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Επόμενο
+              </span>
+              <div class="md-ellipsis">
+                Φύλλο εργασίας
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2026 Θόδωρος Θεμελής — <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.el"
+   target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>
+
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.top", "navigation.footer", "content.code.copy", "content.code.annotate", "toc.follow", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "\u0391\u03bd\u03c4\u03b9\u03b3\u03c1\u03ac\u03c6\u03b7\u03ba\u03b5 \u03c3\u03c4\u03bf \u03c0\u03c1\u03cc\u03c7\u03b5\u03b9\u03c1\u03bf", "clipboard.copy": "\u0391\u03bd\u03c4\u03b9\u03b3\u03c1\u03b1\u03c6\u03ae \u03c3\u03c4\u03bf \u03c0\u03c1\u03cc\u03c7\u03b5\u03b9\u03c1\u03bf", "search.result.more.one": "1 \u03b1\u03ba\u03cc\u03bc\u03b1 \u03c3\u03b5 \u03b1\u03c5\u03c4\u03ae\u03bd \u03c4\u03b7 \u03c3\u03b5\u03bb\u03af\u03b4\u03b1", "search.result.more.other": "# \u03b1\u03ba\u03cc\u03bc\u03b1 \u03c3\u03b5 \u03b1\u03c5\u03c4\u03ae\u03bd \u03c4\u03b7 \u03c3\u03b5\u03bb\u03af\u03b4\u03b1", "search.result.none": "\u03b4\u03b5\u03bd \u03b2\u03c1\u03ae\u03ba\u03b5 \u03ba\u03ac\u03c0\u03bf\u03b9\u03bf \u03ad\u03b3\u03b3\u03c1\u03b1\u03c6\u03bf", "search.result.one": "1 \u03ad\u03b3\u03b3\u03c1\u03b1\u03c6\u03bf \u03c0\u03bf\u03c5 \u03c4\u03b1\u03b9\u03c1\u03b9\u03ac\u03b6\u03b5\u03b9", "search.result.other": "# \u03ad\u03b3\u03b3\u03c1\u03b1\u03c6\u03b1 \u03c0\u03bf\u03c5 \u03c4\u03b1\u03b9\u03c1\u03b9\u03ac\u03b6\u03bf\u03c5\u03bd", "search.result.placeholder": "\u03a0\u03bb\u03b7\u03ba\u03c4\u03c1\u03bf\u03bb\u03bf\u03b3\u03ae\u03c3\u03c4\u03b5 \u03b3\u03b9\u03b1 \u03bd\u03b1 \u03b1\u03c1\u03c7\u03af\u03c3\u03b5\u03b9 \u03b7 \u03b1\u03bd\u03b1\u03b6\u03ae\u03c4\u03b7\u03c3\u03b7", "search.result.term.missing": "\u039b\u03b5\u03af\u03c0\u03b5\u03b9", "select.version": "\u0395\u03c0\u03b9\u03bb\u03bf\u03b3\u03ae \u03ad\u03ba\u03b4\u03bf\u03c3\u03b7\u03c2"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+    
+  </body>
+</html>

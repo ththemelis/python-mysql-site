@@ -1,0 +1,2468 @@
+
+<!doctype html>
+<html lang="el" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Εργαστηριακό υλικό μαθήματος — ΕΠΑΛ">
+      
+      
+        <meta name="author" content="Θόδωρος Θεμελής">
+      
+      
+        <link rel="canonical" href="https://ththemelis.github.io/python-mysql-site/02-sql-basics/lesson-02/">
+      
+      
+        <link rel="prev" href="../../01-first-database/worksheet-01/">
+      
+      
+        <link rel="next" href="../worksheet-02/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>Μάθημα - Βάσεις δεδομένων με Python και MySQL</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/course.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#2-sql-create-insert-select" class="md-skip">
+          Μετάβαση στο περιεχόμενο
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Κεφαλίδα">
+    <a href="../.." title="Βάσεις δεδομένων με Python και MySQL" class="md-header__button md-logo" aria-label="Βάσεις δεδομένων με Python και MySQL" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Βάσεις δεδομένων με Python και MySQL
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Μάθημα
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Σκοτεινό θέμα"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Σκοτεινό θέμα" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Φωτεινό θέμα"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Φωτεινό θέμα" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Αναζήτηση" placeholder="Αναζήτηση" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Αναζήτηση">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Καθαρισμός" aria-label="Καθαρισμός" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Αρχικοποίηση αναζήτησης
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Πλοήγηση" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Βάσεις δεδομένων με Python και MySQL" class="md-nav__button md-logo" aria-label="Βάσεις δεδομένων με Python και MySQL" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Βάσεις δεδομένων με Python και MySQL
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Αρχική
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Εγκατάσταση και ρύθμιση
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 1 — Η πρώτη μου βάση δεδομένων
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 1 — Η πρώτη μου βάση δεδομένων
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01-first-database/lesson-01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01-first-database/worksheet-01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 2 — Η γλώσσα SQL: CREATE, INSERT, SELECT
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 2 — Η γλώσσα SQL: CREATE, INSERT, SELECT
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Πίνακας περιεχομένων">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Πίνακας περιεχομένων
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Αρχεία εργαστηρίου
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Η αποστολή
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στο τέλος θα μπορείς
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Πριν αρχίσεις
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Κύκλος 1 — Γράφω εντολές που φτιάχνουν και γεμίζουν πίνακες
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Κύκλος 1 — Γράφω εντολές που φτιάχνουν και γεμίζουν πίνακες">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-sql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Η καρτέλα SQL και οι κανόνες της γλώσσας
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Ποια βάση και ποιοι πίνακες
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-create-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 Δημιουργία πίνακα: CREATE TABLE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-insert-into" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4 Προσθήκη εγγραφών: INSERT INTO
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#15-drop-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.5 Ξανά από την αρχή: DROP TABLE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-platforms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 1 — Ο πίνακας platforms
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 2 — Οι εγγραφές
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-select" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Κύκλος 2 — Διαβάζω δεδομένα με SELECT
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Κύκλος 2 — Διαβάζω δεδομένα με SELECT">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-select-from" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 SELECT και FROM
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-as" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Ψευδώνυμα: AS
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-distinct" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Χωρίς επαναλήψεις: DISTINCT
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 Υπολογισμοί και συναρτήσεις
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25-sql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5 Πώς διαβάζεται ένα σφάλμα της SQL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 3 — Επτά ερωτήματα
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 4 — Σπασμένες εντολές
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Έλεγχος πριν ολοκληρώσεις
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Για να θυμάσαι
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Λεξιλόγιο
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Δική σου εκδοχή
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../worksheet-02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 3 — Η Python συνδέεται με τη βάση
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 3 — Η Python συνδέεται με τη βάση
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03-python-connects/lesson-03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03-python-connects/worksheet-03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 4 — Φιλτράρω και ταξινομώ
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 4 — Φιλτράρω και ταξινομώ
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04-filter-sort/lesson-04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04-filter-sort/worksheet-04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 5 — Προσθέτω δεδομένα από την Python
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 5 — Προσθέτω δεδομένα από την Python
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05-insert-python/lesson-05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05-insert-python/worksheet-05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 6 — Αλλάζω και σβήνω
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 6 — Αλλάζω και σβήνω
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06-update-delete/lesson-06/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06-update-delete/worksheet-06/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Πίνακας περιεχομένων">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Πίνακας περιεχομένων
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Αρχεία εργαστηρίου
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Η αποστολή
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στο τέλος θα μπορείς
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Πριν αρχίσεις
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Κύκλος 1 — Γράφω εντολές που φτιάχνουν και γεμίζουν πίνακες
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Κύκλος 1 — Γράφω εντολές που φτιάχνουν και γεμίζουν πίνακες">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-sql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Η καρτέλα SQL και οι κανόνες της γλώσσας
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Ποια βάση και ποιοι πίνακες
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-create-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 Δημιουργία πίνακα: CREATE TABLE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-insert-into" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4 Προσθήκη εγγραφών: INSERT INTO
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#15-drop-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.5 Ξανά από την αρχή: DROP TABLE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-platforms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 1 — Ο πίνακας platforms
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 2 — Οι εγγραφές
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-select" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Κύκλος 2 — Διαβάζω δεδομένα με SELECT
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Κύκλος 2 — Διαβάζω δεδομένα με SELECT">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-select-from" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 SELECT και FROM
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-as" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Ψευδώνυμα: AS
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-distinct" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Χωρίς επαναλήψεις: DISTINCT
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 Υπολογισμοί και συναρτήσεις
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25-sql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5 Πώς διαβάζεται ένα σφάλμα της SQL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 3 — Επτά ερωτήματα
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 4 — Σπασμένες εντολές
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Έλεγχος πριν ολοκληρώσεις
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Για να θυμάσαι
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Λεξιλόγιο
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Δική σου εκδοχή
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="2-sql-create-insert-select">Μάθημα 2: Η γλώσσα SQL — CREATE, INSERT, SELECT<a class="headerlink" href="#2-sql-create-insert-select" title="Permanent link">&para;</a></h1>
+<p><strong>Βάση δεδομένων:</strong> η <code>game_library</code> με έναν νέο πίνακα, <code>platforms</code>, που τον φτιάχνεις και τον γεμίζεις με κώδικα, και πολλά ερωτήματα προς τον πίνακα <code>games</code><br />
+<strong>Διάρκεια:</strong> 2 κύκλοι × περίπου 45′ εργασία (2 διδακτικές ώρες)</p>
+<div class="admonition info">
+<p class="admonition-title">Φύλλο εργασίας</p>
+<p>Αυτή η σελίδα εξηγεί τις έννοιες. Οι ασκήσεις και οι οδηγίες για κάθε κύκλο βρίσκονται στο
+<a href="../worksheet-02/">Φύλλο εργασίας 2</a>. Δούλεψε με τις δύο σελίδες ανοιχτές.</p>
+</div>
+<h2 id="_1">Αρχεία εργαστηρίου<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Αρχείο</th>
+<th>Κύκλος</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../code/starter/01-create-platforms.sql">01-create-platforms.sql</a></td>
+<td>1</td>
+</tr>
+<tr>
+<td><a href="../code/starter/02-insert-platforms.sql">02-insert-platforms.sql</a></td>
+<td>1</td>
+</tr>
+<tr>
+<td><a href="../code/starter/03-select.sql">03-select.sql</a></td>
+<td>2</td>
+</tr>
+<tr>
+<td><a href="../code/starter/04-errors.sql">04-errors.sql</a></td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_2">Η αποστολή<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>Στο Μάθημα 1 έκανες τα πάντα με κουμπιά και το phpMyAdmin έγραφε τη SQL για σένα. Σήμερα τη γράφεις
+<strong>εσύ</strong>. Θα φτιάξεις με κώδικα έναν νέο πίνακα, τον <code>platforms</code>, με τις πλατφόρμες στις οποίες παίζονται τα
+παιχνίδια (PlayStation, Xbox και άλλες), θα τον γεμίσεις, και μετά θα ρωτήσεις τα παιχνίδια με εντολές
+<code>SELECT</code> με διάφορους τρόπους. Στο τέλος θα ξέρεις και να διαβάζεις τα μηνύματα σφαλμάτων της SQL.</p>
+<p>Γιατί να γράψεις εσύ τον κώδικα; Γιατί ένα πρόγραμμα Python <strong>δεν μπορεί να πατήσει κουμπιά</strong>. Από το
+Μάθημα 3 η Python θα στέλνει στη MySQL ακριβώς το κείμενο που γράφεις σήμερα. Ό,τι μάθεις εδώ θα το
+χρησιμοποιήσεις αυτούσιο μέσα στα προγράμματά σου.</p>
+<h2 id="_3">Στο τέλος θα μπορείς<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<ul>
+<li>να τρέχεις εντολές SQL στην καρτέλα SQL και να διαβάζεις το αποτέλεσμα ή το σφάλμα.</li>
+<li>να ακολουθείς τους κανόνες γραφής της SQL: ερωτηματικό, εισαγωγικά, σχόλια, κεφαλαία λέξεις-κλειδιά.</li>
+<li>να βλέπεις τις βάσεις και τους πίνακες με <code>SHOW</code> και <code>DESCRIBE</code>.</li>
+<li>να φτιάχνεις πίνακα με <code>CREATE TABLE</code> και να τον σβήνεις με <code>DROP TABLE</code>.</li>
+<li>να προσθέτεις μία ή πολλές εγγραφές με <code>INSERT INTO</code>.</li>
+<li>να διαβάζεις δεδομένα με <code>SELECT</code>: στήλες, <code>*</code>, ψευδώνυμα (<code>AS</code>) και <code>DISTINCT</code>.</li>
+<li>να κάνεις υπολογισμούς και να χρησιμοποιείς συναρτήσεις (<code>ROUND</code>, <code>CONCAT</code>, <code>UPPER</code>).</li>
+<li>να εντοπίζεις το λάθος από ένα μήνυμα σφάλματος της SQL, και να υποψιάζεσαι λάθος ακόμη και όταν
+  δεν υπάρχει μήνυμα.</li>
+</ul>
+<h2 id="_4">Πριν αρχίσεις<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Ξεκίνα τον <strong>Apache</strong> και τη <strong>MySQL</strong> από το XAMPP Control Panel και άνοιξε το phpMyAdmin.</li>
+<li>Έλεγξε ότι υπάρχει η βάση <code>game_library</code> με τον πίνακα <code>games</code> και <strong>δέκα</strong> παιχνίδια (καρτέλα
+   <strong>Browse</strong>). Αν λείπει ή έχεις διαφορετικά δεδομένα, ζήτα από τον εκπαιδευτικό το αρχείο που τη
+   φέρνει στη σωστή κατάσταση.</li>
+<li>Φτιάξε έναν φάκελο <code>02-sql-basics</code> μέσα στον φάκελο των μαθημάτων και κατέβασε εκεί τα τέσσερα αρχεία
+   του πίνακα. Κράτησε ακριβώς τα ονόματα, με κατάληξη <code>.sql</code> (όχι <code>.sql.txt</code>).</li>
+<li>Θα χρειαστείς έναν επεξεργαστή κειμένου για να συμπληρώνεις τα κενά των αρχείων: το Σημειωματάριο
+   (Notepad) ή το VS Code. Αν αποθηκεύσεις το αρχείο, κράτησε την κωδικοποίηση <strong>UTF-8</strong>, ώστε να μη
+   χαλάσουν τα ελληνικά σχόλια.</li>
+</ol>
+<div class="admonition tip">
+<p class="admonition-title">Ο κύκλος εργασίας</p>
+<p><strong>Πρόβλεψη → εκτέλεση → σύγκριση → εξήγηση.</strong> Πριν τρέξεις μια εντολή, γράψε τι περιμένεις να δεις. Αν
+το αποτέλεσμα διαφέρει, βρήκες κάτι που αξίζει να καταλάβεις· δεν έκανες λάθος.</p>
+</div>
+<hr />
+<h2 id="1">Κύκλος 1 — Γράφω εντολές που φτιάχνουν και γεμίζουν πίνακες<a class="headerlink" href="#1" title="Permanent link">&para;</a></h2>
+<p>Σε αυτόν τον κύκλο μαθαίνεις τους κανόνες γραφής της SQL και δύο εντολές: την <code>CREATE TABLE</code>, που φτιάχνει
+πίνακα, και την <code>INSERT INTO</code>, που προσθέτει εγγραφές.</p>
+<h3 id="11-sql">1.1 Η καρτέλα SQL και οι κανόνες της γλώσσας<a class="headerlink" href="#11-sql" title="Permanent link">&para;</a></h3>
+<p>Επίλεξε τη βάση <code>game_library</code> στο αριστερό δέντρο και άνοιξε την καρτέλα <strong>SQL</strong>. Βλέπεις ένα πεδίο
+κειμένου. Γράφεις εκεί μία ή περισσότερες εντολές και τις εκτελείς με το κουμπί <strong>Go</strong> ή με το
+πλήκτρο <strong>Ctrl + Enter</strong>.</p>
+<p>Μια <strong>εντολή</strong> (statement) της SQL είναι ένα κομμάτι κειμένου που <strong>τελειώνει με ερωτηματικό <code>;</code></strong>. Αν
+γράψεις πολλές εντολές, τις χωρίζει το <code>;</code>. Οι κανόνες γραφής είναι λίγοι:</p>
+<ul>
+<li><strong>Οι λέξεις-κλειδιά δεν ξεχωρίζουν κεφαλαία από πεζά.</strong> Το <code>select</code>, το <code>Select</code> και το <code>SELECT</code> είναι
+  το ίδιο. Συνηθίζεται να γράφονται οι λέξεις-κλειδιά με <strong>κεφαλαία</strong> και τα ονόματα με <strong>πεζά</strong>, ώστε να
+  ξεχωρίζουν: <code>SELECT title FROM games;</code></li>
+<li><strong>Οι αλλαγές γραμμής και τα κενά δεν έχουν σημασία.</strong> Η εντολή μπορεί να είναι σε μία γραμμή ή σε
+  πέντε. Για να διαβάζεται, γράφουμε <strong>μία φράση ανά γραμμή</strong> και βάζουμε εσοχή στα εσωτερικά.</li>
+<li><strong>Το κείμενο γράφεται σε μονά εισαγωγικά:</strong> <code>'Sony'</code>. Οι αριθμοί γράφονται <strong>χωρίς</strong> εισαγωγικά: <code>2020</code>.</li>
+<li><strong>Σχόλια:</strong> ό,τι ακολουθεί το <code>--</code> (δύο παύλες <strong>και ένα κενό</strong>) μέχρι το τέλος της γραμμής αγνοείται,
+  όπως το <code>#</code> της Python. Τα σχόλια πολλών γραμμών γράφονται ανάμεσα σε <code>/*</code> και <code>*/</code>.</li>
+</ul>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">-- Αυτή η γραμμή είναι σχόλιο και δεν εκτελείται.</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">title</span><span class="w">      </span><span class="c1">-- σχόλιο και στο τέλος μιας γραμμής</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="k">FROM</span><span class="w"> </span><span class="n">games</span><span class="p">;</span>
+</span></code></pre></div>
+<p>Οι διαφορές με την Python, για να μη μπερδεύεσαι:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Python</th>
+<th>SQL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Σχόλιο</td>
+<td><code># σχόλιο</code></td>
+<td><code>-- σχόλιο</code></td>
+</tr>
+<tr>
+<td>Κείμενο</td>
+<td><code>"Sony"</code> ή <code>'Sony'</code></td>
+<td><code>'Sony'</code></td>
+</tr>
+<tr>
+<td>Τέλος εντολής</td>
+<td>αλλαγή γραμμής</td>
+<td><code>;</code></td>
+</tr>
+<tr>
+<td>Δομή</td>
+<td>εσοχή</td>
+<td>φράσεις (<code>SELECT</code>, <code>FROM</code>, …) και παρενθέσεις</td>
+</tr>
+<tr>
+<td>Ισότητα</td>
+<td><code>==</code></td>
+<td><code>=</code> (θα το δεις στο Μάθημα 4)</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Η SQL λέει τι θέλεις, όχι πώς να το βρεις</p>
+<p>Στην Python γράφεις <strong>βήματα</strong>: έναν βρόχο που περνά από κάθε παιχνίδι και ελέγχει κάτι. Στη SQL
+γράφεις <strong>τι</strong> θέλεις: «δώσε μου τους τίτλους των παιχνιδιών». Το πώς το βρίσκει το αποφασίζει η
+MySQL. Γι' αυτό οι εντολές της SQL είναι τόσο κοντές.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Το phpMyAdmin ρωτά πριν σβήσεις</p>
+<p>Όταν η εντολή περιέχει <code>DROP TABLE</code> (σβήσιμο πίνακα), το phpMyAdmin εμφανίζει ένα παράθυρο
+«Do you really want to execute …?». Αν είσαι σίγουρος, πάτα <strong>OK</strong>. Δες την ενότητα 1.5.</p>
+</div>
+<h3 id="12">1.2 Ποια βάση και ποιοι πίνακες<a class="headerlink" href="#12" title="Permanent link">&para;</a></h3>
+<p>Τρεις μικρές εντολές σε βοηθούν να ξέρεις πού βρίσκεσαι. Δοκίμασέ τες στην καρτέλα SQL, <strong>μία τη φορά</strong>:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">SHOW</span><span class="w"> </span><span class="n">DATABASES</span><span class="p">;</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="k">SHOW</span><span class="w"> </span><span class="n">TABLES</span><span class="p">;</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="k">DESCRIBE</span><span class="w"> </span><span class="n">games</span><span class="p">;</span>
+</span></code></pre></div>
+<ul>
+<li><code>SHOW DATABASES;</code> εμφανίζει τις βάσεις του εξυπηρετητή.</li>
+<li><code>SHOW TABLES;</code> εμφανίζει τους πίνακες της βάσης που έχεις επιλεγμένη. Τώρα βλέπεις μόνο τον <code>games</code>.</li>
+<li><code>DESCRIBE games;</code> εμφανίζει τις στήλες του πίνακα, τον τύπο τους και αν είναι υποχρεωτικές:</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Null</th>
+<th>Key</th>
+<th>Default</th>
+<th>Extra</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td><code>int(11)</code></td>
+<td>NO</td>
+<td>PRI</td>
+<td>NULL</td>
+<td>auto_increment</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>varchar(100)</code></td>
+<td>NO</td>
+<td></td>
+<td>NULL</td>
+<td></td>
+</tr>
+<tr>
+<td><code>genre</code></td>
+<td><code>varchar(30)</code></td>
+<td>NO</td>
+<td></td>
+<td>NULL</td>
+<td></td>
+</tr>
+<tr>
+<td><code>release_year</code></td>
+<td><code>int(11)</code></td>
+<td>NO</td>
+<td></td>
+<td>NULL</td>
+<td></td>
+</tr>
+<tr>
+<td><code>price</code></td>
+<td><code>decimal(5,2)</code></td>
+<td>NO</td>
+<td></td>
+<td>NULL</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Η <code>DESCRIBE</code> δείχνει με λέξεις αυτό που είδες στην καρτέλα <strong>Structure</strong>. Το <code>PRI</code> στη στήλη <strong>Key</strong>
+σημαίνει «πρωτεύον κλειδί».</p>
+<div class="admonition note">
+<p class="admonition-title">Η εντολή <code>USE</code></p>
+<p>Αν ανοίξεις την καρτέλα SQL από την αρχική σελίδα του phpMyAdmin (χωρίς επιλεγμένη βάση), πρέπει
+πρώτα να πεις ποια βάση θέλεις: <code>USE game_library;</code>. Όταν την ανοίγεις μέσα από μια βάση, αυτό γίνεται
+μόνο του. Το πρόγραμμα Python θα το κάνει δηλώνοντας τη βάση όταν συνδέεται.</p>
+</div>
+<h3 id="13-create-table">1.3 Δημιουργία πίνακα: <code>CREATE TABLE</code><a class="headerlink" href="#13-create-table" title="Permanent link">&para;</a></h3>
+<p>Στο Μάθημα 1 το <strong>Preview SQL</strong> σου έδειξε την εντολή που φτιάχνει έναν πίνακα. Τώρα τη γράφεις μόνος σου.
+Η μορφή της είναι:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="err">όνομα</span><span class="n">_πίνακα</span><span class="w"> </span><span class="p">(</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="err">στήλη</span><span class="mi">1</span><span class="w">  </span><span class="err">ΤΥΠΟΣ</span><span class="w">  </span><span class="err">περιορισμοί</span><span class="p">,</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="err">στήλη</span><span class="mi">2</span><span class="w">  </span><span class="err">ΤΥΠΟΣ</span><span class="w">  </span><span class="err">περιορισμοί</span><span class="p">,</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="p">(</span><span class="err">στήλη</span><span class="p">)</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="p">);</span>
+</span></code></pre></div>
+<p>Για τον πίνακα <code>platforms</code> (πλατφόρμες) η εντολή είναι η εξής:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">platforms</span><span class="w"> </span><span class="p">(</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="n">id</span><span class="w">            </span><span class="nb">INT</span><span class="w">           </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="n">name</span><span class="w">          </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span><span class="w">   </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="n">maker</span><span class="w">         </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span><span class="w">   </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="n">release_year</span><span class="w">  </span><span class="nb">INT</span><span class="w">           </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">    </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="p">(</span><span class="n">id</span><span class="p">)</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="p">);</span>
+</span></code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Κομμάτι</th>
+<th>Τι σημαίνει</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CREATE TABLE platforms (</code></td>
+<td>φτιάξε πίνακα με όνομα <code>platforms</code>· ανοίγει η λίστα των στηλών</td>
+</tr>
+<tr>
+<td><code>id INT NOT NULL AUTO_INCREMENT,</code></td>
+<td>στήλη <code>id</code>: ακέραιος, υποχρεωτική τιμή, αριθμείται αυτόματα</td>
+</tr>
+<tr>
+<td><code>name VARCHAR(50) NOT NULL,</code></td>
+<td>στήλη <code>name</code>: κείμενο έως 50 χαρακτήρες, υποχρεωτική τιμή</td>
+</tr>
+<tr>
+<td><code>PRIMARY KEY (id)</code></td>
+<td>το <code>id</code> είναι το πρωτεύον κλειδί</td>
+</tr>
+<tr>
+<td><code>);</code></td>
+<td>κλείνει η λίστα και τελειώνει η εντολή</td>
+</tr>
+</tbody>
+</table>
+<p>Δύο λεπτομέρειες που κοστίζουν πολλά λάθη:</p>
+<ul>
+<li><strong>Κόμμα μετά από κάθε γραμμή, εκτός από την τελευταία.</strong> Ένα κόμμα πριν από το <code>)</code> δίνει σφάλμα
+  σύνταξης.</li>
+<li><strong>Η τελευταία γραμμή είναι το <code>PRIMARY KEY (id)</code></strong> και όχι μια στήλη. Εδώ φαίνεται καθαρά ότι το
+  πρωτεύον κλειδί <strong>ορίζεται ξεχωριστά</strong> από τη στήλη.</li>
+</ul>
+<p>Αν η εντολή πετύχει, το phpMyAdmin δείχνει «MySQL returned an empty result set (i.e. zero rows)». Δεν
+είναι σφάλμα. Σημαίνει ότι η εντολή δούλεψε και <strong>δεν επέστρεψε γραμμές</strong> (η <code>CREATE</code> δεν επιστρέφει
+δεδομένα). Ο νέος πίνακας εμφανίζεται και στο αριστερό δέντρο.</p>
+<p><img alt="Αποτέλεσμα του CREATE TABLE: 1 το πράσινο μήνυμα «MySQL returned an empty result set» με την εντολή από κάτω, 2 ο νέος πίνακας platforms στο αριστερό δέντρο" src="../images/create-ok.png" width="720" /></p>
+<p>Έλεγξε τον πίνακα με <code>DESCRIBE platforms;</code>. Πρέπει να δεις τέσσερις στήλες, με το <code>id</code> να είναι <code>PRI</code> και
+<code>auto_increment</code>.</p>
+<h3 id="14-insert-into">1.4 Προσθήκη εγγραφών: <code>INSERT INTO</code><a class="headerlink" href="#14-insert-into" title="Permanent link">&para;</a></h3>
+<p>Τη μορφή της <code>INSERT</code> την είδες στο Μάθημα 1, όταν το phpMyAdmin την έγραψε για σένα:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="err">πίνακας</span><span class="w"> </span><span class="p">(</span><span class="err">στήλη</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="err">στήλη</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="p">...)</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="err">τιμή</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="err">τιμή</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="p">...);</span>
+</span></code></pre></div>
+<p>Οι κανόνες:</p>
+<ul>
+<li>Οι <strong>τιμές</strong> μπαίνουν με την <strong>ίδια σειρά</strong> και στον <strong>ίδιο αριθμό</strong> με τις στήλες που γράφεις.</li>
+<li>Το κείμενο σε μονά εισαγωγικά, οι αριθμοί χωρίς.</li>
+<li><strong>Δεν γράφουμε το <code>id</code>.</strong> Αφού είναι <code>AUTO_INCREMENT</code>, το βάζει η βάση.</li>
+<li>Γράφουμε <strong>πάντα τη λίστα των στηλών</strong>. Έτσι η εντολή διαβάζεται και δεν χαλά όταν προστεθεί
+  στήλη στον πίνακα.</li>
+</ul>
+<p>Για πολλές εγγραφές μαζί, γράφεις <strong>μία</strong> <code>INSERT</code> με πολλές παρενθέσεις τιμών, χωρισμένες με κόμμα:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">platforms</span><span class="w"> </span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">maker</span><span class="p">,</span><span class="w"> </span><span class="n">release_year</span><span class="p">)</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="k">VALUES</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="p">(</span><span class="s1">'Xbox Series X'</span><span class="p">,</span><span class="w"> </span><span class="s1">'Microsoft'</span><span class="p">,</span><span class="w"> </span><span class="mi">2020</span><span class="p">),</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">    </span><span class="p">(</span><span class="s1">'Nintendo Switch'</span><span class="p">,</span><span class="w"> </span><span class="s1">'Nintendo'</span><span class="p">,</span><span class="w"> </span><span class="mi">2017</span><span class="p">);</span>
+</span></code></pre></div>
+<p>Είναι ένα ερώτημα αντί για δύο, και τρέχει πιο γρήγορα. Το phpMyAdmin απαντά με το πλήθος των εγγραφών:</p>
+<p><img alt="Αποτέλεσμα δύο εντολών INSERT: 1 το μήνυμα «1 row inserted» και 2 το μήνυμα «3 rows inserted», με τις εντολές που έτρεξαν από κάτω" src="../images/insert-ok.png" width="720" /></p>
+<p>Τέσσερα λάθη που θα συναντήσεις:</p>
+<table>
+<thead>
+<tr>
+<th>Μήνυμα</th>
+<th>Αιτία</th>
+<th>Παράδειγμα</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>#1136 - Column count doesn't match value count at row 1</code></td>
+<td>ο αριθμός των τιμών δεν ταιριάζει με τον αριθμό των στηλών</td>
+<td>τρεις στήλες, δύο τιμές</td>
+</tr>
+<tr>
+<td><code>#1062 - Duplicate entry '1' for key 'PRIMARY'</code></td>
+<td>έδωσες <code>id</code> που υπάρχει ήδη</td>
+<td><code>INSERT</code> με ρητό <code>id</code> = 1</td>
+</tr>
+<tr>
+<td><code>#1054 - Unknown column 'Sony' in 'VALUES'</code></td>
+<td>ξέχασες τα εισαγωγικά σε κείμενο <strong>μιας λέξης</strong>: η MySQL νομίζει ότι είναι όνομα στήλης</td>
+<td><code>VALUES ('PlayStation 5', Sony, 2020)</code></td>
+</tr>
+<tr>
+<td><code>#1064 - You have an error in your SQL syntax …</code></td>
+<td>ξέχασες τα εισαγωγικά σε κείμενο με <strong>κενό</strong>, ή ξέχασες κόμμα</td>
+<td><code>VALUES (PlayStation 5, 'Sony', 2020)</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="15-drop-table">1.5 Ξανά από την αρχή: <code>DROP TABLE</code><a class="headerlink" href="#15-drop-table" title="Permanent link">&para;</a></h3>
+<p>Τρέξε δύο φορές την ίδια <code>CREATE TABLE platforms</code>. Η δεύτερη φορά δίνει:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>#1050 - Table 'platforms' already exists
+</span></code></pre></div>
+<p>Η βάση δεν δημιουργεί πίνακα με όνομα που υπάρχει. Για να μπορείς να τρέχεις ένα αρχείο όσες φορές θέλεις,
+σβήνεις πρώτα τον πίνακα:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">DROP</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="n">platforms</span><span class="p">;</span>
+</span></code></pre></div>
+<ul>
+<li>Η <code>DROP TABLE</code> <strong>σβήνει τον πίνακα μαζί με όλα του τα δεδομένα</strong>, και δεν υπάρχει «αναίρεση».</li>
+<li>Το <code>IF EXISTS</code> σημαίνει «αν υπάρχει». Χωρίς αυτό, η εντολή δίνει σφάλμα όταν ο πίνακας δεν υπάρχει.</li>
+</ul>
+<p>Ένα αρχείο που αρχίζει με <code>DROP TABLE IF EXISTS</code>, συνεχίζει με <code>CREATE TABLE</code> και τελειώνει με <code>INSERT</code>
+<strong>φτιάχνει τον πίνακα από την αρχή κάθε φορά</strong>. Έτσι θα γράφονται τα αρχεία σε όλο το υλικό. Και αν
+τρέξεις δύο φορές μόνο τα <code>INSERT</code>, θα έχεις <strong>διπλές εγγραφές</strong>: ένας ακόμη λόγος να ξεκινάς από τη
+<code>DROP</code>.</p>
+<h3 id="1-platforms">Στάδιο 1 — Ο πίνακας <code>platforms</code><a class="headerlink" href="#1-platforms" title="Permanent link">&para;</a></h3>
+<p>Άνοιξε το <code>01-create-platforms.sql</code> σε επεξεργαστή κειμένου. Συμπλήρωσε τα τέσσερα κενά (<code>____</code>). Μετά
+άνοιξε την καρτέλα <strong>SQL</strong> της βάσης <code>game_library</code>, <strong>αντίγραψε όλο το περιεχόμενο του αρχείου</strong> μέσα στο πεδίο
+και πάτα <strong>Go</strong>.</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1">-- Στάδιο 1 — Δημιουργία του πίνακα platforms.</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="c1">--</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="c1">-- Ο πίνακας κρατά τις πλατφόρμες (κονσόλες) στις οποίες παίζονται τα παιχνίδια:</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="c1">--   id            αύξων αριθμός, πρωτεύον κλειδί</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="c1">--   name          όνομα της πλατφόρμας, έως 50 χαρακτήρες</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="c1">--   maker         κατασκευαστής, έως 30 χαρακτήρες</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="c1">--   release_year  χρονιά κυκλοφορίας, ακέραιος</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="c1">--</span>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="c1">-- Πώς το τρέχεις:</span>
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="c1">--   1. Συμπλήρωσε τα κενά (____) σε έναν επεξεργαστή κειμένου (Σημειωματάριο ή VS Code).</span>
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="c1">--   2. Άνοιξε στο phpMyAdmin τη βάση game_library και την καρτέλα SQL.</span>
+</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="c1">--   3. Αντίγραψε ΟΛΟ το περιεχόμενο του αρχείου μέσα στο πεδίο και πάτα Go.</span>
+</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>
+</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a><span class="c1">-- TODO 1: φτιάξε πίνακα με όνομα platforms</span>
+</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">____</span><span class="w"> </span><span class="p">(</span>
+</span><span id="__span-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a><span class="w">    </span><span class="n">id</span><span class="w">            </span><span class="nb">INT</span><span class="w">           </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="n">____</span><span class="p">,</span><span class="w">   </span><span class="c1">-- TODO 2: αυτόματη αρίθμηση</span>
+</span><span id="__span-8-17"><a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a><span class="w">    </span><span class="n">name</span><span class="w">          </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span><span class="w">   </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+</span><span id="__span-8-18"><a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a><span class="w">    </span><span class="n">maker</span><span class="w">         </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span><span class="w">   </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+</span><span id="__span-8-19"><a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a><span class="w">    </span><span class="n">release_year</span><span class="w">  </span><span class="n">____</span><span class="w">          </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span><span class="w">        </span><span class="c1">-- TODO 3: ακέραιος αριθμός</span>
+</span><span id="__span-8-20"><a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a><span class="w">    </span><span class="n">____</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="w">                                </span><span class="c1">-- TODO 4: το id είναι το πρωτεύον κλειδί</span>
+</span><span id="__span-8-21"><a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a><span class="p">);</span>
+</span></code></pre></div>
+<p>Έλεγξε με <code>SHOW TABLES;</code> και <code>DESCRIBE platforms;</code>.</p>
+<h3 id="2">Στάδιο 2 — Οι εγγραφές<a class="headerlink" href="#2" title="Permanent link">&para;</a></h3>
+<p>Άνοιξε το <code>02-insert-platforms.sql</code>, συμπλήρωσε τα κενά και τρέξε το με τον ίδιο τρόπο. Μετά εμφάνισε τον
+πίνακα με <code>SELECT * FROM platforms;</code>. Πρέπει να δεις <strong>τέσσερις</strong> εγγραφές.</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1">-- Στάδιο 2 — Προσθήκη πλατφορμών.</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="c1">--</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="c1">-- Πρέπει πρώτα να έχεις τρέξει το Στάδιο 1 (να υπάρχει ο πίνακας platforms).</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="c1">-- Συμπλήρωσε τα κενά (____) και τρέξε όλο το αρχείο στην καρτέλα SQL της βάσης game_library.</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="c1">--</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="c1">-- Δεν γράφουμε id: το βάζει η βάση μόνη της (AUTO_INCREMENT).</span>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="c1">-- TODO 1: πρόσθεσε μία εγγραφή: PlayStation 5, κατασκευαστής Sony, χρονιά 2020</span>
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">platforms</span><span class="w"> </span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">maker</span><span class="p">,</span><span class="w"> </span><span class="n">release_year</span><span class="p">)</span>
+</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="s1">'PlayStation 5'</span><span class="p">,</span><span class="w"> </span><span class="n">____</span><span class="p">,</span><span class="w"> </span><span class="n">____</span><span class="p">);</span>
+</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>
+</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="c1">-- TODO 2: πρόσθεσε με ΜΙΑ εντολή τρεις εγγραφές. Η πρώτη είναι έτοιμη.</span>
+</span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="c1">--   Nintendo Switch, Nintendo, 2017</span>
+</span><span id="__span-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="c1">--   Steam Deck, Valve, 2022</span>
+</span><span id="__span-9-15"><a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">platforms</span><span class="w"> </span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">maker</span><span class="p">,</span><span class="w"> </span><span class="n">release_year</span><span class="p">)</span>
+</span><span id="__span-9-16"><a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a><span class="k">VALUES</span>
+</span><span id="__span-9-17"><a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a><span class="w">    </span><span class="p">(</span><span class="s1">'Xbox Series X'</span><span class="p">,</span><span class="w"> </span><span class="s1">'Microsoft'</span><span class="p">,</span><span class="w"> </span><span class="mi">2020</span><span class="p">),</span>
+</span><span id="__span-9-18"><a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a><span class="w">    </span><span class="n">____</span><span class="p">,</span>
+</span><span id="__span-9-19"><a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a><span class="w">    </span><span class="n">____</span><span class="p">;</span>
+</span></code></pre></div>
+<p><strong>Συνέχισε στο Φύλλο εργασίας, Κύκλος 1.</strong></p>
+<hr />
+<h2 id="2-select">Κύκλος 2 — Διαβάζω δεδομένα με SELECT<a class="headerlink" href="#2-select" title="Permanent link">&para;</a></h2>
+<p>Η <code>SELECT</code> είναι η εντολή που θα χρησιμοποιείς περισσότερο από όλες. Δεν αλλάζει τίποτα στη βάση: <strong>ζητά
+δεδομένα και παίρνει απάντηση</strong>. Σε αυτόν τον κύκλο μαθαίνεις να διαλέγεις στήλες, να τις μετονομάζεις, να
+αφαιρείς τις επαναλήψεις και να υπολογίζεις.</p>
+<h3 id="21-select-from">2.1 <code>SELECT</code> και <code>FROM</code><a class="headerlink" href="#21-select-from" title="Permanent link">&para;</a></h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="err">στήλη</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="err">στήλη</span><span class="mi">2</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="k">FROM</span><span class="w"> </span><span class="err">πίνακας</span><span class="p">;</span>
+</span></code></pre></div>
+<ul>
+<li>Το <code>SELECT</code> λέει <strong>ποιες στήλες</strong> θέλεις, το <code>FROM</code> <strong>από ποιον πίνακα</strong>.</li>
+<li>Το <code>*</code> σημαίνει «όλες οι στήλες»: <code>SELECT * FROM platforms;</code></li>
+<li>Οι στήλες εμφανίζονται <strong>με τη σειρά που τις γράφεις</strong>, όχι με τη σειρά του πίνακα. Μπορείς να γράψεις
+  και την ίδια στήλη δύο φορές.</li>
+<li>Το αποτέλεσμα είναι ένας <strong>προσωρινός πίνακας</strong>: υπάρχει μόνο στην οθόνη. Ο πίνακας της βάσης μένει
+  όπως ήταν.</li>
+</ul>
+<p><img alt="Αποτέλεσμα του SELECT * FROM platforms: 1 το μήνυμα «Showing rows 0 - 3 (4 total)», 2 ο πίνακας με τέσσερις εγγραφές και τις στήλες id, name, maker, release_year" src="../images/select-platforms.png" width="720" /></p>
+<p>Η <code>SELECT</code> μπορεί να δουλέψει και <strong>χωρίς</strong> πίνακα, σαν αριθμομηχανή: <code>SELECT 2 + 3;</code> δίνει <code>5</code>.</p>
+<h3 id="22-as">2.2 Ψευδώνυμα: <code>AS</code><a class="headerlink" href="#22-as" title="Permanent link">&para;</a></h3>
+<p>Μπορείς να δώσεις <strong>άλλο όνομα στη στήλη του αποτελέσματος</strong> με το <code>AS</code>:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="n">price</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">price_eur</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="k">FROM</span><span class="w"> </span><span class="n">games</span><span class="p">;</span>
+</span></code></pre></div>
+<p>Το <code>price_eur</code> εμφανίζεται ως επικεφαλίδα της στήλης. Το ψευδώνυμο αλλάζει μόνο <strong>αυτό που βλέπεις</strong>, όχι
+τη στήλη του πίνακα. Αν θέλεις ψευδώνυμο με κενά ή ελληνικά, γράψ' το ανάμεσα σε <strong>ανάποδα εισαγωγικά</strong>
+(backticks): <code>AS `Τιμή (€)`</code>. Τα ψευδώνυμα γίνονται απαραίτητα όταν υπολογίζεις (ενότητα 2.4), γιατί
+αλλιώς η στήλη παίρνει ως όνομα ολόκληρο τον υπολογισμό.</p>
+<h3 id="23-distinct">2.3 Χωρίς επαναλήψεις: <code>DISTINCT</code><a class="headerlink" href="#23-distinct" title="Permanent link">&para;</a></h3>
+<p>Ποια <strong>είδη</strong> παιχνιδιών υπάρχουν; Αν γράψεις <code>SELECT genre FROM games;</code>, παίρνεις δέκα γραμμές, και το
+«Αγωνιστικό» εμφανίζεται δύο φορές. Με το <code>DISTINCT</code> κάθε τιμή εμφανίζεται <strong>μία φορά</strong>:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="k">DISTINCT</span><span class="w"> </span><span class="n">genre</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="k">FROM</span><span class="w"> </span><span class="n">games</span><span class="p">;</span>
+</span></code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Ερώτημα</th>
+<th style="text-align: center;">Γραμμές</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SELECT genre FROM games;</code></td>
+<td style="text-align: center;">10</td>
+</tr>
+<tr>
+<td><code>SELECT DISTINCT genre FROM games;</code></td>
+<td style="text-align: center;">9</td>
+</tr>
+<tr>
+<td><code>SELECT release_year FROM games;</code></td>
+<td style="text-align: center;">10</td>
+</tr>
+<tr>
+<td><code>SELECT DISTINCT release_year FROM games;</code></td>
+<td style="text-align: center;">6</td>
+</tr>
+</tbody>
+</table>
+<p>Το <code>DISTINCT</code> γράφεται αμέσως μετά το <code>SELECT</code> και ισχύει για <strong>όλες</strong> τις στήλες που ακολουθούν.</p>
+<h3 id="24">2.4 Υπολογισμοί και συναρτήσεις<a class="headerlink" href="#24" title="Permanent link">&para;</a></h3>
+<p>Μέσα στη <code>SELECT</code> μπορείς να κάνεις πράξεις. Οι τελεστές μοιάζουν με της Python, με λίγες διαφορές:</p>
+<table>
+<thead>
+<tr>
+<th>Πράξη</th>
+<th style="text-align: center;">Python</th>
+<th style="text-align: center;">SQL</th>
+<th style="text-align: center;">Αποτέλεσμα για 7 και 2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>πρόσθεση, αφαίρεση, πολλαπλασιασμός</td>
+<td style="text-align: center;"><code>+ - *</code></td>
+<td style="text-align: center;"><code>+ - *</code></td>
+<td style="text-align: center;"><code>9</code>, <code>5</code>, <code>14</code></td>
+</tr>
+<tr>
+<td>διαίρεση</td>
+<td style="text-align: center;"><code>/</code></td>
+<td style="text-align: center;"><code>/</code></td>
+<td style="text-align: center;"><code>3.5000</code></td>
+</tr>
+<tr>
+<td>ακέραιο πηλίκο</td>
+<td style="text-align: center;"><code>//</code></td>
+<td style="text-align: center;"><code>DIV</code></td>
+<td style="text-align: center;"><code>3</code></td>
+</tr>
+<tr>
+<td>υπόλοιπο</td>
+<td style="text-align: center;"><code>%</code></td>
+<td style="text-align: center;"><code>%</code></td>
+<td style="text-align: center;"><code>1</code></td>
+</tr>
+<tr>
+<td>δύναμη</td>
+<td style="text-align: center;"><code>**</code></td>
+<td style="text-align: center;"><code>POWER(2, 3)</code></td>
+<td style="text-align: center;"><code>8</code></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="admonition-title">Το <code>**</code> δεν υπάρχει στη SQL</p>
+<p>Αν γράψεις <code>2 ** 3</code> παίρνεις σφάλμα σύνταξης. Η δύναμη γράφεται <code>POWER(2, 3)</code>.</p>
+</div>
+<p>Η τιμή με <strong>ΦΠΑ 24%</strong> είναι <code>price * 1.24</code>. Το αποτέλεσμα έχει πολλά δεκαδικά (π.χ. <code>6.1876</code>), και γι' αυτό
+χρησιμοποιούμε τη συνάρτηση <code>ROUND(τιμή, δεκαδικά)</code>:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="n">ROUND</span><span class="p">(</span><span class="n">price</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">1</span><span class="p">.</span><span class="mi">24</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">price_with_vat</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="k">FROM</span><span class="w"> </span><span class="n">games</span><span class="p">;</span>
+</span></code></pre></div>
+<p><img alt="Αποτέλεσμα του ερωτήματος με ΦΠΑ: 1 η στήλη price_with_vat, 2 ο πίνακας με δέκα γραμμές και τιμές όπως 6.19, 12.39, 3.71" src="../images/select-vat.png" width="720" /></p>
+<p>Η <strong>συνάρτηση</strong> είναι μια λέξη ακολουθούμενη από παρενθέσεις με <strong>ορίσματα</strong>, όπως η <code>round()</code> της Python.
+Οι συναρτήσεις που θα χρησιμοποιήσεις σήμερα, μαζί με την αντίστοιχη της Python:</p>
+<table>
+<thead>
+<tr>
+<th>SQL</th>
+<th>Τι κάνει</th>
+<th>Παράδειγμα</th>
+<th>Στην Python</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ROUND(x, d)</code></td>
+<td>στρογγυλεύει σε <code>d</code> δεκαδικά</td>
+<td><code>ROUND(4.986, 2)</code> → <code>4.99</code></td>
+<td><code>round(x, d)</code></td>
+</tr>
+<tr>
+<td><code>CONCAT(a, b, ...)</code></td>
+<td>κολλά κείμενα και αριθμούς</td>
+<td><code>CONCAT(title, ' (', release_year, ')')</code> → <code>Star Dodger (2021)</code></td>
+<td><code>f"{title} ({release_year})"</code></td>
+</tr>
+<tr>
+<td><code>UPPER(s)</code></td>
+<td>κεφαλαία</td>
+<td><code>UPPER('Παζλ')</code> → <code>ΠΑΖΛ</code></td>
+<td><code>s.upper()</code></td>
+</tr>
+<tr>
+<td><code>LOWER(s)</code></td>
+<td>πεζά</td>
+<td><code>LOWER('ΠΑΖΛ')</code> → <code>παζλ</code></td>
+<td><code>s.lower()</code></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Οι υπολογισμοί δεν αλλάζουν τον πίνακα</p>
+<p>Το <code>price * 1.24</code> υπολογίζεται <strong>μόνο στο αποτέλεσμα</strong>. Οι τιμές στον πίνακα <code>games</code> μένουν όπως ήταν.
+Για να αλλάξεις δεδομένα στη βάση χρειάζεται η <code>UPDATE</code> (Μάθημα 6).</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Η προειδοποίηση «Current selection does not contain a unique column»</p>
+<p>Όταν το αποτέλεσμα έχει υπολογισμούς ή δεν περιέχει το πρωτεύον κλειδί, το phpMyAdmin γράφει ότι δεν
+μπορεί να επιτρέψει επεξεργασία γραμμών από το αποτέλεσμα. Δεν είναι σφάλμα· το αποτέλεσμα είναι σωστό.</p>
+</div>
+<h3 id="25-sql">2.5 Πώς διαβάζεται ένα σφάλμα της SQL<a class="headerlink" href="#25-sql" title="Permanent link">&para;</a></h3>
+<p>Στην Python διάβαζες το μήνυμα από την τελευταία γραμμή. Στο phpMyAdmin το κόκκινο πλαίσιο «Error» έχει
+τρία μέρη:</p>
+<ol>
+<li><strong>Static analysis:</strong> μια δική του, πρόχειρη ανάλυση του phpMyAdmin. Μπορεί να είναι μπερδεμένη ή να
+   μετρά πολλά «σφάλματα» για ένα μόνο λάθος.</li>
+<li><strong>SQL query:</strong> η εντολή που στάλθηκε.</li>
+<li><strong>MySQL said:</strong> η <strong>πραγματική απάντηση της βάσης</strong>, με αριθμό σφάλματος και εξήγηση. <strong>Αυτό</strong> διαβάζεις.</li>
+</ol>
+<p><img alt="Σφάλμα σύνταξης στο phpMyAdmin για την εντολή SELCT title FROM games: 1 το Static analysis με τρία σφάλματα ανάλυσης, 2 η απάντηση της MySQL με τον αριθμό #1064 και το σημείο near 'SELCT title FROM games'" src="../images/error-syntax.png" width="720" /></p>
+<p>Δύο πράγματα στο μήνυμα <code>#1064</code>:</p>
+<ul>
+<li>Το <strong><code>near '…'</code></strong> δείχνει από πού και μετά η MySQL δεν κατάλαβε. Το λάθος είναι <strong>συνήθως στην αρχή αυτού
+  του κειμένου ή ακριβώς πριν από αυτό</strong> (εδώ: το <code>SELCT</code>).</li>
+<li>Οι αριθμοί είναι σταθεροί. Αν τους μάθεις, καταλαβαίνεις αμέσως τι έγινε:</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Σφάλμα</th>
+<th>Τι σημαίνει</th>
+<th>Παράδειγμα</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>#1064</code></td>
+<td>σφάλμα σύνταξης</td>
+<td><code>SELCT</code>, ξεχασμένο εισαγωγικό, κόμμα που περισσεύει</td>
+</tr>
+<tr>
+<td><code>#1054 - Unknown column 'titel'</code></td>
+<td>άγνωστη στήλη</td>
+<td><code>SELECT titel FROM games</code></td>
+</tr>
+<tr>
+<td><code>#1146 - Table 'game_library.game' doesn't exist</code></td>
+<td>άγνωστος πίνακας</td>
+<td><code>FROM game</code></td>
+</tr>
+<tr>
+<td><code>#1136</code></td>
+<td>λάθος πλήθος τιμών</td>
+<td><code>INSERT</code> με λιγότερες τιμές από στήλες</td>
+</tr>
+<tr>
+<td><code>#1062</code></td>
+<td>διπλή τιμή σε μοναδικό κλειδί</td>
+<td><code>INSERT</code> με <code>id</code> που υπάρχει</td>
+</tr>
+<tr>
+<td><code>#1050</code></td>
+<td>ο πίνακας υπάρχει ήδη</td>
+<td>δεύτερη <code>CREATE TABLE</code></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Το ίδιο σφάλμα, άλλο μήνυμα</p>
+<p>Το <code>#1054</code> λέει «Unknown column 'titel' in <strong>'SELECT'</strong>» στο XAMPP που χρησιμοποιούμε. Σε παλιότερες
+εκδόσεις λέει «in <strong>'field list'</strong>». Ο αριθμός είναι ο ίδιος.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Δεν δίνουν όλα τα λάθη μήνυμα</p>
+<p>Κάποια λάθη είναι <strong>έγκυρη SQL</strong> που κάνει κάτι διαφορετικό από αυτό που ήθελες. Η βάση δεν
+διαμαρτύρεται, και το αποτέλεσμα φαίνεται λογικό ώσπου να το προσέξεις. Στο Στάδιο 4 θα βρεις ένα.
+Γι' αυτό <strong>προβλέπεις πρώτα</strong> τι θα δεις και συγκρίνεις μετά.</p>
+</div>
+<h3 id="3">Στάδιο 3 — Επτά ερωτήματα<a class="headerlink" href="#3" title="Permanent link">&para;</a></h3>
+<p>Άνοιξε το <code>03-select.sql</code>, συμπλήρωσε τα κενά και τρέξε τα ερωτήματα <strong>ένα-ένα</strong>: αντίγραψε ένα ερώτημα στην
+καρτέλα <strong>SQL</strong>, πάτα <strong>Go</strong>, δες το αποτέλεσμα. Πρώτα πρόβλεψε τι θα εμφανιστεί.</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1">-- Στάδιο 3 — Διαβάζω δεδομένα με SELECT.</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="c1">--</span>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="c1">-- Κάθε ερώτημα τρέχει ΞΕΧΩΡΙΣΤΑ: αντίγραψε ένα ερώτημα στην καρτέλα SQL της βάσης game_library, πάτα Go,</span>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="c1">-- δες το αποτέλεσμα και μετά πέρασε στο επόμενο. Πρώτα πρόβλεψε τι θα δεις.</span>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="c1">-- Συμπλήρωσε τα κενά (____) πριν το τρέξεις.</span>
+</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>
+</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="c1">-- Ερώτημα 1 (έτοιμο): δύο στήλες</span>
+</span><span id="__span-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="n">price</span>
+</span><span id="__span-14-9"><a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a><span class="k">FROM</span><span class="w"> </span><span class="n">games</span><span class="p">;</span>
+</span><span id="__span-14-10"><a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a>
+</span><span id="__span-14-11"><a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a><span class="c1">-- Ερώτημα 2: όλες οι στήλες του πίνακα platforms</span>
+</span><span id="__span-14-12"><a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">____</span>
+</span><span id="__span-14-13"><a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a><span class="k">FROM</span><span class="w"> </span><span class="n">platforms</span><span class="p">;</span>
+</span><span id="__span-14-14"><a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a>
+</span><span id="__span-14-15"><a id="__codelineno-14-15" name="__codelineno-14-15" href="#__codelineno-14-15"></a><span class="c1">-- Ερώτημα 3: ο τίτλος και η χρονιά κάθε παιχνιδιού (με αυτή τη σειρά)</span>
+</span><span id="__span-14-16"><a id="__codelineno-14-16" name="__codelineno-14-16" href="#__codelineno-14-16"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">____</span><span class="p">,</span><span class="w"> </span><span class="n">____</span>
+</span><span id="__span-14-17"><a id="__codelineno-14-17" name="__codelineno-14-17" href="#__codelineno-14-17"></a><span class="k">FROM</span><span class="w"> </span><span class="n">games</span><span class="p">;</span>
+</span><span id="__span-14-18"><a id="__codelineno-14-18" name="__codelineno-14-18" href="#__codelineno-14-18"></a>
+</span><span id="__span-14-19"><a id="__codelineno-14-19" name="__codelineno-14-19" href="#__codelineno-14-19"></a><span class="c1">-- Ερώτημα 4: ο τίτλος και η τιμή, με την τιμή να εμφανίζεται με τη στήλη «price_eur»</span>
+</span><span id="__span-14-20"><a id="__codelineno-14-20" name="__codelineno-14-20" href="#__codelineno-14-20"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="n">price</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">____</span>
+</span><span id="__span-14-21"><a id="__codelineno-14-21" name="__codelineno-14-21" href="#__codelineno-14-21"></a><span class="k">FROM</span><span class="w"> </span><span class="n">games</span><span class="p">;</span>
+</span><span id="__span-14-22"><a id="__codelineno-14-22" name="__codelineno-14-22" href="#__codelineno-14-22"></a>
+</span><span id="__span-14-23"><a id="__codelineno-14-23" name="__codelineno-14-23" href="#__codelineno-14-23"></a><span class="c1">-- Ερώτημα 5: τα διαφορετικά είδη παιχνιδιών, χωρίς επαναλήψεις</span>
+</span><span id="__span-14-24"><a id="__codelineno-14-24" name="__codelineno-14-24" href="#__codelineno-14-24"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">____</span><span class="w"> </span><span class="n">genre</span>
+</span><span id="__span-14-25"><a id="__codelineno-14-25" name="__codelineno-14-25" href="#__codelineno-14-25"></a><span class="k">FROM</span><span class="w"> </span><span class="n">games</span><span class="p">;</span>
+</span><span id="__span-14-26"><a id="__codelineno-14-26" name="__codelineno-14-26" href="#__codelineno-14-26"></a>
+</span><span id="__span-14-27"><a id="__codelineno-14-27" name="__codelineno-14-27" href="#__codelineno-14-27"></a><span class="c1">-- Ερώτημα 6: ο τίτλος και η τιμή με ΦΠΑ 24%, στρογγυλεμένη σε 2 δεκαδικά</span>
+</span><span id="__span-14-28"><a id="__codelineno-14-28" name="__codelineno-14-28" href="#__codelineno-14-28"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="n">ROUND</span><span class="p">(</span><span class="n">price</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">____</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">price_with_vat</span>
+</span><span id="__span-14-29"><a id="__codelineno-14-29" name="__codelineno-14-29" href="#__codelineno-14-29"></a><span class="k">FROM</span><span class="w"> </span><span class="n">games</span><span class="p">;</span>
+</span><span id="__span-14-30"><a id="__codelineno-14-30" name="__codelineno-14-30" href="#__codelineno-14-30"></a>
+</span><span id="__span-14-31"><a id="__codelineno-14-31" name="__codelineno-14-31" href="#__codelineno-14-31"></a><span class="c1">-- Ερώτημα 7 (έτοιμο): τίτλος και χρονιά σε ένα κείμενο, π.χ. «Star Dodger (2021)»</span>
+</span><span id="__span-14-32"><a id="__codelineno-14-32" name="__codelineno-14-32" href="#__codelineno-14-32"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">CONCAT</span><span class="p">(</span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="s1">' ('</span><span class="p">,</span><span class="w"> </span><span class="n">release_year</span><span class="p">,</span><span class="w"> </span><span class="s1">')'</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">label</span>
+</span><span id="__span-14-33"><a id="__codelineno-14-33" name="__codelineno-14-33" href="#__codelineno-14-33"></a><span class="k">FROM</span><span class="w"> </span><span class="n">games</span><span class="p">;</span>
+</span></code></pre></div>
+<h3 id="4">Στάδιο 4 — Σπασμένες εντολές<a class="headerlink" href="#4" title="Permanent link">&para;</a></h3>
+<p>Άνοιξε το <code>04-errors.sql</code>. Κάθε ερώτημα έχει ένα λάθος. Πρόβλεψε τι θα γίνει, τρέξ' το, διάβασε το μήνυμα
+και διόρθωσέ το.</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1">-- Στάδιο 4 — Σπασμένες εντολές.</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="c1">--</span>
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="c1">-- Κάθε ερώτημα έχει ΕΝΑ λάθος. Για καθένα:</span>
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="c1">--   1. Πρόβλεψε τι θα γίνει (σφάλμα; ποιο; ή αποτέλεσμα;).</span>
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="c1">--   2. Τρέξε το ΞΕΧΩΡΙΣΤΑ στην καρτέλα SQL της βάσης game_library και διάβασε το μήνυμα.</span>
+</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="c1">--   3. Διόρθωσε το λάθος και τρέξε το ξανά.</span>
+</span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>
+</span><span id="__span-15-8"><a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a><span class="c1">-- Ερώτημα 1</span>
+</span><span id="__span-15-9"><a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a><span class="n">SELCT</span><span class="w"> </span><span class="n">title</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">games</span><span class="p">;</span>
+</span><span id="__span-15-10"><a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a>
+</span><span id="__span-15-11"><a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a><span class="c1">-- Ερώτημα 2</span>
+</span><span id="__span-15-12"><a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">titel</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">games</span><span class="p">;</span>
+</span><span id="__span-15-13"><a id="__codelineno-15-13" name="__codelineno-15-13" href="#__codelineno-15-13"></a>
+</span><span id="__span-15-14"><a id="__codelineno-15-14" name="__codelineno-15-14" href="#__codelineno-15-14"></a><span class="c1">-- Ερώτημα 3</span>
+</span><span id="__span-15-15"><a id="__codelineno-15-15" name="__codelineno-15-15" href="#__codelineno-15-15"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">title</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">game</span><span class="p">;</span>
+</span><span id="__span-15-16"><a id="__codelineno-15-16" name="__codelineno-15-16" href="#__codelineno-15-16"></a>
+</span><span id="__span-15-17"><a id="__codelineno-15-17" name="__codelineno-15-17" href="#__codelineno-15-17"></a><span class="c1">-- Ερώτημα 4 (πρόσεξε το αποτέλεσμα: έχει σφάλμα, αλλά η βάση δεν διαμαρτύρεται)</span>
+</span><span id="__span-15-18"><a id="__codelineno-15-18" name="__codelineno-15-18" href="#__codelineno-15-18"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">title</span><span class="w"> </span><span class="n">genre</span>
+</span><span id="__span-15-19"><a id="__codelineno-15-19" name="__codelineno-15-19" href="#__codelineno-15-19"></a><span class="k">FROM</span><span class="w"> </span><span class="n">games</span><span class="p">;</span>
+</span><span id="__span-15-20"><a id="__codelineno-15-20" name="__codelineno-15-20" href="#__codelineno-15-20"></a>
+</span><span id="__span-15-21"><a id="__codelineno-15-21" name="__codelineno-15-21" href="#__codelineno-15-21"></a><span class="c1">-- Ερώτημα 5</span>
+</span><span id="__span-15-22"><a id="__codelineno-15-22" name="__codelineno-15-22" href="#__codelineno-15-22"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">maker</span><span class="p">,</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">platforms</span><span class="p">;</span>
+</span></code></pre></div>
+<p><strong>Συνέχισε στο Φύλλο εργασίας, Κύκλος 2.</strong></p>
+<hr />
+<h2 id="_5">Έλεγχος πριν ολοκληρώσεις<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<ul>
+<li>□ Ο πίνακας <code>platforms</code> υπάρχει και έχει τέσσερις εγγραφές.</li>
+<li>□ Μπορείς να γράψεις μια <code>CREATE TABLE</code> και μια <code>INSERT</code> χωρίς να τις αντιγράψεις.</li>
+<li>□ Τα επτά ερωτήματα του Σταδίου 3 έτρεξαν και μπορείς να εξηγήσεις το αποτέλεσμα του καθενός.</li>
+<li>□ Για καθένα από τα πέντε σπασμένα ερωτήματα ξέρεις τι είδους λάθος έχει.</li>
+<li>□ Ξέρεις ποιο ερώτημα του Σταδίου 4 δεν έδωσε σφάλμα και γιατί.</li>
+<li>□ Όταν τελείωσες, πάτησες <strong>Stop</strong> στον Apache και στη MySQL.</li>
+</ul>
+<h2 id="_6">Για να θυμάσαι<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Η εντολή SQL τελειώνει με <code>;</code>. Οι λέξεις-κλειδιά δεν ξεχωρίζουν κεφαλαία από πεζά, το κείμενο μπαίνει σε
+  <strong>μονά</strong> εισαγωγικά και τα σχόλια αρχίζουν με <code>--</code>.</li>
+<li><code>CREATE TABLE</code> φτιάχνει πίνακα, <code>DROP TABLE IF EXISTS</code> τον σβήνει (με όλα τα δεδομένα), <code>INSERT INTO</code>
+  προσθέτει εγγραφές, <code>SELECT</code> διαβάζει.</li>
+<li>Στην <code>INSERT</code> γράφεις πάντα τη λίστα στηλών, με τιμές με την ίδια σειρά, και <strong>όχι</strong> το <code>id</code>.</li>
+<li>Ένα αρχείο που ξεκινά με <code>DROP TABLE IF EXISTS</code> τρέχει όσες φορές θέλεις.</li>
+<li>Η <code>SELECT</code> δεν αλλάζει τη βάση. Το <code>*</code> σημαίνει «όλες οι στήλες», το <code>AS</code> δίνει ψευδώνυμο, το <code>DISTINCT</code>
+  αφαιρεί τις επαναλήψεις.</li>
+<li>Οι υπολογισμοί και οι συναρτήσεις (<code>ROUND</code>, <code>CONCAT</code>, <code>UPPER</code>) ισχύουν μόνο για το αποτέλεσμα.</li>
+<li>Στο σφάλμα διάβαζε το «MySQL said»: τον αριθμό και το <code>near '…'</code>. Κάποια λάθη δεν δίνουν μήνυμα.</li>
+</ul>
+<h2 id="_7">Λεξιλόγιο<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<p><strong>εντολή</strong> (statement), <strong>λέξη-κλειδί</strong>, <strong>ερώτημα</strong> (query), <strong>σχόλιο</strong>, <strong><code>CREATE TABLE</code></strong>, <strong><code>DROP TABLE</code></strong>,
+<strong><code>INSERT INTO</code></strong>, <strong><code>SELECT</code></strong>, <strong><code>FROM</code></strong>, <strong><code>AS</code></strong> (ψευδώνυμο, alias), <strong><code>DISTINCT</code></strong>, <strong>συνάρτηση</strong>,
+<strong>όρισμα</strong>, <strong>αποτέλεσμα</strong> (result set), <strong>σφάλμα σύνταξης</strong> (syntax error), <strong><code>SHOW</code></strong>, <strong><code>DESCRIBE</code></strong>.</p>
+<h2 id="_8">Δική σου εκδοχή<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
+<p>Αν τελειώσεις νωρίτερα, δούλεψε <strong>με μία αλλαγή τη φορά</strong> και δοκίμαζε μετά από κάθε αλλαγή:</p>
+<ul>
+<li>Φτιάξε με SQL έναν πίνακα <code>players</code> με στήλες <code>id</code>, <code>nickname</code> (<code>VARCHAR(20)</code>), <code>level</code> και <code>score</code> (και
+  τα δύο <code>INT</code>) και πρόσθεσε πέντε παίκτες με <strong>μία</strong> <code>INSERT</code>. Εμφάνισε τα <code>nickname</code> και <code>score</code> με
+  ψευδώνυμα στα ελληνικά.</li>
+<li>Εμφάνισε για κάθε παιχνίδι ένα κείμενο της μορφής <code>STAR DODGER — 4.99 €</code> (πρόσεξε το <code>UPPER</code> και το
+  <code>CONCAT</code>).</li>
+<li><strong>Πρόκληση 1:</strong> το <code>SELECT price * 1.24 FROM games;</code> (χωρίς <code>ROUND</code>) δείχνει τέσσερα δεκαδικά, ενώ η
+  τιμή έχει δύο και ο συντελεστής δύο. Πόσα δεκαδικά θα έδινε ο πολλαπλασιασμός με <code>1.2</code>; Δοκίμασέ το και
+  βρες τον κανόνα.</li>
+<li><strong>Πρόκληση 2:</strong> η <code>LENGTH('Παζλ')</code> δίνει <code>8</code>, ενώ το «Παζλ» έχει 4 γράμματα. Δοκίμασε και την
+  <code>CHAR_LENGTH('Παζλ')</code>. Γιατί διαφέρουν; <em>Υπόδειξη:</em> πόσα byte πιάνει ένα ελληνικό γράμμα στο <code>utf8mb4</code>;</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Επιστροφή στην αρχή
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Υποσέλιδο" >
+        
+          
+          <a href="../../01-first-database/worksheet-01/" class="md-footer__link md-footer__link--prev" aria-label="Προηγούμενο: Φύλλο εργασίας">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Προηγούμενο
+              </span>
+              <div class="md-ellipsis">
+                Φύλλο εργασίας
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../worksheet-02/" class="md-footer__link md-footer__link--next" aria-label="Επόμενο: Φύλλο εργασίας">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Επόμενο
+              </span>
+              <div class="md-ellipsis">
+                Φύλλο εργασίας
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2026 Θόδωρος Θεμελής — <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.el"
+   target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>
+
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.top", "navigation.footer", "content.code.copy", "content.code.annotate", "toc.follow", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "\u0391\u03bd\u03c4\u03b9\u03b3\u03c1\u03ac\u03c6\u03b7\u03ba\u03b5 \u03c3\u03c4\u03bf \u03c0\u03c1\u03cc\u03c7\u03b5\u03b9\u03c1\u03bf", "clipboard.copy": "\u0391\u03bd\u03c4\u03b9\u03b3\u03c1\u03b1\u03c6\u03ae \u03c3\u03c4\u03bf \u03c0\u03c1\u03cc\u03c7\u03b5\u03b9\u03c1\u03bf", "search.result.more.one": "1 \u03b1\u03ba\u03cc\u03bc\u03b1 \u03c3\u03b5 \u03b1\u03c5\u03c4\u03ae\u03bd \u03c4\u03b7 \u03c3\u03b5\u03bb\u03af\u03b4\u03b1", "search.result.more.other": "# \u03b1\u03ba\u03cc\u03bc\u03b1 \u03c3\u03b5 \u03b1\u03c5\u03c4\u03ae\u03bd \u03c4\u03b7 \u03c3\u03b5\u03bb\u03af\u03b4\u03b1", "search.result.none": "\u03b4\u03b5\u03bd \u03b2\u03c1\u03ae\u03ba\u03b5 \u03ba\u03ac\u03c0\u03bf\u03b9\u03bf \u03ad\u03b3\u03b3\u03c1\u03b1\u03c6\u03bf", "search.result.one": "1 \u03ad\u03b3\u03b3\u03c1\u03b1\u03c6\u03bf \u03c0\u03bf\u03c5 \u03c4\u03b1\u03b9\u03c1\u03b9\u03ac\u03b6\u03b5\u03b9", "search.result.other": "# \u03ad\u03b3\u03b3\u03c1\u03b1\u03c6\u03b1 \u03c0\u03bf\u03c5 \u03c4\u03b1\u03b9\u03c1\u03b9\u03ac\u03b6\u03bf\u03c5\u03bd", "search.result.placeholder": "\u03a0\u03bb\u03b7\u03ba\u03c4\u03c1\u03bf\u03bb\u03bf\u03b3\u03ae\u03c3\u03c4\u03b5 \u03b3\u03b9\u03b1 \u03bd\u03b1 \u03b1\u03c1\u03c7\u03af\u03c3\u03b5\u03b9 \u03b7 \u03b1\u03bd\u03b1\u03b6\u03ae\u03c4\u03b7\u03c3\u03b7", "search.result.term.missing": "\u039b\u03b5\u03af\u03c0\u03b5\u03b9", "select.version": "\u0395\u03c0\u03b9\u03bb\u03bf\u03b3\u03ae \u03ad\u03ba\u03b4\u03bf\u03c3\u03b7\u03c2"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+    
+  </body>
+</html>

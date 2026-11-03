@@ -1,0 +1,2313 @@
+
+<!doctype html>
+<html lang="el" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Εργαστηριακό υλικό μαθήματος — ΕΠΑΛ">
+      
+      
+        <meta name="author" content="Θόδωρος Θεμελής">
+      
+      
+        <link rel="canonical" href="https://ththemelis.github.io/python-mysql-site/06-update-delete/lesson-06/">
+      
+      
+        <link rel="prev" href="../../05-insert-python/worksheet-05/">
+      
+      
+        <link rel="next" href="../worksheet-06/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>Μάθημα - Βάσεις δεδομένων με Python και MySQL</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/course.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#6" class="md-skip">
+          Μετάβαση στο περιεχόμενο
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Κεφαλίδα">
+    <a href="../.." title="Βάσεις δεδομένων με Python και MySQL" class="md-header__button md-logo" aria-label="Βάσεις δεδομένων με Python και MySQL" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Βάσεις δεδομένων με Python και MySQL
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Μάθημα
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Σκοτεινό θέμα"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Σκοτεινό θέμα" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Φωτεινό θέμα"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Φωτεινό θέμα" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Αναζήτηση" placeholder="Αναζήτηση" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Αναζήτηση">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Καθαρισμός" aria-label="Καθαρισμός" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Αρχικοποίηση αναζήτησης
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Πλοήγηση" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Βάσεις δεδομένων με Python και MySQL" class="md-nav__button md-logo" aria-label="Βάσεις δεδομένων με Python και MySQL" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Βάσεις δεδομένων με Python και MySQL
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Αρχική
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Εγκατάσταση και ρύθμιση
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 1 — Η πρώτη μου βάση δεδομένων
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 1 — Η πρώτη μου βάση δεδομένων
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01-first-database/lesson-01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01-first-database/worksheet-01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 2 — Η γλώσσα SQL: CREATE, INSERT, SELECT
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 2 — Η γλώσσα SQL: CREATE, INSERT, SELECT
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02-sql-basics/lesson-02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02-sql-basics/worksheet-02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 3 — Η Python συνδέεται με τη βάση
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 3 — Η Python συνδέεται με τη βάση
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03-python-connects/lesson-03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03-python-connects/worksheet-03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 4 — Φιλτράρω και ταξινομώ
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 4 — Φιλτράρω και ταξινομώ
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04-filter-sort/lesson-04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04-filter-sort/worksheet-04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 5 — Προσθέτω δεδομένα από την Python
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 5 — Προσθέτω δεδομένα από την Python
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05-insert-python/lesson-05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05-insert-python/worksheet-05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 6 — Αλλάζω και σβήνω
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 6 — Αλλάζω και σβήνω
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Πίνακας περιεχομένων">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Πίνακας περιεχομένων
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Αρχεία εργαστηρίου
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Η αποστολή
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στο τέλος θα μπορείς
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Πριν αρχίσεις
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-update" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Κύκλος 1 — Αλλάζω δεδομένα με UPDATE
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Κύκλος 1 — Αλλάζω δεδομένα με UPDATE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Τα δεδομένα που θέλουν δουλειά
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-update" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Η εντολή UPDATE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 Πολλές γραμμές, πολλές στήλες, υπολογισμοί
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-where" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4 Το WHERE είναι το φρένο
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-update-phpmyadmin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 1 — UPDATE στο phpMyAdmin
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#15-update-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.5 UPDATE από την Python
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 2 — Αλλάζω μια τιμή από την Python
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Κύκλος 2 — Σβήνω και ακυρώνω
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Κύκλος 2 — Σβήνω και ακυρώνω">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-delete" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Η εντολή DELETE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-delete-phpmyadmin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 3 — DELETE στο phpMyAdmin
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-rowcount" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Το rowcount ως δίχτυ ασφαλείας
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-rollback" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 rollback(): ακυρώνω αλλαγές
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-delete-where" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 4 — Η DELETE χωρίς WHERE, με δίχτυ ασφαλείας
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 Επιβεβαίωση από τον χρήστη
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 5 — Σβήνω με επιβεβαίωση
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Έλεγχος πριν ολοκληρώσεις
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Για να θυμάσαι
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Λεξιλόγιο
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Δική σου εκδοχή
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../worksheet-06/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Πίνακας περιεχομένων">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Πίνακας περιεχομένων
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Αρχεία εργαστηρίου
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Η αποστολή
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στο τέλος θα μπορείς
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Πριν αρχίσεις
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-update" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Κύκλος 1 — Αλλάζω δεδομένα με UPDATE
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Κύκλος 1 — Αλλάζω δεδομένα με UPDATE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Τα δεδομένα που θέλουν δουλειά
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-update" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Η εντολή UPDATE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 Πολλές γραμμές, πολλές στήλες, υπολογισμοί
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-where" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4 Το WHERE είναι το φρένο
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-update-phpmyadmin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 1 — UPDATE στο phpMyAdmin
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#15-update-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.5 UPDATE από την Python
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 2 — Αλλάζω μια τιμή από την Python
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Κύκλος 2 — Σβήνω και ακυρώνω
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Κύκλος 2 — Σβήνω και ακυρώνω">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-delete" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Η εντολή DELETE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-delete-phpmyadmin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 3 — DELETE στο phpMyAdmin
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-rowcount" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Το rowcount ως δίχτυ ασφαλείας
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-rollback" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 rollback(): ακυρώνω αλλαγές
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-delete-where" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 4 — Η DELETE χωρίς WHERE, με δίχτυ ασφαλείας
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 Επιβεβαίωση από τον χρήστη
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 5 — Σβήνω με επιβεβαίωση
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Έλεγχος πριν ολοκληρώσεις
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Για να θυμάσαι
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Λεξιλόγιο
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Δική σου εκδοχή
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="6">Μάθημα 6: Αλλάζω και σβήνω<a class="headerlink" href="#6" title="Permanent link">&para;</a></h1>
+<p><strong>Βάση δεδομένων και Python:</strong> αλλάζω και σβήνω εγγραφές με <code>UPDATE</code> και <code>DELETE</code>, στο phpMyAdmin και από πρόγραμμα, με δίχτυα ασφαλείας<br />
+<strong>Διάρκεια:</strong> 2 κύκλοι × περίπου 45′ εργασία (2 διδακτικές ώρες)</p>
+<div class="admonition info">
+<p class="admonition-title">Φύλλο εργασίας</p>
+<p>Αυτή η σελίδα εξηγεί τις έννοιες. Οι ασκήσεις και οι οδηγίες για κάθε κύκλο βρίσκονται στο
+<a href="../worksheet-06/">Φύλλο εργασίας 6</a>. Δούλεψε με τις δύο σελίδες ανοιχτές.</p>
+</div>
+<h2 id="_1">Αρχεία εργαστηρίου<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Αρχείο</th>
+<th>Κύκλος</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../code/starter/01-start-state.sql">01-start-state.sql</a></td>
+<td>πριν αρχίσεις</td>
+</tr>
+<tr>
+<td><a href="../code/starter/02-update.sql">02-update.sql</a></td>
+<td>1</td>
+</tr>
+<tr>
+<td><a href="../code/starter/03-update-price.py">03-update-price.py</a></td>
+<td>1</td>
+</tr>
+<tr>
+<td><a href="../code/starter/04-delete.sql">04-delete.sql</a></td>
+<td>2</td>
+</tr>
+<tr>
+<td><a href="../code/starter/05-rollback.py">05-rollback.py</a></td>
+<td>2</td>
+</tr>
+<tr>
+<td><a href="../code/starter/06-final.py">06-final.py</a></td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_2">Η αποστολή<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>Μέχρι τώρα η βάση σου μόνο <strong>μεγάλωνε</strong>. Σε μια πραγματική εφαρμογή τα δεδομένα αλλάζουν: μια τιμή
+διορθώνεται, ένα παιχνίδι βγαίνει σε έκπτωση, μια εγγραφή που μπήκε κατά λάθος (ή τρεις φορές) πρέπει να φύγει.
+Σήμερα μαθαίνεις να <strong>αλλάζεις</strong> (<code>UPDATE</code>) και να <strong>σβήνεις</strong> (<code>DELETE</code>).</p>
+<p>Είναι οι πιο <strong>επικίνδυνες</strong> εντολές που έχεις δει. Μια <code>SELECT</code> δεν χαλάει τίποτα. Μια λάθος <code>UPDATE</code> ή <code>DELETE</code>
+μπορεί να χαλάσει <strong>όλον τον πίνακα</strong> σε ένα δευτερόλεπτο, χωρίς μήνυμα σφάλματος και χωρίς «Αναίρεση». Γι' αυτό
+σήμερα μαθαίνεις και τρία <strong>δίχτυα ασφαλείας</strong>: τη <code>SELECT</code> πριν από την αλλαγή, το <code>rowcount</code> και το <code>rollback</code>.</p>
+<p>Στο τέλος θα έχεις καθαρίσει μια βάση που «λερώθηκε» στις δοκιμές του Μαθήματος 5.</p>
+<h2 id="_3">Στο τέλος θα μπορείς<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<ul>
+<li>να αλλάζεις τιμές με <code>UPDATE … SET … WHERE</code>, σε μία ή σε πολλές γραμμές, σε μία ή σε πολλές στήλες, ακόμη και
+  με υπολογισμό (<code>price * 0.9</code>).</li>
+<li>να εξηγείς γιατί το <code>WHERE</code> είναι το φρένο και τι συμβαίνει αν το ξεχάσεις.</li>
+<li>να σβήνεις γραμμές με <code>DELETE FROM … WHERE</code>, και πολλές μαζί με <code>IN</code>.</li>
+<li>να κάνεις <strong>πρώτα <code>SELECT</code></strong> με το ίδιο <code>WHERE</code> και να ελέγχεις ότι το «rows affected» ταιριάζει.</li>
+<li>να στέλνεις <code>UPDATE</code> και <code>DELETE</code> από την Python με παραμέτρους και να διαβάζεις το <code>rowcount</code>.</li>
+<li>να ακυρώνεις αλλαγές με <code>rollback()</code> και να εξηγείς τη διαφορά του από το <code>commit()</code>.</li>
+<li>να ζητάς <strong>επιβεβαίωση</strong> από τον χρήστη πριν σβήσεις κάτι.</li>
+</ul>
+<h2 id="_4">Πριν αρχίσεις<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Ξεκίνα τη <strong>MySQL</strong> και τον <strong>Apache</strong> από το XAMPP Control Panel.</li>
+<li>Φτιάξε έναν φάκελο <code>06-update-delete</code> μέσα στον φάκελο των μαθημάτων και κατέβασε εκεί τα έξι αρχεία του
+   πίνακα. Κράτησε ακριβώς τα ονόματα (<code>.sql</code> και <code>.py</code>). Άνοιξε τον φάκελο στο VS Code και άνοιξε τερματικό.</li>
+<li>Φέρε τη βάση στην κατάσταση εκκίνησης: στο phpMyAdmin επίλεξε τη βάση <code>game_library</code>, άνοιξε την καρτέλα
+   <strong>Import</strong>, διάλεξε το <code>01-start-state.sql</code> και πάτα <strong>Import</strong> (όπως στο Μάθημα 1).</li>
+<li>Έλεγξε στην καρτέλα <strong>Browse</strong> ότι ο <code>games</code> έχει <strong>18</strong> γραμμές και ο <code>platforms</code> <strong>5</strong>.</li>
+<li>Τα αρχεία <code>.sql</code> τα ανοίγεις σε επεξεργαστή κειμένου, συμπληρώνεις τα κενά και <strong>αντιγράφεις κάθε εντολή</strong> στην
+   καρτέλα <strong>SQL</strong> της <code>game_library</code>. Τα αρχεία <code>.py</code> τα τρέχεις από το τερματικό.</li>
+</ol>
+<div class="admonition warning">
+<p class="admonition-title">Το αρχείο εκκίνησης σβήνει τα δεδομένα σου</p>
+<p>Το <code>01-start-state.sql</code> <strong>σβήνει</strong> τους πίνακες <code>games</code>, <code>platforms</code> και <code>players</code> και τους φτιάχνει από την
+αρχή. Στο Μάθημα 5 ο καθένας πρόσθεσε διαφορετικά παιχνίδια· με αυτό το αρχείο ξεκινάμε όλοι από τα ίδια
+δεδομένα, ώστε να δουλεύουν οι προβλέψεις του φύλλου εργασίας. Μοιάζουν με τα δικά σου: διπλά «Mini Golf»,
+τα τρία παιχνίδια του <code>executemany</code> και δύο δοκιμαστικές γραμμές. Σε μια πραγματική βάση δεν θα έτρεχες ποτέ
+τέτοιο αρχείο χωρίς αντίγραφο ασφαλείας (θα τα μάθεις στο Μάθημα 18). Στο μάθημα, αν χαλάσεις τα δεδομένα,
+το τρέχεις ξανά και ξεκινάς από την αρχή.</p>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Ο κύκλος εργασίας</p>
+<p><strong>Πρόβλεψη → εκτέλεση → σύγκριση → εξήγηση.</strong> Σήμερα πρόβλεψε <strong>πόσες γραμμές θα επηρεαστούν</strong>. Το
+phpMyAdmin το γράφει μετά από κάθε εντολή (στην <code>UPDATE</code> «3 rows affected», στη <code>DELETE</code> «2 rows deleted») και
+το πρόγραμμα Python το δίνει με το <code>rowcount</code>.</p>
+</div>
+<hr />
+<h2 id="1-update">Κύκλος 1 — Αλλάζω δεδομένα με <code>UPDATE</code><a class="headerlink" href="#1-update" title="Permanent link">&para;</a></h2>
+<p>Σε αυτόν τον κύκλο μαθαίνεις να διορθώνεις δεδομένα. Πρώτα στο phpMyAdmin και μετά από την Python.</p>
+<h3 id="11">1.1 Τα δεδομένα που θέλουν δουλειά<a class="headerlink" href="#11" title="Permanent link">&para;</a></h3>
+<p>Άνοιξε την καρτέλα <strong>Browse</strong> του <code>games</code>. Ο πίνακας έχει τέσσερα προβλήματα, και τα τέσσερα από τις δοκιμές του
+Μαθήματος 5:</p>
+<table>
+<thead>
+<tr>
+<th>Πρόβλημα</th>
+<th>Πού</th>
+<th>Πώς θα το λύσουμε</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Το «Moto Rush» κοστίζει <code>124.90</code> αντί για <code>12.49</code></td>
+<td><code>games</code>, <code>id</code> 16</td>
+<td><code>UPDATE</code></td>
+</tr>
+<tr>
+<td>Τρία ίδια «Mini Golf»</td>
+<td><code>games</code>, <code>id</code> 11, 12, 13</td>
+<td><code>UPDATE</code> (τιμή) και <code>DELETE</code> (τα διπλά)</td>
+</tr>
+<tr>
+<td>Δύο δοκιμαστικές γραμμές («τεστ» και «asdf») με χρονιά <code>0</code> (θυμάσαι ότι το <code>abc</code> έγινε <code>0</code>;)</td>
+<td><code>games</code>, <code>id</code> 17, 18</td>
+<td><code>DELETE</code></td>
+</tr>
+<tr>
+<td>Η «Meta Quest» έχει χρονιά <code>2029</code></td>
+<td><code>platforms</code>, <code>id</code> 5</td>
+<td><code>UPDATE</code> από την Python</td>
+</tr>
+</tbody>
+</table>
+<h3 id="12-update">1.2 Η εντολή <code>UPDATE</code><a class="headerlink" href="#12-update" title="Permanent link">&para;</a></h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">UPDATE</span><span class="w"> </span><span class="n">games</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="k">SET</span><span class="w"> </span><span class="n">price</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">12</span><span class="p">.</span><span class="mi">49</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">16</span><span class="p">;</span>
+</span></code></pre></div>
+<p>Διαβάζεται σαν πρόταση: «Άλλαξε τον πίνακα <code>games</code>: <strong>βάλε</strong> τιμή <code>12.49</code>, <strong>εκεί όπου</strong> το <code>id</code> είναι <code>16</code>». Έχει
+τρία μέρη:</p>
+<ul>
+<li><strong><code>UPDATE</code></strong> και το όνομα του πίνακα: τι αλλάζει.</li>
+<li><strong><code>SET</code></strong> και <code>στήλη = νέα τιμή</code>: με τι αλλάζει.</li>
+<li><strong><code>WHERE</code></strong>: <strong>ποιες</strong> γραμμές αλλάζουν. Είναι το ίδιο <code>WHERE</code> που έμαθες στο Μάθημα 4.</li>
+</ul>
+<p>Το <code>=</code> έχει εδώ δύο ρόλους: στο <code>SET</code> <strong>δίνει</strong> τιμή, στο <code>WHERE</code> <strong>συγκρίνει</strong>.</p>
+<p>Η <code>UPDATE</code> δεν επιστρέφει πίνακα. Το phpMyAdmin γράφει μόνο <strong>πόσες γραμμές επηρεάστηκαν</strong> («1 row affected»,
+στα ελληνικά «Επηρεάστηκε 1 γραμμή»).</p>
+<h3 id="13">1.3 Πολλές γραμμές, πολλές στήλες, υπολογισμοί<a class="headerlink" href="#13" title="Permanent link">&para;</a></h3>
+<p><strong>Πολλές γραμμές.</strong> Αλλάζουν <strong>όσες γραμμές ταιριάζουν</strong> στο <code>WHERE</code>, όχι μία:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">UPDATE</span><span class="w"> </span><span class="n">games</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="k">SET</span><span class="w"> </span><span class="n">price</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">.</span><span class="mi">99</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'Mini Golf'</span><span class="p">;</span><span class="w">          </span><span class="c1">-- 3 rows affected</span>
+</span></code></pre></div>
+<p><img alt="Το αποτέλεσμα μιας UPDATE στο phpMyAdmin, με δύο κόκκινα πλαίσια: 1 το πράσινο μήνυμα «3 rows affected», 2 η εντολή που εκτελέστηκε" src="../images/update-result.png" width="720" /></p>
+<p><strong>Υπολογισμός.</strong> Η νέα τιμή μπορεί να υπολογίζεται από την <strong>παλιά τιμή της ίδιας γραμμής</strong>. Κάθε γραμμή
+υπολογίζεται χωριστά:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">UPDATE</span><span class="w"> </span><span class="n">games</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="k">SET</span><span class="w"> </span><span class="n">price</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ROUND</span><span class="p">(</span><span class="n">price</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">0</span><span class="p">.</span><span class="mi">9</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w">   </span><span class="c1">-- έκπτωση 10%</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">genre</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'Αγωνιστικό'</span><span class="p">;</span>
+</span></code></pre></div>
+<p>Η <code>ROUND</code> είναι από το Μάθημα 2. Η τιμή <code>9.99</code> γίνεται <code>8.99</code> και η <code>17.99</code> γίνεται <code>16.19</code>.</p>
+<p><strong>Πολλές στήλες.</strong> Τις χωρίζεις με <strong>κόμμα</strong>:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">UPDATE</span><span class="w"> </span><span class="n">games</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="k">SET</span><span class="w"> </span><span class="n">genre</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'Δράσης'</span><span class="p">,</span><span class="w"> </span><span class="n">price</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">8</span><span class="p">.</span><span class="mi">99</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'Sky Pirates'</span><span class="p">;</span>
+</span></code></pre></div>
+<div class="admonition danger">
+<p class="admonition-title">Κόμμα, όχι <code>AND</code></p>
+<p>Η <code>SET price = 5.99 AND genre = 'Παζλ'</code> <strong>δεν δίνει σφάλμα</strong>. Η SQL τη διαβάζει ως
+<code>price = (5.99 AND genre = 'Παζλ')</code>, δηλαδή «η τιμή είναι το αποτέλεσμα μιας λογικής πρότασης», και βάζει
+<code>1.00</code>. Το είδος δεν αλλάζει καθόλου. Είναι σιωπηλό λάθος, όπως το <code>OR</code> του Μαθήματος 4.</p>
+</div>
+<h3 id="14-where">1.4 Το <code>WHERE</code> είναι το φρένο<a class="headerlink" href="#14-where" title="Permanent link">&para;</a></h3>
+<p>Αν ξεχάσεις το <code>WHERE</code>, η <code>UPDATE</code> αλλάζει <strong>όλες</strong> τις γραμμές:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">UPDATE</span><span class="w"> </span><span class="n">games</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">price</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">.</span><span class="mi">99</span><span class="p">;</span><span class="w">      </span><span class="c1">-- ΠΡΟΣΟΧΗ: ΟΛΑ τα παιχνίδια θα κοστίζουν 5.99</span>
+</span></code></pre></div>
+<p>Δεν υπάρχει σφάλμα, ούτε ερώτηση «είσαι σίγουρος;», ούτε «Αναίρεση». Είναι από τα πιο γνωστά λάθη στις βάσεις
+δεδομένων. Ο κανόνας που σε προστατεύει:</p>
+<div class="admonition tip">
+<p class="admonition-title">Πρώτα <code>SELECT</code>, μετά <code>UPDATE</code></p>
+<p>Πριν αλλάξεις, κάνε <code>SELECT</code> με το <strong>ίδιο <code>WHERE</code></strong> και <strong>δες</strong> ποιες γραμμές θα αλλάξουν:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="n">price</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">games</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">genre</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'Αγωνιστικό'</span><span class="p">;</span><span class="w">              </span><span class="c1">-- ποιες γραμμές;</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="k">UPDATE</span><span class="w"> </span><span class="n">games</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">price</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ROUND</span><span class="p">(</span><span class="n">price</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">0</span><span class="p">.</span><span class="mi">9</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">genre</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'Αγωνιστικό'</span><span class="p">;</span><span class="w">  </span><span class="c1">-- τώρα αλλάζω</span>
+</span></code></pre></div>
+<p>Μετά την <code>UPDATE</code>, το πλήθος του «rows affected» πρέπει να ταιριάζει με το πλήθος της <code>SELECT</code>. Αν διαφέρει,
+κάτι δεν πήγε όπως το περίμενες.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Το «0 rows affected» δεν είναι σφάλμα</p>
+<p>Αν το <code>WHERE</code> δεν ταιριάζει σε καμία γραμμή (π.χ. <code>WHERE id = 99</code>), η βάση δεν διαμαρτύρεται: γράφει
+«0 rows affected». Το ίδιο γράφει και όταν η γραμμή <strong>βρέθηκε</strong>, αλλά η νέα τιμή ήταν <strong>ήδη ίδια</strong> με την παλιά.
+Το «affected» σημαίνει «γραμμές που <strong>άλλαξαν</strong>».</p>
+<p><img alt="Μια UPDATE που έβαλε στο «Star Dodger» την τιμή που είχε ήδη: το phpMyAdmin γράφει «0 rows affected» σε πράσινο πλαίσιο, χωρίς σφάλμα. 1 το μήνυμα, 2 η εντολή" src="../images/zero-rows.png" width="720" /></p>
+</div>
+<h3 id="1-update-phpmyadmin">Στάδιο 1 — <code>UPDATE</code> στο phpMyAdmin<a class="headerlink" href="#1-update-phpmyadmin" title="Permanent link">&para;</a></h3>
+<p>Άνοιξε το <code>02-update.sql</code>. Συμπλήρωσε τα τέσσερα κενά (<code>____</code>) και τρέξε τα ερωτήματα <strong>ένα-ένα</strong>, με τη σειρά.
+Πρώτα πρόβλεψε πόσες γραμμές θα αλλάξει κάθε <code>UPDATE</code>.</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1">-- Στάδιο 1 — Αλλάζω δεδομένα με UPDATE.</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="c1">--</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="c1">-- Πριν αρχίσεις: τρέξε το 01-start-state.sql (καρτέλα Import), ώστε ο games να έχει 17 γραμμές.</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1">--</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="c1">-- Πώς το τρέχεις:</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="c1">--   1. Συμπλήρωσε τα κενά (____) σε έναν επεξεργαστή κειμένου.</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="c1">--   2. Τρέξε κάθε εντολή ΞΕΧΩΡΙΣΤΑ στην καρτέλα SQL της βάσης game_library.</span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="c1">--   3. ΠΡΩΤΑ πρόβλεψε πόσες γραμμές θα αλλάξουν. Μετά την UPDATE το phpMyAdmin γράφει «N rows affected».</span>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="c1">-- Ερώτημα 1 (έτοιμο): πρώτα ΔΕΣ ποιες γραμμές θα αλλάξει το ερώτημα 4. Η SELECT δεν αλλάζει τίποτα.</span>
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="n">genre</span><span class="p">,</span><span class="w"> </span><span class="n">price</span>
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="k">FROM</span><span class="w"> </span><span class="n">games</span>
+</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">genre</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'Αγωνιστικό'</span><span class="p">;</span>
+</span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>
+</span><span id="__span-6-15"><a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a><span class="c1">-- Ερώτημα 2: το «Moto Rush» (id 16) κοστίζει 124.90 αντί για 12.49, λάθος από τη δοκιμή. Διόρθωσέ το.</span>
+</span><span id="__span-6-16"><a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a><span class="k">UPDATE</span><span class="w"> </span><span class="n">games</span>
+</span><span id="__span-6-17"><a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a><span class="k">SET</span><span class="w"> </span><span class="n">price</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">____</span>
+</span><span id="__span-6-18"><a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">16</span><span class="p">;</span>
+</span><span id="__span-6-19"><a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a>
+</span><span id="__span-6-20"><a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a><span class="c1">-- Ερώτημα 3: και τα τρία «Mini Golf» να κοστίζουν 3.99</span>
+</span><span id="__span-6-21"><a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a><span class="k">UPDATE</span><span class="w"> </span><span class="n">games</span>
+</span><span id="__span-6-22"><a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a><span class="k">SET</span><span class="w"> </span><span class="n">price</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">.</span><span class="mi">99</span>
+</span><span id="__span-6-23"><a id="__codelineno-6-23" name="__codelineno-6-23" href="#__codelineno-6-23"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">____</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'Mini Golf'</span><span class="p">;</span>
+</span><span id="__span-6-24"><a id="__codelineno-6-24" name="__codelineno-6-24" href="#__codelineno-6-24"></a>
+</span><span id="__span-6-25"><a id="__codelineno-6-25" name="__codelineno-6-25" href="#__codelineno-6-25"></a><span class="c1">-- Ερώτημα 4: έκπτωση 10% στα αγωνιστικά (η νέα τιμή είναι το 90% της παλιάς)</span>
+</span><span id="__span-6-26"><a id="__codelineno-6-26" name="__codelineno-6-26" href="#__codelineno-6-26"></a><span class="k">UPDATE</span><span class="w"> </span><span class="n">games</span>
+</span><span id="__span-6-27"><a id="__codelineno-6-27" name="__codelineno-6-27" href="#__codelineno-6-27"></a><span class="k">SET</span><span class="w"> </span><span class="n">price</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ROUND</span><span class="p">(</span><span class="n">price</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">____</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span>
+</span><span id="__span-6-28"><a id="__codelineno-6-28" name="__codelineno-6-28" href="#__codelineno-6-28"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">genre</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'Αγωνιστικό'</span><span class="p">;</span>
+</span><span id="__span-6-29"><a id="__codelineno-6-29" name="__codelineno-6-29" href="#__codelineno-6-29"></a>
+</span><span id="__span-6-30"><a id="__codelineno-6-30" name="__codelineno-6-30" href="#__codelineno-6-30"></a><span class="c1">-- Ερώτημα 5: το «Sky Pirates» γίνεται είδος «Δράσης» με τιμή 8.99 (δύο στήλες με μία εντολή)</span>
+</span><span id="__span-6-31"><a id="__codelineno-6-31" name="__codelineno-6-31" href="#__codelineno-6-31"></a><span class="k">UPDATE</span><span class="w"> </span><span class="n">games</span>
+</span><span id="__span-6-32"><a id="__codelineno-6-32" name="__codelineno-6-32" href="#__codelineno-6-32"></a><span class="k">SET</span><span class="w"> </span><span class="n">genre</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'Δράσης'</span><span class="n">____</span><span class="w"> </span><span class="n">price</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">8</span><span class="p">.</span><span class="mi">99</span>
+</span><span id="__span-6-33"><a id="__codelineno-6-33" name="__codelineno-6-33" href="#__codelineno-6-33"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'Sky Pirates'</span><span class="p">;</span>
+</span><span id="__span-6-34"><a id="__codelineno-6-34" name="__codelineno-6-34" href="#__codelineno-6-34"></a>
+</span><span id="__span-6-35"><a id="__codelineno-6-35" name="__codelineno-6-35" href="#__codelineno-6-35"></a><span class="c1">-- Ερώτημα 6 (έτοιμο): έλεγξε το αποτέλεσμα όλων των αλλαγών</span>
+</span><span id="__span-6-36"><a id="__codelineno-6-36" name="__codelineno-6-36" href="#__codelineno-6-36"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="n">genre</span><span class="p">,</span><span class="w"> </span><span class="n">price</span>
+</span><span id="__span-6-37"><a id="__codelineno-6-37" name="__codelineno-6-37" href="#__codelineno-6-37"></a><span class="k">FROM</span><span class="w"> </span><span class="n">games</span>
+</span><span id="__span-6-38"><a id="__codelineno-6-38" name="__codelineno-6-38" href="#__codelineno-6-38"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span><span class="w"> </span><span class="mi">11</span><span class="p">,</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span><span class="w"> </span><span class="mi">13</span><span class="p">,</span><span class="w"> </span><span class="mi">14</span><span class="p">,</span><span class="w"> </span><span class="mi">16</span><span class="p">)</span>
+</span><span id="__span-6-39"><a id="__codelineno-6-39" name="__codelineno-6-39" href="#__codelineno-6-39"></a><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">id</span><span class="p">;</span>
+</span></code></pre></div>
+<h3 id="15-update-python">1.5 <code>UPDATE</code> από την Python<a class="headerlink" href="#15-update-python" title="Permanent link">&para;</a></h3>
+<p>Στέλνεται όπως το <code>INSERT</code> του Μαθήματος 5: με παραμέτρους και <code>commit</code>.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">sql</span> <span class="o">=</span> <span class="s2">"UPDATE games SET price = </span><span class="si">%s</span><span class="s2"> WHERE id = </span><span class="si">%s</span><span class="s2">"</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="p">(</span><span class="n">price</span><span class="p">,</span> <span class="n">game_id</span><span class="p">))</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="n">connection</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+</span></code></pre></div>
+<ul>
+<li>Οι τιμές της πλειάδας μπαίνουν <strong>με τη σειρά που εμφανίζονται τα <code>%s</code></strong>: πρώτα η τιμή (του <code>SET</code>), μετά το <code>id</code>
+  (του <code>WHERE</code>). Αν τις αντιστρέψεις, <strong>δεν θα δώσει σφάλμα</strong>: η βάση θα ψάξει παιχνίδι με <code>id</code> ίσο με την τιμή,
+  δεν θα βρει κανένα, και δεν θα αλλάξει τίποτα.</li>
+<li>Ισχύει ο κανόνας του Μαθήματος 5: ό,τι έρχεται από τον χρήστη μπαίνει στη SQL <strong>μόνο ως παράμετρος</strong>.</li>
+<li>Η <code>cursor.rowcount</code> δίνει πόσες γραμμές <strong>άλλαξαν</strong>. Η τιμή <code>0</code> σημαίνει ότι ή δεν υπάρχει τέτοιο <code>id</code>, ή η νέα
+  τιμή ήταν ήδη αυτή. Το πρόγραμμα το λέει στον χρήστη.</li>
+</ul>
+<h3 id="2-python">Στάδιο 2 — Αλλάζω μια τιμή από την Python<a class="headerlink" href="#2-python" title="Permanent link">&para;</a></h3>
+<p>Άνοιξε το <code>03-update-price.py</code>. Συμπλήρωσε τα πέντε κενά και τρέξε το. Άλλαξε την τιμή του παιχνιδιού με <code>id</code>
+14 σε <code>8.50</code>. Μετά έλεγξε την αλλαγή στο phpMyAdmin.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="sd">"""Στάδιο 2 — Αλλάζω την τιμή ενός παιχνιδιού από την Python.</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="sd">Το πρόγραμμα ρωτά το id ενός παιχνιδιού και τη νέα τιμή του, και τη γράφει στη βάση.</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="sd">Συμπλήρωσε τα πέντε κενά (____).</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="sd">"""</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="kn">from</span><span class="w"> </span><span class="nn">decimal</span><span class="w"> </span><span class="kn">import</span> <span class="n">Decimal</span>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="kn">import</span><span class="w"> </span><span class="nn">mysql.connector</span>
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>
+</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="n">connection</span> <span class="o">=</span> <span class="n">mysql</span><span class="o">.</span><span class="n">connector</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s2">"localhost"</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="s2">"root"</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span> <span class="n">database</span><span class="o">=</span><span class="s2">"game_library"</span><span class="p">)</span>
+</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="n">cursor</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>
+</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a><span class="n">game_id</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s2">"id του παιχνιδιού: "</span><span class="p">))</span>
+</span><span id="__span-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a><span class="n">price</span> <span class="o">=</span> <span class="n">Decimal</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s2">"Νέα τιμή: "</span><span class="p">))</span>
+</span><span id="__span-8-17"><a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a>
+</span><span id="__span-8-18"><a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a><span class="c1"># TODO 1: στη θέση της τιμής και του id βάλε σημεία παραμέτρων (χωρίς εισαγωγικά)</span>
+</span><span id="__span-8-19"><a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a><span class="n">sql</span> <span class="o">=</span> <span class="s2">"UPDATE games SET price = ____ WHERE id = ____"</span>
+</span><span id="__span-8-20"><a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a>
+</span><span id="__span-8-21"><a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a><span class="c1"># TODO 2: δώσε τις τιμές με τη σειρά που εμφανίζονται τα σημεία στην εντολή: πρώτα η τιμή, μετά το id</span>
+</span><span id="__span-8-22"><a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a><span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="p">(</span><span class="n">____</span><span class="p">,</span> <span class="n">____</span><span class="p">))</span>
+</span><span id="__span-8-23"><a id="__codelineno-8-23" name="__codelineno-8-23" href="#__codelineno-8-23"></a>
+</span><span id="__span-8-24"><a id="__codelineno-8-24" name="__codelineno-8-24" href="#__codelineno-8-24"></a><span class="c1"># TODO 3: κάνε μόνιμη την αλλαγή (μέθοδος της σύνδεσης)</span>
+</span><span id="__span-8-25"><a id="__codelineno-8-25" name="__codelineno-8-25" href="#__codelineno-8-25"></a><span class="n">connection</span><span class="o">.</span><span class="n">____</span><span class="p">()</span>
+</span><span id="__span-8-26"><a id="__codelineno-8-26" name="__codelineno-8-26" href="#__codelineno-8-26"></a>
+</span><span id="__span-8-27"><a id="__codelineno-8-27" name="__codelineno-8-27" href="#__codelineno-8-27"></a><span class="k">if</span> <span class="n">cursor</span><span class="o">.</span><span class="n">rowcount</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span id="__span-8-28"><a id="__codelineno-8-28" name="__codelineno-8-28" href="#__codelineno-8-28"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">"Δεν άλλαξε καμία γραμμή: ή δεν υπάρχει τέτοιο id ή η τιμή ήταν ήδη αυτή."</span><span class="p">)</span>
+</span><span id="__span-8-29"><a id="__codelineno-8-29" name="__codelineno-8-29" href="#__codelineno-8-29"></a><span class="k">else</span><span class="p">:</span>
+</span><span id="__span-8-30"><a id="__codelineno-8-30" name="__codelineno-8-30" href="#__codelineno-8-30"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Η τιμή του παιχνιδιού με id </span><span class="si">{</span><span class="n">game_id</span><span class="si">}</span><span class="s2"> έγινε </span><span class="si">{</span><span class="n">price</span><span class="si">}</span><span class="s2"> €."</span><span class="p">)</span>
+</span><span id="__span-8-31"><a id="__codelineno-8-31" name="__codelineno-8-31" href="#__codelineno-8-31"></a>
+</span><span id="__span-8-32"><a id="__codelineno-8-32" name="__codelineno-8-32" href="#__codelineno-8-32"></a><span class="n">cursor</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span><span id="__span-8-33"><a id="__codelineno-8-33" name="__codelineno-8-33" href="#__codelineno-8-33"></a><span class="n">connection</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span></code></pre></div>
+<p><strong>Συνέχισε στο Φύλλο εργασίας, Κύκλος 1.</strong></p>
+<hr />
+<h2 id="2">Κύκλος 2 — Σβήνω και ακυρώνω<a class="headerlink" href="#2" title="Permanent link">&para;</a></h2>
+<p>Σε αυτόν τον κύκλο μαθαίνεις να σβήνεις γραμμές, να ακυρώνεις αλλαγές που δεν έγιναν μόνιμες και να ρωτάς τον
+χρήστη πριν σβήσεις.</p>
+<h3 id="21-delete">2.1 Η εντολή <code>DELETE</code><a class="headerlink" href="#21-delete" title="Permanent link">&para;</a></h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">DELETE</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">games</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">18</span><span class="p">;</span>
+</span></code></pre></div>
+<ul>
+<li>Σβήνει <strong>ολόκληρες γραμμές</strong>, όχι στήλες. Δεν γράφεις <code>DELETE *</code> (θα πάρεις <code>#1064</code>). Για να αλλάξεις μόνο μια
+  τιμή, κάνεις <code>UPDATE</code>.</li>
+<li>Για πολλές γραμμές χρησιμοποιείς τα εργαλεία του <code>WHERE</code>: <code>WHERE id IN (12, 13)</code>.</li>
+<li>Μετά το <code>commit</code> η διαγραφή είναι <strong>μόνιμη</strong>. Δεν υπάρχει κάδος ανακύκλωσης.</li>
+<li>Τα <code>id</code> <strong>δεν ξαναχρησιμοποιούνται</strong>: αν σβήσεις το <code>id</code> 18, το επόμενο παιχνίδι θα πάρει 19. (Θυμίσου το
+  πείραμα του Μαθήματος 1 με το <code>AUTO_INCREMENT</code>.)</li>
+<li>Χωρίς <code>WHERE</code>, σβήνονται <strong>όλες</strong> οι γραμμές. Ο πίνακας μένει, άδειος.</li>
+</ul>
+<div class="admonition danger">
+<p class="admonition-title">Προσοχή στο <code>OR</code></p>
+<p>Η <code>DELETE FROM games WHERE id = 18 OR 1;</code> σβήνει <strong>όλον τον πίνακα</strong>, γιατί το <code>1</code> ισχύει πάντα. Είναι η ίδια
+παγίδα με το <code>OR</code> του Μαθήματος 4 και με το <code>x' OR '1'='1</code> του Μαθήματος 5.</p>
+</div>
+<p>Και εδώ ισχύει ο κανόνας: <strong>πρώτα <code>SELECT</code> με το ίδιο <code>WHERE</code></strong>, μετά <code>DELETE</code>.</p>
+<p>Μετά τη <code>DELETE</code> το phpMyAdmin γράφει «2 rows deleted» (στα ελληνικά «Διαγράφτηκαν 2 γραμμές»). Πριν την εκτελέσει,
+ρωτά με ένα παράθυρο: «Do you really want to execute "DELETE FROM …"?» (στα ελληνικά «Θέλετε να εκτελέσετε το
+ακόλουθο…»). Διάβασε την εντολή, έλεγξε το <code>WHERE</code> και μόνο τότε πάτα <strong>OK</strong>. Αυτό είναι δίχτυ ασφαλείας του
+phpMyAdmin. Το δικό σου πρόγραμμα πρέπει να φτιάξει το δικό του (ενότητα 2.4).</p>
+<h3 id="3-delete-phpmyadmin">Στάδιο 3 — <code>DELETE</code> στο phpMyAdmin<a class="headerlink" href="#3-delete-phpmyadmin" title="Permanent link">&para;</a></h3>
+<p>Άνοιξε το <code>04-delete.sql</code>. Συμπλήρωσε τα τρία κενά και τρέξε τα ερωτήματα ένα-ένα. Πρόβλεψε πρώτα πόσες γραμμές
+θα σβηστούν.</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1">-- Στάδιο 3 — Σβήνω γραμμές με DELETE.</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="c1">--</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="c1">-- Πώς το τρέχεις:</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="c1">--   1. Συμπλήρωσε τα κενά (____) σε έναν επεξεργαστή κειμένου.</span>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="c1">--   2. Τρέξε κάθε εντολή ΞΕΧΩΡΙΣΤΑ στην καρτέλα SQL της βάσης game_library.</span>
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="c1">--   3. ΠΡΩΤΑ πρόβλεψε πόσες γραμμές θα σβηστούν. Μετά την DELETE το phpMyAdmin γράφει «N rows deleted».</span>
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="c1">--   4. Η DELETE δεν έχει «Αναίρεση». Πριν από κάθε DELETE κάνε SELECT με το ίδιο WHERE. Το phpMyAdmin θα ρωτήσει</span>
+</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="c1">--      «Do you really want to execute…?»: διάβασε την εντολή και πάτα OK.</span>
+</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>
+</span><span id="__span-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="c1">-- Ερώτημα 1 (έτοιμο): ΔΕΣ πρώτα τη γραμμή που θα σβήσεις: το δοκιμαστικό παιχνίδι με id 17</span>
+</span><span id="__span-10-11"><a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span>
+</span><span id="__span-10-12"><a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a><span class="k">FROM</span><span class="w"> </span><span class="n">games</span>
+</span><span id="__span-10-13"><a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">17</span><span class="p">;</span>
+</span><span id="__span-10-14"><a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a>
+</span><span id="__span-10-15"><a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a><span class="c1">-- Ερώτημα 2: σβήσε το δοκιμαστικό παιχνίδι</span>
+</span><span id="__span-10-16"><a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a><span class="k">DELETE</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">games</span>
+</span><span id="__span-10-17"><a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">____</span><span class="p">;</span>
+</span><span id="__span-10-18"><a id="__codelineno-10-18" name="__codelineno-10-18" href="#__codelineno-10-18"></a>
+</span><span id="__span-10-19"><a id="__codelineno-10-19" name="__codelineno-10-19" href="#__codelineno-10-19"></a><span class="c1">-- Ερώτημα 3 (έτοιμο): ποια id έχουν τα τρία «Mini Golf»;</span>
+</span><span id="__span-10-20"><a id="__codelineno-10-20" name="__codelineno-10-20" href="#__codelineno-10-20"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">title</span>
+</span><span id="__span-10-21"><a id="__codelineno-10-21" name="__codelineno-10-21" href="#__codelineno-10-21"></a><span class="k">FROM</span><span class="w"> </span><span class="n">games</span>
+</span><span id="__span-10-22"><a id="__codelineno-10-22" name="__codelineno-10-22" href="#__codelineno-10-22"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'Mini Golf'</span><span class="p">;</span>
+</span><span id="__span-10-23"><a id="__codelineno-10-23" name="__codelineno-10-23" href="#__codelineno-10-23"></a>
+</span><span id="__span-10-24"><a id="__codelineno-10-24" name="__codelineno-10-24" href="#__codelineno-10-24"></a><span class="c1">-- Ερώτημα 4: κράτα το πρώτο (id 11) και σβήσε τα άλλα δύο με ΜΙΑ εντολή</span>
+</span><span id="__span-10-25"><a id="__codelineno-10-25" name="__codelineno-10-25" href="#__codelineno-10-25"></a><span class="k">DELETE</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">games</span>
+</span><span id="__span-10-26"><a id="__codelineno-10-26" name="__codelineno-10-26" href="#__codelineno-10-26"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="n">____</span><span class="w"> </span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="w"> </span><span class="mi">13</span><span class="p">);</span>
+</span><span id="__span-10-27"><a id="__codelineno-10-27" name="__codelineno-10-27" href="#__codelineno-10-27"></a>
+</span><span id="__span-10-28"><a id="__codelineno-10-28" name="__codelineno-10-28" href="#__codelineno-10-28"></a><span class="c1">-- Ερώτημα 5: πόσα παιχνίδια έμειναν στον πίνακα;</span>
+</span><span id="__span-10-29"><a id="__codelineno-10-29" name="__codelineno-10-29" href="#__codelineno-10-29"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">____</span><span class="p">(</span><span class="o">*</span><span class="p">)</span>
+</span><span id="__span-10-30"><a id="__codelineno-10-30" name="__codelineno-10-30" href="#__codelineno-10-30"></a><span class="k">FROM</span><span class="w"> </span><span class="n">games</span><span class="p">;</span>
+</span><span id="__span-10-31"><a id="__codelineno-10-31" name="__codelineno-10-31" href="#__codelineno-10-31"></a>
+</span><span id="__span-10-32"><a id="__codelineno-10-32" name="__codelineno-10-32" href="#__codelineno-10-32"></a><span class="c1">-- Ερώτημα 6 (έτοιμο): η ίδια DELETE του ερωτήματος 2, ξανά. Ποιο είναι το αποτέλεσμα;</span>
+</span><span id="__span-10-33"><a id="__codelineno-10-33" name="__codelineno-10-33" href="#__codelineno-10-33"></a><span class="k">DELETE</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">games</span>
+</span><span id="__span-10-34"><a id="__codelineno-10-34" name="__codelineno-10-34" href="#__codelineno-10-34"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">17</span><span class="p">;</span>
+</span></code></pre></div>
+<h3 id="22-rowcount">2.2 Το <code>rowcount</code> ως δίχτυ ασφαλείας<a class="headerlink" href="#22-rowcount" title="Permanent link">&para;</a></h3>
+<p>Μετά από μια <code>DELETE</code>, η <code>cursor.rowcount</code> δίνει <strong>πόσες γραμμές σβήστηκαν</strong>. Εσύ ξέρεις πόσες <strong>περίμενες</strong>: αν
+σβήνεις με <code>id</code>, περιμένεις ακριβώς μία. Αν η <code>rowcount</code> είναι άλλη, κάτι πήγε στραβά, και πρέπει να μπορείς να
+<strong>γυρίσεις πίσω</strong> πριν γίνει μόνιμο.</p>
+<h3 id="23-rollback">2.3 <code>rollback()</code>: ακυρώνω αλλαγές<a class="headerlink" href="#23-rollback" title="Permanent link">&para;</a></h3>
+<p>Από το Μάθημα 5 ξέρεις ότι οι αλλαγές μιας σύνδεσης μένουν σε μια <strong>συναλλαγή</strong> (transaction) ώσπου να τις
+επιβεβαιώσεις. Έχεις δύο επιλογές:</p>
+<table>
+<thead>
+<tr>
+<th>Εντολή</th>
+<th>Τι κάνει</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>connection.commit()</code></td>
+<td>κάνει <strong>μόνιμες</strong> όλες τις αλλαγές από το προηγούμενο <code>commit</code></td>
+</tr>
+<tr>
+<td><code>connection.rollback()</code></td>
+<td><strong>ακυρώνει</strong> όλες τις αλλαγές από το προηγούμενο <code>commit</code></td>
+</tr>
+</tbody>
+</table>
+<p>Έτσι γράφεις ένα ασφαλές <code>DELETE</code>: το στέλνεις, ελέγχεις το αποτέλεσμα, και μόνο μετά αποφασίζεις:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"DELETE FROM games WHERE id = </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="p">(</span><span class="n">game_id</span><span class="p">,))</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="k">if</span> <span class="n">cursor</span><span class="o">.</span><span class="n">rowcount</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>          <span class="c1"># σβήστηκε ό,τι περιμέναμε</span>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>    <span class="n">connection</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="k">else</span><span class="p">:</span>                             <span class="c1"># κάτι δεν πάει καλά</span>
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>    <span class="n">connection</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+</span></code></pre></div>
+<p>Δύο πράγματα που πρέπει να ξέρεις για τις συναλλαγές:</p>
+<ul>
+<li><strong>Βλέπεις τις αλλαγές σου, οι άλλοι όχι.</strong> Μετά από μια <code>DELETE</code>, η <strong>δική σου</strong> σύνδεση βλέπει τον πίνακα
+  χωρίς τις γραμμές. Όλοι οι άλλοι (και το phpMyAdmin) βλέπουν <strong>ακόμη τα παλιά δεδομένα</strong>, ώσπου να γίνει
+  <code>commit</code>. Στο Στάδιο 4 θα το δεις μόνος σου.</li>
+<li><strong>Οι γραμμές κλειδώνουν.</strong> Όσο η συναλλαγή είναι ανοιχτή, η βάση <strong>κλειδώνει</strong> τις γραμμές που άλλαξες. Αν
+  προσπαθήσεις να τις αλλάξεις από το phpMyAdmin, θα περιμένει περίπου 50 δευτερόλεπτα και μετά θα δώσει
+  <code>#1205 Lock wait timeout exceeded</code>. Γι' αυτό στο Στάδιο 4 <strong>μόνο κοιτάς</strong>, δεν αλλάζεις τίποτα.</li>
+</ul>
+<p>Αν το πρόγραμμα κλείσει τη σύνδεση χωρίς <code>commit</code>, η MySQL κάνει <strong>αυτόματα rollback</strong> (το είδες στο Μάθημα 5).
+Το ρητό <code>rollback()</code> χρειάζεται όταν το πρόγραμμα <strong>συνεχίζει</strong> να δουλεύει με την ίδια σύνδεση.</p>
+<h3 id="4-delete-where">Στάδιο 4 — Η <code>DELETE</code> χωρίς <code>WHERE</code>, με δίχτυ ασφαλείας<a class="headerlink" href="#4-delete-where" title="Permanent link">&para;</a></h3>
+<p>Άνοιξε το <code>05-rollback.py</code>. Συμπλήρωσε τα δύο κενά και <strong>πρόβλεψε</strong> πριν το τρέξεις. Το πρόγραμμα σβήνει <strong>όλες</strong>
+τις γραμμές, αλλά δεν έχει <code>commit</code> πουθενά, οπότε δεν θα σβήσει τίποτα μόνιμα. Όταν σταματήσει και σου ζητήσει
+Enter, <strong>δες</strong> το phpMyAdmin και μετά πάτα Enter.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="sd">"""Στάδιο 4 — Η DELETE χωρίς WHERE και το δίχτυ ασφαλείας του rollback.</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="sd">Το πρόγραμμα σβήνει ΟΛΕΣ τις γραμμές του games, βλέπει τι έγινε, και τις ξαναφέρνει με rollback.</span>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="sd">Δεν έχει commit πουθενά, άρα δεν θα σβήσει τίποτα μόνιμα. ΜΗΝ προσθέσεις commit.</span>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="sd">Συμπλήρωσε τα δύο κενά (____).</span>
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="sd">"""</span>
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>
+</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="kn">import</span><span class="w"> </span><span class="nn">mysql.connector</span>
+</span><span id="__span-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a>
+</span><span id="__span-12-11"><a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a><span class="n">connection</span> <span class="o">=</span> <span class="n">mysql</span><span class="o">.</span><span class="n">connector</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s2">"localhost"</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="s2">"root"</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span> <span class="n">database</span><span class="o">=</span><span class="s2">"game_library"</span><span class="p">)</span>
+</span><span id="__span-12-12"><a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a><span class="n">cursor</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+</span><span id="__span-12-13"><a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a>
+</span><span id="__span-12-14"><a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a>
+</span><span id="__span-12-15"><a id="__codelineno-12-15" name="__codelineno-12-15" href="#__codelineno-12-15"></a><span class="k">def</span><span class="w"> </span><span class="nf">count_games</span><span class="p">(</span><span class="n">cursor</span><span class="p">):</span>
+</span><span id="__span-12-16"><a id="__codelineno-12-16" name="__codelineno-12-16" href="#__codelineno-12-16"></a><span class="w">    </span><span class="sd">"""Επιστρέφει πόσα παιχνίδια έχει ο πίνακας games, όπως τα βλέπει αυτή η σύνδεση."""</span>
+</span><span id="__span-12-17"><a id="__codelineno-12-17" name="__codelineno-12-17" href="#__codelineno-12-17"></a>    <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"SELECT COUNT(*) FROM games"</span><span class="p">)</span>
+</span><span id="__span-12-18"><a id="__codelineno-12-18" name="__codelineno-12-18" href="#__codelineno-12-18"></a>    <span class="k">return</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+</span><span id="__span-12-19"><a id="__codelineno-12-19" name="__codelineno-12-19" href="#__codelineno-12-19"></a>
+</span><span id="__span-12-20"><a id="__codelineno-12-20" name="__codelineno-12-20" href="#__codelineno-12-20"></a>
+</span><span id="__span-12-21"><a id="__codelineno-12-21" name="__codelineno-12-21" href="#__codelineno-12-21"></a><span class="nb">print</span><span class="p">(</span><span class="s2">"Πριν από τη DELETE:"</span><span class="p">,</span> <span class="n">count_games</span><span class="p">(</span><span class="n">cursor</span><span class="p">),</span> <span class="s2">"παιχνίδια"</span><span class="p">)</span>
+</span><span id="__span-12-22"><a id="__codelineno-12-22" name="__codelineno-12-22" href="#__codelineno-12-22"></a>
+</span><span id="__span-12-23"><a id="__codelineno-12-23" name="__codelineno-12-23" href="#__codelineno-12-23"></a><span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"DELETE FROM games"</span><span class="p">)</span>          <span class="c1"># ΧΩΡΙΣ WHERE: αφορά ΟΛΕΣ τις γραμμές!</span>
+</span><span id="__span-12-24"><a id="__codelineno-12-24" name="__codelineno-12-24" href="#__codelineno-12-24"></a>
+</span><span id="__span-12-25"><a id="__codelineno-12-25" name="__codelineno-12-25" href="#__codelineno-12-25"></a><span class="c1"># TODO 1: πόσες γραμμές επηρέασε η DELETE; (ιδιότητα του κέρσορα)</span>
+</span><span id="__span-12-26"><a id="__codelineno-12-26" name="__codelineno-12-26" href="#__codelineno-12-26"></a><span class="nb">print</span><span class="p">(</span><span class="s2">"Η DELETE επηρέασε"</span><span class="p">,</span> <span class="n">cursor</span><span class="o">.</span><span class="n">____</span><span class="p">,</span> <span class="s2">"γραμμές"</span><span class="p">)</span>
+</span><span id="__span-12-27"><a id="__codelineno-12-27" name="__codelineno-12-27" href="#__codelineno-12-27"></a><span class="nb">print</span><span class="p">(</span><span class="s2">"Η σύνδεσή μου βλέπει τώρα:"</span><span class="p">,</span> <span class="n">count_games</span><span class="p">(</span><span class="n">cursor</span><span class="p">),</span> <span class="s2">"παιχνίδια"</span><span class="p">)</span>
+</span><span id="__span-12-28"><a id="__codelineno-12-28" name="__codelineno-12-28" href="#__codelineno-12-28"></a>
+</span><span id="__span-12-29"><a id="__codelineno-12-29" name="__codelineno-12-29" href="#__codelineno-12-29"></a><span class="nb">print</span><span class="p">()</span>
+</span><span id="__span-12-30"><a id="__codelineno-12-30" name="__codelineno-12-30" href="#__codelineno-12-30"></a><span class="nb">input</span><span class="p">(</span><span class="s2">"Άνοιξε το phpMyAdmin, δες τον games (Browse) και ΜΗΝ αλλάξεις τίποτα. Μετά πάτα Enter. "</span><span class="p">)</span>
+</span><span id="__span-12-31"><a id="__codelineno-12-31" name="__codelineno-12-31" href="#__codelineno-12-31"></a>
+</span><span id="__span-12-32"><a id="__codelineno-12-32" name="__codelineno-12-32" href="#__codelineno-12-32"></a><span class="c1"># TODO 2: ακύρωσε την DELETE (μέθοδος της σύνδεσης)</span>
+</span><span id="__span-12-33"><a id="__codelineno-12-33" name="__codelineno-12-33" href="#__codelineno-12-33"></a><span class="n">connection</span><span class="o">.</span><span class="n">____</span><span class="p">()</span>
+</span><span id="__span-12-34"><a id="__codelineno-12-34" name="__codelineno-12-34" href="#__codelineno-12-34"></a>
+</span><span id="__span-12-35"><a id="__codelineno-12-35" name="__codelineno-12-35" href="#__codelineno-12-35"></a><span class="nb">print</span><span class="p">(</span><span class="s2">"Μετά το rollback:"</span><span class="p">,</span> <span class="n">count_games</span><span class="p">(</span><span class="n">cursor</span><span class="p">),</span> <span class="s2">"παιχνίδια"</span><span class="p">)</span>
+</span><span id="__span-12-36"><a id="__codelineno-12-36" name="__codelineno-12-36" href="#__codelineno-12-36"></a>
+</span><span id="__span-12-37"><a id="__codelineno-12-37" name="__codelineno-12-37" href="#__codelineno-12-37"></a><span class="n">cursor</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span><span id="__span-12-38"><a id="__codelineno-12-38" name="__codelineno-12-38" href="#__codelineno-12-38"></a><span class="n">connection</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span></code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Μη βάλεις <code>commit</code></p>
+<p>Αυτό το πρόγραμμα σβήνει όλον τον πίνακα <strong>προσωρινά</strong>. Αν προσθέσεις <code>connection.commit()</code>, θα σβηστεί
+<strong>για πάντα</strong>. Αν το κάνεις κατά λάθος, τρέξε ξανά το <code>01-start-state.sql</code>.</p>
+</div>
+<h3 id="24">2.4 Επιβεβαίωση από τον χρήστη<a class="headerlink" href="#24" title="Permanent link">&para;</a></h3>
+<p>Ένα πρόγραμμα που σβήνει δεν πρέπει να το κάνει με μία πληκτρολόγηση. Πρώτα <strong>δείχνει τι θα σβηστεί</strong> και ρωτά:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"SELECT title FROM games WHERE id = </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="p">(</span><span class="n">game_id</span><span class="p">,))</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="n">row</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>                 <span class="c1"># πλειάδα με τη γραμμή, ή None αν δεν βρέθηκε</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="k">if</span> <span class="n">row</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">"Δεν υπάρχει παιχνίδι με αυτό το id."</span><span class="p">)</span>
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="k">else</span><span class="p">:</span>
+</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>    <span class="n">answer</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Να σβηστεί το «</span><span class="si">{</span><span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">»; (ναι/όχι): "</span><span class="p">)</span>
+</span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>    <span class="k">if</span> <span class="n">answer</span> <span class="o">==</span> <span class="s2">"ναι"</span><span class="p">:</span>
+</span><span id="__span-13-9"><a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>        <span class="o">...</span>                             <span class="c1"># DELETE, έλεγχος του rowcount, commit ή rollback</span>
+</span></code></pre></div>
+<ul>
+<li>Η <code>fetchone()</code> δίνει <strong>μία</strong> γραμμή ως πλειάδα, ή <code>None</code> όταν δεν υπάρχει γραμμή. Ο τίτλος είναι το <code>row[0]</code>.</li>
+<li>Σβήνει <strong>μόνο</strong> το ακριβές «ναι». Οτιδήποτε άλλο (ακόμη και «Ναι» ή «nai») <strong>ακυρώνει</strong>. Είναι η ασφαλής
+  προεπιλογή: ένα λάθος πληκτρολόγησης δεν σβήνει τίποτα.</li>
+<li>Έχεις πια τρία δίχτυα μαζί: <strong>επιβεβαίωση</strong> πριν, <strong><code>rowcount</code></strong> μετά τη <code>DELETE</code> και <strong><code>rollback</code></strong> αν το
+  αποτέλεσμα δεν είναι το αναμενόμενο. (Σε εφαρμογή με πολλούς χρήστες, μεταξύ της <code>SELECT</code> και της <code>DELETE</code>
+  κάποιος άλλος μπορεί να έχει ήδη σβήσει τη γραμμή.)</li>
+</ul>
+<h3 id="5">Στάδιο 5 — Σβήνω με επιβεβαίωση<a class="headerlink" href="#5" title="Permanent link">&para;</a></h3>
+<p>Άνοιξε το <code>06-final.py</code>. Συμπλήρωσε τα τέσσερα κενά και τρέξε το πολλές φορές, με διαφορετικές εισόδους (δες το
+φύλλο εργασίας). Στο τέλος σβήσε με αυτό τη δοκιμαστική γραμμή <code>asdf</code>.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="sd">"""Στάδιο 5 — Σβήνω ένα παιχνίδι με επιβεβαίωση.</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="sd">Το πρόγραμμα εμφανίζει τα παιχνίδια, ρωτά ποιο id θα σβηστεί, δείχνει τον τίτλο και ζητά επιβεβαίωση. Σβήνει</span>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="sd">μόνο αν ο χρήστης γράψει ακριβώς «ναι» και η DELETE επηρεάσει ακριβώς μία γραμμή. Στο τέλος εμφανίζει ξανά τα</span>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="sd">παιχνίδια.</span>
+</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>
+</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="sd">Συμπλήρωσε τα τέσσερα κενά (____).</span>
+</span><span id="__span-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a><span class="sd">"""</span>
+</span><span id="__span-14-9"><a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a>
+</span><span id="__span-14-10"><a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a><span class="kn">import</span><span class="w"> </span><span class="nn">mysql.connector</span>
+</span><span id="__span-14-11"><a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a>
+</span><span id="__span-14-12"><a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a><span class="n">HOST</span> <span class="o">=</span> <span class="s2">"localhost"</span>
+</span><span id="__span-14-13"><a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a><span class="n">USER</span> <span class="o">=</span> <span class="s2">"root"</span>
+</span><span id="__span-14-14"><a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a><span class="n">PASSWORD</span> <span class="o">=</span> <span class="s2">""</span>
+</span><span id="__span-14-15"><a id="__codelineno-14-15" name="__codelineno-14-15" href="#__codelineno-14-15"></a><span class="n">DATABASE</span> <span class="o">=</span> <span class="s2">"game_library"</span>
+</span><span id="__span-14-16"><a id="__codelineno-14-16" name="__codelineno-14-16" href="#__codelineno-14-16"></a>
+</span><span id="__span-14-17"><a id="__codelineno-14-17" name="__codelineno-14-17" href="#__codelineno-14-17"></a><span class="n">LIST_SQL</span> <span class="o">=</span> <span class="s2">"SELECT id, title, genre, release_year, price FROM games ORDER BY id"</span>
+</span><span id="__span-14-18"><a id="__codelineno-14-18" name="__codelineno-14-18" href="#__codelineno-14-18"></a>
+</span><span id="__span-14-19"><a id="__codelineno-14-19" name="__codelineno-14-19" href="#__codelineno-14-19"></a>
+</span><span id="__span-14-20"><a id="__codelineno-14-20" name="__codelineno-14-20" href="#__codelineno-14-20"></a><span class="k">def</span><span class="w"> </span><span class="nf">show</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">sql</span><span class="p">):</span>
+</span><span id="__span-14-21"><a id="__codelineno-14-21" name="__codelineno-14-21" href="#__codelineno-14-21"></a><span class="w">    </span><span class="sd">"""Στέλνει το ερώτημα sql και εμφανίζει το αποτέλεσμα κάτω από τον τίτλο title."""</span>
+</span><span id="__span-14-22"><a id="__codelineno-14-22" name="__codelineno-14-22" href="#__codelineno-14-22"></a>    <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
+</span><span id="__span-14-23"><a id="__codelineno-14-23" name="__codelineno-14-23" href="#__codelineno-14-23"></a>    <span class="n">rows</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+</span><span id="__span-14-24"><a id="__codelineno-14-24" name="__codelineno-14-24" href="#__codelineno-14-24"></a>
+</span><span id="__span-14-25"><a id="__codelineno-14-25" name="__codelineno-14-25" href="#__codelineno-14-25"></a>    <span class="nb">print</span><span class="p">()</span>
+</span><span id="__span-14-26"><a id="__codelineno-14-26" name="__codelineno-14-26" href="#__codelineno-14-26"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+</span><span id="__span-14-27"><a id="__codelineno-14-27" name="__codelineno-14-27" href="#__codelineno-14-27"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">"-"</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">title</span><span class="p">))</span>
+</span><span id="__span-14-28"><a id="__codelineno-14-28" name="__codelineno-14-28" href="#__codelineno-14-28"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">" | "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cursor</span><span class="o">.</span><span class="n">column_names</span><span class="p">))</span>
+</span><span id="__span-14-29"><a id="__codelineno-14-29" name="__codelineno-14-29" href="#__codelineno-14-29"></a>    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
+</span><span id="__span-14-30"><a id="__codelineno-14-30" name="__codelineno-14-30" href="#__codelineno-14-30"></a>        <span class="n">texts</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span id="__span-14-31"><a id="__codelineno-14-31" name="__codelineno-14-31" href="#__codelineno-14-31"></a>        <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">row</span><span class="p">:</span>
+</span><span id="__span-14-32"><a id="__codelineno-14-32" name="__codelineno-14-32" href="#__codelineno-14-32"></a>            <span class="n">texts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
+</span><span id="__span-14-33"><a id="__codelineno-14-33" name="__codelineno-14-33" href="#__codelineno-14-33"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">" | "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">texts</span><span class="p">))</span>
+</span><span id="__span-14-34"><a id="__codelineno-14-34" name="__codelineno-14-34" href="#__codelineno-14-34"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Γραμμές: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span><span id="__span-14-35"><a id="__codelineno-14-35" name="__codelineno-14-35" href="#__codelineno-14-35"></a>
+</span><span id="__span-14-36"><a id="__codelineno-14-36" name="__codelineno-14-36" href="#__codelineno-14-36"></a>
+</span><span id="__span-14-37"><a id="__codelineno-14-37" name="__codelineno-14-37" href="#__codelineno-14-37"></a><span class="n">connection</span> <span class="o">=</span> <span class="n">mysql</span><span class="o">.</span><span class="n">connector</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="n">HOST</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="n">USER</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">PASSWORD</span><span class="p">,</span> <span class="n">database</span><span class="o">=</span><span class="n">DATABASE</span><span class="p">)</span>
+</span><span id="__span-14-38"><a id="__codelineno-14-38" name="__codelineno-14-38" href="#__codelineno-14-38"></a><span class="n">cursor</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+</span><span id="__span-14-39"><a id="__codelineno-14-39" name="__codelineno-14-39" href="#__codelineno-14-39"></a>
+</span><span id="__span-14-40"><a id="__codelineno-14-40" name="__codelineno-14-40" href="#__codelineno-14-40"></a><span class="n">show</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="s2">"Όλα τα παιχνίδια"</span><span class="p">,</span> <span class="n">LIST_SQL</span><span class="p">)</span>
+</span><span id="__span-14-41"><a id="__codelineno-14-41" name="__codelineno-14-41" href="#__codelineno-14-41"></a><span class="nb">print</span><span class="p">()</span>
+</span><span id="__span-14-42"><a id="__codelineno-14-42" name="__codelineno-14-42" href="#__codelineno-14-42"></a>
+</span><span id="__span-14-43"><a id="__codelineno-14-43" name="__codelineno-14-43" href="#__codelineno-14-43"></a><span class="n">game_id</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s2">"id παιχνιδιού που θα σβηστεί (0 για έξοδο): "</span><span class="p">))</span>
+</span><span id="__span-14-44"><a id="__codelineno-14-44" name="__codelineno-14-44" href="#__codelineno-14-44"></a>
+</span><span id="__span-14-45"><a id="__codelineno-14-45" name="__codelineno-14-45" href="#__codelineno-14-45"></a><span class="k">if</span> <span class="n">game_id</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+</span><span id="__span-14-46"><a id="__codelineno-14-46" name="__codelineno-14-46" href="#__codelineno-14-46"></a>    <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"SELECT title FROM games WHERE id = </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="p">(</span><span class="n">game_id</span><span class="p">,))</span>
+</span><span id="__span-14-47"><a id="__codelineno-14-47" name="__codelineno-14-47" href="#__codelineno-14-47"></a>    <span class="n">row</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
+</span><span id="__span-14-48"><a id="__codelineno-14-48" name="__codelineno-14-48" href="#__codelineno-14-48"></a>
+</span><span id="__span-14-49"><a id="__codelineno-14-49" name="__codelineno-14-49" href="#__codelineno-14-49"></a>    <span class="c1"># TODO 1: το fetchone() δίνει None όταν δεν βρέθηκε γραμμή</span>
+</span><span id="__span-14-50"><a id="__codelineno-14-50" name="__codelineno-14-50" href="#__codelineno-14-50"></a>    <span class="k">if</span> <span class="n">row</span> <span class="ow">is</span> <span class="n">____</span><span class="p">:</span>
+</span><span id="__span-14-51"><a id="__codelineno-14-51" name="__codelineno-14-51" href="#__codelineno-14-51"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">"Δεν υπάρχει παιχνίδι με αυτό το id."</span><span class="p">)</span>
+</span><span id="__span-14-52"><a id="__codelineno-14-52" name="__codelineno-14-52" href="#__codelineno-14-52"></a>    <span class="k">else</span><span class="p">:</span>
+</span><span id="__span-14-53"><a id="__codelineno-14-53" name="__codelineno-14-53" href="#__codelineno-14-53"></a>        <span class="n">answer</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Να σβηστεί το «</span><span class="si">{</span><span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">»; (ναι/όχι): "</span><span class="p">)</span>
+</span><span id="__span-14-54"><a id="__codelineno-14-54" name="__codelineno-14-54" href="#__codelineno-14-54"></a>
+</span><span id="__span-14-55"><a id="__codelineno-14-55" name="__codelineno-14-55" href="#__codelineno-14-55"></a>        <span class="k">if</span> <span class="n">answer</span> <span class="o">==</span> <span class="s2">"ναι"</span><span class="p">:</span>
+</span><span id="__span-14-56"><a id="__codelineno-14-56" name="__codelineno-14-56" href="#__codelineno-14-56"></a>            <span class="c1"># TODO 2: η παράμετρος της DELETE είναι το id που έδωσε ο χρήστης (πλειάδα με μία τιμή)</span>
+</span><span id="__span-14-57"><a id="__codelineno-14-57" name="__codelineno-14-57" href="#__codelineno-14-57"></a>            <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"DELETE FROM games WHERE id = </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="p">(</span><span class="n">____</span><span class="p">,))</span>
+</span><span id="__span-14-58"><a id="__codelineno-14-58" name="__codelineno-14-58" href="#__codelineno-14-58"></a>
+</span><span id="__span-14-59"><a id="__codelineno-14-59" name="__codelineno-14-59" href="#__codelineno-14-59"></a>            <span class="k">if</span> <span class="n">cursor</span><span class="o">.</span><span class="n">rowcount</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+</span><span id="__span-14-60"><a id="__codelineno-14-60" name="__codelineno-14-60" href="#__codelineno-14-60"></a>                <span class="c1"># TODO 3: σβήστηκε ακριβώς μία γραμμή, όπως περιμέναμε: κάνε το μόνιμο</span>
+</span><span id="__span-14-61"><a id="__codelineno-14-61" name="__codelineno-14-61" href="#__codelineno-14-61"></a>                <span class="n">connection</span><span class="o">.</span><span class="n">____</span><span class="p">()</span>
+</span><span id="__span-14-62"><a id="__codelineno-14-62" name="__codelineno-14-62" href="#__codelineno-14-62"></a>                <span class="nb">print</span><span class="p">(</span><span class="s2">"Το παιχνίδι σβήστηκε."</span><span class="p">)</span>
+</span><span id="__span-14-63"><a id="__codelineno-14-63" name="__codelineno-14-63" href="#__codelineno-14-63"></a>            <span class="k">else</span><span class="p">:</span>
+</span><span id="__span-14-64"><a id="__codelineno-14-64" name="__codelineno-14-64" href="#__codelineno-14-64"></a>                <span class="c1"># TODO 4: κάτι δεν πήγε όπως περιμέναμε: ακύρωσε την αλλαγή</span>
+</span><span id="__span-14-65"><a id="__codelineno-14-65" name="__codelineno-14-65" href="#__codelineno-14-65"></a>                <span class="n">connection</span><span class="o">.</span><span class="n">____</span><span class="p">()</span>
+</span><span id="__span-14-66"><a id="__codelineno-14-66" name="__codelineno-14-66" href="#__codelineno-14-66"></a>                <span class="nb">print</span><span class="p">(</span><span class="s2">"Κάτι πήγε στραβά. Δεν άλλαξε τίποτα."</span><span class="p">)</span>
+</span><span id="__span-14-67"><a id="__codelineno-14-67" name="__codelineno-14-67" href="#__codelineno-14-67"></a>        <span class="k">else</span><span class="p">:</span>
+</span><span id="__span-14-68"><a id="__codelineno-14-68" name="__codelineno-14-68" href="#__codelineno-14-68"></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">"Ακυρώθηκε. Δεν σβήστηκε τίποτα."</span><span class="p">)</span>
+</span><span id="__span-14-69"><a id="__codelineno-14-69" name="__codelineno-14-69" href="#__codelineno-14-69"></a>
+</span><span id="__span-14-70"><a id="__codelineno-14-70" name="__codelineno-14-70" href="#__codelineno-14-70"></a><span class="n">show</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="s2">"Όλα τα παιχνίδια"</span><span class="p">,</span> <span class="n">LIST_SQL</span><span class="p">)</span>
+</span><span id="__span-14-71"><a id="__codelineno-14-71" name="__codelineno-14-71" href="#__codelineno-14-71"></a>
+</span><span id="__span-14-72"><a id="__codelineno-14-72" name="__codelineno-14-72" href="#__codelineno-14-72"></a><span class="n">cursor</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span><span id="__span-14-73"><a id="__codelineno-14-73" name="__codelineno-14-73" href="#__codelineno-14-73"></a><span class="n">connection</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span></code></pre></div>
+<p><strong>Συνέχισε στο Φύλλο εργασίας, Κύκλος 2.</strong></p>
+<hr />
+<h2 id="_5">Έλεγχος πριν ολοκληρώσεις<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<ul>
+<li>□ Τα Στάδια 1 και 3 έτρεξαν και το «rows affected» ταίριαζε με τις προβλέψεις σου.</li>
+<li>□ Έκανες <code>SELECT</code> με το ίδιο <code>WHERE</code> πριν από κάθε <code>UPDATE</code> και <code>DELETE</code>.</li>
+<li>□ Στο Στάδιο 4 είδες ότι η σύνδεση του προγράμματος και το phpMyAdmin έδειχναν <strong>διαφορετικά</strong> πράγματα πριν
+  το <code>rollback</code>.</li>
+<li>□ Ξέρεις τι κάνει το <code>rollback</code> και ποιο ήταν το αποτέλεσμα όταν το αφαίρεσες από το πρόγραμμα.</li>
+<li>□ Το Στάδιο 5 σβήνει μόνο όταν γράψεις ακριβώς «ναι».</li>
+<li>□ Όταν τελείωσες, σταμάτησες τον Apache και τη MySQL.</li>
+</ul>
+<h2 id="_6">Για να θυμάσαι<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<ul>
+<li><code>UPDATE πίνακας SET στήλη = τιμή [, στήλη = τιμή] WHERE συνθήκη;</code> Πολλές στήλες με <strong>κόμμα</strong>, όχι με <code>AND</code>.</li>
+<li><code>DELETE FROM πίνακας WHERE συνθήκη;</code> Σβήνει ολόκληρες γραμμές.</li>
+<li><strong>Χωρίς <code>WHERE</code>, επηρεάζονται όλες οι γραμμές.</strong> Πάντα <strong>πρώτα <code>SELECT</code></strong> με το ίδιο <code>WHERE</code>.</li>
+<li>Το «rows affected» και το «rows deleted» (στο phpMyAdmin) και το <code>cursor.rowcount</code> (στην Python) δίνουν πόσες
+  γραμμές <strong>άλλαξαν</strong> ή <strong>σβήστηκαν</strong>. Το <code>0</code> δεν είναι σφάλμα: δεν βρέθηκε γραμμή, ή (στην <code>UPDATE</code>) η τιμή ήταν
+  ήδη ίδια.</li>
+<li>Στις παραμέτρους, οι τιμές μπαίνουν <strong>με τη σειρά των <code>%s</code></strong>. Ο κανόνας του Μαθήματος 5 ισχύει πάντα.</li>
+<li><code>connection.commit()</code> κάνει τις αλλαγές μόνιμες. <code>connection.rollback()</code> τις ακυρώνει.</li>
+<li>Μέχρι το <code>commit</code>, μόνο η δική σου σύνδεση βλέπει τις αλλαγές σου, και οι γραμμές είναι κλειδωμένες για τους
+  άλλους.</li>
+<li>Πριν σβήσεις από πρόγραμμα: <strong>δείξε</strong> τι θα σβηστεί, <strong>ρώτα</strong>, <strong>έλεγξε το <code>rowcount</code></strong>.</li>
+<li>Τα <code>id</code> που σβήστηκαν δεν ξαναχρησιμοποιούνται.</li>
+</ul>
+<h2 id="_7">Λεξιλόγιο<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<p><strong><code>UPDATE</code></strong>, <strong><code>SET</code></strong>, <strong><code>DELETE</code></strong>, <strong><code>WHERE</code></strong>, <strong>rows affected</strong>, <strong><code>rowcount</code></strong>, <strong><code>rollback</code></strong>,
+<strong><code>commit</code></strong>, <strong>συναλλαγή</strong> (transaction), <strong>κλείδωμα</strong> (lock), <strong><code>fetchone</code></strong>, <strong><code>None</code></strong>, <strong>επιβεβαίωση</strong>.</p>
+<h2 id="_8">Δική σου εκδοχή<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
+<p>Αν τελειώσεις νωρίτερα, δούλεψε <strong>με μία αλλαγή τη φορά</strong> και δοκίμαζε μετά από κάθε αλλαγή:</p>
+<ul>
+<li>Στο <code>03-update-price.py</code> κάνε <code>SELECT</code> πριν από την <code>UPDATE</code> και πρόσθεσε μήνυμα που ξεχωρίζει τις δύο
+  περιπτώσεις του <code>rowcount == 0</code> («δεν υπάρχει τέτοιο id» και «η τιμή ήταν ήδη αυτή»).</li>
+<li>Στο <code>08-discount.py</code> (άσκηση «Γράψε εσύ» του Κύκλου 2) μην ρωτάς για επιβεβαίωση αν η <code>rowcount</code> είναι <code>0</code>.</li>
+<li>Στο <code>06-final.py</code> πρόσθεσε στο τέλος μια γραμμή που δείχνει <strong>πόσα παιχνίδια έμειναν</strong>.</li>
+<li><strong>Πρόκληση 1:</strong> η <code>DELETE FROM games WHERE id = 18 OR 1;</code> σβήνει όλον τον πίνακα. Στείλ' την από την Python
+  <strong>χωρίς <code>commit</code></strong>, εμφάνισε το <code>rowcount</code> και κάνε <code>rollback</code>. Πρόβλεψε πρώτα το <code>rowcount</code>.</li>
+<li><strong>Πρόκληση 2:</strong> το «Ναι» με κεφαλαίο «Ν» δεν σβήνει στο <code>06-final.py</code>. Άλλαξε τον έλεγχο ώστε να δέχεται και
+  «Ναι» και «ΝΑΙ» (υπόδειξη: η μέθοδος <code>lower()</code> των κειμένων). Μετά σκέψου: γιατί είναι ασφαλέστερο να ακυρώνει
+  ό,τι δεν είναι «ναι» παρά να σβήνει ό,τι δεν είναι «όχι»;</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Επιστροφή στην αρχή
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Υποσέλιδο" >
+        
+          
+          <a href="../../05-insert-python/worksheet-05/" class="md-footer__link md-footer__link--prev" aria-label="Προηγούμενο: Φύλλο εργασίας">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Προηγούμενο
+              </span>
+              <div class="md-ellipsis">
+                Φύλλο εργασίας
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../worksheet-06/" class="md-footer__link md-footer__link--next" aria-label="Επόμενο: Φύλλο εργασίας">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Επόμενο
+              </span>
+              <div class="md-ellipsis">
+                Φύλλο εργασίας
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2026 Θόδωρος Θεμελής — <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.el"
+   target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>
+
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.top", "navigation.footer", "content.code.copy", "content.code.annotate", "toc.follow", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "\u0391\u03bd\u03c4\u03b9\u03b3\u03c1\u03ac\u03c6\u03b7\u03ba\u03b5 \u03c3\u03c4\u03bf \u03c0\u03c1\u03cc\u03c7\u03b5\u03b9\u03c1\u03bf", "clipboard.copy": "\u0391\u03bd\u03c4\u03b9\u03b3\u03c1\u03b1\u03c6\u03ae \u03c3\u03c4\u03bf \u03c0\u03c1\u03cc\u03c7\u03b5\u03b9\u03c1\u03bf", "search.result.more.one": "1 \u03b1\u03ba\u03cc\u03bc\u03b1 \u03c3\u03b5 \u03b1\u03c5\u03c4\u03ae\u03bd \u03c4\u03b7 \u03c3\u03b5\u03bb\u03af\u03b4\u03b1", "search.result.more.other": "# \u03b1\u03ba\u03cc\u03bc\u03b1 \u03c3\u03b5 \u03b1\u03c5\u03c4\u03ae\u03bd \u03c4\u03b7 \u03c3\u03b5\u03bb\u03af\u03b4\u03b1", "search.result.none": "\u03b4\u03b5\u03bd \u03b2\u03c1\u03ae\u03ba\u03b5 \u03ba\u03ac\u03c0\u03bf\u03b9\u03bf \u03ad\u03b3\u03b3\u03c1\u03b1\u03c6\u03bf", "search.result.one": "1 \u03ad\u03b3\u03b3\u03c1\u03b1\u03c6\u03bf \u03c0\u03bf\u03c5 \u03c4\u03b1\u03b9\u03c1\u03b9\u03ac\u03b6\u03b5\u03b9", "search.result.other": "# \u03ad\u03b3\u03b3\u03c1\u03b1\u03c6\u03b1 \u03c0\u03bf\u03c5 \u03c4\u03b1\u03b9\u03c1\u03b9\u03ac\u03b6\u03bf\u03c5\u03bd", "search.result.placeholder": "\u03a0\u03bb\u03b7\u03ba\u03c4\u03c1\u03bf\u03bb\u03bf\u03b3\u03ae\u03c3\u03c4\u03b5 \u03b3\u03b9\u03b1 \u03bd\u03b1 \u03b1\u03c1\u03c7\u03af\u03c3\u03b5\u03b9 \u03b7 \u03b1\u03bd\u03b1\u03b6\u03ae\u03c4\u03b7\u03c3\u03b7", "search.result.term.missing": "\u039b\u03b5\u03af\u03c0\u03b5\u03b9", "select.version": "\u0395\u03c0\u03b9\u03bb\u03bf\u03b3\u03ae \u03ad\u03ba\u03b4\u03bf\u03c3\u03b7\u03c2"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+    
+  </body>
+</html>
