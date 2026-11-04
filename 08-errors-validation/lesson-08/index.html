@@ -1,0 +1,2841 @@
+
+<!doctype html>
+<html lang="el" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Εργαστηριακό υλικό μαθήματος — ΕΠΑΛ">
+      
+      
+        <meta name="author" content="Θόδωρος Θεμελής">
+      
+      
+        <link rel="canonical" href="https://ththemelis.github.io/python-mysql-site/08-errors-validation/lesson-08/">
+      
+      
+        <link rel="prev" href="../../07-menu-app/worksheet-07/">
+      
+      
+        <link rel="next" href="../worksheet-08/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>Μάθημα - Βάσεις δεδομένων με Python και MySQL</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/course.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#8" class="md-skip">
+          Μετάβαση στο περιεχόμενο
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Κεφαλίδα">
+    <a href="../.." title="Βάσεις δεδομένων με Python και MySQL" class="md-header__button md-logo" aria-label="Βάσεις δεδομένων με Python και MySQL" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Βάσεις δεδομένων με Python και MySQL
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Μάθημα
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Σκοτεινό θέμα"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Σκοτεινό θέμα" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Φωτεινό θέμα"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Φωτεινό θέμα" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Αναζήτηση" placeholder="Αναζήτηση" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Αναζήτηση">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Καθαρισμός" aria-label="Καθαρισμός" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Αρχικοποίηση αναζήτησης
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Πλοήγηση" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Βάσεις δεδομένων με Python και MySQL" class="md-nav__button md-logo" aria-label="Βάσεις δεδομένων με Python και MySQL" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Βάσεις δεδομένων με Python και MySQL
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Αρχική
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Εγκατάσταση και ρύθμιση
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 1 — Η πρώτη μου βάση δεδομένων
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 1 — Η πρώτη μου βάση δεδομένων
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01-first-database/lesson-01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01-first-database/worksheet-01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 2 — Η γλώσσα SQL: CREATE, INSERT, SELECT
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 2 — Η γλώσσα SQL: CREATE, INSERT, SELECT
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02-sql-basics/lesson-02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02-sql-basics/worksheet-02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 3 — Η Python συνδέεται με τη βάση
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 3 — Η Python συνδέεται με τη βάση
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03-python-connects/lesson-03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03-python-connects/worksheet-03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 4 — Φιλτράρω και ταξινομώ
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 4 — Φιλτράρω και ταξινομώ
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04-filter-sort/lesson-04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04-filter-sort/worksheet-04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 5 — Προσθέτω δεδομένα από την Python
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 5 — Προσθέτω δεδομένα από την Python
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05-insert-python/lesson-05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05-insert-python/worksheet-05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 6 — Αλλάζω και σβήνω
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 6 — Αλλάζω και σβήνω
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06-update-delete/lesson-06/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06-update-delete/worksheet-06/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 7 — Εφαρμογή με μενού
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 7 — Εφαρμογή με μενού
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07-menu-app/lesson-07/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07-menu-app/worksheet-07/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 8 — Σφάλματα και έλεγχος εισόδου
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 8 — Σφάλματα και έλεγχος εισόδου
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Πίνακας περιεχομένων">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Πίνακας περιεχομένων
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Αρχεία εργαστηρίου
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Η αποστολή
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στο τέλος θα μπορείς
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Πριν αρχίσεις
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Κύκλος 1 — Το πρόγραμμα ελέγχει την είσοδο
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Κύκλος 1 — Το πρόγραμμα ελέγχει την είσοδο">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-tryexcept" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Οι εξαιρέσεις και το try/except
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Ποιο σφάλμα πιάνω;
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-tryexcept" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 1 — Τα πρώτα try/except
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 Ρωτάω ώσπου να πάρω σωστή τιμή
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 2 — Οι συναρτήσεις ρωτήματος
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-traceback" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4 Η εφαρμογή χωρίς traceback
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 3 — Η εφαρμογή με έλεγχο εισόδου
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Κύκλος 2 — Η βάση προστατεύει τα δεδομένα
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Κύκλος 2 — Η βάση προστατεύει τα δεδομένα">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Γιατί δεν αρκεί το πρόγραμμα
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Οι περιορισμοί
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-null" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Το NULL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-check" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 CHECK: κανόνες για τις τιμές
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-phpmyadmin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 4 — Οι περιορισμοί στο phpMyAdmin
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5 Τα σφάλματα της βάσης στην Python
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#26" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.6 Οι δύο γραμμές άμυνας μαζί
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 5 — Η εφαρμογή πιάνει τα σφάλματα της βάσης
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Έλεγχος πριν ολοκληρώσεις
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Για να θυμάσαι
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Λεξιλόγιο
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Δική σου εκδοχή
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../worksheet-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 9 — Ημερομηνίες και ώρες
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 9 — Ημερομηνίες και ώρες
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../09-dates/lesson-09/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../09-dates/worksheet-09/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Πίνακας περιεχομένων">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Πίνακας περιεχομένων
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Αρχεία εργαστηρίου
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Η αποστολή
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στο τέλος θα μπορείς
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Πριν αρχίσεις
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Κύκλος 1 — Το πρόγραμμα ελέγχει την είσοδο
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Κύκλος 1 — Το πρόγραμμα ελέγχει την είσοδο">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-tryexcept" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Οι εξαιρέσεις και το try/except
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Ποιο σφάλμα πιάνω;
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-tryexcept" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 1 — Τα πρώτα try/except
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 Ρωτάω ώσπου να πάρω σωστή τιμή
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 2 — Οι συναρτήσεις ρωτήματος
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-traceback" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4 Η εφαρμογή χωρίς traceback
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 3 — Η εφαρμογή με έλεγχο εισόδου
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Κύκλος 2 — Η βάση προστατεύει τα δεδομένα
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Κύκλος 2 — Η βάση προστατεύει τα δεδομένα">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Γιατί δεν αρκεί το πρόγραμμα
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Οι περιορισμοί
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-null" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Το NULL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-check" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 CHECK: κανόνες για τις τιμές
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-phpmyadmin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 4 — Οι περιορισμοί στο phpMyAdmin
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5 Τα σφάλματα της βάσης στην Python
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#26" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.6 Οι δύο γραμμές άμυνας μαζί
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 5 — Η εφαρμογή πιάνει τα σφάλματα της βάσης
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Έλεγχος πριν ολοκληρώσεις
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Για να θυμάσαι
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Λεξιλόγιο
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Δική σου εκδοχή
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="8">Μάθημα 8: Σφάλματα και έλεγχος εισόδου<a class="headerlink" href="#8" title="Permanent link">&para;</a></h1>
+<p><strong>Python και MySQL:</strong> η εφαρμογή δεν σταματά όταν ο χρήστης κάνει λάθος, και η βάση προστατεύει τα δεδομένα της με περιορισμούς<br />
+<strong>Διάρκεια:</strong> 2 κύκλοι × περίπου 45′ εργασία (2 διδακτικές ώρες)</p>
+<div class="admonition info">
+<p class="admonition-title">Φύλλο εργασίας</p>
+<p>Αυτή η σελίδα εξηγεί τις έννοιες. Οι ασκήσεις και οι οδηγίες για κάθε κύκλο βρίσκονται στο
+<a href="../worksheet-08/">Φύλλο εργασίας 8</a>. Δούλεψε με τις δύο σελίδες ανοιχτές.</p>
+</div>
+<h2 id="_1">Αρχεία εργαστηρίου<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Αρχείο</th>
+<th>Κύκλος</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../code/starter/01-start-state.sql">01-start-state.sql</a></td>
+<td>πριν αρχίσεις</td>
+</tr>
+<tr>
+<td><a href="../code/starter/02-exceptions.py">02-exceptions.py</a></td>
+<td>1</td>
+</tr>
+<tr>
+<td><a href="../code/starter/03-ask.py">03-ask.py</a></td>
+<td>1</td>
+</tr>
+<tr>
+<td><a href="../code/starter/04-app.py">04-app.py</a></td>
+<td>1</td>
+</tr>
+<tr>
+<td><a href="../code/starter/05-constraints.sql">05-constraints.sql</a></td>
+<td>2</td>
+</tr>
+<tr>
+<td><a href="../code/starter/06-final.py">06-final.py</a></td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_2">Η αποστολή<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>Η εφαρμογή του Μαθήματος 7 δουλεύει, αλλά σταματά με traceback αν στη χρονιά γράψεις <code>abc</code>. Ένας χρήστης θα
+κάνει λάθος: από βιασύνη, από άγνοια, ή επίτηδες. Ένα καλό πρόγραμμα <strong>το περιμένει</strong> και απαντά ευγενικά.</p>
+<p>Σήμερα χτίζεις <strong>δύο γραμμές άμυνας</strong>:</p>
+<ol>
+<li>Το <strong>πρόγραμμά σου</strong> ελέγχει ό,τι πληκτρολογεί ο χρήστης και ξαναρωτά, με <code>try</code>/<code>except</code>.</li>
+<li>Η <strong>βάση</strong> δεν δέχεται δεδομένα που παραβιάζουν τους κανόνες της (<code>UNIQUE</code>, <code>NOT NULL</code>, <code>CHECK</code>), ό,τι κι αν της
+   στείλει ένα πρόγραμμα, το phpMyAdmin ή ένα πρόγραμμα με λάθος.</li>
+</ol>
+<p>Θυμάσαι ότι το XAMPP δέχεται το <code>abc</code> στη χρονιά και το αποθηκεύει ως <code>0</code> (Μάθημα 5); Σήμερα το κλείνουμε και από τις
+δύο μεριές.</p>
+<h2 id="_3">Στο τέλος θα μπορείς<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<ul>
+<li>να πιάνεις ένα σφάλμα με <code>try</code>/<code>except</code> και να ξέρεις <strong>ποιο</strong> είδος σφάλματος πιάνεις (<code>ValueError</code>,
+  <code>InvalidOperation</code>, <code>ZeroDivisionError</code>).</li>
+<li>να γράφεις συναρτήσεις που <strong>ρωτούν ώσπου να πάρουν έγκυρη τιμή</strong>, με έλεγχο τύπου και εύρους.</li>
+<li>να εξηγείς γιατί δεν γράφουμε ποτέ <code>except:</code> χωρίς όνομα σφάλματος.</li>
+<li>να βάζεις στη βάση περιορισμούς <code>UNIQUE</code>, <code>DEFAULT</code>, <code>NOT NULL</code> και <code>CHECK</code> με <code>ALTER TABLE</code>.</li>
+<li>να εξηγείς τι είναι το <code>NULL</code>, να το ελέγχεις με <code>IS NULL</code>, και να ξέρεις ότι στην Python είναι το <code>None</code>.</li>
+<li>να πιάνεις τα σφάλματα της βάσης (<code>mysql.connector.Error</code>, <code>IntegrityError</code>) και να διαβάζεις το <code>errno</code> και το
+  <code>msg</code>.</li>
+<li>να εξηγείς γιατί χρειάζονται και οι δύο γραμμές άμυνας.</li>
+</ul>
+<h2 id="_4">Πριν αρχίσεις<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Ξεκίνα τη <strong>MySQL</strong> και τον <strong>Apache</strong> από το XAMPP Control Panel.</li>
+<li>Φτιάξε έναν φάκελο <code>08-errors-validation</code> μέσα στον φάκελο των μαθημάτων και κατέβασε εκεί τα έξι αρχεία του
+   πίνακα. Κράτησε ακριβώς τα ονόματα. Άνοιξε τον φάκελο στο VS Code και άνοιξε τερματικό.</li>
+<li>Φέρε τη βάση στην κατάσταση εκκίνησης: στο phpMyAdmin επίλεξε τη βάση <code>game_library</code>, άνοιξε την καρτέλα
+   <strong>Import</strong>, διάλεξε το <code>01-start-state.sql</code> και πάτα <strong>Import</strong>.</li>
+<li>Έλεγξε στην καρτέλα <strong>Browse</strong> ότι ο <code>games</code> έχει <strong>14</strong> γραμμές και ο <code>platforms</code> <strong>5</strong>.</li>
+</ol>
+<div class="admonition warning">
+<p class="admonition-title">Το αρχείο εκκίνησης σβήνει τα δεδομένα σου</p>
+<p>Το <code>01-start-state.sql</code> <strong>σβήνει</strong> τους πίνακες <code>games</code>, <code>platforms</code> και <code>players</code> και τους φτιάχνει από την
+αρχή, με τα δεδομένα στα οποία τελειώνει το Μάθημα 7. Έτσι ξεκινάμε όλοι από τα ίδια δεδομένα. Αν σήμερα
+χαλάσεις τα δεδομένα ή τους περιορισμούς, τρέξε το ξανά.</p>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Ο κύκλος εργασίας</p>
+<p><strong>Πρόβλεψη → εκτέλεση → σύγκριση → εξήγηση.</strong> Σήμερα πρόβλεψε <strong>ποια γραμμή του προγράμματος θα εκτελεστεί</strong>,
+και <strong>ποιος θα πιάσει το λάθος</strong>: το πρόγραμμα ή η βάση.</p>
+</div>
+<hr />
+<h2 id="1">Κύκλος 1 — Το πρόγραμμα ελέγχει την είσοδο<a class="headerlink" href="#1" title="Permanent link">&para;</a></h2>
+<p>Σε αυτόν τον κύκλο μαθαίνεις να πιάνεις σφάλματα, γράφεις συναρτήσεις που ρωτούν μέχρι να πάρουν σωστή τιμή, και τις
+βάζεις στην εφαρμογή.</p>
+<h3 id="11-tryexcept">1.1 Οι εξαιρέσεις και το <code>try</code>/<code>except</code><a class="headerlink" href="#11-tryexcept" title="Permanent link">&para;</a></h3>
+<p>Όταν η <code>int("abc")</code> αποτυγχάνει, η Python <strong>ρίχνει μια εξαιρέση</strong> (exception): δείχνει το traceback και <strong>σταματά
+το πρόγραμμα</strong>. Αν όμως <em>προβλέψεις</em> το λάθος, μπορείς να το <strong>πιάσεις</strong>:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">try</span><span class="p">:</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">year</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Η χρονιά είναι </span><span class="si">{</span><span class="n">year</span><span class="si">}</span><span class="s2">."</span><span class="p">)</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Το «</span><span class="si">{</span><span class="n">text</span><span class="si">}</span><span class="s2">» δεν είναι ακέραιος αριθμός."</span><span class="p">)</span>
+</span></code></pre></div>
+<p>Πώς δουλεύει:</p>
+<ul>
+<li>Η Python εκτελεί τις γραμμές του <code>try</code> <strong>μία-μία</strong>.</li>
+<li>Αν <strong>δεν</strong> συμβεί σφάλμα, το <code>except</code> <strong>προσπερνιέται</strong>.</li>
+<li>Αν συμβεί σφάλμα του είδους που γράφεις στο <code>except</code>, η Python <strong>πηδά αμέσως</strong> στο <code>except</code>. Οι γραμμές του <code>try</code>
+  που έμεναν <strong>δεν εκτελούνται</strong>. Μετά το πρόγραμμα <strong>συνεχίζει κανονικά</strong> κάτω από το <code>try</code>/<code>except</code>.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Τι έγινε μέσα στο <code>try</code></th>
+<th>Τι εκτελείται</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>όλα πήγαν καλά</td>
+<td>όλο το <code>try</code>, μετά ό,τι ακολουθεί (το <code>except</code> όχι)</td>
+</tr>
+<tr>
+<td>σφάλμα που ταιριάζει με το <code>except</code></td>
+<td>το <code>try</code> μέχρι τη γραμμή του σφάλματος, μετά το <code>except</code>, μετά ό,τι ακολουθεί</td>
+</tr>
+<tr>
+<td>σφάλμα που <strong>δεν</strong> ταιριάζει</td>
+<td>το πρόγραμμα σταματά με traceback, όπως πριν</td>
+</tr>
+</tbody>
+</table>
+<h3 id="12">1.2 Ποιο σφάλμα πιάνω;<a class="headerlink" href="#12" title="Permanent link">&para;</a></h3>
+<p>Κάθε σφάλμα έχει <strong>όνομα</strong>. Το βλέπεις στην <strong>τελευταία γραμμή</strong> του traceback. Το <code>except</code> πρέπει να γράφει το
+σωστό όνομα, αλλιώς δεν πιάνει τίποτα:</p>
+<table>
+<thead>
+<tr>
+<th>Κώδικας</th>
+<th>Σφάλμα</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>int("abc")</code></td>
+<td><code>ValueError</code></td>
+</tr>
+<tr>
+<td><code>Decimal("abc")</code></td>
+<td><code>decimal.InvalidOperation</code> (<strong>όχι</strong> <code>ValueError</code>)</td>
+</tr>
+<tr>
+<td><code>10 / 0</code></td>
+<td><code>ZeroDivisionError</code></td>
+</tr>
+</tbody>
+</table>
+<p>Η <code>Decimal</code> έχει δικό της σφάλμα. Γι' αυτό, για να πιάσεις την <code>Decimal</code>, χρειάζεσαι
+<code>from decimal import Decimal, InvalidOperation</code>.</p>
+<p>Αν μια εντολή μπορεί να δώσει <strong>διαφορετικά</strong> σφάλματα, γράφεις <strong>περισσότερα <code>except</code></strong>:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">try</span><span class="p">:</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    <span class="nb">print</span><span class="p">(</span><span class="mi">10</span> <span class="o">/</span> <span class="nb">int</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">"Δεν είναι ακέραιος αριθμός."</span><span class="p">)</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="k">except</span> <span class="ne">ZeroDivisionError</span><span class="p">:</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">"Δεν διαιρούμε με το μηδέν."</span><span class="p">)</span>
+</span></code></pre></div>
+<div class="admonition danger">
+<p class="admonition-title">Ποτέ <code>except:</code> χωρίς όνομα</p>
+<p>Το <code>except:</code> χωρίς όνομα πιάνει <strong>κάθε</strong> σφάλμα, ακόμη και τα <strong>δικά σου λάθη στον κώδικα</strong> (π.χ. μια λάθος γραμμένη
+μεταβλητή). Το πρόγραμμα θα έγραφε «Δεν είναι αριθμός» για ένα λάθος <strong>δικό σου</strong>, και δεν θα το έβρισκες ποτέ.
+Πιάνεις <strong>μόνο</strong> το σφάλμα που περιμένεις.</p>
+</div>
+<h3 id="1-tryexcept">Στάδιο 1 — Τα πρώτα <code>try</code>/<code>except</code><a class="headerlink" href="#1-tryexcept" title="Permanent link">&para;</a></h3>
+<p>Άνοιξε το <code>02-exceptions.py</code>. Συμπλήρωσε τα τρία κενά (<code>____</code>) και τρέξε το πολλές φορές, με σωστές και με λάθος
+τιμές. Πρόβλεψε πρώτα τι θα γίνει. Δεν πρέπει να δεις ποτέ traceback.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="sd">"""Στάδιο 1 — try/except: πιάνω το σφάλμα αντί να σταματά το πρόγραμμα.</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="sd">Τρία μικρά πειράματα. Τρέξε το πρόγραμμα πολλές φορές, με σωστές και με λάθος τιμές (π.χ. «abc», «3,49»,</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="sd">ένα κενό Enter, «0» στο τρίτο), και δες ότι δεν εμφανίζεται ποτέ traceback.</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="sd">Συμπλήρωσε τα τρία κενά (____).</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="sd">"""</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="kn">from</span><span class="w"> </span><span class="nn">decimal</span><span class="w"> </span><span class="kn">import</span> <span class="n">Decimal</span><span class="p">,</span> <span class="n">InvalidOperation</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="c1"># --- Πείραμα 1: ακέραιος αριθμός -------------------------------------------------------------------------</span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="n">text</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Χρονιά: "</span><span class="p">)</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="k">try</span><span class="p">:</span>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>    <span class="n">year</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Η χρονιά είναι </span><span class="si">{</span><span class="n">year</span><span class="si">}</span><span class="s2">."</span><span class="p">)</span>
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="c1"># TODO 1: η int() δίνει ValueError όταν το κείμενο δεν είναι ακέραιος αριθμός</span>
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="k">except</span> <span class="n">____</span><span class="p">:</span>
+</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Το «</span><span class="si">{</span><span class="n">text</span><span class="si">}</span><span class="s2">» δεν είναι ακέραιος αριθμός."</span><span class="p">)</span>
+</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a>
+</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="c1"># --- Πείραμα 2: τιμή με Decimal ---------------------------------------------------------------------------</span>
+</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="n">text</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Τιμή: "</span><span class="p">)</span>
+</span><span id="__span-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="k">try</span><span class="p">:</span>
+</span><span id="__span-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a>    <span class="n">price</span> <span class="o">=</span> <span class="n">Decimal</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+</span><span id="__span-2-25"><a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Η τιμή είναι </span><span class="si">{</span><span class="n">price</span><span class="si">}</span><span class="s2"> €."</span><span class="p">)</span>
+</span><span id="__span-2-26"><a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a><span class="c1"># TODO 2: η Decimal() δίνει InvalidOperation (ΟΧΙ ValueError) όταν το κείμενο δεν είναι αριθμός</span>
+</span><span id="__span-2-27"><a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a><span class="k">except</span> <span class="n">____</span><span class="p">:</span>
+</span><span id="__span-2-28"><a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Το «</span><span class="si">{</span><span class="n">text</span><span class="si">}</span><span class="s2">» δεν είναι αριθμός."</span><span class="p">)</span>
+</span><span id="__span-2-29"><a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a>
+</span><span id="__span-2-30"><a id="__codelineno-2-30" name="__codelineno-2-30" href="#__codelineno-2-30"></a><span class="c1"># --- Πείραμα 3: δύο διαφορετικά σφάλματα, δύο except ---------------------------------------------------------</span>
+</span><span id="__span-2-31"><a id="__codelineno-2-31" name="__codelineno-2-31" href="#__codelineno-2-31"></a><span class="n">text</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Διαιρώ το 10 με έναν ακέραιο: "</span><span class="p">)</span>
+</span><span id="__span-2-32"><a id="__codelineno-2-32" name="__codelineno-2-32" href="#__codelineno-2-32"></a><span class="k">try</span><span class="p">:</span>
+</span><span id="__span-2-33"><a id="__codelineno-2-33" name="__codelineno-2-33" href="#__codelineno-2-33"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"10 / </span><span class="si">{</span><span class="n">text</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="mi">10</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nb">int</span><span class="p">(</span><span class="n">text</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span><span id="__span-2-34"><a id="__codelineno-2-34" name="__codelineno-2-34" href="#__codelineno-2-34"></a><span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+</span><span id="__span-2-35"><a id="__codelineno-2-35" name="__codelineno-2-35" href="#__codelineno-2-35"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">"Δεν είναι ακέραιος αριθμός."</span><span class="p">)</span>
+</span><span id="__span-2-36"><a id="__codelineno-2-36" name="__codelineno-2-36" href="#__codelineno-2-36"></a><span class="c1"># TODO 3: η διαίρεση με το μηδέν δίνει ZeroDivisionError</span>
+</span><span id="__span-2-37"><a id="__codelineno-2-37" name="__codelineno-2-37" href="#__codelineno-2-37"></a><span class="k">except</span> <span class="n">____</span><span class="p">:</span>
+</span><span id="__span-2-38"><a id="__codelineno-2-38" name="__codelineno-2-38" href="#__codelineno-2-38"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">"Δεν διαιρούμε με το μηδέν."</span><span class="p">)</span>
+</span><span id="__span-2-39"><a id="__codelineno-2-39" name="__codelineno-2-39" href="#__codelineno-2-39"></a>
+</span><span id="__span-2-40"><a id="__codelineno-2-40" name="__codelineno-2-40" href="#__codelineno-2-40"></a><span class="nb">print</span><span class="p">(</span><span class="s2">"Το πρόγραμμα έφτασε μέχρι το τέλος."</span><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="13">1.3 Ρωτάω ώσπου να πάρω σωστή τιμή<a class="headerlink" href="#13" title="Permanent link">&para;</a></h3>
+<p>Σε μια εφαρμογή δεν αρκεί να πιάσεις το σφάλμα: πρέπει να <strong>ξαναρωτήσεις</strong>. Το μοτίβο είναι ένας βρόχος
+<code>while True</code> (από το Μάθημα 7) με <code>try</code> μέσα, και ένα <code>return</code> όταν η τιμή είναι σωστή:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">ask_int</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">low</span><span class="p">,</span> <span class="n">high</span><span class="p">):</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="sd">"""Ρωτά ώσπου ο χρήστης να γράψει ακέραιο από low έως high, και τον επιστρέφει."""</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>        <span class="n">text</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>        <span class="k">try</span><span class="p">:</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>            <span class="n">number</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>            <span class="k">if</span> <span class="n">low</span> <span class="o">&lt;=</span> <span class="n">number</span> <span class="o">&lt;=</span> <span class="n">high</span><span class="p">:</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>                <span class="k">return</span> <span class="n">number</span>                       <span class="c1"># σωστή τιμή: φεύγει από τη συνάρτηση</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Ο αριθμός πρέπει να είναι από </span><span class="si">{</span><span class="n">low</span><span class="si">}</span><span class="s2"> έως </span><span class="si">{</span><span class="n">high</span><span class="si">}</span><span class="s2">."</span><span class="p">)</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">"Γράψε έναν ακέραιο αριθμό."</span><span class="p">)</span>      <span class="c1"># λάθος τύπος: ξαναρωτά</span>
+</span></code></pre></div>
+<p>Η συνάρτηση ελέγχει <strong>δύο διαφορετικά πράγματα</strong>:</p>
+<ul>
+<li>τον <strong>τύπο</strong>: είναι ακέραιος αριθμός; (το πιάνει το <code>except ValueError</code>)</li>
+<li>το <strong>εύρος</strong>: είναι λογικός; (το πιάνει το <code>if</code>)</li>
+</ul>
+<p>Το <code>return</code> μέσα στον βρόχο <strong>βγάζει</strong> και από τον βρόχο και από τη συνάρτηση, και δίνει την τιμή στον καλούντα.
+Ο χρήστης δεν βγαίνει ποτέ από το ερώτημα με λάθος τιμή.</p>
+<p>Όμοια δουλεύουν και οι άλλες δύο συναρτήσεις του μαθήματος:</p>
+<table>
+<thead>
+<tr>
+<th>Συνάρτηση</th>
+<th>Τι ελέγχει</th>
+<th>Λεπτομέρεια</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ask_text(message)</code></td>
+<td>το κείμενο δεν είναι κενό</td>
+<td><code>.strip()</code> αφαιρεί τα κενά στις άκρες</td>
+</tr>
+<tr>
+<td><code>ask_int(message, low, high)</code></td>
+<td>ακέραιος αριθμός μέσα σε όρια</td>
+<td><code>except ValueError</code></td>
+</tr>
+<tr>
+<td><code>ask_price(message)</code></td>
+<td>τιμή από <code>0.01</code> έως <code>999.99</code></td>
+<td><code>except InvalidOperation</code>· δέχεται και κόμμα (<code>3,49</code>) με <code>.replace(",", ".")</code></td>
+</tr>
+</tbody>
+</table>
+<p>Στην <code>ask_price</code>, η σύγκριση με τα όρια γράφεται <strong>μέσα</strong> στο <code>try</code>. Ο λόγος: η <code>Decimal</code> δέχεται και το κείμενο
+<code>nan</code> («όχι αριθμός»), και η σύγκρισή του με άλλον αριθμό ρίχνει κι αυτή <code>InvalidOperation</code>. Μέσα στο <code>try</code>, την πιάνει
+το ίδιο <code>except</code>.</p>
+<h3 id="2">Στάδιο 2 — Οι συναρτήσεις ρωτήματος<a class="headerlink" href="#2" title="Permanent link">&para;</a></h3>
+<p>Άνοιξε το <code>03-ask.py</code>. Συμπλήρωσε τα τέσσερα κενά και τρέξε το. Δοκίμασε τις συναρτήσεις με τιμές που <strong>δεν</strong>
+κάνουν: κενό, <code>abc</code>, <code>3.5</code> στη χρονιά, <code>1800</code>, <code>0</code>, <code>1234.5</code>, <code>nan</code>. Δοκίμασε και το <code>3,49</code> στην τιμή.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="sd">"""Στάδιο 2 — Συναρτήσεις που ρωτούν ώσπου να πάρουν σωστή τιμή.</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="sd">Οι ask_text, ask_int και ask_price ξαναρωτούν μέχρι ο χρήστης να γράψει έγκυρη τιμή, και τότε την επιστρέφουν.</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="sd">Στο τέλος του αρχείου υπάρχει ένα μικρό πρόγραμμα που τις δοκιμάζει.</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="sd">Συμπλήρωσε τα τέσσερα κενά (____).</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="sd">"""</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="kn">from</span><span class="w"> </span><span class="nn">decimal</span><span class="w"> </span><span class="kn">import</span> <span class="n">Decimal</span><span class="p">,</span> <span class="n">InvalidOperation</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="k">def</span><span class="w"> </span><span class="nf">ask_text</span><span class="p">(</span><span class="n">message</span><span class="p">):</span>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">    </span><span class="sd">"""Ρωτά ώσπου ο χρήστης να γράψει κάτι (όχι κενό) και επιστρέφει το κείμενο, χωρίς κενά στις άκρες."""</span>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>        <span class="n">text</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="n">message</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>        <span class="k">if</span> <span class="n">text</span> <span class="o">!=</span> <span class="s2">""</span><span class="p">:</span>
+</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>            <span class="k">return</span> <span class="n">text</span>
+</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">"Το πεδίο δεν μπορεί να μένει κενό."</span><span class="p">)</span>
+</span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a>
+</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>
+</span><span id="__span-4-21"><a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a><span class="k">def</span><span class="w"> </span><span class="nf">ask_int</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">low</span><span class="p">,</span> <span class="n">high</span><span class="p">):</span>
+</span><span id="__span-4-22"><a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a><span class="w">    </span><span class="sd">"""Ρωτά ώσπου ο χρήστης να γράψει ακέραιο από low έως high, και τον επιστρέφει."""</span>
+</span><span id="__span-4-23"><a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a>    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+</span><span id="__span-4-24"><a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a>        <span class="n">text</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+</span><span id="__span-4-25"><a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a>        <span class="k">try</span><span class="p">:</span>
+</span><span id="__span-4-26"><a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a>            <span class="n">number</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+</span><span id="__span-4-27"><a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a>            <span class="c1"># TODO 1: ο αριθμός πρέπει να είναι ανάμεσα στο low και στο high (και τα δύο επιτρέπονται)</span>
+</span><span id="__span-4-28"><a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a>            <span class="k">if</span> <span class="n">low</span> <span class="o">&lt;=</span> <span class="n">number</span> <span class="n">____</span> <span class="n">high</span><span class="p">:</span>
+</span><span id="__span-4-29"><a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a>                <span class="k">return</span> <span class="n">number</span>
+</span><span id="__span-4-30"><a id="__codelineno-4-30" name="__codelineno-4-30" href="#__codelineno-4-30"></a>            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Ο αριθμός πρέπει να είναι από </span><span class="si">{</span><span class="n">low</span><span class="si">}</span><span class="s2"> έως </span><span class="si">{</span><span class="n">high</span><span class="si">}</span><span class="s2">."</span><span class="p">)</span>
+</span><span id="__span-4-31"><a id="__codelineno-4-31" name="__codelineno-4-31" href="#__codelineno-4-31"></a>        <span class="c1"># TODO 2: η int() δίνει ValueError όταν το κείμενο δεν είναι ακέραιος αριθμός</span>
+</span><span id="__span-4-32"><a id="__codelineno-4-32" name="__codelineno-4-32" href="#__codelineno-4-32"></a>        <span class="k">except</span> <span class="n">____</span><span class="p">:</span>
+</span><span id="__span-4-33"><a id="__codelineno-4-33" name="__codelineno-4-33" href="#__codelineno-4-33"></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">"Γράψε έναν ακέραιο αριθμό."</span><span class="p">)</span>
+</span><span id="__span-4-34"><a id="__codelineno-4-34" name="__codelineno-4-34" href="#__codelineno-4-34"></a>
+</span><span id="__span-4-35"><a id="__codelineno-4-35" name="__codelineno-4-35" href="#__codelineno-4-35"></a>
+</span><span id="__span-4-36"><a id="__codelineno-4-36" name="__codelineno-4-36" href="#__codelineno-4-36"></a><span class="k">def</span><span class="w"> </span><span class="nf">ask_price</span><span class="p">(</span><span class="n">message</span><span class="p">):</span>
+</span><span id="__span-4-37"><a id="__codelineno-4-37" name="__codelineno-4-37" href="#__codelineno-4-37"></a><span class="w">    </span><span class="sd">"""Ρωτά ώσπου ο χρήστης να γράψει τιμή από 0.01 έως 999.99 (δέχεται και κόμμα) και την επιστρέφει ως Decimal."""</span>
+</span><span id="__span-4-38"><a id="__codelineno-4-38" name="__codelineno-4-38" href="#__codelineno-4-38"></a>    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+</span><span id="__span-4-39"><a id="__codelineno-4-39" name="__codelineno-4-39" href="#__codelineno-4-39"></a>        <span class="n">text</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="n">message</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">","</span><span class="p">,</span> <span class="s2">"."</span><span class="p">)</span>
+</span><span id="__span-4-40"><a id="__codelineno-4-40" name="__codelineno-4-40" href="#__codelineno-4-40"></a>        <span class="k">try</span><span class="p">:</span>
+</span><span id="__span-4-41"><a id="__codelineno-4-41" name="__codelineno-4-41" href="#__codelineno-4-41"></a>            <span class="n">price</span> <span class="o">=</span> <span class="n">Decimal</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+</span><span id="__span-4-42"><a id="__codelineno-4-42" name="__codelineno-4-42" href="#__codelineno-4-42"></a>            <span class="k">if</span> <span class="n">Decimal</span><span class="p">(</span><span class="s2">"0.01"</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">price</span> <span class="o">&lt;=</span> <span class="n">Decimal</span><span class="p">(</span><span class="s2">"999.99"</span><span class="p">):</span>
+</span><span id="__span-4-43"><a id="__codelineno-4-43" name="__codelineno-4-43" href="#__codelineno-4-43"></a>                <span class="c1"># TODO 3: επίστρεψε την τιμή</span>
+</span><span id="__span-4-44"><a id="__codelineno-4-44" name="__codelineno-4-44" href="#__codelineno-4-44"></a>                <span class="k">return</span> <span class="n">____</span>
+</span><span id="__span-4-45"><a id="__codelineno-4-45" name="__codelineno-4-45" href="#__codelineno-4-45"></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">"Η τιμή πρέπει να είναι από 0.01 έως 999.99."</span><span class="p">)</span>
+</span><span id="__span-4-46"><a id="__codelineno-4-46" name="__codelineno-4-46" href="#__codelineno-4-46"></a>        <span class="c1"># TODO 4: η Decimal() δίνει InvalidOperation (ΟΧΙ ValueError) όταν το κείμενο δεν είναι αριθμός</span>
+</span><span id="__span-4-47"><a id="__codelineno-4-47" name="__codelineno-4-47" href="#__codelineno-4-47"></a>        <span class="k">except</span> <span class="n">____</span><span class="p">:</span>
+</span><span id="__span-4-48"><a id="__codelineno-4-48" name="__codelineno-4-48" href="#__codelineno-4-48"></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">"Γράψε έναν αριθμό, π.χ. 3.49."</span><span class="p">)</span>
+</span><span id="__span-4-49"><a id="__codelineno-4-49" name="__codelineno-4-49" href="#__codelineno-4-49"></a>
+</span><span id="__span-4-50"><a id="__codelineno-4-50" name="__codelineno-4-50" href="#__codelineno-4-50"></a>
+</span><span id="__span-4-51"><a id="__codelineno-4-51" name="__codelineno-4-51" href="#__codelineno-4-51"></a><span class="nb">print</span><span class="p">(</span><span class="s2">"=== Δοκιμή των συναρτήσεων ρωτήματος ==="</span><span class="p">)</span>
+</span><span id="__span-4-52"><a id="__codelineno-4-52" name="__codelineno-4-52" href="#__codelineno-4-52"></a><span class="n">title</span> <span class="o">=</span> <span class="n">ask_text</span><span class="p">(</span><span class="s2">"Τίτλος: "</span><span class="p">)</span>
+</span><span id="__span-4-53"><a id="__codelineno-4-53" name="__codelineno-4-53" href="#__codelineno-4-53"></a><span class="n">year</span> <span class="o">=</span> <span class="n">ask_int</span><span class="p">(</span><span class="s2">"Χρονιά (1970 έως 2100): "</span><span class="p">,</span> <span class="mi">1970</span><span class="p">,</span> <span class="mi">2100</span><span class="p">)</span>
+</span><span id="__span-4-54"><a id="__codelineno-4-54" name="__codelineno-4-54" href="#__codelineno-4-54"></a><span class="n">price</span> <span class="o">=</span> <span class="n">ask_price</span><span class="p">(</span><span class="s2">"Τιμή (0.01 έως 999.99): "</span><span class="p">)</span>
+</span><span id="__span-4-55"><a id="__codelineno-4-55" name="__codelineno-4-55" href="#__codelineno-4-55"></a>
+</span><span id="__span-4-56"><a id="__codelineno-4-56" name="__codelineno-4-56" href="#__codelineno-4-56"></a><span class="nb">print</span><span class="p">()</span>
+</span><span id="__span-4-57"><a id="__codelineno-4-57" name="__codelineno-4-57" href="#__codelineno-4-57"></a><span class="nb">print</span><span class="p">(</span><span class="s2">"Πήρα:"</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">year</span><span class="p">,</span> <span class="n">price</span><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="14-traceback">1.4 Η εφαρμογή χωρίς traceback<a class="headerlink" href="#14-traceback" title="Permanent link">&para;</a></h3>
+<p>Στο Στάδιο 3 βάζεις τις συναρτήσεις ρωτήματος στην εφαρμογή του Μαθήματος 7. Οι <code>add_game</code> και <code>change_price</code> δεν
+καλούν πια την <code>int()</code> και την <code>Decimal()</code> απευθείας. Ρωτούν με τις <code>ask_*</code>, που δεν επιστρέφουν ποτέ λάθος τιμή.
+Ο έλεγχος βρίσκεται <strong>σε ένα μέρος</strong>, και αν αύριο αλλάξει ο κανόνας (π.χ. ανώτατη τιμή 500), τον αλλάζεις μία φορά.</p>
+<h3 id="3">Στάδιο 3 — Η εφαρμογή με έλεγχο εισόδου<a class="headerlink" href="#3" title="Permanent link">&para;</a></h3>
+<p>Άνοιξε το <code>04-app.py</code>. Περιέχει όλη την εφαρμογή του Μαθήματος 7 και τις τρεις <code>ask_*</code> έτοιμες. Συμπλήρωσε τα τέσσερα
+κενά στις <code>add_game</code> και <code>change_price</code> και τρέξε την. Δοκίμασε να κάνεις <strong>λάθη</strong>: κενό τίτλο, γράμματα στη χρονιά,
+τιμή <code>0</code>. Νέα κομμάτια:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">add_game</span><span class="p">(</span><span class="n">connection</span><span class="p">):</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">    </span><span class="sd">"""Ζητά τα στοιχεία ενός παιχνιδιού (με έλεγχο) και το προσθέτει στη βάση."""</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    <span class="c1"># TODO 1: ask_text για κείμενο, ask_int για ακέραιο, ask_price για τιμή (όπως στο Στάδιο 2)</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>    <span class="n">title</span> <span class="o">=</span> <span class="n">____</span><span class="p">(</span><span class="s2">"Τίτλος: "</span><span class="p">)</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>    <span class="n">genre</span> <span class="o">=</span> <span class="n">ask_text</span><span class="p">(</span><span class="s2">"Είδος: "</span><span class="p">)</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>    <span class="n">year</span> <span class="o">=</span> <span class="n">____</span><span class="p">(</span><span class="s2">"Χρονιά (1970 έως 2100): "</span><span class="p">,</span> <span class="mi">1970</span><span class="p">,</span> <span class="mi">2100</span><span class="p">)</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>    <span class="n">price</span> <span class="o">=</span> <span class="n">____</span><span class="p">(</span><span class="s2">"Τιμή (0.01 έως 999.99): "</span><span class="p">)</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>    <span class="n">cursor</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>    <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>        <span class="s2">"INSERT INTO games (title, genre, release_year, price) VALUES (</span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">)"</span><span class="p">,</span>
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>        <span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">genre</span><span class="p">,</span> <span class="n">year</span><span class="p">,</span> <span class="n">price</span><span class="p">),</span>
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>    <span class="p">)</span>
+</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>    <span class="n">connection</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Προστέθηκε το «</span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="s2">» με id </span><span class="si">{</span><span class="n">cursor</span><span class="o">.</span><span class="n">lastrowid</span><span class="si">}</span><span class="s2">."</span><span class="p">)</span>
+</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>    <span class="n">cursor</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a>
+</span><span id="__span-5-18"><a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a>
+</span><span id="__span-5-19"><a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a><span class="k">def</span><span class="w"> </span><span class="nf">change_price</span><span class="p">(</span><span class="n">connection</span><span class="p">):</span>
+</span><span id="__span-5-20"><a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a><span class="w">    </span><span class="sd">"""Ζητά το id ενός παιχνιδιού και τη νέα τιμή του (με έλεγχο), και αλλάζει την τιμή."""</span>
+</span><span id="__span-5-21"><a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a>    <span class="c1"># TODO 2: το id είναι ακέραιος από 1 έως 100000</span>
+</span><span id="__span-5-22"><a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a>    <span class="n">game_id</span> <span class="o">=</span> <span class="n">____</span><span class="p">(</span><span class="s2">"id παιχνιδιού: "</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">100000</span><span class="p">)</span>
+</span><span id="__span-5-23"><a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a>    <span class="n">price</span> <span class="o">=</span> <span class="n">ask_price</span><span class="p">(</span><span class="s2">"Νέα τιμή (0.01 έως 999.99): "</span><span class="p">)</span>
+</span><span id="__span-5-24"><a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a>
+</span><span id="__span-5-25"><a id="__codelineno-5-25" name="__codelineno-5-25" href="#__codelineno-5-25"></a>    <span class="n">cursor</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+</span><span id="__span-5-26"><a id="__codelineno-5-26" name="__codelineno-5-26" href="#__codelineno-5-26"></a>    <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"UPDATE games SET price = </span><span class="si">%s</span><span class="s2"> WHERE id = </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="p">(</span><span class="n">price</span><span class="p">,</span> <span class="n">game_id</span><span class="p">))</span>
+</span><span id="__span-5-27"><a id="__codelineno-5-27" name="__codelineno-5-27" href="#__codelineno-5-27"></a>    <span class="n">connection</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+</span><span id="__span-5-28"><a id="__codelineno-5-28" name="__codelineno-5-28" href="#__codelineno-5-28"></a>
+</span><span id="__span-5-29"><a id="__codelineno-5-29" name="__codelineno-5-29" href="#__codelineno-5-29"></a>    <span class="k">if</span> <span class="n">cursor</span><span class="o">.</span><span class="n">rowcount</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span id="__span-5-30"><a id="__codelineno-5-30" name="__codelineno-5-30" href="#__codelineno-5-30"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">"Δεν άλλαξε καμία γραμμή: ή δεν υπάρχει τέτοιο id ή η τιμή ήταν ήδη αυτή."</span><span class="p">)</span>
+</span><span id="__span-5-31"><a id="__codelineno-5-31" name="__codelineno-5-31" href="#__codelineno-5-31"></a>    <span class="k">else</span><span class="p">:</span>
+</span><span id="__span-5-32"><a id="__codelineno-5-32" name="__codelineno-5-32" href="#__codelineno-5-32"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Η τιμή του παιχνιδιού με id </span><span class="si">{</span><span class="n">game_id</span><span class="si">}</span><span class="s2"> έγινε </span><span class="si">{</span><span class="n">price</span><span class="si">}</span><span class="s2"> €."</span><span class="p">)</span>
+</span><span id="__span-5-33"><a id="__codelineno-5-33" name="__codelineno-5-33" href="#__codelineno-5-33"></a>    <span class="n">cursor</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span></code></pre></div>
+<p><strong>Συνέχισε στο Φύλλο εργασίας, Κύκλος 1.</strong></p>
+<hr />
+<h2 id="2_1">Κύκλος 2 — Η βάση προστατεύει τα δεδομένα<a class="headerlink" href="#2_1" title="Permanent link">&para;</a></h2>
+<p>Σε αυτόν τον κύκλο μαθαίνεις να βάζεις κανόνες στη βάση, και να πιάνεις στην Python τα σφάλματα που τους
+παραβιάζουν.</p>
+<h3 id="21">2.1 Γιατί δεν αρκεί το πρόγραμμα<a class="headerlink" href="#21" title="Permanent link">&para;</a></h3>
+<p>Ο έλεγχος του προγράμματος είναι χρήσιμος, γιατί δίνει ευγενικό μήνυμα και ξαναρωτά πριν σταλεί οτιδήποτε στη βάση.
+Δεν αρκεί όμως, γιατί δεδομένα φτάνουν στη βάση και από <strong>άλλους δρόμους</strong>: από το phpMyAdmin, από ένα <strong>άλλο</strong>
+πρόγραμμα, από ένα <strong>λάθος</strong> στο δικό σου (π.χ. μια συνάρτηση που ξέχασε το <code>return</code> και στέλνει <code>None</code>).</p>
+<p>Η βάση είναι ο <strong>τελευταίος φρουρός</strong>: οι κανόνες της ισχύουν για <strong>όλους</strong>.</p>
+<h3 id="22">2.2 Οι περιορισμοί<a class="headerlink" href="#22" title="Permanent link">&para;</a></h3>
+<p>Οι κανόνες της βάσης λέγονται <strong>περιορισμοί</strong> (constraints). Τους γράφεις στη δομή του πίνακα:</p>
+<table>
+<thead>
+<tr>
+<th>Περιορισμός</th>
+<th>Τι κάνει</th>
+<th>Παράδειγμα</th>
+<th>Σφάλμα όταν παραβιάζεται</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>NOT NULL</code></td>
+<td>δεν δέχεται «καμία τιμή»</td>
+<td><code>title VARCHAR(100) NOT NULL</code> (τον έχεις ήδη)</td>
+<td><code>#1048</code></td>
+</tr>
+<tr>
+<td><code>UNIQUE</code></td>
+<td>δεν δέχεται δεύτερη ίδια τιμή</td>
+<td><code>UNIQUE (title)</code></td>
+<td><code>#1062</code></td>
+</tr>
+<tr>
+<td><code>DEFAULT</code></td>
+<td>βάζει τιμή όταν δεν δοθεί καμία</td>
+<td><code>genre … DEFAULT 'Άλλο'</code></td>
+<td>δεν υπάρχει σφάλμα</td>
+</tr>
+<tr>
+<td><code>NULL</code></td>
+<td><strong>επιτρέπει</strong> «καμία τιμή»</td>
+<td><code>description VARCHAR(200) NULL</code></td>
+<td>δεν υπάρχει σφάλμα</td>
+</tr>
+<tr>
+<td><code>CHECK</code></td>
+<td>κανόνας για την τιμή</td>
+<td><code>CHECK (price &gt; 0)</code></td>
+<td><code>#4025</code></td>
+</tr>
+</tbody>
+</table>
+<p>Σε έναν πίνακα που υπάρχει ήδη, τους προσθέτεις με <code>ALTER TABLE</code>:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">games</span><span class="w"> </span><span class="k">ADD</span><span class="w"> </span><span class="k">UNIQUE</span><span class="w"> </span><span class="p">(</span><span class="n">title</span><span class="p">);</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">games</span><span class="w"> </span><span class="k">MODIFY</span><span class="w"> </span><span class="n">genre</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="s1">'Άλλο'</span><span class="p">;</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">games</span><span class="w"> </span><span class="k">ADD</span><span class="w"> </span><span class="n">description</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span><span class="w"> </span><span class="k">NULL</span><span class="p">;</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">games</span><span class="w"> </span><span class="k">ADD</span><span class="w"> </span><span class="k">CONSTRAINT</span><span class="w"> </span><span class="n">chk_price</span><span class="w"> </span><span class="k">CHECK</span><span class="w"> </span><span class="p">(</span><span class="n">price</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+</span></code></pre></div>
+<p>Η βάση ελέγχει και τα <strong>υπάρχοντα</strong> δεδομένα: αν δεν τηρούν τον κανόνα, το <code>ALTER</code> αποτυγχάνει. Αν στο <code>games</code> ήταν
+ακόμη τα <strong>τρία</strong> «Mini Golf» του Μαθήματος 5, το <code>ADD UNIQUE (title)</code> θα έδινε <code>#1062</code>. Γι' αυτό τα σβήσαμε στο
+Μάθημα 6.</p>
+<p>Η σύγκριση του <code>UNIQUE</code> στα κείμενα <strong>δεν ξεχωρίζει κεφαλαία από πεζά</strong>, όπως και στο <code>WHERE</code>: ο τίτλος «MINI GOLF»
+θεωρείται ίδιος με το «Mini Golf».</p>
+<p>Όταν προσπαθήσεις να προσθέσεις έναν τίτλο που υπάρχει ήδη, το phpMyAdmin δείχνει το σφάλμα της βάσης:</p>
+<p><img alt="Το σφάλμα #1062 στο phpMyAdmin όταν προσθέτεις τίτλο που υπάρχει ήδη, με δύο κόκκινα πλαίσια: 1 η εντολή INSERT που απορρίφθηκε, 2 το μήνυμα «#1062 - Duplicate entry 'Mini Golf' for key 'title'»" src="../images/duplicate-error.png" width="720" /></p>
+<h3 id="23-null">2.3 Το <code>NULL</code><a class="headerlink" href="#23-null" title="Permanent link">&para;</a></h3>
+<p>Το <strong><code>NULL</code></strong> σημαίνει «<strong>δεν υπάρχει τιμή</strong>» ή «άγνωστη τιμή». <strong>Δεν</strong> είναι το <code>0</code> και <strong>δεν</strong> είναι το κενό
+κείμενο <code>''</code>. Ένα παιχνίδι χωρίς περιγραφή έχει <code>description = NULL</code>.</p>
+<ul>
+<li>Για να ελέγξεις το <code>NULL</code> γράφεις <strong><code>IS NULL</code></strong> (ή <code>IS NOT NULL</code>). Το <code>= NULL</code> <strong>δεν δουλεύει</strong>: η σύγκριση με
+  «άγνωστο» δεν γίνεται ποτέ αληθής, και το ερώτημα επιστρέφει <strong>0 γραμμές</strong>, χωρίς σφάλμα.</li>
+</ul>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">title</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">games</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">description</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NULL</span><span class="p">;</span><span class="w">       </span><span class="c1">-- τα παιχνίδια χωρίς περιγραφή</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">title</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">games</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">NULL</span><span class="p">;</span><span class="w">        </span><span class="c1">-- ΠΑΝΤΑ 0 γραμμές! (σιωπηλό λάθος)</span>
+</span></code></pre></div>
+<p>Το phpMyAdmin γράφει τις τιμές <code>NULL</code> με <strong>πλάγια γράμματα</strong>, για να μην τις μπερδεύεις με ένα κείμενο «NULL»:</p>
+<p><img alt="Τέσσερα παιχνίδια με τη στήλη description στο phpMyAdmin, με δύο κόκκινα πλαίσια: 1 μια τιμή NULL με πλάγια γράμματα, 2 μια πραγματική περιγραφή" src="../images/null-values.png" width="720" /></p>
+<ul>
+<li>Στην Python, το <code>NULL</code> της βάσης είναι το <strong><code>None</code></strong>. Αν στείλεις <code>None</code> ως παράμετρο, η βάση αποθηκεύει <code>NULL</code>. Αν
+  διαβάσεις μια στήλη που έχει <code>NULL</code>, παίρνεις <code>None</code>. (Το <code>None</code> το ξέρεις από το Μάθημα 7.)</li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Το <code>NOT NULL</code> στο XAMPP έχει τρύπα</p>
+<p>Αν στείλεις ρητά <code>NULL</code> σε στήλη <code>NOT NULL</code>, παίρνεις <code>#1048</code>. Αν όμως <strong>παραλείψεις</strong> τη στήλη από το <code>INSERT</code>
+και δεν έχει <code>DEFAULT</code>, το XAMPP (που δεν είναι αυστηρό, όπως έμαθες στο Μάθημα 1) <strong>βάζει σιωπηλά</strong> κενό κείμενο
+ή <code>0</code>. Γι' αυτό υπάρχουν και το <code>DEFAULT</code>, και ο έλεγχος του προγράμματος (η <code>ask_text</code> δεν δέχεται κενό).</p>
+</div>
+<h3 id="24-check">2.4 <code>CHECK</code>: κανόνες για τις τιμές<a class="headerlink" href="#24-check" title="Permanent link">&para;</a></h3>
+<p>Το <code>CHECK</code> γράφει έναν κανόνα που πρέπει να ισχύει σε κάθε γραμμή:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">games</span><span class="w"> </span><span class="k">ADD</span><span class="w"> </span><span class="k">CONSTRAINT</span><span class="w"> </span><span class="n">chk_price</span><span class="w"> </span><span class="k">CHECK</span><span class="w"> </span><span class="p">(</span><span class="n">price</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">games</span><span class="w"> </span><span class="k">ADD</span><span class="w"> </span><span class="k">CONSTRAINT</span><span class="w"> </span><span class="n">chk_year</span><span class="w">  </span><span class="k">CHECK</span><span class="w"> </span><span class="p">(</span><span class="n">release_year</span><span class="w"> </span><span class="k">BETWEEN</span><span class="w"> </span><span class="mi">1970</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="mi">2100</span><span class="p">);</span>
+</span></code></pre></div>
+<p>Το <code>CHECK</code> <strong>κλείνει την τρύπα του Μαθήματος 5</strong>: το <code>abc</code> στη χρονιά γίνεται σιωπηλά <code>0</code>, και το <code>0</code> παραβιάζει το
+<code>chk_year</code>, οπότε η βάση δίνει <code>#4025</code>. Έχει όμως όρια: ελέγχει την τιμή <strong>μετά</strong> τη σιωπηλή μετατροπή. Η τιμή
+<code>1234.5</code> γίνεται σιωπηλά <code>999.99</code>, που περνά τον έλεγχο. Γι' αυτό χρειάζεται και το πρόγραμμα (η <code>ask_price</code> δεν δέχεται
+πάνω από <code>999.99</code>).</p>
+<h3 id="4-phpmyadmin">Στάδιο 4 — Οι περιορισμοί στο phpMyAdmin<a class="headerlink" href="#4-phpmyadmin" title="Permanent link">&para;</a></h3>
+<p>Άνοιξε το <code>05-constraints.sql</code>. Συμπλήρωσε τα έξι κενά και τρέξε τις εντολές <strong>μία-μία</strong>, με τη σειρά. Πρόβλεψε πρώτα
+αν η καθεμία θα πετύχει ή θα δώσει σφάλμα. Οι εντολές με σημείωση «ΘΑ ΔΩΣΕΙ ΣΦΑΛΜΑ» το δίνουν επίτηδες.</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1">-- Στάδιο 4 — Οι περιορισμοί της βάσης: UNIQUE, DEFAULT, NULL και CHECK.</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="c1">--</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="c1">-- Πριν αρχίσεις: τρέξε το 01-start-state.sql (καρτέλα Import), ώστε ο games να έχει 14 γραμμές.</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="c1">--</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="c1">-- Πώς το τρέχεις:</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="c1">--   1. Συμπλήρωσε τα κενά (____) σε έναν επεξεργαστή κειμένου.</span>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="c1">--   2. Τρέξε κάθε εντολή ΞΕΧΩΡΙΣΤΑ στην καρτέλα SQL της βάσης game_library, με τη σειρά.</span>
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="c1">--   3. ΠΡΩΤΑ πρόβλεψε αν η εντολή θα πετύχει ή θα δώσει σφάλμα, και ποιο (#αριθμός).</span>
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="c1">--   4. Οι εντολές με σημείωση «ΘΑ ΔΩΣΕΙ ΣΦΑΛΜΑ» το δίνουν επίτηδες: δεν είναι δικό σου λάθος.</span>
+</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>
+</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="c1">-- Ερώτημα 1 (έτοιμο): η δομή του πίνακα πριν από τις αλλαγές</span>
+</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="k">DESCRIBE</span><span class="w"> </span><span class="n">games</span><span class="p">;</span>
+</span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>
+</span><span id="__span-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="c1">-- Ερώτημα 2: ο τίτλος ενός παιχνιδιού πρέπει να είναι μοναδικός</span>
+</span><span id="__span-9-15"><a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">games</span><span class="w"> </span><span class="k">ADD</span><span class="w"> </span><span class="n">____</span><span class="w"> </span><span class="p">(</span><span class="n">title</span><span class="p">);</span>
+</span><span id="__span-9-16"><a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a>
+</span><span id="__span-9-17"><a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a><span class="c1">-- Ερώτημα 3: ΘΑ ΔΩΣΕΙ ΣΦΑΛΜΑ. Ο τίτλος «Mini Golf» υπάρχει ήδη</span>
+</span><span id="__span-9-18"><a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">games</span><span class="w"> </span><span class="p">(</span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="n">genre</span><span class="p">,</span><span class="w"> </span><span class="n">release_year</span><span class="p">,</span><span class="w"> </span><span class="n">price</span><span class="p">)</span>
+</span><span id="__span-9-19"><a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="s1">'Mini Golf'</span><span class="p">,</span><span class="w"> </span><span class="s1">'Αθλητικό'</span><span class="p">,</span><span class="w"> </span><span class="mi">2024</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">.</span><span class="mi">49</span><span class="p">);</span>
+</span><span id="__span-9-20"><a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a>
+</span><span id="__span-9-21"><a id="__codelineno-9-21" name="__codelineno-9-21" href="#__codelineno-9-21"></a><span class="c1">-- Ερώτημα 4: ΘΑ ΔΩΣΕΙ ΣΦΑΛΜΑ. Ο τίτλος δεν επιτρέπεται να είναι «τίποτα» (NULL)</span>
+</span><span id="__span-9-22"><a id="__codelineno-9-22" name="__codelineno-9-22" href="#__codelineno-9-22"></a><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">games</span><span class="w"> </span><span class="p">(</span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="n">genre</span><span class="p">,</span><span class="w"> </span><span class="n">release_year</span><span class="p">,</span><span class="w"> </span><span class="n">price</span><span class="p">)</span>
+</span><span id="__span-9-23"><a id="__codelineno-9-23" name="__codelineno-9-23" href="#__codelineno-9-23"></a><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="n">____</span><span class="p">,</span><span class="w"> </span><span class="s1">'Παζλ'</span><span class="p">,</span><span class="w"> </span><span class="mi">2024</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">.</span><span class="mi">99</span><span class="p">);</span>
+</span><span id="__span-9-24"><a id="__codelineno-9-24" name="__codelineno-9-24" href="#__codelineno-9-24"></a>
+</span><span id="__span-9-25"><a id="__codelineno-9-25" name="__codelineno-9-25" href="#__codelineno-9-25"></a><span class="c1">-- Ερώτημα 5: αν δεν δοθεί είδος, να μπαίνει «Άλλο»</span>
+</span><span id="__span-9-26"><a id="__codelineno-9-26" name="__codelineno-9-26" href="#__codelineno-9-26"></a><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">games</span><span class="w"> </span><span class="k">MODIFY</span><span class="w"> </span><span class="n">genre</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="n">____</span><span class="w"> </span><span class="s1">'Άλλο'</span><span class="p">;</span>
+</span><span id="__span-9-27"><a id="__codelineno-9-27" name="__codelineno-9-27" href="#__codelineno-9-27"></a>
+</span><span id="__span-9-28"><a id="__codelineno-9-28" name="__codelineno-9-28" href="#__codelineno-9-28"></a><span class="c1">-- Ερώτημα 6 (έτοιμο): προσθήκη χωρίς είδος και έλεγχος του αποτελέσματος</span>
+</span><span id="__span-9-29"><a id="__codelineno-9-29" name="__codelineno-9-29" href="#__codelineno-9-29"></a><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">games</span><span class="w"> </span><span class="p">(</span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="n">release_year</span><span class="p">,</span><span class="w"> </span><span class="n">price</span><span class="p">)</span>
+</span><span id="__span-9-30"><a id="__codelineno-9-30" name="__codelineno-9-30" href="#__codelineno-9-30"></a><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="s1">'Quiz Master'</span><span class="p">,</span><span class="w"> </span><span class="mi">2024</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">.</span><span class="mi">49</span><span class="p">);</span>
+</span><span id="__span-9-31"><a id="__codelineno-9-31" name="__codelineno-9-31" href="#__codelineno-9-31"></a>
+</span><span id="__span-9-32"><a id="__codelineno-9-32" name="__codelineno-9-32" href="#__codelineno-9-32"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="n">genre</span>
+</span><span id="__span-9-33"><a id="__codelineno-9-33" name="__codelineno-9-33" href="#__codelineno-9-33"></a><span class="k">FROM</span><span class="w"> </span><span class="n">games</span>
+</span><span id="__span-9-34"><a id="__codelineno-9-34" name="__codelineno-9-34" href="#__codelineno-9-34"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'Quiz Master'</span><span class="p">;</span>
+</span><span id="__span-9-35"><a id="__codelineno-9-35" name="__codelineno-9-35" href="#__codelineno-9-35"></a>
+</span><span id="__span-9-36"><a id="__codelineno-9-36" name="__codelineno-9-36" href="#__codelineno-9-36"></a><span class="c1">-- Ερώτημα 7 (έτοιμο): νέα στήλη που ΕΠΙΤΡΕΠΕΙ NULL (όχι κάθε παιχνίδι έχει περιγραφή)</span>
+</span><span id="__span-9-37"><a id="__codelineno-9-37" name="__codelineno-9-37" href="#__codelineno-9-37"></a><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">games</span><span class="w"> </span><span class="k">ADD</span><span class="w"> </span><span class="n">description</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span><span class="w"> </span><span class="k">NULL</span><span class="p">;</span>
+</span><span id="__span-9-38"><a id="__codelineno-9-38" name="__codelineno-9-38" href="#__codelineno-9-38"></a>
+</span><span id="__span-9-39"><a id="__codelineno-9-39" name="__codelineno-9-39" href="#__codelineno-9-39"></a><span class="c1">-- Ερώτημα 8: ποια παιχνίδια ΔΕΝ έχουν περιγραφή; Το NULL ελέγχεται με IS, όχι με =</span>
+</span><span id="__span-9-40"><a id="__codelineno-9-40" name="__codelineno-9-40" href="#__codelineno-9-40"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">title</span>
+</span><span id="__span-9-41"><a id="__codelineno-9-41" name="__codelineno-9-41" href="#__codelineno-9-41"></a><span class="k">FROM</span><span class="w"> </span><span class="n">games</span>
+</span><span id="__span-9-42"><a id="__codelineno-9-42" name="__codelineno-9-42" href="#__codelineno-9-42"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">description</span><span class="w"> </span><span class="n">____</span><span class="w"> </span><span class="k">NULL</span><span class="p">;</span>
+</span><span id="__span-9-43"><a id="__codelineno-9-43" name="__codelineno-9-43" href="#__codelineno-9-43"></a>
+</span><span id="__span-9-44"><a id="__codelineno-9-44" name="__codelineno-9-44" href="#__codelineno-9-44"></a><span class="c1">-- Ερώτημα 9: τι γίνεται αν γράψεις «= NULL»; Πρόβλεψε πρώτα πόσες γραμμές θα βγουν</span>
+</span><span id="__span-9-45"><a id="__codelineno-9-45" name="__codelineno-9-45" href="#__codelineno-9-45"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">title</span>
+</span><span id="__span-9-46"><a id="__codelineno-9-46" name="__codelineno-9-46" href="#__codelineno-9-46"></a><span class="k">FROM</span><span class="w"> </span><span class="n">games</span>
+</span><span id="__span-9-47"><a id="__codelineno-9-47" name="__codelineno-9-47" href="#__codelineno-9-47"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">NULL</span><span class="p">;</span>
+</span><span id="__span-9-48"><a id="__codelineno-9-48" name="__codelineno-9-48" href="#__codelineno-9-48"></a>
+</span><span id="__span-9-49"><a id="__codelineno-9-49" name="__codelineno-9-49" href="#__codelineno-9-49"></a><span class="c1">-- Ερώτημα 10 (έτοιμο): δώσε περιγραφή σε ένα παιχνίδι</span>
+</span><span id="__span-9-50"><a id="__codelineno-9-50" name="__codelineno-9-50" href="#__codelineno-9-50"></a><span class="k">UPDATE</span><span class="w"> </span><span class="n">games</span>
+</span><span id="__span-9-51"><a id="__codelineno-9-51" name="__codelineno-9-51" href="#__codelineno-9-51"></a><span class="k">SET</span><span class="w"> </span><span class="n">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'Αγώνες με καρτ σε δέκα πίστες'</span>
+</span><span id="__span-9-52"><a id="__codelineno-9-52" name="__codelineno-9-52" href="#__codelineno-9-52"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">9</span><span class="p">;</span>
+</span><span id="__span-9-53"><a id="__codelineno-9-53" name="__codelineno-9-53" href="#__codelineno-9-53"></a>
+</span><span id="__span-9-54"><a id="__codelineno-9-54" name="__codelineno-9-54" href="#__codelineno-9-54"></a><span class="c1">-- Ερώτημα 11: ποια παιχνίδια ΕΧΟΥΝ περιγραφή;</span>
+</span><span id="__span-9-55"><a id="__codelineno-9-55" name="__codelineno-9-55" href="#__codelineno-9-55"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="n">description</span>
+</span><span id="__span-9-56"><a id="__codelineno-9-56" name="__codelineno-9-56" href="#__codelineno-9-56"></a><span class="k">FROM</span><span class="w"> </span><span class="n">games</span>
+</span><span id="__span-9-57"><a id="__codelineno-9-57" name="__codelineno-9-57" href="#__codelineno-9-57"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">description</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="n">____</span><span class="w"> </span><span class="k">NULL</span><span class="p">;</span>
+</span><span id="__span-9-58"><a id="__codelineno-9-58" name="__codelineno-9-58" href="#__codelineno-9-58"></a>
+</span><span id="__span-9-59"><a id="__codelineno-9-59" name="__codelineno-9-59" href="#__codelineno-9-59"></a><span class="c1">-- Ερώτημα 12: έλεγχος τιμών. Η τιμή πρέπει να είναι μεγαλύτερη από 0</span>
+</span><span id="__span-9-60"><a id="__codelineno-9-60" name="__codelineno-9-60" href="#__codelineno-9-60"></a><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">games</span><span class="w"> </span><span class="k">ADD</span><span class="w"> </span><span class="k">CONSTRAINT</span><span class="w"> </span><span class="n">chk_price</span><span class="w"> </span><span class="n">____</span><span class="w"> </span><span class="p">(</span><span class="n">price</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+</span><span id="__span-9-61"><a id="__codelineno-9-61" name="__codelineno-9-61" href="#__codelineno-9-61"></a>
+</span><span id="__span-9-62"><a id="__codelineno-9-62" name="__codelineno-9-62" href="#__codelineno-9-62"></a><span class="c1">-- Ερώτημα 13: ΘΑ ΔΩΣΕΙ ΣΦΑΛΜΑ. Τιμή 0</span>
+</span><span id="__span-9-63"><a id="__codelineno-9-63" name="__codelineno-9-63" href="#__codelineno-9-63"></a><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">games</span><span class="w"> </span><span class="p">(</span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="n">genre</span><span class="p">,</span><span class="w"> </span><span class="n">release_year</span><span class="p">,</span><span class="w"> </span><span class="n">price</span><span class="p">)</span>
+</span><span id="__span-9-64"><a id="__codelineno-9-64" name="__codelineno-9-64" href="#__codelineno-9-64"></a><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="s1">'Δωρεάν παιχνίδι'</span><span class="p">,</span><span class="w"> </span><span class="s1">'Παζλ'</span><span class="p">,</span><span class="w"> </span><span class="mi">2024</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+</span><span id="__span-9-65"><a id="__codelineno-9-65" name="__codelineno-9-65" href="#__codelineno-9-65"></a>
+</span><span id="__span-9-66"><a id="__codelineno-9-66" name="__codelineno-9-66" href="#__codelineno-9-66"></a><span class="c1">-- Ερώτημα 14 (έτοιμο): έλεγχος και για τη χρονιά</span>
+</span><span id="__span-9-67"><a id="__codelineno-9-67" name="__codelineno-9-67" href="#__codelineno-9-67"></a><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">games</span><span class="w"> </span><span class="k">ADD</span><span class="w"> </span><span class="k">CONSTRAINT</span><span class="w"> </span><span class="n">chk_year</span><span class="w"> </span><span class="k">CHECK</span><span class="w"> </span><span class="p">(</span><span class="n">release_year</span><span class="w"> </span><span class="k">BETWEEN</span><span class="w"> </span><span class="mi">1970</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="mi">2100</span><span class="p">);</span>
+</span><span id="__span-9-68"><a id="__codelineno-9-68" name="__codelineno-9-68" href="#__codelineno-9-68"></a>
+</span><span id="__span-9-69"><a id="__codelineno-9-69" name="__codelineno-9-69" href="#__codelineno-9-69"></a><span class="c1">-- Ερώτημα 15: ΘΑ ΔΩΣΕΙ ΣΦΑΛΜΑ. Θυμάσαι ότι στο Μάθημα 5 το «abc» στη χρονιά αποθηκευόταν ως 0;</span>
+</span><span id="__span-9-70"><a id="__codelineno-9-70" name="__codelineno-9-70" href="#__codelineno-9-70"></a><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">games</span><span class="w"> </span><span class="p">(</span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="n">genre</span><span class="p">,</span><span class="w"> </span><span class="n">release_year</span><span class="p">,</span><span class="w"> </span><span class="n">price</span><span class="p">)</span>
+</span><span id="__span-9-71"><a id="__codelineno-9-71" name="__codelineno-9-71" href="#__codelineno-9-71"></a><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="s1">'Παιχνίδι χωρίς χρονιά'</span><span class="p">,</span><span class="w"> </span><span class="s1">'Παζλ'</span><span class="p">,</span><span class="w"> </span><span class="s1">'abc'</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">.</span><span class="mi">99</span><span class="p">);</span>
+</span></code></pre></div>
+<h3 id="25-python">2.5 Τα σφάλματα της βάσης στην Python<a class="headerlink" href="#25-python" title="Permanent link">&para;</a></h3>
+<p>Τα σφάλματα της βάσης φτάνουν στην Python σαν <strong>εξαιρέσεις</strong>, και τα πιάνεις με <code>try</code>/<code>except</code> όπως όλα. Όλα
+κληρονομούν από την <strong><code>mysql.connector.Error</code></strong>, και κάθε είδος έχει το δικό του όνομα:</p>
+<table>
+<thead>
+<tr>
+<th>Σφάλμα</th>
+<th>Πότε</th>
+<th>Παράδειγμα (<code>errno</code>)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mysql.connector.IntegrityError</code></td>
+<td>παραβίαση περιορισμού</td>
+<td><code>1062</code> (<code>UNIQUE</code>), <code>1048</code> (<code>NOT NULL</code>), <code>4025</code> (<code>CHECK</code>)</td>
+</tr>
+<tr>
+<td><code>mysql.connector.ProgrammingError</code></td>
+<td>λάθος στη SQL ή στα ονόματα</td>
+<td><code>1064</code> (σύνταξη), <code>1146</code> (δεν υπάρχει ο πίνακας)</td>
+</tr>
+<tr>
+<td><code>mysql.connector.DatabaseError</code></td>
+<td>πρόβλημα με τη σύνδεση ή τη βάση</td>
+<td><code>2003</code> (η MySQL δεν τρέχει)</td>
+</tr>
+<tr>
+<td><code>mysql.connector.Error</code></td>
+<td><strong>όλα τα παραπάνω</strong> (η «μητέρα» τους)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Το αντικείμενο του σφάλματος δίνει τον <strong>αριθμό</strong> (<code>error.errno</code>) και το <strong>μήνυμα</strong> (<code>error.msg</code>):</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">try</span><span class="p">:</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>    <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>    <span class="n">connection</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="k">except</span> <span class="n">mysql</span><span class="o">.</span><span class="n">connector</span><span class="o">.</span><span class="n">IntegrityError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>    <span class="n">connection</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>    <span class="k">if</span> <span class="n">error</span><span class="o">.</span><span class="n">errno</span> <span class="o">==</span> <span class="mi">1062</span><span class="p">:</span>
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">"Υπάρχει ήδη παιχνίδι με αυτόν τον τίτλο."</span><span class="p">)</span>
+</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>    <span class="k">else</span><span class="p">:</span>
+</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">"Η βάση δεν δέχτηκε τα δεδομένα:"</span><span class="p">,</span> <span class="n">error</span><span class="o">.</span><span class="n">msg</span><span class="p">)</span>
+</span></code></pre></div>
+<ul>
+<li>Το <code>as error</code> δίνει όνομα στο αντικείμενο του σφάλματος.</li>
+<li>Στο <code>except</code> γράφεις <strong>όσο πιο συγκεκριμένο</strong> σφάλμα μπορείς. Αν έχεις πολλά <code>except</code>, η Python δοκιμάζει <strong>με τη
+  σειρά</strong> και εκτελεί το <strong>πρώτο</strong> που ταιριάζει, γι' αυτό το συγκεκριμένο (<code>IntegrityError</code>) πάει <strong>πριν</strong> από το
+  γενικό (<code>Error</code>).</li>
+<li>Το <code>rollback()</code> στο <code>except</code> καθαρίζει ό,τι δεν ολοκληρώθηκε.</li>
+<li>Το ίδιο ισχύει για τη <strong>σύνδεση</strong>: αν η MySQL δεν τρέχει, το <code>mysql.connector.connect(...)</code> δίνει <code>Error</code>, και η
+  εφαρμογή μπορεί να πει «έλεγξε ότι η MySQL τρέχει» αντί να δείξει traceback (θυμάσαι τα <code>2003</code> του Μαθήματος 3).</li>
+<li>Η <code>connection.is_connected()</code> απαντά αν η σύνδεση ζει ακόμη.</li>
+</ul>
+<h3 id="26">2.6 Οι δύο γραμμές άμυνας μαζί<a class="headerlink" href="#26" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Γραμμή</th>
+<th>Πλεονέκτημα</th>
+<th>Όριο</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Πρόγραμμα</strong> (<code>ask_*</code>, <code>try</code>/<code>except</code>)</td>
+<td>ευγενικό μήνυμα, ξαναρωτά, δεν στέλνει τίποτα λάθος</td>
+<td>προστατεύει <strong>μόνο</strong> τα δεδομένα που περνούν από αυτό το πρόγραμμα</td>
+</tr>
+<tr>
+<td><strong>Βάση</strong> (περιορισμοί)</td>
+<td>ισχύει για <strong>όλους</strong>, είναι ο τελευταίος φρουρός</td>
+<td>δίνει τεχνικό σφάλμα, και ένα μόνο κάθε φορά</td>
+</tr>
+</tbody>
+</table>
+<p>Χρειάζονται <strong>και οι δύο</strong>. Στην τελική εφαρμογή το πρόγραμμα ελέγχει ό,τι μπορεί να ελέγξει πρώτο (κενό, γράμματα,
+όρια). Η <code>UNIQUE</code> του τίτλου δεν μπορεί να ελεγχθεί από το πρόγραμμα χωρίς ερώτημα στη βάση, οπότε την αναλαμβάνει η
+βάση, και το πρόγραμμα πιάνει το <code>#1062</code> και μιλά ευγενικά.</p>
+<h3 id="5">Στάδιο 5 — Η εφαρμογή πιάνει τα σφάλματα της βάσης<a class="headerlink" href="#5" title="Permanent link">&para;</a></h3>
+<p>Άνοιξε το <code>06-final.py</code>. Δουλεύει <strong>μετά</strong> το Στάδιο 4 (ο <code>games</code> έχει πια <code>UNIQUE</code> στον τίτλο και τη στήλη
+<code>description</code>). Η <code>add_game</code> ρωτά και μια προαιρετική περιγραφή (αν πατήσεις Enter, στέλνει <code>None</code>, δηλαδή <code>NULL</code>) και
+πιάνει το <code>#1062</code>. Συμπλήρωσε τα τέσσερα κενά και τρέξε την. Νέα κομμάτια:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">add_game</span><span class="p">(</span><span class="n">connection</span><span class="p">):</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">    </span><span class="sd">"""Ζητά τα στοιχεία ενός παιχνιδιού (με έλεγχο) και το προσθέτει στη βάση."""</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>    <span class="n">title</span> <span class="o">=</span> <span class="n">ask_text</span><span class="p">(</span><span class="s2">"Τίτλος: "</span><span class="p">)</span>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>    <span class="n">genre</span> <span class="o">=</span> <span class="n">ask_text</span><span class="p">(</span><span class="s2">"Είδος: "</span><span class="p">)</span>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>    <span class="n">year</span> <span class="o">=</span> <span class="n">ask_int</span><span class="p">(</span><span class="s2">"Χρονιά (1970 έως 2100): "</span><span class="p">,</span> <span class="mi">1970</span><span class="p">,</span> <span class="mi">2100</span><span class="p">)</span>
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>    <span class="n">price</span> <span class="o">=</span> <span class="n">ask_price</span><span class="p">(</span><span class="s2">"Τιμή (0.01 έως 999.99): "</span><span class="p">)</span>
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>    <span class="n">description</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Περιγραφή (Enter για καμία): "</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>    <span class="k">if</span> <span class="n">description</span> <span class="o">==</span> <span class="s2">""</span><span class="p">:</span>
+</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>        <span class="n">description</span> <span class="o">=</span> <span class="kc">None</span>          <span class="c1"># το None της Python γίνεται NULL στη βάση</span>
+</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>
+</span><span id="__span-11-11"><a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>    <span class="n">cursor</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+</span><span id="__span-11-12"><a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a>    <span class="k">try</span><span class="p">:</span>
+</span><span id="__span-11-13"><a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a>        <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+</span><span id="__span-11-14"><a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a>            <span class="s2">"INSERT INTO games (title, genre, release_year, price, description) VALUES (</span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">)"</span><span class="p">,</span>
+</span><span id="__span-11-15"><a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a>            <span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">genre</span><span class="p">,</span> <span class="n">year</span><span class="p">,</span> <span class="n">price</span><span class="p">,</span> <span class="n">description</span><span class="p">),</span>
+</span><span id="__span-11-16"><a id="__codelineno-11-16" name="__codelineno-11-16" href="#__codelineno-11-16"></a>        <span class="p">)</span>
+</span><span id="__span-11-17"><a id="__codelineno-11-17" name="__codelineno-11-17" href="#__codelineno-11-17"></a>        <span class="n">connection</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+</span><span id="__span-11-18"><a id="__codelineno-11-18" name="__codelineno-11-18" href="#__codelineno-11-18"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Προστέθηκε το «</span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="s2">» με id </span><span class="si">{</span><span class="n">cursor</span><span class="o">.</span><span class="n">lastrowid</span><span class="si">}</span><span class="s2">."</span><span class="p">)</span>
+</span><span id="__span-11-19"><a id="__codelineno-11-19" name="__codelineno-11-19" href="#__codelineno-11-19"></a>    <span class="c1"># TODO 1: οι περιορισμοί της βάσης (UNIQUE, NOT NULL, CHECK) δίνουν σφάλμα τύπου IntegrityError</span>
+</span><span id="__span-11-20"><a id="__codelineno-11-20" name="__codelineno-11-20" href="#__codelineno-11-20"></a>    <span class="k">except</span> <span class="n">mysql</span><span class="o">.</span><span class="n">connector</span><span class="o">.</span><span class="n">____</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+</span><span id="__span-11-21"><a id="__codelineno-11-21" name="__codelineno-11-21" href="#__codelineno-11-21"></a>        <span class="c1"># TODO 2: ακύρωσε ό,τι δεν ολοκληρώθηκε</span>
+</span><span id="__span-11-22"><a id="__codelineno-11-22" name="__codelineno-11-22" href="#__codelineno-11-22"></a>        <span class="n">connection</span><span class="o">.</span><span class="n">____</span><span class="p">()</span>
+</span><span id="__span-11-23"><a id="__codelineno-11-23" name="__codelineno-11-23" href="#__codelineno-11-23"></a>        <span class="c1"># TODO 3: ο αριθμός του σφάλματος είναι η ιδιότητα errno· το 1062 σημαίνει «διπλή τιμή» σε στήλη UNIQUE</span>
+</span><span id="__span-11-24"><a id="__codelineno-11-24" name="__codelineno-11-24" href="#__codelineno-11-24"></a>        <span class="k">if</span> <span class="n">error</span><span class="o">.</span><span class="n">____</span> <span class="o">==</span> <span class="mi">1062</span><span class="p">:</span>
+</span><span id="__span-11-25"><a id="__codelineno-11-25" name="__codelineno-11-25" href="#__codelineno-11-25"></a>            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Υπάρχει ήδη παιχνίδι με τίτλο «</span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="s2">»."</span><span class="p">)</span>
+</span><span id="__span-11-26"><a id="__codelineno-11-26" name="__codelineno-11-26" href="#__codelineno-11-26"></a>        <span class="k">else</span><span class="p">:</span>
+</span><span id="__span-11-27"><a id="__codelineno-11-27" name="__codelineno-11-27" href="#__codelineno-11-27"></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">"Η βάση δεν δέχτηκε τα δεδομένα:"</span><span class="p">,</span> <span class="n">error</span><span class="o">.</span><span class="n">msg</span><span class="p">)</span>
+</span><span id="__span-11-28"><a id="__codelineno-11-28" name="__codelineno-11-28" href="#__codelineno-11-28"></a>    <span class="n">cursor</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span></code></pre></div>
+<p>Και η <code>main</code>, που πιάνει το σφάλμα σύνδεσης και τα υπόλοιπα σφάλματα της βάσης, ώστε η εφαρμογή να μη σταματά:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">    </span><span class="sd">"""Το κύριο πρόγραμμα: ανοίγει τη σύνδεση και τρέχει το μενού ώσπου ο χρήστης να διαλέξει έξοδο."""</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>    <span class="c1"># TODO 4: αν η MySQL δεν τρέχει, η connect() δίνει σφάλμα του οδηγού· η Error τα πιάνει όλα (είναι η «μητέρα» τους)</span>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>    <span class="k">try</span><span class="p">:</span>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>        <span class="n">connection</span> <span class="o">=</span> <span class="n">connect</span><span class="p">()</span>
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>    <span class="k">except</span> <span class="n">mysql</span><span class="o">.</span><span class="n">connector</span><span class="o">.</span><span class="n">____</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">"Δεν μπόρεσα να συνδεθώ με τη βάση:"</span><span class="p">,</span> <span class="n">error</span><span class="o">.</span><span class="n">msg</span><span class="p">)</span>
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">"Έλεγξε ότι η MySQL τρέχει στο XAMPP Control Panel."</span><span class="p">)</span>
+</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>        <span class="k">return</span>
+</span><span id="__span-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a>
+</span><span id="__span-12-11"><a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a>    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+</span><span id="__span-12-12"><a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a>        <span class="c1"># Η κάθε ενέργεια μπορεί να αποτύχει με σφάλμα της βάσης: το πιάνουμε εδώ, ώστε η εφαρμογή να μη σταματά</span>
+</span><span id="__span-12-13"><a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a>        <span class="k">try</span><span class="p">:</span>
+</span><span id="__span-12-14"><a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a>            <span class="c1"># Αν η σύνδεση χάθηκε (π.χ. σταμάτησε η MySQL), δεν έχει νόημα να συνεχίσουμε</span>
+</span><span id="__span-12-15"><a id="__codelineno-12-15" name="__codelineno-12-15" href="#__codelineno-12-15"></a>            <span class="k">if</span> <span class="ow">not</span> <span class="n">connection</span><span class="o">.</span><span class="n">is_connected</span><span class="p">():</span>
+</span><span id="__span-12-16"><a id="__codelineno-12-16" name="__codelineno-12-16" href="#__codelineno-12-16"></a>                <span class="nb">print</span><span class="p">(</span><span class="s2">"Χάθηκε η σύνδεση με τη βάση. Η εφαρμογή τερματίζεται."</span><span class="p">)</span>
+</span><span id="__span-12-17"><a id="__codelineno-12-17" name="__codelineno-12-17" href="#__codelineno-12-17"></a>                <span class="k">break</span>
+</span><span id="__span-12-18"><a id="__codelineno-12-18" name="__codelineno-12-18" href="#__codelineno-12-18"></a>            <span class="c1"># Τελειώνει κάθε ανοιχτή συναλλαγή, ώστε η εφαρμογή να βλέπει τα τελευταία δεδομένα της βάσης</span>
+</span><span id="__span-12-19"><a id="__codelineno-12-19" name="__codelineno-12-19" href="#__codelineno-12-19"></a>            <span class="n">connection</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+</span><span id="__span-12-20"><a id="__codelineno-12-20" name="__codelineno-12-20" href="#__codelineno-12-20"></a>            <span class="n">show_menu</span><span class="p">()</span>
+</span><span id="__span-12-21"><a id="__codelineno-12-21" name="__codelineno-12-21" href="#__codelineno-12-21"></a>            <span class="n">choice</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Επιλογή: "</span><span class="p">)</span>
+</span><span id="__span-12-22"><a id="__codelineno-12-22" name="__codelineno-12-22" href="#__codelineno-12-22"></a>
+</span><span id="__span-12-23"><a id="__codelineno-12-23" name="__codelineno-12-23" href="#__codelineno-12-23"></a>            <span class="k">if</span> <span class="n">choice</span> <span class="o">==</span> <span class="s2">"1"</span><span class="p">:</span>
+</span><span id="__span-12-24"><a id="__codelineno-12-24" name="__codelineno-12-24" href="#__codelineno-12-24"></a>                <span class="n">list_games</span><span class="p">(</span><span class="n">connection</span><span class="p">)</span>
+</span><span id="__span-12-25"><a id="__codelineno-12-25" name="__codelineno-12-25" href="#__codelineno-12-25"></a>            <span class="k">elif</span> <span class="n">choice</span> <span class="o">==</span> <span class="s2">"2"</span><span class="p">:</span>
+</span><span id="__span-12-26"><a id="__codelineno-12-26" name="__codelineno-12-26" href="#__codelineno-12-26"></a>                <span class="n">search_games</span><span class="p">(</span><span class="n">connection</span><span class="p">)</span>
+</span><span id="__span-12-27"><a id="__codelineno-12-27" name="__codelineno-12-27" href="#__codelineno-12-27"></a>            <span class="k">elif</span> <span class="n">choice</span> <span class="o">==</span> <span class="s2">"3"</span><span class="p">:</span>
+</span><span id="__span-12-28"><a id="__codelineno-12-28" name="__codelineno-12-28" href="#__codelineno-12-28"></a>                <span class="n">add_game</span><span class="p">(</span><span class="n">connection</span><span class="p">)</span>
+</span><span id="__span-12-29"><a id="__codelineno-12-29" name="__codelineno-12-29" href="#__codelineno-12-29"></a>            <span class="k">elif</span> <span class="n">choice</span> <span class="o">==</span> <span class="s2">"4"</span><span class="p">:</span>
+</span><span id="__span-12-30"><a id="__codelineno-12-30" name="__codelineno-12-30" href="#__codelineno-12-30"></a>                <span class="n">change_price</span><span class="p">(</span><span class="n">connection</span><span class="p">)</span>
+</span><span id="__span-12-31"><a id="__codelineno-12-31" name="__codelineno-12-31" href="#__codelineno-12-31"></a>            <span class="k">elif</span> <span class="n">choice</span> <span class="o">==</span> <span class="s2">"5"</span><span class="p">:</span>
+</span><span id="__span-12-32"><a id="__codelineno-12-32" name="__codelineno-12-32" href="#__codelineno-12-32"></a>                <span class="n">delete_game</span><span class="p">(</span><span class="n">connection</span><span class="p">)</span>
+</span><span id="__span-12-33"><a id="__codelineno-12-33" name="__codelineno-12-33" href="#__codelineno-12-33"></a>            <span class="k">elif</span> <span class="n">choice</span> <span class="o">==</span> <span class="s2">"0"</span><span class="p">:</span>
+</span><span id="__span-12-34"><a id="__codelineno-12-34" name="__codelineno-12-34" href="#__codelineno-12-34"></a>                <span class="k">break</span>
+</span><span id="__span-12-35"><a id="__codelineno-12-35" name="__codelineno-12-35" href="#__codelineno-12-35"></a>            <span class="k">else</span><span class="p">:</span>
+</span><span id="__span-12-36"><a id="__codelineno-12-36" name="__codelineno-12-36" href="#__codelineno-12-36"></a>                <span class="nb">print</span><span class="p">(</span><span class="s2">"Άγνωστη επιλογή. Γράψε έναν από τους αριθμούς του μενού."</span><span class="p">)</span>
+</span><span id="__span-12-37"><a id="__codelineno-12-37" name="__codelineno-12-37" href="#__codelineno-12-37"></a>        <span class="k">except</span> <span class="n">mysql</span><span class="o">.</span><span class="n">connector</span><span class="o">.</span><span class="n">Error</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+</span><span id="__span-12-38"><a id="__codelineno-12-38" name="__codelineno-12-38" href="#__codelineno-12-38"></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">"Σφάλμα της βάσης:"</span><span class="p">,</span> <span class="n">error</span><span class="o">.</span><span class="n">msg</span><span class="p">)</span>
+</span><span id="__span-12-39"><a id="__codelineno-12-39" name="__codelineno-12-39" href="#__codelineno-12-39"></a>
+</span><span id="__span-12-40"><a id="__codelineno-12-40" name="__codelineno-12-40" href="#__codelineno-12-40"></a>    <span class="n">connection</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span><span id="__span-12-41"><a id="__codelineno-12-41" name="__codelineno-12-41" href="#__codelineno-12-41"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">"Γεια σου!"</span><span class="p">)</span>
+</span></code></pre></div>
+<p><strong>Συνέχισε στο Φύλλο εργασίας, Κύκλος 2.</strong></p>
+<hr />
+<h2 id="_5">Έλεγχος πριν ολοκληρώσεις<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<ul>
+<li>□ Τα Στάδια 1–3 δουλεύουν και η εφαρμογή <strong>δεν</strong> δείχνει traceback όταν γράφεις λάθος τιμές.</li>
+<li>□ Στο Στάδιο 4 είδες τα σφάλματα <code>#1062</code>, <code>#1048</code> και <code>#4025</code>, και ξέρεις ποιος περιορισμός τα έδωσε.</li>
+<li>□ Στο Στάδιο 5 ο διπλός τίτλος δίνει ευγενικό μήνυμα και όχι traceback.</li>
+<li>□ Μπορείς να εξηγήσεις γιατί <code>WHERE description = NULL</code> δεν βρίσκει τίποτα.</li>
+<li>□ Καμία <code>except</code> στον κώδικά σου δεν είναι χωρίς όνομα σφάλματος.</li>
+<li>□ Όταν τελείωσες, σταμάτησες τον Apache και τη MySQL.</li>
+</ul>
+<h2 id="_6">Για να θυμάσαι<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<ul>
+<li><code>try:</code> … <code>except ΟΝΟΜΑ:</code> πιάνει το σφάλμα και το πρόγραμμα συνεχίζει. Γράφεις <strong>το όνομα</strong> του σφάλματος που
+  περιμένεις, ποτέ <code>except:</code> χωρίς όνομα.</li>
+<li>Η <code>int()</code> δίνει <code>ValueError</code>, η <code>Decimal()</code> δίνει <code>InvalidOperation</code>, η διαίρεση με το μηδέν <code>ZeroDivisionError</code>.</li>
+<li>Μια συνάρτηση που <strong>ρωτά μέχρι να πάρει σωστή τιμή</strong>: <code>while True</code> + <code>try</code>/<code>except</code> + <code>return</code>.</li>
+<li>Η βάση έχει <strong>περιορισμούς</strong>: <code>NOT NULL</code>, <code>UNIQUE</code>, <code>DEFAULT</code>, <code>CHECK</code>. Τους προσθέτεις με <code>ALTER TABLE</code>.</li>
+<li>Το <code>NULL</code> είναι «καμία τιμή», όχι <code>0</code> και όχι <code>''</code>. Ελέγχεται με <code>IS NULL</code>, ποτέ με <code>= NULL</code>. Στην Python είναι το
+  <code>None</code>.</li>
+<li>Τα σφάλματα της βάσης είναι <code>mysql.connector.Error</code>. Το <code>IntegrityError</code> είναι οι παραβιάσεις περιορισμών.
+  <code>error.errno</code> για τον αριθμό, <code>error.msg</code> για το μήνυμα.</li>
+<li>Χρειάζονται <strong>δύο γραμμές άμυνας</strong>: το πρόγραμμα (ευγενικό, πρώτο) και η βάση (τελικός φρουρός).</li>
+<li>Το XAMPP δεν είναι αυστηρό: το <code>CHECK</code> και το <code>UNIQUE</code> δουλεύουν, αλλά μια στήλη <code>NOT NULL</code> που παραλείπεται από το
+  <code>INSERT</code> παίρνει σιωπηλά κενό ή <code>0</code>.</li>
+</ul>
+<h2 id="_7">Λεξιλόγιο<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<p><strong>εξαιρέση</strong> (exception), <strong><code>try</code></strong>, <strong><code>except</code></strong>, <strong><code>ValueError</code></strong>, <strong><code>InvalidOperation</code></strong>, <strong>επικύρωση</strong> (validation),
+<strong>περιορισμός</strong> (constraint), <strong><code>UNIQUE</code></strong>, <strong><code>NOT NULL</code></strong>, <strong><code>DEFAULT</code></strong>, <strong><code>NULL</code></strong>, <strong><code>None</code></strong>, <strong><code>CHECK</code></strong>,
+<strong><code>ALTER TABLE</code></strong>, <strong><code>IntegrityError</code></strong>, <strong><code>errno</code></strong>, <strong><code>rollback</code></strong>.</p>
+<h2 id="_8">Δική σου εκδοχή<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
+<p>Αν τελειώσεις νωρίτερα, δούλεψε <strong>με μία αλλαγή τη φορά</strong> και δοκίμαζε μετά από κάθε αλλαγή:</p>
+<ul>
+<li>Η στήλη <code>title</code> είναι <code>VARCHAR(100)</code>. Στο XAMPP, ένας τίτλος 150 χαρακτήρων <strong>κόβεται σιωπηλά</strong> στους 100. Πρόσθεσε
+  στην <code>ask_text</code> μια τρίτη παράμετρο <code>max_length</code> και έλεγχο μήκους. Η <code>ask_text("Τίτλος: ", 100)</code> να μη δέχεται
+  μεγαλύτερο κείμενο.</li>
+<li>Στην <code>search_games</code> εμφάνισε και τη στήλη <code>description</code> (με <code>None</code> όπου δεν υπάρχει περιγραφή, και «—» στην
+  εμφάνιση).</li>
+<li><strong>Πρόκληση 1:</strong> άλλαξε προσωρινά το <code>1970</code> σε <code>1900</code> στην <code>ask_int</code> της <code>add_game</code> και πρόσθεσε παιχνίδι με χρονιά
+  <code>1900</code>. Ποιος πιάνει το λάθος τώρα, και τι μήνυμα βλέπεις; Επανάφερε το <code>1970</code>.</li>
+<li><strong>Πρόκληση 2:</strong> σβήσε από το <code>06-final.py</code> το <code>connection.rollback()</code> του <code>except</code>. Αλλάζει κάτι στη συμπεριφορά;
+  Γιατί το κρατάμε παρ' όλα αυτά;</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Επιστροφή στην αρχή
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Υποσέλιδο" >
+        
+          
+          <a href="../../07-menu-app/worksheet-07/" class="md-footer__link md-footer__link--prev" aria-label="Προηγούμενο: Φύλλο εργασίας">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Προηγούμενο
+              </span>
+              <div class="md-ellipsis">
+                Φύλλο εργασίας
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../worksheet-08/" class="md-footer__link md-footer__link--next" aria-label="Επόμενο: Φύλλο εργασίας">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Επόμενο
+              </span>
+              <div class="md-ellipsis">
+                Φύλλο εργασίας
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2026 Θόδωρος Θεμελής — <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.el"
+   target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>
+
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.top", "navigation.footer", "content.code.copy", "content.code.annotate", "toc.follow", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "\u0391\u03bd\u03c4\u03b9\u03b3\u03c1\u03ac\u03c6\u03b7\u03ba\u03b5 \u03c3\u03c4\u03bf \u03c0\u03c1\u03cc\u03c7\u03b5\u03b9\u03c1\u03bf", "clipboard.copy": "\u0391\u03bd\u03c4\u03b9\u03b3\u03c1\u03b1\u03c6\u03ae \u03c3\u03c4\u03bf \u03c0\u03c1\u03cc\u03c7\u03b5\u03b9\u03c1\u03bf", "search.result.more.one": "1 \u03b1\u03ba\u03cc\u03bc\u03b1 \u03c3\u03b5 \u03b1\u03c5\u03c4\u03ae\u03bd \u03c4\u03b7 \u03c3\u03b5\u03bb\u03af\u03b4\u03b1", "search.result.more.other": "# \u03b1\u03ba\u03cc\u03bc\u03b1 \u03c3\u03b5 \u03b1\u03c5\u03c4\u03ae\u03bd \u03c4\u03b7 \u03c3\u03b5\u03bb\u03af\u03b4\u03b1", "search.result.none": "\u03b4\u03b5\u03bd \u03b2\u03c1\u03ae\u03ba\u03b5 \u03ba\u03ac\u03c0\u03bf\u03b9\u03bf \u03ad\u03b3\u03b3\u03c1\u03b1\u03c6\u03bf", "search.result.one": "1 \u03ad\u03b3\u03b3\u03c1\u03b1\u03c6\u03bf \u03c0\u03bf\u03c5 \u03c4\u03b1\u03b9\u03c1\u03b9\u03ac\u03b6\u03b5\u03b9", "search.result.other": "# \u03ad\u03b3\u03b3\u03c1\u03b1\u03c6\u03b1 \u03c0\u03bf\u03c5 \u03c4\u03b1\u03b9\u03c1\u03b9\u03ac\u03b6\u03bf\u03c5\u03bd", "search.result.placeholder": "\u03a0\u03bb\u03b7\u03ba\u03c4\u03c1\u03bf\u03bb\u03bf\u03b3\u03ae\u03c3\u03c4\u03b5 \u03b3\u03b9\u03b1 \u03bd\u03b1 \u03b1\u03c1\u03c7\u03af\u03c3\u03b5\u03b9 \u03b7 \u03b1\u03bd\u03b1\u03b6\u03ae\u03c4\u03b7\u03c3\u03b7", "search.result.term.missing": "\u039b\u03b5\u03af\u03c0\u03b5\u03b9", "select.version": "\u0395\u03c0\u03b9\u03bb\u03bf\u03b3\u03ae \u03ad\u03ba\u03b4\u03bf\u03c3\u03b7\u03c2"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+    
+  </body>
+</html>
