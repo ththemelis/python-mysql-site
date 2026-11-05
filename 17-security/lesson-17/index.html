@@ -1,0 +1,3757 @@
+
+<!doctype html>
+<html lang="el" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Εργαστηριακό υλικό μαθήματος — ΕΠΑΛ">
+      
+      
+        <meta name="author" content="Θόδωρος Θεμελής">
+      
+      
+        <link rel="canonical" href="https://ththemelis.github.io/python-mysql-site/17-security/lesson-17/">
+      
+      
+        <link rel="prev" href="../../16-reports-csv/worksheet-16/">
+      
+      
+        <link rel="next" href="../worksheet-17/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>Μάθημα - Βάσεις δεδομένων με Python και MySQL</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/course.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#17-sql-injection" class="md-skip">
+          Μετάβαση στο περιεχόμενο
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Κεφαλίδα">
+    <a href="../.." title="Βάσεις δεδομένων με Python και MySQL" class="md-header__button md-logo" aria-label="Βάσεις δεδομένων με Python και MySQL" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Βάσεις δεδομένων με Python και MySQL
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Μάθημα
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Σκοτεινό θέμα"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Σκοτεινό θέμα" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Φωτεινό θέμα"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Φωτεινό θέμα" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Αναζήτηση" placeholder="Αναζήτηση" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Αναζήτηση">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Καθαρισμός" aria-label="Καθαρισμός" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Αρχικοποίηση αναζήτησης
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Πλοήγηση" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Βάσεις δεδομένων με Python και MySQL" class="md-nav__button md-logo" aria-label="Βάσεις δεδομένων με Python και MySQL" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Βάσεις δεδομένων με Python και MySQL
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Αρχική
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Εγκατάσταση και ρύθμιση
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 1 — Η πρώτη μου βάση δεδομένων
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 1 — Η πρώτη μου βάση δεδομένων
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01-first-database/lesson-01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01-first-database/worksheet-01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 2 — Η γλώσσα SQL: CREATE, INSERT, SELECT
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 2 — Η γλώσσα SQL: CREATE, INSERT, SELECT
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02-sql-basics/lesson-02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02-sql-basics/worksheet-02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 3 — Η Python συνδέεται με τη βάση
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 3 — Η Python συνδέεται με τη βάση
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03-python-connects/lesson-03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03-python-connects/worksheet-03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 4 — Φιλτράρω και ταξινομώ
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 4 — Φιλτράρω και ταξινομώ
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04-filter-sort/lesson-04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04-filter-sort/worksheet-04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 5 — Προσθέτω δεδομένα από την Python
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 5 — Προσθέτω δεδομένα από την Python
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05-insert-python/lesson-05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05-insert-python/worksheet-05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 6 — Αλλάζω και σβήνω
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 6 — Αλλάζω και σβήνω
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06-update-delete/lesson-06/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06-update-delete/worksheet-06/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 7 — Εφαρμογή με μενού
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 7 — Εφαρμογή με μενού
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07-menu-app/lesson-07/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07-menu-app/worksheet-07/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 8 — Σφάλματα και έλεγχος εισόδου
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 8 — Σφάλματα και έλεγχος εισόδου
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08-errors-validation/lesson-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08-errors-validation/worksheet-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 9 — Ημερομηνίες και ώρες
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 9 — Ημερομηνίες και ώρες
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../09-dates/lesson-09/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../09-dates/worksheet-09/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 10 — Συγκεντρωτικά αποτελέσματα
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 10 — Συγκεντρωτικά αποτελέσματα
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../10-aggregates/lesson-10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../10-aggregates/worksheet-10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 11 — Πολλοί πίνακες: το ξένο κλειδί
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 11 — Πολλοί πίνακες: το ξένο κλειδί
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../11-foreign-key/lesson-11/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../11-foreign-key/worksheet-11/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_14" >
+        
+          
+          <label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 12 — JOIN: ερωτήματα σε πολλούς πίνακες
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_14">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 12 — JOIN: ερωτήματα σε πολλούς πίνακες
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12-join/lesson-12/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12-join/worksheet-12/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15" >
+        
+          
+          <label class="md-nav__link" for="__nav_15" id="__nav_15_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 13 — JOIN από την Python
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_15_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_15">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 13 — JOIN από την Python
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../13-join-python/lesson-13/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../13-join-python/worksheet-13/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_16" >
+        
+          
+          <label class="md-nav__link" for="__nav_16" id="__nav_16_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 14 — Πολλά-προς-πολλά: ο πίνακας σύνδεσης
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_16_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_16">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 14 — Πολλά-προς-πολλά: ο πίνακας σύνδεσης
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../14-many-to-many/lesson-14/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../14-many-to-many/worksheet-14/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_17" >
+        
+          
+          <label class="md-nav__link" for="__nav_17" id="__nav_17_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 15 — Οργάνωση του κώδικα: modules, with και ρυθμίσεις
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_17_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_17">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 15 — Οργάνωση του κώδικα: modules, with και ρυθμίσεις
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../15-modules/lesson-15/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../15-modules/worksheet-15/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_18" >
+        
+          
+          <label class="md-nav__link" for="__nav_18" id="__nav_18_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 16 — Αναφορές και εξαγωγή σε CSV
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_18_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_18">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 16 — Αναφορές και εξαγωγή σε CSV
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../16-reports-csv/lesson-16/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../16-reports-csv/worksheet-16/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_19" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_19" id="__nav_19_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 17 — Ασφάλεια: λογαριασμοί, δικαιώματα και SQL injection
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_19_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_19">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 17 — Ασφάλεια: λογαριασμοί, δικαιώματα και SQL injection
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Πίνακας περιεχομένων">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Πίνακας περιεχομένων
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Αρχεία εργαστηρίου
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Η αποστολή
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στο τέλος θα μπορείς
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Πριν αρχίσεις
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Κύκλος 1 — Λογαριασμοί και δικαιώματα
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Κύκλος 1 — Λογαριασμοί και δικαιώματα">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-root" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Το πρόβλημα: όλα ως root
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Ο λογαριασμός: όνομα και υπολογιστής
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-grant" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 GRANT: τι επιτρέπεται
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4 Τα τρία σφάλματα της ασφάλειας
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-sql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 1 — Οι λογαριασμοί (SQL)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.5 Οι κωδικοί δεν μπαίνουν στον κώδικα
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 2 — Η Python συνδέεται με τους νέους λογαριασμούς
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 3 — Οι αναφορές με τον λογαριασμό που μόνο διαβάζει
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-sql-injection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Κύκλος 2 — SQL injection
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Κύκλος 2 — SQL injection">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-sql-injection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Το SQL injection: δεδομένα που γίνονται κώδικας
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Τρεις επιθέσεις
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 4 — Η επίθεση
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Η άμυνα: παράμετροι
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 Λιγότερα δικαιώματα: δεύτερο στρώμα άμυνας
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 5 — Η άμυνα
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5 Και τι άλλο;
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Έλεγχος πριν ολοκληρώσεις
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Για να θυμάσαι
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Λεξιλόγιο
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Δική σου εκδοχή
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../worksheet-17/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_20" >
+        
+          
+          <label class="md-nav__link" for="__nav_20" id="__nav_20_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 18 — Αντίγραφα ασφαλείας και συναλλαγές
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_20_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_20">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 18 — Αντίγραφα ασφαλείας και συναλλαγές
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../18-backup-transactions/lesson-18/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../18-backup-transactions/worksheet-18/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Πίνακας περιεχομένων">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Πίνακας περιεχομένων
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Αρχεία εργαστηρίου
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Η αποστολή
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στο τέλος θα μπορείς
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Πριν αρχίσεις
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Κύκλος 1 — Λογαριασμοί και δικαιώματα
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Κύκλος 1 — Λογαριασμοί και δικαιώματα">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-root" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Το πρόβλημα: όλα ως root
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Ο λογαριασμός: όνομα και υπολογιστής
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-grant" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 GRANT: τι επιτρέπεται
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4 Τα τρία σφάλματα της ασφάλειας
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-sql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 1 — Οι λογαριασμοί (SQL)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.5 Οι κωδικοί δεν μπαίνουν στον κώδικα
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 2 — Η Python συνδέεται με τους νέους λογαριασμούς
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 3 — Οι αναφορές με τον λογαριασμό που μόνο διαβάζει
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-sql-injection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Κύκλος 2 — SQL injection
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Κύκλος 2 — SQL injection">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-sql-injection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Το SQL injection: δεδομένα που γίνονται κώδικας
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Τρεις επιθέσεις
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 4 — Η επίθεση
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Η άμυνα: παράμετροι
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 Λιγότερα δικαιώματα: δεύτερο στρώμα άμυνας
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 5 — Η άμυνα
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5 Και τι άλλο;
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Έλεγχος πριν ολοκληρώσεις
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Για να θυμάσαι
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Λεξιλόγιο
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Δική σου εκδοχή
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="17-sql-injection">Μάθημα 17: Ασφάλεια: λογαριασμοί, δικαιώματα και SQL injection<a class="headerlink" href="#17-sql-injection" title="Permanent link">&para;</a></h1>
+<p><strong>Βάση δεδομένων και Python:</strong> λογαριασμοί MariaDB (<code>CREATE USER</code>, <code>GRANT</code>), η αρχή των ελάχιστων δικαιωμάτων, κωδικοί έξω από τον κώδικα και το <strong>SQL injection</strong> (επίθεση και άμυνα)<br />
+<strong>Διάρκεια:</strong> 2 κύκλοι × περίπου 45′ εργασία (2 διδακτικές ώρες)</p>
+<div class="admonition info">
+<p class="admonition-title">Φύλλο εργασίας</p>
+<p>Αυτή η σελίδα εξηγεί τις έννοιες. Οι ασκήσεις και οι οδηγίες για κάθε κύκλο βρίσκονται στο
+<a href="../worksheet-17/">Φύλλο εργασίας 17</a>. Δούλεψε με τις δύο σελίδες ανοιχτές.</p>
+</div>
+<h2 id="_1">Αρχεία εργαστηρίου<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Αρχείο</th>
+<th>Κύκλος</th>
+<th>Τι είναι</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../code/starter/01-start-state.sql">01-start-state.sql</a></td>
+<td>πριν αρχίσεις</td>
+<td>η βάση όπως τελειώνει το Μάθημα 16</td>
+</tr>
+<tr>
+<td><a href="../code/starter/02-users.sql">02-users.sql</a></td>
+<td>1</td>
+<td><strong>νέο</strong>, με κενά</td>
+</tr>
+<tr>
+<td><a href="../code/starter/config.py">config.py</a>, <a href="../code/starter/db.py">db.py</a></td>
+<td>1</td>
+<td><strong>αλλάζουν</strong>, με κενά</td>
+</tr>
+<tr>
+<td><a href="../code/starter/config_local.example.py">config_local.example.py</a></td>
+<td>1</td>
+<td><strong>νέο</strong>, το αντιγράφεις ως <code>config_local.py</code></td>
+</tr>
+<tr>
+<td><a href="../code/starter/check_privileges.py">check_privileges.py</a></td>
+<td>1</td>
+<td><strong>νέο</strong>, έτοιμος έλεγχος</td>
+</tr>
+<tr>
+<td><a href="../code/starter/report.py">report.py</a></td>
+<td>1</td>
+<td><strong>αλλάζει</strong>, με κενά</td>
+</tr>
+<tr>
+<td><a href="../code/starter/queries.py">queries.py</a>, <a href="../code/starter/ui.py">ui.py</a>, <a href="../code/starter/app.py">app.py</a>, <a href="../code/starter/reports.py">reports.py</a>, <a href="../code/starter/export.py">export.py</a></td>
+<td>1</td>
+<td>ίδια με τα Μαθήματα 15–16 (δεν έχουν κενά)</td>
+</tr>
+<tr>
+<td><a href="../code/starter/03-members.sql">03-members.sql</a></td>
+<td>2</td>
+<td><strong>νέο</strong>, έτοιμο</td>
+</tr>
+<tr>
+<td><a href="../code/starter/lab_menu.py">lab_menu.py</a>, <a href="../code/starter/lab_unsafe.py">lab_unsafe.py</a></td>
+<td>2</td>
+<td><strong>νέα</strong>, έτοιμα</td>
+</tr>
+<tr>
+<td><a href="../code/starter/lab_safe.py">lab_safe.py</a></td>
+<td>2</td>
+<td><strong>νέο</strong>, με κενά</td>
+</tr>
+<tr>
+<td><a href="../code/starter/check_lab.py">check_lab.py</a></td>
+<td>2</td>
+<td><strong>νέο</strong>, έτοιμος έλεγχος</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_2">Η αποστολή<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>Μέχρι σήμερα όλα τα προγράμματά μας συνδέονται ως <strong><code>root</code></strong>, χωρίς κωδικό. Ο <code>root</code> μπορεί <strong>τα πάντα</strong>: να σβήσει όλες τις βάσεις του υπολογιστή, να διαβάσει τα δεδομένα όλων και να δώσει
+δικαιώματα σε οποιονδήποτε. Αν ένα πρόγραμμα με τέτοια δύναμη έχει ένα λάθος, ή κάποιος το εκμεταλλευτεί, το λάθος έχει <strong>όλη τη δύναμη του <code>root</code></strong>.</p>
+<p>Σήμερα κάνουμε τα προγράμματά μας πιο ασφαλή με δύο τρόπους:</p>
+<ol>
+<li><strong>Λογαριασμοί με λίγα δικαιώματα:</strong> ένας λογαριασμός για την εφαρμογή, ένας για τις αναφορές, και οι κωδικοί τους <strong>έξω από τον κώδικα</strong>.</li>
+<li><strong>Άμυνα στο SQL injection:</strong> θα <strong>επιτεθείς</strong> σε ένα δικό μας εργαστηριακό πρόγραμμα, θα δεις τι μπορεί να πάθει μια βάση, και θα το <strong>προστατέψεις</strong>.</li>
+</ol>
+<h2 id="_3">Στο τέλος θα μπορείς<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<ul>
+<li>να εξηγείς γιατί ένα πρόγραμμα <strong>δεν</strong> πρέπει να συνδέεται ως <code>root</code> (η αρχή των <strong>ελάχιστων δικαιωμάτων</strong>).</li>
+<li>να φτιάχνεις λογαριασμό με <code>CREATE USER … IDENTIFIED BY</code> και να δίνεις και να ελέγχεις δικαιώματα με <code>GRANT</code>, <code>SHOW GRANTS</code>, <code>REVOKE</code>.</li>
+<li>να διαβάζεις τα σφάλματα <strong>#1045</strong>, <strong>#1044</strong> και <strong>#1142</strong>.</li>
+<li>να κρατάς τους κωδικούς <strong>έξω από τον κώδικα</strong> (<code>config_local.py</code> και <code>.gitignore</code>).</li>
+<li>να εξηγείς τι είναι το <strong>SQL injection</strong> και να αναγνωρίζεις τρεις τύπους του: παράκαμψη σύνδεσης, κλοπή δεδομένων με <code>UNION</code>, καταστροφή δεδομένων.</li>
+<li>να το αποτρέπεις με <strong>παραμέτρους</strong> (<code>%s</code>) και να εξηγείς γιατί η άμυνα έχει πολλά <strong>στρώματα</strong>.</li>
+</ul>
+<h2 id="_4">Πριν αρχίσεις<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Ξεκίνα τη <strong>MySQL</strong> και τον <strong>Apache</strong> από το XAMPP Control Panel.</li>
+<li>Φτιάξε έναν φάκελο <code>17-security</code> μέσα στον φάκελο των μαθημάτων και κατέβασε εκεί τα <strong>δεκαεπτά</strong> αρχεία του πίνακα. Κράτησε ακριβώς τα ονόματα. <strong>Όλα τα <code>.py</code> στον ίδιο φάκελο</strong>, όπως στο
+   Μάθημα 15. Άνοιξε τον φάκελο στο VS Code και άνοιξε τερματικό.
+   (Αν έχεις ακόμη τον φάκελο του Μαθήματος 16, μπορείς να τον αντιγράψεις και να κατεβάσεις μόνο τα <strong>νέα</strong> και τα <strong>αλλαγμένα</strong> αρχεία, που αντικαθιστούν τα παλιά.)</li>
+<li>Φέρε τη βάση στην κατάσταση εκκίνησης: στο phpMyAdmin επίλεξε τη βάση <code>game_library</code>, άνοιξε την καρτέλα <strong>Import</strong>, διάλεξε το <code>01-start-state.sql</code> και πάτα <strong>Import</strong>.</li>
+<li>Έλεγξε στην καρτέλα <strong>Browse</strong> ότι ο <code>games</code> έχει <strong>30</strong> γραμμές, ο <code>genres</code> <strong>11</strong>, ο <code>reviews</code> <strong>12</strong>, ο <code>platforms</code> <strong>5</strong> και ο <code>game_platforms</code> <strong>63</strong>.</li>
+</ol>
+<div class="admonition warning">
+<p class="admonition-title">Το αρχείο εκκίνησης σβήνει τα δεδομένα σου</p>
+<p>Το <code>01-start-state.sql</code> <strong>σβήνει</strong> τους πίνακες της βάσης και τους φτιάχνει από την αρχή. Δεν αγγίζει τους <strong>λογαριασμούς</strong> που θα φτιάξεις σήμερα, γιατί αυτοί ανήκουν στον εξυπηρετητή και όχι στη βάση.
+Αν χαλάσεις τον πίνακα <code>members</code> (Κύκλος 2), τρέξε μόνο το <code>03-members.sql</code>.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Επιθέσεις μόνο στο δικό σου εργαστήριο</p>
+<p>Σήμερα θα δοκιμάσεις <strong>επιθέσεις</strong>, αλλά <strong>μόνο</strong> στο πρόγραμμα <code>lab_unsafe.py</code> και στη δική σου βάση. Η δοκιμή τέτοιων επιθέσεων σε σύστημα που δεν είναι δικό σου (ένας ιστότοπος, η βάση του σχολείου,
+η εφαρμογή ενός φίλου) είναι <strong>παράνομη</strong>, ακόμη κι αν «απλώς δοκιμάζεις». Στόχος είναι να καταλάβεις πώς <strong>προστατεύεσαι</strong>, όχι να βλάψεις κάποιον.</p>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Ο κύκλος εργασίας</p>
+<p><strong>Πρόβλεψη → εκτέλεση → σύγκριση → εξήγηση.</strong> Σήμερα πρόβλεψε <strong>ποιο σφάλμα</strong> θα δώσει η βάση όταν ένας λογαριασμός ζητά κάτι που δεν επιτρέπεται, και <strong>τι θα κάνει το πρόγραμμα</strong> όταν ο χρήστης γράψει
+κάτι «περίεργο».</p>
+</div>
+<hr />
+<h2 id="1">Κύκλος 1 — Λογαριασμοί και δικαιώματα<a class="headerlink" href="#1" title="Permanent link">&para;</a></h2>
+<p>Σε αυτόν τον κύκλο φτιάχνεις δύο λογαριασμούς με λίγα δικαιώματα και τους χρησιμοποιείς από την Python.</p>
+<h3 id="11-root">1.1 Το πρόβλημα: όλα ως <code>root</code><a class="headerlink" href="#11-root" title="Permanent link">&para;</a></h3>
+<p>Στο phpMyAdmin τρέξε:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="k">CURRENT_USER</span><span class="p">();</span>
+</span></code></pre></div>
+<p>Η απάντηση είναι <code>root@localhost</code>: ο <strong>διαχειριστής</strong> της βάσης, ο οποίος στο XAMPP <strong>δεν έχει κωδικό</strong>. Όλα τα προγράμματά σου συνδέθηκαν ως αυτός. Το πρόγραμμα όμως χρειάζεται <strong>λίγα</strong>: να διαβάζει, να προσθέτει, να αλλάζει και
+να σβήνει <strong>γραμμές</strong> στους πίνακες της <code>game_library</code>. Δεν χρειάζεται να φτιάχνει ή να σβήνει πίνακες, να διαβάζει άλλες βάσεις ή να φτιάχνει λογαριασμούς.</p>
+<p>Η <strong>αρχή των ελάχιστων δικαιωμάτων</strong> (<em>principle of least privilege</em>) λέει: <strong>κάθε πρόγραμμα, και κάθε άνθρωπος, παίρνει μόνο όσα δικαιώματα χρειάζεται για τη δουλειά του και τίποτα παραπάνω.</strong> Έτσι, αν κάτι πάει
+στραβά (λάθος στον κώδικα, κλεμμένος κωδικός, επίθεση), η ζημιά <strong>περιορίζεται</strong>.</p>
+<h3 id="12">1.2 Ο λογαριασμός: όνομα και υπολογιστής<a class="headerlink" href="#12" title="Permanent link">&para;</a></h3>
+<p>Ένας <strong>λογαριασμός</strong> (user) της MariaDB έχει <strong>όνομα</strong> και <strong>υπολογιστή από τον οποίο επιτρέπεται να συνδεθεί</strong>, γραμμένα σε εισαγωγικά και με <code>@</code> ανάμεσα:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="s1">'game_app'</span><span class="o">@</span><span class="s1">'localhost'</span>
+</span></code></pre></div>
+<p>Το <code>localhost</code> σημαίνει «μόνο από αυτόν τον υπολογιστή». (Το <code>'%'</code> θα σήμαινε «από οποιονδήποτε υπολογιστή»: <strong>όχι</strong> σήμερα.) Τον φτιάχνεις με <strong>κωδικό</strong>:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">USER</span><span class="w"> </span><span class="s1">'game_app'</span><span class="o">@</span><span class="s1">'localhost'</span><span class="w"> </span><span class="n">IDENTIFIED</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="s1">'app-pass-2026'</span><span class="p">;</span>
+</span></code></pre></div>
+<p>Η βάση <strong>δεν αποθηκεύει τον κωδικό</strong>: αποθηκεύει ένα <strong>hash</strong> του (μια «σφραγίδα» που δεν γυρίζει πίσω στον κωδικό). Θα το δεις στο <code>SHOW GRANTS</code>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Πρώτα <code>CREATE USER</code>, μετά <code>GRANT</code></p>
+<p>Στο XAMPP, αν γράψεις <code>GRANT</code> για λογαριασμό που <strong>δεν υπάρχει</strong> (π.χ. λάθος όνομα), η MariaDB <strong>φτιάχνει σιωπηλά</strong> αυτόν τον λογαριασμό, <strong>χωρίς κωδικό</strong>. Φτιάχνε πάντα πρώτα τον λογαριασμό με
+<code>CREATE USER … IDENTIFIED BY</code>, και έλεγχε με <code>SHOW GRANTS</code>.</p>
+</div>
+<h3 id="13-grant">1.3 <code>GRANT</code>: τι επιτρέπεται<a class="headerlink" href="#13-grant" title="Permanent link">&para;</a></h3>
+<p>Με το <strong><code>GRANT</code></strong> δίνεις δικαιώματα:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">GRANT</span><span class="w"> </span><span class="k">SELECT</span><span class="p">,</span><span class="w"> </span><span class="k">INSERT</span><span class="p">,</span><span class="w"> </span><span class="k">UPDATE</span><span class="p">,</span><span class="w"> </span><span class="k">DELETE</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">game_library</span><span class="p">.</span><span class="o">*</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="s1">'game_app'</span><span class="o">@</span><span class="s1">'localhost'</span><span class="p">;</span>
+</span></code></pre></div>
+<p>Διαβάζεται: «δώσε <code>SELECT</code>, <code>INSERT</code>, <code>UPDATE</code> και <code>DELETE</code> στη <code>game_library</code>, σε <strong>όλους τους πίνακές</strong> της (<code>.*</code>), στον λογαριασμό <code>game_app</code>». Τα δικαιώματα που θα συναντήσεις:</p>
+<table>
+<thead>
+<tr>
+<th>Δικαίωμα</th>
+<th>Τι επιτρέπει</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SELECT</code></td>
+<td>να <strong>διαβάζεις</strong> γραμμές</td>
+</tr>
+<tr>
+<td><code>INSERT</code></td>
+<td>να <strong>προσθέτεις</strong> γραμμές</td>
+</tr>
+<tr>
+<td><code>UPDATE</code></td>
+<td>να <strong>αλλάζεις</strong> γραμμές</td>
+</tr>
+<tr>
+<td><code>DELETE</code></td>
+<td>να <strong>σβήνεις</strong> γραμμές</td>
+</tr>
+<tr>
+<td><code>CREATE</code>, <code>ALTER</code>, <code>DROP</code></td>
+<td>να φτιάχνεις, αλλάζεις, σβήνεις <strong>πίνακες</strong> (τη δομή)</td>
+</tr>
+<tr>
+<td><code>ALL PRIVILEGES</code></td>
+<td><strong>όλα</strong> τα παραπάνω και ακόμα περισσότερα: δεν το δίνεις σε προγράμματα</td>
+</tr>
+</tbody>
+</table>
+<p>Το <strong>πού</strong> ισχύει το δικαίωμα φαίνεται μετά το <code>ON</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Γράφεις</th>
+<th>Σημαίνει</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ON game_library.*</code></td>
+<td>σε <strong>όλους</strong> τους πίνακες της βάσης <code>game_library</code></td>
+</tr>
+<tr>
+<td><code>ON game_library.games</code></td>
+<td><strong>μόνο</strong> στον πίνακα <code>games</code></td>
+</tr>
+<tr>
+<td><code>ON *.*</code></td>
+<td><strong>σε όλο τον εξυπηρετητή</strong>: αυτό έχει ο <code>root</code></td>
+</tr>
+</tbody>
+</table>
+<p>Ακόμη τρεις εντολές:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">SHOW</span><span class="w"> </span><span class="n">GRANTS</span><span class="w"> </span><span class="k">FOR</span><span class="w"> </span><span class="s1">'game_app'</span><span class="o">@</span><span class="s1">'localhost'</span><span class="p">;</span><span class="w">                       </span><span class="c1">-- τι δικαιώματα έχει</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="k">REVOKE</span><span class="w"> </span><span class="k">DELETE</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">game_library</span><span class="p">.</span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="s1">'game_app'</span><span class="o">@</span><span class="s1">'localhost'</span><span class="p">;</span><span class="w">  </span><span class="c1">-- αφαιρεί ένα δικαίωμα</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="k">DROP</span><span class="w"> </span><span class="k">USER</span><span class="w"> </span><span class="s1">'game_app'</span><span class="o">@</span><span class="s1">'localhost'</span><span class="p">;</span><span class="w">                             </span><span class="c1">-- σβήνει τον λογαριασμό</span>
+</span></code></pre></div>
+<p>Οι αλλαγές δικαιωμάτων ισχύουν για τις <strong>νέες συνδέσεις</strong>: ένα πρόγραμμα που είναι ήδη ανοιχτό κρατά τα παλιά δικαιώματά του ώσπου να ξανασυνδεθεί. (Δεν χρειάζεται <code>FLUSH PRIVILEGES</code> όταν χρησιμοποιείς <code>GRANT</code>
+και <code>REVOKE</code>.)</p>
+<p>Σήμερα φτιάχνουμε δύο λογαριασμούς:</p>
+<table>
+<thead>
+<tr>
+<th>Λογαριασμός</th>
+<th>Για ποιον</th>
+<th>Δικαιώματα</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>game_app</code></td>
+<td>η εφαρμογή (<code>app.py</code>)</td>
+<td><code>SELECT</code>, <code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code> στη <code>game_library</code></td>
+</tr>
+<tr>
+<td><code>game_reader</code></td>
+<td>οι αναφορές (<code>report.py</code>)</td>
+<td><strong>μόνο</strong> <code>SELECT</code> στη <code>game_library</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="14">1.4 Τα τρία σφάλματα της ασφάλειας<a class="headerlink" href="#14" title="Permanent link">&para;</a></h3>
+<p>Όταν κάτι δεν επιτρέπεται, η βάση δίνει σφάλμα. Στην Python φτάνει ως <code>ProgrammingError</code>, με το <code>errno</code> και το <code>msg</code> που ξέρεις (Μάθημα 3):</p>
+<table>
+<thead>
+<tr>
+<th>Σφάλμα</th>
+<th>Παράδειγμα μηνύματος</th>
+<th>Τι σημαίνει</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>#1045</strong></td>
+<td><code>Access denied for user 'game_app'@'localhost' (using password: YES)</code></td>
+<td><strong>λάθος όνομα ή κωδικός</strong>. Το <code>YES</code>/<code>NO</code> λέει αν έστειλες κωδικό</td>
+</tr>
+<tr>
+<td><strong>#1044</strong></td>
+<td><code>Access denied for user 'game_app'@'localhost' to database 'mysql'</code></td>
+<td>ο λογαριασμός <strong>δεν έχει πρόσβαση σε ολόκληρη τη βάση</strong></td>
+</tr>
+<tr>
+<td><strong>#1142</strong></td>
+<td><code>UPDATE command denied to user 'game_reader'@'localhost' for table `game_library`.`games`</code></td>
+<td>ο λογαριασμός <strong>δεν έχει αυτό το δικαίωμα</strong> σε αυτόν τον πίνακα</td>
+</tr>
+</tbody>
+</table>
+<p>Το μήνυμα του <strong>#1142</strong> λέει ακριβώς <strong>ποια εντολή</strong> (<code>UPDATE</code>), <strong>ποιος λογαριασμός</strong> και <strong>ποιος πίνακας</strong>: διάβασέ το πριν ψάξεις αλλού.</p>
+<h3 id="1-sql">Στάδιο 1 — Οι λογαριασμοί (SQL)<a class="headerlink" href="#1-sql" title="Permanent link">&para;</a></h3>
+<p>Άνοιξε το <code>02-users.sql</code>. Συμπλήρωσε τα πέντε κενά (<code>____</code>) και τρέξε τις εντολές <strong>μία-μία</strong>, με τη σειρά, στην καρτέλα <strong>SQL</strong> του phpMyAdmin. Πρόβλεψε πρώτα τι θα δείξει το <code>SHOW GRANTS</code>.</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1">-- Στάδιο 1 — Λογαριασμοί και δικαιώματα.</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="c1">--</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="c1">-- Τρέχεις αυτό το αρχείο ΩΣ root (στο phpMyAdmin είσαι ήδη root): μόνο ο διαχειριστής φτιάχνει λογαριασμούς. Οι λογαριασμοί ανήκουν</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1">-- στον ΕΞΥΠΗΡΕΤΗ, όχι στη βάση game_library· δεν τους σβήνει το 01-start-state.sql.</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="c1">--</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="c1">-- Πώς το τρέχεις:</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="c1">--   1. Συμπλήρωσε τα κενά (____) σε έναν επεξεργαστή κειμένου.</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="c1">--   2. Τρέξε κάθε εντολή ΞΕΧΩΡΙΣΤΑ στην καρτέλα SQL (δεν χρειάζεται να είναι επιλεγμένη κάποια βάση), με τη σειρά.</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="c1">--   3. ΠΡΩΤΑ πρόβλεψε τι θα γίνει: τι θα δείξει το SHOW GRANTS;</span>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="c1">--</span>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="c1">-- Οι κωδικοί εδώ είναι κωδικοί ΜΑΘΗΜΑΤΟΣ και τους ξέρουν όλοι. Σε πραγματικό σύστημα ο κωδικός είναι μυστικός.</span>
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="c1">-- Βήμα 1 (έτοιμο): ποιος είμαι και ποιοι λογαριασμοί υπάρχουν ήδη;</span>
+</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="k">SELECT</span><span class="w"> </span><span class="k">CURRENT_USER</span><span class="p">();</span>
+</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="k">SELECT</span><span class="w"> </span><span class="k">user</span><span class="p">,</span><span class="w"> </span><span class="k">host</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">mysql</span><span class="p">.</span><span class="k">user</span><span class="p">;</span>
+</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>
+</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="c1">-- Βήμα 2 (έτοιμο): καθαρισμός, ώστε να μπορείς να ξανατρέξεις το αρχείο όσες φορές θέλεις</span>
+</span><span id="__span-5-18"><a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a><span class="k">DROP</span><span class="w"> </span><span class="k">USER</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="s1">'game_app'</span><span class="o">@</span><span class="s1">'localhost'</span><span class="p">;</span>
+</span><span id="__span-5-19"><a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a><span class="k">DROP</span><span class="w"> </span><span class="k">USER</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="s1">'game_reader'</span><span class="o">@</span><span class="s1">'localhost'</span><span class="p">;</span>
+</span><span id="__span-5-20"><a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a>
+</span><span id="__span-5-21"><a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a><span class="c1">-- Βήμα 3: ο λογαριασμός της εφαρμογής, ΜΕ κωδικό. Το 'localhost' σημαίνει ότι μπαίνει μόνο από αυτόν τον υπολογιστή</span>
+</span><span id="__span-5-22"><a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a><span class="k">CREATE</span><span class="w"> </span><span class="n">____</span><span class="w"> </span><span class="s1">'game_app'</span><span class="o">@</span><span class="s1">'localhost'</span><span class="w"> </span><span class="n">IDENTIFIED</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="s1">'app-pass-2026'</span><span class="p">;</span>
+</span><span id="__span-5-23"><a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a>
+</span><span id="__span-5-24"><a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a><span class="c1">-- Βήμα 4: ο λογαριασμός των αναφορών, επίσης με κωδικό</span>
+</span><span id="__span-5-25"><a id="__codelineno-5-25" name="__codelineno-5-25" href="#__codelineno-5-25"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">USER</span><span class="w"> </span><span class="s1">'game_reader'</span><span class="o">@</span><span class="s1">'localhost'</span><span class="w"> </span><span class="n">IDENTIFIED</span><span class="w"> </span><span class="n">____</span><span class="w"> </span><span class="s1">'reader-pass-2026'</span><span class="p">;</span>
+</span><span id="__span-5-26"><a id="__codelineno-5-26" name="__codelineno-5-26" href="#__codelineno-5-26"></a>
+</span><span id="__span-5-27"><a id="__codelineno-5-27" name="__codelineno-5-27" href="#__codelineno-5-27"></a><span class="c1">-- Βήμα 5: η εφαρμογή διαβάζει και αλλάζει δεδομένα: τέσσερα δικαιώματα, και μόνο στους πίνακες της game_library</span>
+</span><span id="__span-5-28"><a id="__codelineno-5-28" name="__codelineno-5-28" href="#__codelineno-5-28"></a><span class="c1">-- (ΟΧΙ CREATE, ALTER ή DROP: δεν αλλάζει τη δομή της βάσης)</span>
+</span><span id="__span-5-29"><a id="__codelineno-5-29" name="__codelineno-5-29" href="#__codelineno-5-29"></a><span class="k">GRANT</span><span class="w"> </span><span class="k">SELECT</span><span class="p">,</span><span class="w"> </span><span class="k">INSERT</span><span class="p">,</span><span class="w"> </span><span class="k">UPDATE</span><span class="p">,</span><span class="w"> </span><span class="n">____</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">game_library</span><span class="p">.</span><span class="o">*</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="s1">'game_app'</span><span class="o">@</span><span class="s1">'localhost'</span><span class="p">;</span>
+</span><span id="__span-5-30"><a id="__codelineno-5-30" name="__codelineno-5-30" href="#__codelineno-5-30"></a>
+</span><span id="__span-5-31"><a id="__codelineno-5-31" name="__codelineno-5-31" href="#__codelineno-5-31"></a><span class="c1">-- Βήμα 6: οι αναφορές μόνο διαβάζουν: ένα δικαίωμα</span>
+</span><span id="__span-5-32"><a id="__codelineno-5-32" name="__codelineno-5-32" href="#__codelineno-5-32"></a><span class="k">GRANT</span><span class="w"> </span><span class="n">____</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">game_library</span><span class="p">.</span><span class="o">*</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="s1">'game_reader'</span><span class="o">@</span><span class="s1">'localhost'</span><span class="p">;</span>
+</span><span id="__span-5-33"><a id="__codelineno-5-33" name="__codelineno-5-33" href="#__codelineno-5-33"></a>
+</span><span id="__span-5-34"><a id="__codelineno-5-34" name="__codelineno-5-34" href="#__codelineno-5-34"></a><span class="c1">-- Βήμα 7: τι δικαιώματα έχει ο καθένας; Πόσες γραμμές δείχνει το καθένα;</span>
+</span><span id="__span-5-35"><a id="__codelineno-5-35" name="__codelineno-5-35" href="#__codelineno-5-35"></a><span class="k">SHOW</span><span class="w"> </span><span class="n">GRANTS</span><span class="w"> </span><span class="k">FOR</span><span class="w"> </span><span class="s1">'game_app'</span><span class="o">@</span><span class="s1">'localhost'</span><span class="p">;</span>
+</span><span id="__span-5-36"><a id="__codelineno-5-36" name="__codelineno-5-36" href="#__codelineno-5-36"></a><span class="k">SHOW</span><span class="w"> </span><span class="n">____</span><span class="w"> </span><span class="k">FOR</span><span class="w"> </span><span class="s1">'game_reader'</span><span class="o">@</span><span class="s1">'localhost'</span><span class="p">;</span>
+</span></code></pre></div>
+<p><img alt="Το αποτέλεσμα της εντολής SHOW GRANTS FOR 'game_app'@'localhost' στο phpMyAdmin (με επιλεγμένα τα Full texts), με δύο κόκκινα πλαίσια: 1 η πρώτη γραμμή, GRANT USAGE ON *.*, που δεν δίνει κανένα δικαίωμα και δείχνει τον κωδικό μόνο ως hash, 2 η δεύτερη γραμμή, με τα τέσσερα δικαιώματα SELECT, INSERT, UPDATE, DELETE στη βάση game_library" src="../images/show-grants.png" width="720" /></p>
+<p>(Το phpMyAdmin <strong>κόβει</strong> τα μεγάλα κείμενα με <code>…</code>. Για να δεις ολόκληρη τη γραμμή, πάτα <strong>Extra options</strong>, διάλεξε <strong>Full texts</strong> και πάτα <strong>Go</strong>.)</p>
+<p>Η πρώτη γραμμή, <code>GRANT USAGE ON *.*</code>, σημαίνει «ο λογαριασμός υπάρχει, αλλά <strong>δεν έχει δικαιώματα</strong> σε επίπεδο εξυπηρετητή»: το <code>IDENTIFIED BY PASSWORD</code> δείχνει το hash του κωδικού. Η δεύτερη γραμμή είναι αυτό
+που έδωσες. Στην καρτέλα <strong>User accounts</strong> του εξυπηρετητή βλέπεις όλους τους λογαριασμούς:</p>
+<p><img alt="Η λίστα των λογαριασμών (καρτέλα User accounts) στο phpMyAdmin, με δύο κόκκινα πλαίσια: 1 ο λογαριασμός game_app, 2 ο λογαριασμός game_reader, και οι δύο με κωδικό (Password: Yes) και στο host localhost" src="../images/user-accounts.png" width="720" /></p>
+<h3 id="15">1.5 Οι κωδικοί δεν μπαίνουν στον κώδικα<a class="headerlink" href="#15" title="Permanent link">&para;</a></h3>
+<p>Το πρόγραμμά σου χρειάζεται τους κωδικούς για να συνδεθεί. Αν τους γράψεις μέσα στο <code>config.py</code>, θα <strong>ανέβουν στο git</strong> μαζί με τον κώδικα, και θα τους δει όποιος δει το αποθετήριο. Και ό,τι ανέβηκε μια φορά στο
+git <strong>μένει στο ιστορικό</strong> ακόμη κι αν το σβήσεις αργότερα. Ο κανόνας: <strong>ο κώδικας ανεβαίνει, οι κωδικοί μένουν στον υπολογιστή σου.</strong></p>
+<p>Τους βάζουμε σε ένα <strong>ξεχωριστό αρχείο</strong>, το <code>config_local.py</code>, που το <code>.gitignore</code> του μαθήματος <strong>αγνοεί</strong> (δεν ανεβαίνει ποτέ):</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="sd">"""Παράδειγμα του config_local.py. ΑΝΤΙΓΡΑΨΕ αυτό το αρχείο με όνομα config_local.py (στον ίδιο φάκελο).</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="sd">Το config_local.py περιέχει τους ΚΩΔΙΚΟΥΣ και ΔΕΝ ανεβαίνει ποτέ στο git (το .gitignore του αγνοεί). Εδώ βάζεις τους κωδικούς που έδωσες</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="sd">στο 02-users.sql. Στο μάθημα είναι οι κωδικοί μαθήματος· σε πραγματικό σύστημα βάζεις δικούς σου μυστικούς κωδικούς και δεν τους δείχνεις σε κανέναν.</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="sd">"""</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="n">APP_PASSWORD</span> <span class="o">=</span> <span class="s2">"app-pass-2026"</span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="n">READER_PASSWORD</span> <span class="o">=</span> <span class="s2">"reader-pass-2026"</span>
+</span></code></pre></div>
+<p>Αντίγραψε το <code>config_local.example.py</code> με όνομα <strong><code>config_local.py</code></strong> (στον ίδιο φάκελο). Το <code>config.py</code> το διαβάζει με <code>from config_local import …</code>. Αν το αρχείο <strong>δεν υπάρχει</strong>, η <code>import</code> δίνει <strong><code>ImportError</code></strong>:
+το πιάνουμε με <code>try</code>/<code>except</code> και βάζουμε κενούς κωδικούς, οπότε το πρόγραμμα δεν σπάει στην εκκίνηση αλλά η σύνδεση αποτυγχάνει με #1045 (<code>using password: NO</code>).</p>
+<div class="admonition note">
+<p class="admonition-title">Ένα μυστικό που ανέβηκε στο git</p>
+<p>Αν ένας κωδικός ανέβει κατά λάθος στο git, <strong>άλλαξέ τον αμέσως</strong> (<code>ALTER USER 'game_app'@'localhost' IDENTIFIED BY '…'</code>). Το να σβήσεις το αρχείο δεν αρκεί: το ιστορικό το θυμάται.
+Η άλλη λύση του Μαθήματος 15, οι <strong>μεταβλητές περιβάλλοντος</strong> (<code>os.environ.get</code>), δουλεύει κι αυτή: οι κωδικοί ζουν στο λειτουργικό σύστημα και όχι σε αρχείο του φακέλου.</p>
+</div>
+<h3 id="2-python">Στάδιο 2 — Η Python συνδέεται με τους νέους λογαριασμούς<a class="headerlink" href="#2-python" title="Permanent link">&para;</a></h3>
+<p>Άνοιξε το <code>config.py</code> (δύο κενά) και το <code>db.py</code> (δύο κενά):</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="sd">"""Οι ρυθμίσεις σύνδεσης με τη βάση (Μάθημα 17: δύο λογαριασμοί και κωδικοί σε ξεχωριστό αρχείο).</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="sd">Ό,τι αλλάζει από υπολογιστή σε υπολογιστή (εξυπηρετητής, λογαριασμοί, κωδικοί, βάση) γράφεται εδώ και ΜΟΝΟ εδώ. Οι κωδικοί όμως έρχονται από το</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="sd">config_local.py, που δεν ανεβαίνει στο git.</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="sd">Συμπλήρωσε τα δύο κενά (____).</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="sd">"""</span>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="c1"># Ο εξυπηρετητής και η βάση αλλάζουν από υπολογιστή σε υπολογιστή: μεταβλητές περιβάλλοντος, όπως στο Μάθημα 15.</span>
+</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="n">HOST</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"DB_HOST"</span><span class="p">,</span> <span class="s2">"localhost"</span><span class="p">)</span>
+</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="n">DATABASE</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"DB_NAME"</span><span class="p">,</span> <span class="s2">"game_library"</span><span class="p">)</span>
+</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a>
+</span><span id="__span-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="c1"># Δύο λογαριασμοί, ένας για κάθε δουλειά (η αρχή των ελάχιστων δικαιωμάτων):</span>
+</span><span id="__span-7-16"><a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a><span class="n">APP_USER</span> <span class="o">=</span> <span class="s2">"game_app"</span>        <span class="c1"># η εφαρμογή: διαβάζει και αλλάζει δεδομένα</span>
+</span><span id="__span-7-17"><a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a><span class="n">READER_USER</span> <span class="o">=</span> <span class="s2">"game_reader"</span>  <span class="c1"># οι αναφορές: μόνο διαβάζουν</span>
+</span><span id="__span-7-18"><a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a>
+</span><span id="__span-7-19"><a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a><span class="c1"># Οι ΚΩΔΙΚΟΙ δεν γράφονται ποτέ εδώ: αυτό το αρχείο ανεβαίνει στο git και το βλέπουν όλοι.</span>
+</span><span id="__span-7-20"><a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a><span class="c1"># Ζουν στο config_local.py, ένα αρχείο μόνο στον δικό σου υπολογιστή, που το .gitignore αγνοεί.</span>
+</span><span id="__span-7-21"><a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a><span class="k">try</span><span class="p">:</span>
+</span><span id="__span-7-22"><a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a>    <span class="c1"># TODO 1: ο κωδικός της εφαρμογής και ο κωδικός των αναφορών, από το module config_local</span>
+</span><span id="__span-7-23"><a id="__codelineno-7-23" name="__codelineno-7-23" href="#__codelineno-7-23"></a>    <span class="kn">from</span><span class="w"> </span><span class="nn">config_local</span><span class="w"> </span><span class="kn">import</span> <span class="n">APP_PASSWORD</span><span class="p">,</span> <span class="n">____</span>
+</span><span id="__span-7-24"><a id="__codelineno-7-24" name="__codelineno-7-24" href="#__codelineno-7-24"></a><span class="k">except</span> <span class="n">____</span><span class="p">:</span>
+</span><span id="__span-7-25"><a id="__codelineno-7-25" name="__codelineno-7-25" href="#__codelineno-7-25"></a>    <span class="c1"># TODO 2: το σφάλμα της import όταν δεν βρίσκει το module (δεν υπάρχει το αρχείο config_local.py)</span>
+</span><span id="__span-7-26"><a id="__codelineno-7-26" name="__codelineno-7-26" href="#__codelineno-7-26"></a>    <span class="n">APP_PASSWORD</span> <span class="o">=</span> <span class="s2">""</span>
+</span><span id="__span-7-27"><a id="__codelineno-7-27" name="__codelineno-7-27" href="#__codelineno-7-27"></a>    <span class="n">READER_PASSWORD</span> <span class="o">=</span> <span class="s2">""</span>
+</span></code></pre></div>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="sd">"""Η σύνδεση με τη βάση (Μάθημα 17: με όποιον λογαριασμό ζητήσεις).</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="sd">Όλα τα άλλα modules ζητούν τη σύνδεση από εδώ. Χωρίς ορίσματα συνδέεσαι ως ο λογαριασμός της εφαρμογής· ένα πρόγραμμα που χρειάζεται άλλον</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="sd">λογαριασμό (π.χ. οι αναφορές) τον δίνει ως ορίσματα. Η σύνδεση δουλεύει και με το with.</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="sd">Συμπλήρωσε τα δύο κενά (____).</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="sd">"""</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="kn">import</span><span class="w"> </span><span class="nn">mysql.connector</span>
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="kn">import</span><span class="w"> </span><span class="nn">config</span>
+</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>
+</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>
+</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a><span class="k">def</span><span class="w"> </span><span class="nf">connect</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">APP_USER</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">APP_PASSWORD</span><span class="p">):</span>
+</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a><span class="w">    </span><span class="sd">"""Ανοίγει μια σύνδεση με τη βάση και την επιστρέφει. Αν δεν πεις ποιος λογαριασμός, συνδέεται ως ο λογαριασμός της εφαρμογής."""</span>
+</span><span id="__span-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a>    <span class="k">return</span> <span class="n">mysql</span><span class="o">.</span><span class="n">connector</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span>
+</span><span id="__span-8-17"><a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a>        <span class="n">host</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">HOST</span><span class="p">,</span>
+</span><span id="__span-8-18"><a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a>        <span class="c1"># TODO 1: ο λογαριασμός που ήρθε ως παράμετρος (όχι η προεπιλογή του config)</span>
+</span><span id="__span-8-19"><a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a>        <span class="n">user</span><span class="o">=</span><span class="n">____</span><span class="p">,</span>
+</span><span id="__span-8-20"><a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a>        <span class="c1"># TODO 2: ο κωδικός που ήρθε ως παράμετρος</span>
+</span><span id="__span-8-21"><a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a>        <span class="n">password</span><span class="o">=</span><span class="n">____</span><span class="p">,</span>
+</span><span id="__span-8-22"><a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a>        <span class="n">database</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">DATABASE</span><span class="p">,</span>
+</span><span id="__span-8-23"><a id="__codelineno-8-23" name="__codelineno-8-23" href="#__codelineno-8-23"></a>    <span class="p">)</span>
+</span></code></pre></div>
+<p>Η <code>connect(user=config.APP_USER, password=config.APP_PASSWORD)</code> έχει <strong>προεπιλεγμένες τιμές</strong> (Μάθημα 9): αν δεν πεις τίποτα, συνδέεσαι ως ο λογαριασμός της εφαρμογής, οπότε το <code>app.py</code> δεν χρειάζεται αλλαγή. Ένα
+πρόγραμμα που θέλει άλλον λογαριασμό τον δίνει ως ορίσματα.</p>
+<p>Αντίγραψε το <code>config_local.example.py</code> ως <code>config_local.py</code> και τρέξε τον έτοιμο έλεγχο:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>python<span class="w"> </span>check_privileges.py
+</span></code></pre></div>
+<p>Συνδέεται ως <code>game_app</code> και ως <code>game_reader</code>, δοκιμάζει πέντε εντολές με τον καθένα και σου λέει αν το αποτέλεσμα είναι <strong>αυτό που περίμενες</strong>.</p>
+<p><img alt="Το check_privileges.py στο τερματικό, με τρία κόκκινα πλαίσια: 1 οι έλεγχοι του game_app (επιτρέπονται τα SELECT, UPDATE, DELETE και απαγορεύονται το CREATE TABLE και η ανάγνωση του mysql.user, με μήνυμα #1142), 2 οι έλεγχοι του game_reader (επιτρέπεται μόνο το SELECT), 3 το τελικό μήνυμα «Όλοι οι έλεγχοι βγήκαν όπως αναμενόταν»" src="../images/terminal-check-privileges.png" width="720" /></p>
+<p>Τρέξε και την εφαρμογή (<code>python app.py</code>): δουλεύει όπως πριν, αλλά <strong>χωρίς <code>root</code></strong>.</p>
+<p>Αν το <code>config_local.py</code> λείπει, ή ο κωδικός είναι λάθος, το σφάλμα είναι <strong>#1045</strong>:</p>
+<p><img alt="Το python app.py στο τερματικό όταν λείπει το config_local.py, με ένα κόκκινο πλαίσιο γύρω από το πρώτο μήνυμα: «Δεν μπόρεσα να συνδεθώ με τη βάση: Access denied for user 'game_app'@'localhost' (using password: NO)». Το δεύτερο μήνυμα, για τη MySQL του XAMPP, δεν ταιριάζει εδώ" src="../images/terminal-denied.png" width="720" /></p>
+<p>Το δεύτερο μήνυμα («Έλεγξε ότι η MySQL τρέχει…») είναι γενικό και <strong>δεν ταιριάζει</strong> εδώ. <strong>Διάβασε το πρώτο</strong>: λέει ακριβώς τι πήγε στραβά (<code>Access denied</code>, <code>using password: NO</code>).</p>
+<h3 id="3">Στάδιο 3 — Οι αναφορές με τον λογαριασμό που μόνο διαβάζει<a class="headerlink" href="#3" title="Permanent link">&para;</a></h3>
+<p>Το <code>report.py</code> του Μαθήματος 16 <strong>μόνο διαβάζει</strong>. Δεν χρειάζεται δικαίωμα να αλλάξει δεδομένα, άρα συνδέεται ως <code>game_reader</code>. Άνοιξε το <code>report.py</code> και συμπλήρωσε τα δύο κενά της <code>main</code>:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">    </span><span class="sd">"""Το κύριο πρόγραμμα: ανοίγει τη σύνδεση και τρέχει το μενού των αναφορών."""</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>    <span class="k">try</span><span class="p">:</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>        <span class="c1"># TODO 1: ο λογαριασμός των αναφορών (μόνο διαβάζει), από το config</span>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>        <span class="n">user</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">____</span>
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>        <span class="c1"># TODO 2: ο κωδικός του, από το config</span>
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>        <span class="n">password</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">____</span>
+</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>        <span class="k">with</span> <span class="n">db</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span> <span class="k">as</span> <span class="n">connection</span><span class="p">:</span>
+</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>            <span class="n">run_reports</span><span class="p">(</span><span class="n">connection</span><span class="p">)</span>
+</span><span id="__span-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a>    <span class="k">except</span> <span class="n">mysql</span><span class="o">.</span><span class="n">connector</span><span class="o">.</span><span class="n">Error</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+</span><span id="__span-10-11"><a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">"Σφάλμα της βάσης:"</span><span class="p">,</span> <span class="n">error</span><span class="o">.</span><span class="n">msg</span><span class="p">)</span>
+</span><span id="__span-10-12"><a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">"Έλεγξε ότι η MySQL τρέχει στο XAMPP Control Panel."</span><span class="p">)</span>
+</span><span id="__span-10-13"><a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a>
+</span><span id="__span-10-14"><a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a>
+</span><span id="__span-10-15"><a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
+</span><span id="__span-10-16"><a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a>    <span class="n">main</span><span class="p">()</span>
+</span></code></pre></div>
+<p>Τρέξε <code>python report.py</code>: οι αναφορές δουλεύουν όπως πριν. Αν κάποτε προσθέσεις στο <code>report.py</code> κώδικα που αλλάζει δεδομένα, ο <code>game_reader</code> θα τον <strong>σταματήσει</strong> με #1142.</p>
+<p><strong>Συνέχισε στο Φύλλο εργασίας.</strong></p>
+<hr />
+<h2 id="2-sql-injection">Κύκλος 2 — SQL injection<a class="headerlink" href="#2-sql-injection" title="Permanent link">&para;</a></h2>
+<p>Στον δεύτερο κύκλο δοκιμάζεις μια <strong>επίθεση</strong> σε ένα εργαστηριακό πρόγραμμα, και μετά τη σταματάς.</p>
+<h3 id="21-sql-injection">2.1 Το SQL injection: δεδομένα που γίνονται κώδικας<a class="headerlink" href="#21-sql-injection" title="Permanent link">&para;</a></h3>
+<p>Στο Μάθημα 5 είδες ότι αν βάλεις ό,τι γράφει ο χρήστης <strong>μέσα στο κείμενο</strong> της SQL με f-string, ο χρήστης μπορεί να αλλάξει την εντολή. Το έδειξες με ένα ακίνδυνο παράδειγμα (<code>x' OR '1'='1</code>). Αυτό λέγεται
+<strong>SQL injection</strong> («έγχυση» SQL): <strong>τα δεδομένα του χρήστη γίνονται μέρος του κώδικα SQL.</strong> Είναι ένα από τα πιο παλιά και πιο συνηθισμένα προβλήματα ασφαλείας των εφαρμογών με βάση δεδομένων.</p>
+<p>Δες πώς γίνεται. Αυτή η συνάρτηση ελέγχει ένα όνομα και έναν κωδικό:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="n">sql</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"SELECT id, role FROM members WHERE username = '</span><span class="si">{</span><span class="n">username</span><span class="si">}</span><span class="s2">' AND password_hash = SHA2('</span><span class="si">{</span><span class="n">password</span><span class="si">}</span><span class="s2">', 256)"</span>
+</span></code></pre></div>
+<p>Αν ο χρήστης γράψει όνομα <code>maria</code>, η εντολή που φτάνει στη βάση είναι:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="k">role</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">members</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">username</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'maria'</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">password_hash</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SHA2</span><span class="p">(</span><span class="s1">'wrong'</span><span class="p">,</span><span class="w"> </span><span class="mi">256</span><span class="p">)</span>
+</span></code></pre></div>
+<p>Αν όμως γράψει <code>admin'#</code>, το <code>'</code> <strong>κλείνει</strong> το κείμενο του ονόματος και το <code>#</code> <strong>ξεκινά σχόλιο</strong> (ό,τι ακολουθεί, μέχρι το τέλος της γραμμής, αγνοείται). Φτάνει στη βάση:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="k">role</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">members</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">username</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'admin'</span><span class="o">#</span><span class="s1">' AND password_hash = SHA2('</span><span class="n">x</span><span class="err">'</span><span class="p">,</span><span class="w"> </span><span class="mi">256</span><span class="p">)</span>
+</span></code></pre></div>
+<p>Ο έλεγχος του κωδικού <strong>χάθηκε</strong>, γιατί βρίσκεται μέσα στο σχόλιο. (Στη MariaDB το σχόλιο αρχίζει και με <code>--</code> με <strong>κενό</strong> μετά τις δύο παύλες· το <code>#</code> δεν θέλει κενό.)</p>
+<p>Δεν χρειάζεται καν επιτιθέμενος: ένας <strong>αθώος</strong> χρήστης με όνομα <code>o'brien</code> φτάνει για να <strong>σπάσει</strong> την εντολή (το <code>'</code> του ονόματος κλείνει το κείμενο νωρίτερα και η SQL δεν έχει πια νόημα). Το SQL injection είναι
+πρώτα απ' όλα <strong>λάθος του προγράμματος</strong>.</p>
+<h3 id="22">2.2 Τρεις επιθέσεις<a class="headerlink" href="#22" title="Permanent link">&para;</a></h3>
+<p>Το εργαστήριο έχει δύο ευπαθείς συναρτήσεις: τη <strong>σύνδεση μέλους</strong> (πίνακας <code>members</code>) και την <strong>αναζήτηση παιχνιδιού</strong> (πίνακας <code>games</code>). Τρεις τύποι επίθεσης:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">#</th>
+<th>Επίθεση</th>
+<th>Τι γράφει ο «επιτιθέμενος»</th>
+<th>Τι πετυχαίνει</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1</td>
+<td><strong>Παράκαμψη σύνδεσης</strong></td>
+<td>όνομα χρήστη: <code>admin'#</code></td>
+<td>μπαίνει ως <code>admin</code> <strong>χωρίς να ξέρει τον κωδικό</strong></td>
+</tr>
+<tr>
+<td style="text-align: center;">2</td>
+<td><strong>Κλοπή δεδομένων</strong></td>
+<td>αναζήτηση: <code>zzz%' UNION SELECT username, password_hash FROM members #</code></td>
+<td>η αναζήτηση παιχνιδιών <strong>επιστρέφει τα μέλη και τα hash των κωδικών</strong></td>
+</tr>
+<tr>
+<td style="text-align: center;">3</td>
+<td><strong>Καταστροφή</strong></td>
+<td>αναζήτηση: <code>x'; DROP TABLE members; #</code></td>
+<td>αν ο λογαριασμός το επιτρέπει, <strong>σβήνεται ο πίνακας</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Δύο καινούργια κομμάτια:</p>
+<ul>
+<li>Το <strong><code>UNION</code></strong> ενώνει τα αποτελέσματα <strong>δύο</strong> <code>SELECT</code> (με το ίδιο πλήθος στηλών). Εδώ προσθέτει τα στοιχεία των μελών στις γραμμές των παιχνιδιών: ο επιτιθέμενος διαβάζει <strong>άλλον πίνακα</strong> μέσα από το
+  πεδίο αναζήτησης.</li>
+<li>Το <strong><code>;</code></strong> χωρίζει εντολές. Ο <code>execute</code> (όπως είδες στο Μάθημα 5) στέλνει <strong>όλες</strong> τις εντολές που περιέχει το κείμενο, οπότε μια δεύτερη εντολή (<code>DROP TABLE …</code>) <strong>εκτελείται</strong>.</li>
+</ul>
+<h3 id="4">Στάδιο 4 — Η επίθεση<a class="headerlink" href="#4" title="Permanent link">&para;</a></h3>
+<p>Τρέξε το <code>03-members.sql</code> (καρτέλα <strong>Import</strong>, με επιλεγμένη τη βάση <code>game_library</code>): φτιάχνει τον πίνακα <code>members</code> με <strong>4 μέλη</strong>. Οι κωδικοί τους φυλάσσονται ως <strong>hash</strong> (<code>SHA2</code>), όχι ως κείμενο.</p>
+<p>Μετά άνοιξε το <code>lab_unsafe.py</code> και δες τις δύο συναρτήσεις. Δεν έχουν κενά και δεν πρέπει να τις διορθώσεις ακόμη:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="sd">"""ΕΥΠΑΘΗΣ ΕΚΔΟΣΗ για το εργαστήριο SQL injection του Μαθήματος 17. ΜΗΝ γράφεις ΠΟΤΕ έτσι πραγματικό κώδικα.</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="sd">Οι δύο συναρτήσεις χτίζουν την SQL με f-strings: ό,τι γράφει ο χρήστης μπαίνει ΜΕΣΑ στο κείμενο της εντολής. Το print της SQL υπάρχει μόνο για να τη δεις.</span>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="sd">Τρέξε το: python lab_unsafe.py   (πρώτα, το 03-members.sql)</span>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="sd">"""</span>
+</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>
+</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="kn">import</span><span class="w"> </span><span class="nn">lab_menu</span>
+</span><span id="__span-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>
+</span><span id="__span-14-9"><a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a>
+</span><span id="__span-14-10"><a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a><span class="k">def</span><span class="w"> </span><span class="nf">login_unsafe</span><span class="p">(</span><span class="n">connection</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">):</span>
+</span><span id="__span-14-11"><a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a><span class="w">    </span><span class="sd">"""Επιστρέφει (id, ρόλος) του μέλους αν τα στοιχεία είναι σωστά, αλλιώς None."""</span>
+</span><span id="__span-14-12"><a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a>    <span class="n">sql</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"SELECT id, role FROM members WHERE username = '</span><span class="si">{</span><span class="n">username</span><span class="si">}</span><span class="s2">' AND password_hash = SHA2('</span><span class="si">{</span><span class="n">password</span><span class="si">}</span><span class="s2">', 256)"</span>
+</span><span id="__span-14-13"><a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">"SQL που στάλθηκε:"</span><span class="p">,</span> <span class="n">sql</span><span class="p">)</span>
+</span><span id="__span-14-14"><a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a>    <span class="k">with</span> <span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span> <span class="k">as</span> <span class="n">cursor</span><span class="p">:</span>
+</span><span id="__span-14-15"><a id="__codelineno-14-15" name="__codelineno-14-15" href="#__codelineno-14-15"></a>        <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
+</span><span id="__span-14-16"><a id="__codelineno-14-16" name="__codelineno-14-16" href="#__codelineno-14-16"></a>        <span class="n">rows</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+</span><span id="__span-14-17"><a id="__codelineno-14-17" name="__codelineno-14-17" href="#__codelineno-14-17"></a>    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+</span><span id="__span-14-18"><a id="__codelineno-14-18" name="__codelineno-14-18" href="#__codelineno-14-18"></a>        <span class="k">return</span> <span class="n">rows</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</span><span id="__span-14-19"><a id="__codelineno-14-19" name="__codelineno-14-19" href="#__codelineno-14-19"></a>    <span class="k">return</span> <span class="kc">None</span>
+</span><span id="__span-14-20"><a id="__codelineno-14-20" name="__codelineno-14-20" href="#__codelineno-14-20"></a>
+</span><span id="__span-14-21"><a id="__codelineno-14-21" name="__codelineno-14-21" href="#__codelineno-14-21"></a>
+</span><span id="__span-14-22"><a id="__codelineno-14-22" name="__codelineno-14-22" href="#__codelineno-14-22"></a><span class="k">def</span><span class="w"> </span><span class="nf">search_unsafe</span><span class="p">(</span><span class="n">connection</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+</span><span id="__span-14-23"><a id="__codelineno-14-23" name="__codelineno-14-23" href="#__codelineno-14-23"></a><span class="w">    </span><span class="sd">"""Επιστρέφει τα παιχνίδια (τίτλος, τιμή) που έχουν το text στον τίτλο τους."""</span>
+</span><span id="__span-14-24"><a id="__codelineno-14-24" name="__codelineno-14-24" href="#__codelineno-14-24"></a>    <span class="n">sql</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"SELECT title, price FROM games WHERE title LIKE '%</span><span class="si">{</span><span class="n">text</span><span class="si">}</span><span class="s2">%'"</span>
+</span><span id="__span-14-25"><a id="__codelineno-14-25" name="__codelineno-14-25" href="#__codelineno-14-25"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">"SQL που στάλθηκε:"</span><span class="p">,</span> <span class="n">sql</span><span class="p">)</span>
+</span><span id="__span-14-26"><a id="__codelineno-14-26" name="__codelineno-14-26" href="#__codelineno-14-26"></a>    <span class="k">with</span> <span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span> <span class="k">as</span> <span class="n">cursor</span><span class="p">:</span>
+</span><span id="__span-14-27"><a id="__codelineno-14-27" name="__codelineno-14-27" href="#__codelineno-14-27"></a>        <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
+</span><span id="__span-14-28"><a id="__codelineno-14-28" name="__codelineno-14-28" href="#__codelineno-14-28"></a>        <span class="k">return</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+</span><span id="__span-14-29"><a id="__codelineno-14-29" name="__codelineno-14-29" href="#__codelineno-14-29"></a>
+</span><span id="__span-14-30"><a id="__codelineno-14-30" name="__codelineno-14-30" href="#__codelineno-14-30"></a>
+</span><span id="__span-14-31"><a id="__codelineno-14-31" name="__codelineno-14-31" href="#__codelineno-14-31"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
+</span><span id="__span-14-32"><a id="__codelineno-14-32" name="__codelineno-14-32" href="#__codelineno-14-32"></a>    <span class="n">lab_menu</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s2">"ΕΥΠΑΘΗΣ ΕΚΔΟΣΗ"</span><span class="p">,</span> <span class="n">login_unsafe</span><span class="p">,</span> <span class="n">search_unsafe</span><span class="p">)</span>
+</span></code></pre></div>
+<p>Τρέξε <code>python lab_unsafe.py</code>. Θα σε ρωτήσει με <strong>ποιον λογαριασμό</strong> να τρέξει το εργαστήριο: διάλεξε <strong>1</strong> (<code>game_app</code>). Δοκίμασε τις περιπτώσεις του Φύλλου εργασίας. Το πρόγραμμα τυπώνει και την <strong>SQL που στάλθηκε</strong>, ώστε να βλέπεις
+τι έγινε.</p>
+<p><img alt="Το lab_unsafe.py στο τερματικό: ο χρήστης διαλέγει τον λογαριασμό game_app, και στη σύνδεση μέλους γράφει όνομα admin'# και κωδικό x. Δύο κόκκινα πλαίσια: 1 η SQL που στάλθηκε, όπου το # κρύβει τον έλεγχο του κωδικού, 2 το μήνυμα «Συνδέθηκες! id 4, ρόλος admin»" src="../images/terminal-lab-login.png" width="720" /></p>
+<p>Δοκίμασε και την αναζήτηση με το <code>UNION</code>:</p>
+<p><img alt="Το lab_unsafe.py στο τερματικό, στην αναζήτηση παιχνιδιού με το κείμενο zzz%' UNION SELECT username, password_hash FROM members #. Δύο κόκκινα πλαίσια: 1 η SQL που στάλθηκε, με το UNION μέσα της, 2 οι τέσσερις γραμμές που επιστράφηκαν, με τα ονόματα των μελών και τα hash των κωδικών τους αντί για παιχνίδια" src="../images/terminal-lab-union.png" width="720" /></p>
+<p>Για το τρίτο πείραμα (<code>DROP TABLE</code>) δοκίμασε <strong>και τους δύο λογαριασμούς</strong>, πρώτα τον <code>game_app</code>, μετά τον <code>root</code>. Ως <code>root</code> ο πίνακας θα <strong>σβηστεί</strong>:</p>
+<p><img alt="Το lab_unsafe.py στο τερματικό, με λογαριασμό root. Δύο κόκκινα πλαίσια: 1 η αναζήτηση με το x'; DROP TABLE members; # που στέλνει δύο εντολές, 2 το επόμενο ερώτημα σύνδεσης, που αποτυγχάνει με «Table 'game_library.members' doesn't exist», γιατί ο πίνακας σβήστηκε" src="../images/terminal-lab-drop.png" width="720" /></p>
+<p>Για να τον ξαναφτιάξεις, τρέξε ξανά το <code>03-members.sql</code>.</p>
+<h3 id="23">2.3 Η άμυνα: παράμετροι<a class="headerlink" href="#23" title="Permanent link">&para;</a></h3>
+<p>Ξέρεις ήδη την άμυνα από το Μάθημα 5: <strong>οι τιμές του χρήστη δεν μπαίνουν ποτέ στο κείμενο της SQL.</strong> Η εντολή γράφεται με θέσεις <code>%s</code> και οι τιμές πάνε <strong>χωριστά</strong>, ως δεύτερο όρισμα του <code>execute</code>:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"SELECT id, role FROM members WHERE username = </span><span class="si">%s</span><span class="s2"> AND password_hash = SHA2(</span><span class="si">%s</span><span class="s2">, 256)"</span><span class="p">,</span> <span class="p">(</span><span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">))</span>
+</span></code></pre></div>
+<p>Η βιβλιοθήκη βάζει η ίδια τις τιμές στη θέση τους, <strong>σαν δεδομένα</strong>, και φροντίζει να «εξουδετερώσει» τους ειδικούς χαρακτήρες: το <code>'</code> γίνεται <code>\'</code>, δηλαδή <strong>απλό γράμμα</strong> μέσα στο κείμενο. Ό,τι και να γράψει ο
+χρήστης, μένει <strong>τιμή</strong>, ποτέ δεν γίνεται <strong>εντολή</strong>. Το <code>cursor.statement</code> δείχνει την εντολή όπως στάλθηκε:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>SELECT id, role FROM members WHERE username = 'admin\'#' AND password_hash = SHA2('x', 256)
+</span></code></pre></div>
+<p>Το όνομα <code>admin'#</code> ψάχνεται τώρα ως <strong>όνομα</strong> (και δεν υπάρχει μέλος με τέτοιο όνομα).</p>
+<p>Μια λεπτομέρεια για το <code>LIKE</code>: το <code>%</code> που θέλεις γύρω από το κείμενο μπαίνει <strong>στην τιμή</strong> και όχι στην SQL:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="n">pattern</span> <span class="o">=</span> <span class="s2">"%"</span> <span class="o">+</span> <span class="n">text</span> <span class="o">+</span> <span class="s2">"%"</span>
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"SELECT title, price FROM games WHERE title LIKE </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="p">(</span><span class="n">pattern</span><span class="p">,))</span>
+</span></code></pre></div>
+<h3 id="24">2.4 Λιγότερα δικαιώματα: δεύτερο στρώμα άμυνας<a class="headerlink" href="#24" title="Permanent link">&para;</a></h3>
+<p>Στο πείραμα με το <code>DROP TABLE</code> είδες τη διαφορά των δύο λογαριασμών: ως <code>root</code> ο πίνακας σβήστηκε, ενώ ο <code>game_app</code> <strong>δεν έχει δικαίωμα <code>DROP</code></strong> και η βάση απέρριψε την εντολή. (Το πρόγραμμα δεν δείχνει σφάλμα: ότι ο
+πίνακας υπάρχει ακόμη το βλέπεις στο phpMyAdmin.) Αυτή είναι η <strong>αρχή των ελάχιστων δικαιωμάτων</strong> του Κύκλου 1 σε δράση.</p>
+<p>Πρόσεξε όμως και τα όρια: ο <code>game_app</code> <strong>μπορεί να διαβάσει</strong> τον πίνακα <code>members</code>, γιατί έχει <code>SELECT</code> σε όλη τη βάση. Γι' αυτό η επίθεση με το <code>UNION</code> πέτυχε <strong>και με τον <code>game_app</code></strong>. Τα λιγότερα δικαιώματα
+<strong>περιορίζουν τη ζημιά</strong>, δεν <strong>εμποδίζουν</strong> την επίθεση. Αυτό που την εμποδίζει είναι οι <strong>παράμετροι</strong>.</p>
+<div class="admonition note">
+<p class="admonition-title">Πολλά στρώματα άμυνας</p>
+<p>Η ασφάλεια δεν στηρίζεται σε ένα μέτρο. Βάζουμε <strong>στρώματα</strong>: αν το ένα αποτύχει, το επόμενο περιορίζει τη ζημιά.
+<strong>1.</strong> Παράμετροι (<code>%s</code>): η επίθεση δεν περνά. <strong>2.</strong> Λογαριασμός με λίγα δικαιώματα: αν περάσει, δεν μπορεί να καταστρέψει. <strong>3.</strong> Έλεγχος εισόδου (<code>ask_int</code>, <code>ask_price</code>): ο χρήστης δεν στέλνει ό,τι θέλει. <strong>4.</strong> Κωδικοί
+έξω από τον κώδικα και <strong>hash</strong> στη βάση: ακόμη κι αν διαρρεύσουν δεδομένα, οι κωδικοί δεν διαβάζονται άμεσα.</p>
+</div>
+<h3 id="5">Στάδιο 5 — Η άμυνα<a class="headerlink" href="#5" title="Permanent link">&para;</a></h3>
+<p>Άνοιξε το <code>lab_safe.py</code>. Έχει τις <strong>ίδιες</strong> δύο συναρτήσεις, αλλά ασφαλείς. Συμπλήρωσε τα τέσσερα κενά:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="sd">"""Η ΑΣΦΑΛΗΣ έκδοση του εργαστηρίου SQL injection (Μάθημα 17).</span>
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="sd">Οι ίδιες δύο συναρτήσεις με το lab_unsafe.py, αλλά οι τιμές του χρήστη δεν μπαίνουν ποτέ στο κείμενο της SQL: στέλνονται χωριστά, ως παράμετροι (%s).</span>
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="sd">Τρέξε το: python lab_safe.py</span>
+</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>
+</span><span id="__span-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a><span class="sd">Συμπλήρωσε τα τέσσερα κενά (____).</span>
+</span><span id="__span-18-7"><a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a><span class="sd">"""</span>
+</span><span id="__span-18-8"><a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>
+</span><span id="__span-18-9"><a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a><span class="kn">import</span><span class="w"> </span><span class="nn">lab_menu</span>
+</span><span id="__span-18-10"><a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a>
+</span><span id="__span-18-11"><a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a>
+</span><span id="__span-18-12"><a id="__codelineno-18-12" name="__codelineno-18-12" href="#__codelineno-18-12"></a><span class="k">def</span><span class="w"> </span><span class="nf">login_safe</span><span class="p">(</span><span class="n">connection</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">):</span>
+</span><span id="__span-18-13"><a id="__codelineno-18-13" name="__codelineno-18-13" href="#__codelineno-18-13"></a><span class="w">    </span><span class="sd">"""Επιστρέφει (id, ρόλος) του μέλους αν τα στοιχεία είναι σωστά, αλλιώς None. Οι τιμές πάνε ως ΠΑΡΑΜΕΤΡΟΙ."""</span>
+</span><span id="__span-18-14"><a id="__codelineno-18-14" name="__codelineno-18-14" href="#__codelineno-18-14"></a>    <span class="n">sql</span> <span class="o">=</span> <span class="s2">"SELECT id, role FROM members WHERE username = </span><span class="si">%s</span><span class="s2"> AND password_hash = SHA2(</span><span class="si">%s</span><span class="s2">, 256)"</span>
+</span><span id="__span-18-15"><a id="__codelineno-18-15" name="__codelineno-18-15" href="#__codelineno-18-15"></a>    <span class="k">with</span> <span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span> <span class="k">as</span> <span class="n">cursor</span><span class="p">:</span>
+</span><span id="__span-18-16"><a id="__codelineno-18-16" name="__codelineno-18-16" href="#__codelineno-18-16"></a>        <span class="c1"># TODO 1: οι τιμές που αντικαθιστούν τα δύο %s, με τη σειρά τους (πλειάδα)</span>
+</span><span id="__span-18-17"><a id="__codelineno-18-17" name="__codelineno-18-17" href="#__codelineno-18-17"></a>        <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="p">(</span><span class="n">username</span><span class="p">,</span> <span class="n">____</span><span class="p">))</span>
+</span><span id="__span-18-18"><a id="__codelineno-18-18" name="__codelineno-18-18" href="#__codelineno-18-18"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">"SQL που στάλθηκε:"</span><span class="p">,</span> <span class="n">cursor</span><span class="o">.</span><span class="n">statement</span><span class="p">)</span>
+</span><span id="__span-18-19"><a id="__codelineno-18-19" name="__codelineno-18-19" href="#__codelineno-18-19"></a>        <span class="n">rows</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+</span><span id="__span-18-20"><a id="__codelineno-18-20" name="__codelineno-18-20" href="#__codelineno-18-20"></a>    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+</span><span id="__span-18-21"><a id="__codelineno-18-21" name="__codelineno-18-21" href="#__codelineno-18-21"></a>        <span class="k">return</span> <span class="n">rows</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</span><span id="__span-18-22"><a id="__codelineno-18-22" name="__codelineno-18-22" href="#__codelineno-18-22"></a>    <span class="k">return</span> <span class="kc">None</span>
+</span><span id="__span-18-23"><a id="__codelineno-18-23" name="__codelineno-18-23" href="#__codelineno-18-23"></a>
+</span><span id="__span-18-24"><a id="__codelineno-18-24" name="__codelineno-18-24" href="#__codelineno-18-24"></a>
+</span><span id="__span-18-25"><a id="__codelineno-18-25" name="__codelineno-18-25" href="#__codelineno-18-25"></a><span class="k">def</span><span class="w"> </span><span class="nf">search_safe</span><span class="p">(</span><span class="n">connection</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+</span><span id="__span-18-26"><a id="__codelineno-18-26" name="__codelineno-18-26" href="#__codelineno-18-26"></a><span class="w">    </span><span class="sd">"""Επιστρέφει τα παιχνίδια (τίτλος, τιμή) που έχουν το text στον τίτλο τους. Το % μπαίνει στην ΤΙΜΗ, όχι στην SQL."""</span>
+</span><span id="__span-18-27"><a id="__codelineno-18-27" name="__codelineno-18-27" href="#__codelineno-18-27"></a>    <span class="c1"># TODO 2: το σύμβολο της παραμέτρου (το ίδιο που χρησιμοποιείς σε κάθε execute)</span>
+</span><span id="__span-18-28"><a id="__codelineno-18-28" name="__codelineno-18-28" href="#__codelineno-18-28"></a>    <span class="n">sql</span> <span class="o">=</span> <span class="s2">"SELECT title, price FROM games WHERE title LIKE ____"</span>
+</span><span id="__span-18-29"><a id="__codelineno-18-29" name="__codelineno-18-29" href="#__codelineno-18-29"></a>    <span class="c1"># TODO 3: η τιμή που έδωσε ο χρήστης, ανάμεσα στα δύο %</span>
+</span><span id="__span-18-30"><a id="__codelineno-18-30" name="__codelineno-18-30" href="#__codelineno-18-30"></a>    <span class="n">pattern</span> <span class="o">=</span> <span class="s2">"%"</span> <span class="o">+</span> <span class="n">____</span> <span class="o">+</span> <span class="s2">"%"</span>
+</span><span id="__span-18-31"><a id="__codelineno-18-31" name="__codelineno-18-31" href="#__codelineno-18-31"></a>    <span class="k">with</span> <span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span> <span class="k">as</span> <span class="n">cursor</span><span class="p">:</span>
+</span><span id="__span-18-32"><a id="__codelineno-18-32" name="__codelineno-18-32" href="#__codelineno-18-32"></a>        <span class="c1"># TODO 4: η τιμή της παραμέτρου, ως πλειάδα με ένα στοιχείο</span>
+</span><span id="__span-18-33"><a id="__codelineno-18-33" name="__codelineno-18-33" href="#__codelineno-18-33"></a>        <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="p">(</span><span class="n">____</span><span class="p">,))</span>
+</span><span id="__span-18-34"><a id="__codelineno-18-34" name="__codelineno-18-34" href="#__codelineno-18-34"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">"SQL που στάλθηκε:"</span><span class="p">,</span> <span class="n">cursor</span><span class="o">.</span><span class="n">statement</span><span class="p">)</span>
+</span><span id="__span-18-35"><a id="__codelineno-18-35" name="__codelineno-18-35" href="#__codelineno-18-35"></a>        <span class="k">return</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+</span><span id="__span-18-36"><a id="__codelineno-18-36" name="__codelineno-18-36" href="#__codelineno-18-36"></a>
+</span><span id="__span-18-37"><a id="__codelineno-18-37" name="__codelineno-18-37" href="#__codelineno-18-37"></a>
+</span><span id="__span-18-38"><a id="__codelineno-18-38" name="__codelineno-18-38" href="#__codelineno-18-38"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
+</span><span id="__span-18-39"><a id="__codelineno-18-39" name="__codelineno-18-39" href="#__codelineno-18-39"></a>    <span class="n">lab_menu</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s2">"ΑΣΦΑΛΗΣ ΕΚΔΟΣΗ"</span><span class="p">,</span> <span class="n">login_safe</span><span class="p">,</span> <span class="n">search_safe</span><span class="p">)</span>
+</span></code></pre></div>
+<p>Τρέξε <code>python lab_safe.py</code> και δοκίμασε τις <strong>ίδιες επιθέσεις</strong>. Μετά τρέξε τον έτοιμο έλεγχο, που βάζει δίπλα δίπλα την ευπαθή και την ασφαλή έκδοση:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>python<span class="w"> </span>check_lab.py
+</span></code></pre></div>
+<p><img alt="Το check_lab.py στο τερματικό: πίνακας με έξι περιπτώσεις και δύο στήλες, «Ευπαθής έκδοση» και «Ασφαλής έκδοση». Δύο κόκκινα πλαίσια: 1 οι τρεις επιθέσεις, όπου η ευπαθή έκδοση «μπήκε» ως admin, ως member και «διέρρευσαν 4 μέλη», ενώ η ασφαλής τις απορρίπτει όλες, 2 το τελικό μήνυμα ότι η ασφαλής έκδοση άντεξε" src="../images/terminal-check-lab.png" width="720" /></p>
+<h3 id="25">2.5 Και τι άλλο;<a class="headerlink" href="#25" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Έλεγχος εισόδου:</strong> ένας αριθμός που περνά από <code>int(…)</code> ή <code>ui.ask_int</code> (Μάθημα 8) <strong>δεν μπορεί</strong> να περιέχει κώδικα SQL. Ο έλεγχος όμως <strong>δεν αντικαθιστά</strong> τις παραμέτρους: χρησιμοποίησε <strong>και τα δύο</strong>.</li>
+<li><strong>Τα μηνύματα σφάλματος:</strong> στο μάθημα τυπώνουμε το <code>error.msg</code> για να μαθαίνουμε. Σε πραγματική εφαρμογή το μήνυμα της βάσης δεν δίνεται στον χρήστη (αποκαλύπτει ονόματα πινάκων και λογαριασμών): γράφεται σε αρχείο
+  καταγραφής και ο χρήστης βλέπει ένα γενικό μήνυμα.</li>
+<li><strong>Κωδικοί:</strong> δεν αποθηκεύονται ποτέ ως κείμενο. Εδώ είναι <code>SHA2(…, 256)</code>. Σε πραγματικές εφαρμογές χρησιμοποιούνται ειδικοί <strong>αργοί</strong> αλγόριθμοι, με «αλάτι» (<em>salt</em>): εκτός ύλης.</li>
+</ul>
+<p><strong>Συνέχισε στο Φύλλο εργασίας, Κύκλος 2.</strong></p>
+<hr />
+<h2 id="_5">Έλεγχος πριν ολοκληρώσεις<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<ul>
+<li>□ Έφτιαξες τους λογαριασμούς <code>game_app</code> και <code>game_reader</code> και είδες τα δικαιώματά τους με <code>SHOW GRANTS</code>.</li>
+<li>□ Το <code>check_privileges.py</code> έδειξε ότι ο <code>game_reader</code> δεν μπορεί να αλλάξει δεδομένα (#1142).</li>
+<li>□ Οι κωδικοί είναι στο <code>config_local.py</code> και όχι στο <code>config.py</code>.</li>
+<li>□ Το <code>app.py</code> και το <code>report.py</code> τρέχουν <strong>χωρίς</strong> <code>root</code>.</li>
+<li>□ Με το <code>lab_unsafe.py</code> μπήκες ως <code>admin</code> χωρίς κωδικό και «έκλεψες» τα στοιχεία των μελών.</li>
+<li>□ Είδες τη διαφορά <code>root</code> και <code>game_app</code> στο <code>DROP TABLE</code>.</li>
+<li>□ Με το <code>lab_safe.py</code> οι ίδιες επιθέσεις δεν πέτυχαν, και το <code>check_lab.py</code> το επιβεβαίωσε.</li>
+<li>□ Όταν τελείωσες, σταμάτησες τον Apache και τη MySQL.</li>
+</ul>
+<h2 id="_6">Για να θυμάσαι<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Αρχή των ελάχιστων δικαιωμάτων:</strong> κάθε πρόγραμμα παίρνει μόνο όσα δικαιώματα χρειάζεται. Όχι <code>root</code> σε προγράμματα.</li>
+<li><strong><code>CREATE USER 'όνομα'@'localhost' IDENTIFIED BY 'κωδικός'</code></strong>, και μετά <strong><code>GRANT δικαιώματα ON βάση.πίνακας TO 'όνομα'@'localhost'</code></strong>. Έλεγχος με <strong><code>SHOW GRANTS FOR …</code></strong>· αφαίρεση με <strong><code>REVOKE</code></strong>.</li>
+<li><strong>#1045</strong>: λάθος όνομα ή κωδικός. <strong>#1044</strong>: καμία πρόσβαση στη βάση. <strong>#1142</strong>: λείπει το δικαίωμα (το μήνυμα λέει ποιο, σε ποιον πίνακα).</li>
+<li>Οι κωδικοί μπαίνουν σε αρχείο που <strong>δεν ανεβαίνει στο git</strong> (<code>config_local.py</code>, <code>.gitignore</code>)· αν διαρρεύσει κωδικός, <strong>άλλαξέ τον</strong>.</li>
+<li><strong>SQL injection:</strong> τα δεδομένα του χρήστη μπαίνουν μέσα στο κείμενο της SQL και γίνονται κώδικας. Τρεις μορφές: <strong>παράκαμψη σύνδεσης</strong> (<code>'</code> και <code>#</code>), <strong>κλοπή δεδομένων</strong> (<code>UNION</code>), <strong>καταστροφή</strong> (<code>; DROP …</code>).</li>
+<li><strong>Άμυνα:</strong> παράμετροι <code>%s</code> (οι τιμές πάνε <strong>χωριστά</strong>), και <strong>στρώματα</strong>: λίγα δικαιώματα, έλεγχος εισόδου, hash στους κωδικούς. Τα λίγα δικαιώματα <strong>περιορίζουν</strong> τη ζημιά, οι παράμετροι <strong>εμποδίζουν</strong> την επίθεση.</li>
+</ul>
+<h2 id="_7">Λεξιλόγιο<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<p><strong>λογαριασμός</strong> (user), <strong>δικαίωμα</strong> (privilege), <strong><code>GRANT</code></strong>, <strong><code>REVOKE</code></strong>, <strong>αρχή ελάχιστων δικαιωμάτων</strong>, <strong>hash</strong>, <strong>SQL injection</strong>, <strong><code>UNION</code></strong>, <strong>σχόλιο SQL</strong> (<code>#</code>, <code>--</code>), <strong>παράμετρος</strong>, <strong>στρώματα άμυνας</strong>,
+<strong>αρχείο καταγραφής</strong> (log).</p>
+<h2 id="_8">Δική σου εκδοχή<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
+<p>Αν τελειώσεις νωρίτερα, δούλεψε <strong>με μία αλλαγή τη φορά</strong> και τρέχε το πρόγραμμα μετά από κάθε αλλαγή:</p>
+<ul>
+<li><strong>Πρόκληση 1:</strong> το SQL injection δεν θέλει πάντα εισαγωγικά. Γράψε στο <code>lab_unsafe.py</code> μια ευπαθή συνάρτηση <code>get_game_unsafe(connection, game_id)</code> με <code>f"SELECT title, price FROM games WHERE id = {game_id}"</code>. Τι επιστρέφει
+  για είσοδο <code>1 OR 1=1</code>; Διόρθωσέ τη με <code>%s</code> και με <code>int(…)</code> και σύγκρινε.</li>
+<li><strong>Πρόκληση 2:</strong> τρέξε ως <code>root</code> το <code>REVOKE DELETE ON game_library.* FROM 'game_app'@'localhost';</code> ενώ η εφαρμογή <strong>είναι ανοιχτή</strong> και δοκίμασε διαγραφή. Μετά κλείσε και άνοιξε ξανά την εφαρμογή και ξαναδοκίμασε. Τι
+  μήνυμα βλέπεις; Δώσε πάλι το δικαίωμα με <code>GRANT</code>.</li>
+<li><strong>Πρόκληση 3:</strong> άλλαξε τον κωδικό του <code>game_app</code> με <code>ALTER USER 'game_app'@'localhost' IDENTIFIED BY '…';</code> και ενημέρωσε το <code>config_local.py</code>. Τι γίνεται αν <strong>ξεχάσεις</strong> να το ενημερώσεις;</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Επιστροφή στην αρχή
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Υποσέλιδο" >
+        
+          
+          <a href="../../16-reports-csv/worksheet-16/" class="md-footer__link md-footer__link--prev" aria-label="Προηγούμενο: Φύλλο εργασίας">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Προηγούμενο
+              </span>
+              <div class="md-ellipsis">
+                Φύλλο εργασίας
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../worksheet-17/" class="md-footer__link md-footer__link--next" aria-label="Επόμενο: Φύλλο εργασίας">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Επόμενο
+              </span>
+              <div class="md-ellipsis">
+                Φύλλο εργασίας
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2026 Θόδωρος Θεμελής — <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.el"
+   target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>
+
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.top", "navigation.footer", "content.code.copy", "content.code.annotate", "toc.follow", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "\u0391\u03bd\u03c4\u03b9\u03b3\u03c1\u03ac\u03c6\u03b7\u03ba\u03b5 \u03c3\u03c4\u03bf \u03c0\u03c1\u03cc\u03c7\u03b5\u03b9\u03c1\u03bf", "clipboard.copy": "\u0391\u03bd\u03c4\u03b9\u03b3\u03c1\u03b1\u03c6\u03ae \u03c3\u03c4\u03bf \u03c0\u03c1\u03cc\u03c7\u03b5\u03b9\u03c1\u03bf", "search.result.more.one": "1 \u03b1\u03ba\u03cc\u03bc\u03b1 \u03c3\u03b5 \u03b1\u03c5\u03c4\u03ae\u03bd \u03c4\u03b7 \u03c3\u03b5\u03bb\u03af\u03b4\u03b1", "search.result.more.other": "# \u03b1\u03ba\u03cc\u03bc\u03b1 \u03c3\u03b5 \u03b1\u03c5\u03c4\u03ae\u03bd \u03c4\u03b7 \u03c3\u03b5\u03bb\u03af\u03b4\u03b1", "search.result.none": "\u03b4\u03b5\u03bd \u03b2\u03c1\u03ae\u03ba\u03b5 \u03ba\u03ac\u03c0\u03bf\u03b9\u03bf \u03ad\u03b3\u03b3\u03c1\u03b1\u03c6\u03bf", "search.result.one": "1 \u03ad\u03b3\u03b3\u03c1\u03b1\u03c6\u03bf \u03c0\u03bf\u03c5 \u03c4\u03b1\u03b9\u03c1\u03b9\u03ac\u03b6\u03b5\u03b9", "search.result.other": "# \u03ad\u03b3\u03b3\u03c1\u03b1\u03c6\u03b1 \u03c0\u03bf\u03c5 \u03c4\u03b1\u03b9\u03c1\u03b9\u03ac\u03b6\u03bf\u03c5\u03bd", "search.result.placeholder": "\u03a0\u03bb\u03b7\u03ba\u03c4\u03c1\u03bf\u03bb\u03bf\u03b3\u03ae\u03c3\u03c4\u03b5 \u03b3\u03b9\u03b1 \u03bd\u03b1 \u03b1\u03c1\u03c7\u03af\u03c3\u03b5\u03b9 \u03b7 \u03b1\u03bd\u03b1\u03b6\u03ae\u03c4\u03b7\u03c3\u03b7", "search.result.term.missing": "\u039b\u03b5\u03af\u03c0\u03b5\u03b9", "select.version": "\u0395\u03c0\u03b9\u03bb\u03bf\u03b3\u03ae \u03ad\u03ba\u03b4\u03bf\u03c3\u03b7\u03c2"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+    
+  </body>
+</html>

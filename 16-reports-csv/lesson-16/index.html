@@ -1,0 +1,3626 @@
+
+<!doctype html>
+<html lang="el" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Εργαστηριακό υλικό μαθήματος — ΕΠΑΛ">
+      
+      
+        <meta name="author" content="Θόδωρος Θεμελής">
+      
+      
+        <link rel="canonical" href="https://ththemelis.github.io/python-mysql-site/16-reports-csv/lesson-16/">
+      
+      
+        <link rel="prev" href="../../15-modules/worksheet-15/">
+      
+      
+        <link rel="next" href="../worksheet-16/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>Μάθημα - Βάσεις δεδομένων με Python και MySQL</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/course.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#16-csv" class="md-skip">
+          Μετάβαση στο περιεχόμενο
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Κεφαλίδα">
+    <a href="../.." title="Βάσεις δεδομένων με Python και MySQL" class="md-header__button md-logo" aria-label="Βάσεις δεδομένων με Python και MySQL" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Βάσεις δεδομένων με Python και MySQL
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Μάθημα
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Σκοτεινό θέμα"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Σκοτεινό θέμα" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Φωτεινό θέμα"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Φωτεινό θέμα" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Αναζήτηση" placeholder="Αναζήτηση" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Αναζήτηση">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Καθαρισμός" aria-label="Καθαρισμός" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Αρχικοποίηση αναζήτησης
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Πλοήγηση" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Βάσεις δεδομένων με Python και MySQL" class="md-nav__button md-logo" aria-label="Βάσεις δεδομένων με Python και MySQL" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Βάσεις δεδομένων με Python και MySQL
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Αρχική
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Εγκατάσταση και ρύθμιση
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 1 — Η πρώτη μου βάση δεδομένων
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 1 — Η πρώτη μου βάση δεδομένων
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01-first-database/lesson-01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01-first-database/worksheet-01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 2 — Η γλώσσα SQL: CREATE, INSERT, SELECT
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 2 — Η γλώσσα SQL: CREATE, INSERT, SELECT
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02-sql-basics/lesson-02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02-sql-basics/worksheet-02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 3 — Η Python συνδέεται με τη βάση
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 3 — Η Python συνδέεται με τη βάση
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03-python-connects/lesson-03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03-python-connects/worksheet-03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 4 — Φιλτράρω και ταξινομώ
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 4 — Φιλτράρω και ταξινομώ
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04-filter-sort/lesson-04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04-filter-sort/worksheet-04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 5 — Προσθέτω δεδομένα από την Python
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 5 — Προσθέτω δεδομένα από την Python
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05-insert-python/lesson-05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05-insert-python/worksheet-05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 6 — Αλλάζω και σβήνω
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 6 — Αλλάζω και σβήνω
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06-update-delete/lesson-06/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06-update-delete/worksheet-06/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 7 — Εφαρμογή με μενού
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 7 — Εφαρμογή με μενού
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07-menu-app/lesson-07/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07-menu-app/worksheet-07/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 8 — Σφάλματα και έλεγχος εισόδου
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 8 — Σφάλματα και έλεγχος εισόδου
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08-errors-validation/lesson-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08-errors-validation/worksheet-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 9 — Ημερομηνίες και ώρες
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 9 — Ημερομηνίες και ώρες
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../09-dates/lesson-09/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../09-dates/worksheet-09/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 10 — Συγκεντρωτικά αποτελέσματα
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 10 — Συγκεντρωτικά αποτελέσματα
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../10-aggregates/lesson-10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../10-aggregates/worksheet-10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 11 — Πολλοί πίνακες: το ξένο κλειδί
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 11 — Πολλοί πίνακες: το ξένο κλειδί
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../11-foreign-key/lesson-11/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../11-foreign-key/worksheet-11/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_14" >
+        
+          
+          <label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 12 — JOIN: ερωτήματα σε πολλούς πίνακες
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_14">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 12 — JOIN: ερωτήματα σε πολλούς πίνακες
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12-join/lesson-12/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12-join/worksheet-12/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15" >
+        
+          
+          <label class="md-nav__link" for="__nav_15" id="__nav_15_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 13 — JOIN από την Python
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_15_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_15">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 13 — JOIN από την Python
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../13-join-python/lesson-13/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../13-join-python/worksheet-13/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_16" >
+        
+          
+          <label class="md-nav__link" for="__nav_16" id="__nav_16_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 14 — Πολλά-προς-πολλά: ο πίνακας σύνδεσης
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_16_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_16">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 14 — Πολλά-προς-πολλά: ο πίνακας σύνδεσης
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../14-many-to-many/lesson-14/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../14-many-to-many/worksheet-14/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_17" >
+        
+          
+          <label class="md-nav__link" for="__nav_17" id="__nav_17_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 15 — Οργάνωση του κώδικα: modules, with και ρυθμίσεις
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_17_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_17">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 15 — Οργάνωση του κώδικα: modules, with και ρυθμίσεις
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../15-modules/lesson-15/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../15-modules/worksheet-15/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_18" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_18" id="__nav_18_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 16 — Αναφορές και εξαγωγή σε CSV
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_18_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_18">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 16 — Αναφορές και εξαγωγή σε CSV
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Πίνακας περιεχομένων">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Πίνακας περιεχομένων
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Αρχεία εργαστηρίου
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Η αποστολή
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στο τέλος θα μπορείς
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Πριν αρχίσεις
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-group-by-join" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Κύκλος 1 — Αναφορές με GROUP BY και JOIN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Κύκλος 1 — Αναφορές με GROUP BY και JOIN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-group-by-join" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 GROUP BY με JOIN
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Και οι ομάδες που δεν έχουν στοιχεία
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-having" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 Φίλτρο στις ομάδες: HAVING
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-join" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4 Η παγίδα: το JOIN πολλαπλασιάζει και τα αθροίσματα
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-sql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 1 — Αναφορές σε SQL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#15-reportspy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.5 Οι αναφορές ως συναρτήσεις: reports.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 2 — Οι αναφορές στην Python
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-csv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Κύκλος 2 — Αρχεία CSV και δεύτερο πρόγραμμα
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Κύκλος 2 — Αρχεία CSV και δεύτερο πρόγραμμα">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-python-with-open" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Αρχεία στην Python: with open(…)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-csv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Το CSV
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-csv-excel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Το CSV και το ελληνικό Excel
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-exportpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 Το export.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-csv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 3 — Το CSV
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25-reportpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5 Το report.py: ένα δεύτερο πρόγραμμα
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 4 — Το πρόγραμμα των αναφορών
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#26" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.6 Άνοιγμα του αρχείου
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Έλεγχος πριν ολοκληρώσεις
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Για να θυμάσαι
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Λεξιλόγιο
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Δική σου εκδοχή
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../worksheet-16/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_19" >
+        
+          
+          <label class="md-nav__link" for="__nav_19" id="__nav_19_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 17 — Ασφάλεια: λογαριασμοί, δικαιώματα και SQL injection
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_19_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_19">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 17 — Ασφάλεια: λογαριασμοί, δικαιώματα και SQL injection
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../17-security/lesson-17/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../17-security/worksheet-17/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_20" >
+        
+          
+          <label class="md-nav__link" for="__nav_20" id="__nav_20_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 18 — Αντίγραφα ασφαλείας και συναλλαγές
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_20_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_20">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 18 — Αντίγραφα ασφαλείας και συναλλαγές
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../18-backup-transactions/lesson-18/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../18-backup-transactions/worksheet-18/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Πίνακας περιεχομένων">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Πίνακας περιεχομένων
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Αρχεία εργαστηρίου
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Η αποστολή
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στο τέλος θα μπορείς
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Πριν αρχίσεις
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-group-by-join" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Κύκλος 1 — Αναφορές με GROUP BY και JOIN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Κύκλος 1 — Αναφορές με GROUP BY και JOIN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-group-by-join" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 GROUP BY με JOIN
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Και οι ομάδες που δεν έχουν στοιχεία
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-having" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 Φίλτρο στις ομάδες: HAVING
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-join" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4 Η παγίδα: το JOIN πολλαπλασιάζει και τα αθροίσματα
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-sql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 1 — Αναφορές σε SQL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#15-reportspy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.5 Οι αναφορές ως συναρτήσεις: reports.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 2 — Οι αναφορές στην Python
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-csv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Κύκλος 2 — Αρχεία CSV και δεύτερο πρόγραμμα
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Κύκλος 2 — Αρχεία CSV και δεύτερο πρόγραμμα">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-python-with-open" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Αρχεία στην Python: with open(…)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-csv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Το CSV
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-csv-excel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Το CSV και το ελληνικό Excel
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-exportpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 Το export.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-csv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 3 — Το CSV
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25-reportpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5 Το report.py: ένα δεύτερο πρόγραμμα
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 4 — Το πρόγραμμα των αναφορών
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#26" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.6 Άνοιγμα του αρχείου
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Έλεγχος πριν ολοκληρώσεις
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Για να θυμάσαι
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Λεξιλόγιο
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Δική σου εκδοχή
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="16-csv">Μάθημα 16: Αναφορές και εξαγωγή σε CSV<a class="headerlink" href="#16-csv" title="Permanent link">&para;</a></h1>
+<p><strong>Βάση δεδομένων και Python:</strong> αναφορές με <code>GROUP BY</code> και <code>JOIN</code>, το <code>HAVING</code>, η παγίδα των αθροισμάτων, και εξαγωγή σε αρχείο <strong>CSV</strong> με το module <code>csv</code><br />
+<strong>Διάρκεια:</strong> 2 κύκλοι × περίπου 45′ εργασία (2 διδακτικές ώρες)</p>
+<div class="admonition info">
+<p class="admonition-title">Φύλλο εργασίας</p>
+<p>Αυτή η σελίδα εξηγεί τις έννοιες. Οι ασκήσεις και οι οδηγίες για κάθε κύκλο βρίσκονται στο
+<a href="../worksheet-16/">Φύλλο εργασίας 16</a>. Δούλεψε με τις δύο σελίδες ανοιχτές.</p>
+</div>
+<h2 id="_1">Αρχεία εργαστηρίου<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Αρχείο</th>
+<th>Κύκλος</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../code/starter/01-start-state.sql">01-start-state.sql</a></td>
+<td>πριν αρχίσεις</td>
+</tr>
+<tr>
+<td><a href="../code/starter/02-reports.sql">02-reports.sql</a></td>
+<td>1</td>
+</tr>
+<tr>
+<td><a href="../code/starter/reports.py">reports.py</a></td>
+<td>1</td>
+</tr>
+<tr>
+<td><a href="../code/starter/check_reports.py">check_reports.py</a></td>
+<td>1</td>
+</tr>
+<tr>
+<td><a href="../code/starter/export.py">export.py</a></td>
+<td>2</td>
+</tr>
+<tr>
+<td><a href="../code/starter/check_export.py">check_export.py</a></td>
+<td>2</td>
+</tr>
+<tr>
+<td><a href="../code/starter/report.py">report.py</a></td>
+<td>2</td>
+</tr>
+<tr>
+<td><a href="../code/starter/config.py">config.py</a>, <a href="../code/starter/db.py">db.py</a>, <a href="../code/starter/ui.py">ui.py</a></td>
+<td>ίδια με το Μάθημα 15 (δεν έχουν κενά)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_2">Η αποστολή<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>Μια βάση δεδομένων δεν αποθηκεύει μόνο στοιχεία: <strong>απαντά σε ερωτήσεις των ανθρώπων που τη χρησιμοποιούν</strong>. Ο υπεύθυνος της βιβλιοθήκης ρωτά: «Πόσα παιχνίδια έχει κάθε
+είδος; Ποια παιχνίδια έχουν την καλύτερη βαθμολογία; Πόσα παιχνίδια έχει κάθε πλατφόρμα;» και θέλει την απάντηση <strong>σε ένα αρχείο που ανοίγει στο Excel</strong>. Τέτοιες απαντήσεις
+λέγονται <strong>αναφορές</strong> (reports): <strong>συγκεντρωτικά αποτελέσματα</strong> (πλήθη, μέσοι όροι, σύνολα) <strong>ανά ομάδα</strong>.</p>
+<p>Σήμερα:</p>
+<ol>
+<li>γράφεις τις αναφορές με <code>GROUP BY</code> και <code>JOIN</code> (όσα έμαθες στα Μαθήματα 10, 12 και 14),</li>
+<li>τις βάζεις σε <strong>συναρτήσεις</strong> που επιστρέφουν δεδομένα, όπως στο Μάθημα 15, και</li>
+<li>φτιάχνεις ένα <strong>δεύτερο πρόγραμμα</strong>, που ξαναχρησιμοποιεί τα modules σου και <strong>γράφει την αναφορά σε αρχείο CSV</strong>.</li>
+</ol>
+<h2 id="_3">Στο τέλος θα μπορείς<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<ul>
+<li>να γράφεις αναφορές με <code>GROUP BY</code>, συναρτήσεις συγκέντρωσης και <code>JOIN</code>, και να διαλέγεις <code>INNER JOIN</code> ή <code>LEFT JOIN</code>.</li>
+<li>να δείχνεις και τις ομάδες <strong>χωρίς</strong> στοιχεία (πλήθος <code>0</code>) με <code>LEFT JOIN</code> και <code>COUNT(στήλη)</code>.</li>
+<li>να φιλτράρεις ομάδες με <code>HAVING</code>, με τιμή που δίνει ο χρήστης.</li>
+<li>να αναγνωρίζεις την <strong>παγίδα του πολλαπλασιασμού</strong> στα αθροίσματα μετά από <code>JOIN</code>.</li>
+<li>να γράφεις αρχεία από την Python με <code>with open(…)</code> και το module <code>csv</code>.</li>
+<li>να δημιουργείς CSV που <strong>ανοίγει σωστά στο ελληνικό Excel</strong> (διαχωριστής, κωδικοποίηση, υποδιαστολή).</li>
+<li>να φτιάχνεις <strong>δεύτερο πρόγραμμα</strong> που ξαναχρησιμοποιεί τα <code>db</code> και <code>ui</code>, χωρίς αντιγραφή κώδικα.</li>
+</ul>
+<h2 id="_4">Πριν αρχίσεις<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Ξεκίνα τη <strong>MySQL</strong> και τον <strong>Apache</strong> από το XAMPP Control Panel.</li>
+<li>Φτιάξε έναν φάκελο <code>16-reports-csv</code> μέσα στον φάκελο των μαθημάτων και κατέβασε εκεί τα <strong>δέκα</strong> αρχεία του πίνακα. Κράτησε ακριβώς τα ονόματα. <strong>Όλα τα <code>.py</code> στον ίδιο φάκελο</strong>, όπως στο
+   Μάθημα 15. Άνοιξε τον φάκελο στο VS Code και άνοιξε τερματικό.</li>
+<li>Φέρε τη βάση στην κατάσταση εκκίνησης: στο phpMyAdmin επίλεξε τη βάση <code>game_library</code>, άνοιξε την καρτέλα
+   <strong>Import</strong>, διάλεξε το <code>01-start-state.sql</code> και πάτα <strong>Import</strong>.</li>
+<li>Έλεγξε στην καρτέλα <strong>Browse</strong> ότι ο <code>games</code> έχει <strong>30</strong> γραμμές, ο <code>genres</code> <strong>11</strong>, ο <code>reviews</code> <strong>12</strong>, ο <code>platforms</code> <strong>5</strong> και ο <code>game_platforms</code> <strong>63</strong>.</li>
+</ol>
+<div class="admonition warning">
+<p class="admonition-title">Το αρχείο εκκίνησης σβήνει τα δεδομένα σου</p>
+<p>Το <code>01-start-state.sql</code> <strong>σβήνει</strong> τους πίνακες της βάσης και τους φτιάχνει από την αρχή. Σήμερα δεν αλλάζει η δομή της βάσης, αλλά αν χαλάσεις δεδομένα, τρέξε το ξανά.</p>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Ο κύκλος εργασίας</p>
+<p><strong>Πρόβλεψη → εκτέλεση → σύγκριση → εξήγηση.</strong> Σήμερα πρόβλεψε <strong>πόσες γραμμές</strong> θα έχει μια αναφορά και <strong>τι αριθμούς</strong> θα δώσουν οι συναρτήσεις συγκέντρωσης.</p>
+</div>
+<hr />
+<h2 id="1-group-by-join">Κύκλος 1 — Αναφορές με GROUP BY και JOIN<a class="headerlink" href="#1-group-by-join" title="Permanent link">&para;</a></h2>
+<p>Σε αυτόν τον κύκλο γράφεις τις αναφορές σε SQL και μετά τις βάζεις σε συναρτήσεις της Python.</p>
+<h3 id="11-group-by-join">1.1 <code>GROUP BY</code> με <code>JOIN</code><a class="headerlink" href="#11-group-by-join" title="Permanent link">&para;</a></h3>
+<p>Η <code>GROUP BY</code> φτιάχνει <strong>μία γραμμή για κάθε ομάδα</strong> και οι συναρτήσεις <code>COUNT</code>, <code>AVG</code>, <code>SUM</code> υπολογίζουν πάνω στην ομάδα (Μάθημα 10). Για να έχει η αναφορά <strong>ονόματα</strong> αντί για αριθμούς,
+ενώνεις τους πίνακες με <code>JOIN</code> (Μαθήματα 12 και 14):</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">ge</span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">genre</span><span class="p">,</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">games_n</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="k">FROM</span><span class="w"> </span><span class="n">games</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="k">g</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="k">JOIN</span><span class="w"> </span><span class="n">genres</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">ge</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="k">g</span><span class="p">.</span><span class="n">genre_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ge</span><span class="p">.</span><span class="n">id</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">ge</span><span class="p">.</span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">ge</span><span class="p">.</span><span class="n">name</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">games_n</span><span class="w"> </span><span class="k">DESC</span><span class="p">,</span><span class="w"> </span><span class="n">ge</span><span class="p">.</span><span class="n">name</span><span class="p">;</span>
+</span></code></pre></div>
+<p>Ομαδοποιούμε με το <strong><code>id</code> και το όνομα</strong> του είδους (<code>GROUP BY ge.id, ge.name</code>): το <code>id</code> είναι αυτό που ξεχωρίζει τα είδη (δύο είδη θα μπορούσαν να έχουν ίδιο όνομα), και το
+<code>name</code> είναι αυτό που <strong>φαίνεται</strong> στην αναφορά. Κάθε στήλη του <code>SELECT</code> είναι είτε στο <code>GROUP BY</code> είτε μέσα σε συνάρτηση συγκέντρωσης.</p>
+<h3 id="12">1.2 Και οι ομάδες που δεν έχουν στοιχεία<a class="headerlink" href="#12" title="Permanent link">&para;</a></h3>
+<p>Το παραπάνω ερώτημα δίνει <strong>10</strong> γραμμές: λείπει το είδος «Μουσικά», γιατί <strong>δεν έχει παιχνίδια</strong> και ο <code>INNER JOIN</code> δεν το κρατά. Μια αναφορά που λέει «κάθε είδος» πρέπει να το δείχνει με <code>0</code>.
+Το ξέρεις από το Μάθημα 12: <strong><code>LEFT JOIN</code> από τον πίνακα που κρατάς</strong> και <code>COUNT(στήλη)</code> (όχι <code>COUNT(*)</code>):</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">ge</span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">genre</span><span class="p">,</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="k">g</span><span class="p">.</span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">games_n</span><span class="p">,</span><span class="w"> </span><span class="n">ROUND</span><span class="p">(</span><span class="k">AVG</span><span class="p">(</span><span class="k">g</span><span class="p">.</span><span class="n">price</span><span class="p">),</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">average</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="k">FROM</span><span class="w"> </span><span class="n">genres</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">ge</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">games</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="k">g</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="k">g</span><span class="p">.</span><span class="n">genre_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ge</span><span class="p">.</span><span class="n">id</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">ge</span><span class="p">.</span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">ge</span><span class="p">.</span><span class="n">name</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">games_n</span><span class="w"> </span><span class="k">DESC</span><span class="p">,</span><span class="w"> </span><span class="n">ge</span><span class="p">.</span><span class="n">name</span><span class="p">;</span>
+</span></code></pre></div>
+<p>Το «Μουσικά» βγαίνει με <code>games_n</code> ίσο με <code>0</code> (το <code>COUNT(g.id)</code> δεν μετρά τα <code>NULL</code>) και με <strong>μέση τιμή <code>NULL</code></strong> (δεν υπάρχουν τιμές για μέσο όρο). Στην Python το <code>NULL</code> θα γίνει <code>None</code>.</p>
+<p><img alt="Το αποτέλεσμα της αναφοράς «παιχνίδια ανά είδος» στο phpMyAdmin, με δύο κόκκινα πλαίσια: 1 η στήλη games_n, με το είδος «Μουσικά» να έχει 0 παιχνίδια, 2 η στήλη average, όπου το ίδιο είδος έχει NULL αντί για μέση τιμή" src="../images/genres-report.png" width="720" /></p>
+<h3 id="13-having">1.3 Φίλτρο στις ομάδες: <code>HAVING</code><a class="headerlink" href="#13-having" title="Permanent link">&para;</a></h3>
+<p>Το <code>WHERE</code> φιλτράρει <strong>γραμμές πριν</strong> φτιαχτούν οι ομάδες. Το <strong><code>HAVING</code></strong> φιλτράρει <strong>ομάδες μετά</strong> τον υπολογισμό (Μάθημα 10). Έτσι ζητάς «μόνο τα είδη με τουλάχιστον 4 παιχνίδια» ή «μόνο τα
+παιχνίδια με τουλάχιστον 2 κριτικές»:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="k">g</span><span class="p">.</span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">reviews_n</span><span class="p">,</span><span class="w"> </span><span class="n">ROUND</span><span class="p">(</span><span class="k">AVG</span><span class="p">(</span><span class="n">r</span><span class="p">.</span><span class="n">stars</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">average_stars</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="k">FROM</span><span class="w"> </span><span class="n">games</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="k">g</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="k">JOIN</span><span class="w"> </span><span class="n">reviews</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">r</span><span class="p">.</span><span class="n">game_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">g</span><span class="p">.</span><span class="n">id</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="k">g</span><span class="p">.</span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="k">g</span><span class="p">.</span><span class="n">title</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="k">HAVING</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">2</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">average_stars</span><span class="w"> </span><span class="k">DESC</span><span class="p">,</span><span class="w"> </span><span class="k">g</span><span class="p">.</span><span class="n">title</span><span class="p">;</span>
+</span></code></pre></div>
+<p>Ένας μέσος όρος από <strong>μία</strong> κριτική δεν λέει πολλά: το «Sky Pirates» έχει 5.0 από μία μόνο κριτική. Γι' αυτό το <code>HAVING</code> με ελάχιστο πλήθος είναι συνηθισμένο στις βαθμολογίες.</p>
+<h3 id="14-join">1.4 Η παγίδα: το <code>JOIN</code> πολλαπλασιάζει και τα αθροίσματα<a class="headerlink" href="#14-join" title="Permanent link">&para;</a></h3>
+<p>Στο Μάθημα 14 είδες ότι ένα <code>JOIN</code> με σχέση «πολλά» <strong>επαναλαμβάνει</strong> τις γραμμές (63 αντί για 27 παιχνίδια). Αυτό επηρεάζει και τις συναρτήσεις συγκέντρωσης:</p>
+<table>
+<thead>
+<tr>
+<th>Ερώτημα</th>
+<th>Αποτέλεσμα</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SELECT SUM(price) FROM games</code></td>
+<td><strong>324.66</strong> (η σωστή συνολική τιμή των 30 παιχνιδιών)</td>
+</tr>
+<tr>
+<td><code>SELECT SUM(g.price) FROM games AS g JOIN game_platforms AS gp ON gp.game_id = g.id</code></td>
+<td><strong>753.49</strong> (κάθε τιμή μετρήθηκε <strong>μία φορά για κάθε πλατφόρμα του παιχνιδιού</strong>)</td>
+</tr>
+</tbody>
+</table>
+<p>Τα 753.49 είναι <strong>λάθος</strong> για το «πόση είναι η συνολική τιμή των παιχνιδιών», και <strong>δεν δίνει σφάλμα</strong>. Ο κανόνας: <strong>πριν αθροίσεις μετά από <code>JOIN</code>, ρώτα «πόσες φορές εμφανίζεται κάθε γραμμή μου;»</strong>.
+Αν ο <code>JOIN</code> τη διπλασιάζει, ή υπολογίζεις <strong>χωρίς</strong> <code>JOIN</code>, ή μετράς με <code>COUNT(DISTINCT …)</code>. (Στην αναφορά «ανά πλατφόρμα» το <code>SUM</code> ή το <code>AVG</code> είναι σωστά, γιατί ομαδοποιείς <strong>ανά πλατφόρμα</strong>: κάθε παιχνίδι
+μετρά μία φορά <strong>σε κάθε πλατφόρμα του</strong>, και αυτό ζητάς.)</p>
+<h3 id="1-sql">Στάδιο 1 — Αναφορές σε SQL<a class="headerlink" href="#1-sql" title="Permanent link">&para;</a></h3>
+<p>Άνοιξε το <code>02-reports.sql</code>. Συμπλήρωσε τα πέντε κενά (<code>____</code>) και τρέξε τις εντολές <strong>μία-μία</strong>, με τη σειρά. Πρόβλεψε πρώτα πόσες γραμμές θα βγουν.</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1">-- Στάδιο 1 — Αναφορές με GROUP BY και JOIN.</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="c1">--</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="c1">-- Πριν αρχίσεις: τρέξε το 01-start-state.sql (καρτέλα Import). Τα ερωτήματα δεν αλλάζουν δεδομένα.</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c1">--</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="c1">-- Πώς το τρέχεις:</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="c1">--   1. Συμπλήρωσε τα κενά (____) σε έναν επεξεργαστή κειμένου.</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="c1">--   2. Τρέξε κάθε εντολή ΞΕΧΩΡΙΣΤΑ στην καρτέλα SQL της βάσης game_library, με τη σειρά.</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="c1">--   3. ΠΡΩΤΑ πρόβλεψε τι θα γίνει: πόσες γραμμές θα έχει το αποτέλεσμα και τι αριθμούς θα δώσουν οι συναρτήσεις.</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="c1">-- Ερώτημα 1 (έτοιμο): πόσα παιχνίδια έχει κάθε είδος; INNER JOIN και GROUP BY με το ΟΝΟΜΑ του είδους.</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="c1">-- Πόσες γραμμές βγαίνουν; Λείπει κάποιο είδος;</span>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">ge</span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">genre</span><span class="p">,</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">games_n</span>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="k">FROM</span><span class="w"> </span><span class="n">games</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="k">g</span>
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="k">JOIN</span><span class="w"> </span><span class="n">genres</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">ge</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="k">g</span><span class="p">.</span><span class="n">genre_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ge</span><span class="p">.</span><span class="n">id</span>
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">ge</span><span class="p">.</span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">ge</span><span class="p">.</span><span class="n">name</span>
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">games_n</span><span class="w"> </span><span class="k">DESC</span><span class="p">,</span><span class="w"> </span><span class="n">ge</span><span class="p">.</span><span class="n">name</span><span class="p">;</span>
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>
+</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="c1">-- Ερώτημα 2: ΟΛΑ τα είδη, με πλήθος και μέση τιμή. LEFT JOIN από τον πίνακα που κρατάς (genres) και COUNT(g.id) (όχι COUNT(*))</span>
+</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">ge</span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">genre</span><span class="p">,</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="n">____</span><span class="p">.</span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">games_n</span><span class="p">,</span><span class="w"> </span><span class="n">ROUND</span><span class="p">(</span><span class="k">AVG</span><span class="p">(</span><span class="k">g</span><span class="p">.</span><span class="n">price</span><span class="p">),</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">average</span>
+</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a><span class="k">FROM</span><span class="w"> </span><span class="n">genres</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">ge</span>
+</span><span id="__span-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a><span class="n">____</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">games</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="k">g</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="k">g</span><span class="p">.</span><span class="n">genre_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ge</span><span class="p">.</span><span class="n">id</span>
+</span><span id="__span-3-22"><a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">ge</span><span class="p">.</span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">ge</span><span class="p">.</span><span class="n">name</span>
+</span><span id="__span-3-23"><a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">games_n</span><span class="w"> </span><span class="k">DESC</span><span class="p">,</span><span class="w"> </span><span class="n">ge</span><span class="p">.</span><span class="n">name</span><span class="p">;</span>
+</span><span id="__span-3-24"><a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a>
+</span><span id="__span-3-25"><a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a><span class="c1">-- Ερώτημα 3: μόνο τα είδη με τουλάχιστον 4 παιχνίδια. Το φίλτρο για ΟΜΑΔΕΣ είναι το HAVING (Μάθημα 10)</span>
+</span><span id="__span-3-26"><a id="__codelineno-3-26" name="__codelineno-3-26" href="#__codelineno-3-26"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">ge</span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">genre</span><span class="p">,</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="k">g</span><span class="p">.</span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">games_n</span>
+</span><span id="__span-3-27"><a id="__codelineno-3-27" name="__codelineno-3-27" href="#__codelineno-3-27"></a><span class="k">FROM</span><span class="w"> </span><span class="n">genres</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">ge</span>
+</span><span id="__span-3-28"><a id="__codelineno-3-28" name="__codelineno-3-28" href="#__codelineno-3-28"></a><span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">games</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="k">g</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="k">g</span><span class="p">.</span><span class="n">genre_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ge</span><span class="p">.</span><span class="n">id</span>
+</span><span id="__span-3-29"><a id="__codelineno-3-29" name="__codelineno-3-29" href="#__codelineno-3-29"></a><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">ge</span><span class="p">.</span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">ge</span><span class="p">.</span><span class="n">name</span>
+</span><span id="__span-3-30"><a id="__codelineno-3-30" name="__codelineno-3-30" href="#__codelineno-3-30"></a><span class="k">HAVING</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="k">g</span><span class="p">.</span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">____</span>
+</span><span id="__span-3-31"><a id="__codelineno-3-31" name="__codelineno-3-31" href="#__codelineno-3-31"></a><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">games_n</span><span class="w"> </span><span class="k">DESC</span><span class="p">,</span><span class="w"> </span><span class="n">ge</span><span class="p">.</span><span class="n">name</span><span class="p">;</span>
+</span><span id="__span-3-32"><a id="__codelineno-3-32" name="__codelineno-3-32" href="#__codelineno-3-32"></a>
+</span><span id="__span-3-33"><a id="__codelineno-3-33" name="__codelineno-3-33" href="#__codelineno-3-33"></a><span class="c1">-- Ερώτημα 4: βαθμολογία ανά παιχνίδι: πλήθος κριτικών και μέσος όρος αστεριών (ένα δεκαδικό), υψηλότερος πρώτα</span>
+</span><span id="__span-3-34"><a id="__codelineno-3-34" name="__codelineno-3-34" href="#__codelineno-3-34"></a><span class="k">SELECT</span><span class="w"> </span><span class="k">g</span><span class="p">.</span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">reviews_n</span><span class="p">,</span><span class="w"> </span><span class="n">ROUND</span><span class="p">(</span><span class="n">____</span><span class="p">(</span><span class="n">r</span><span class="p">.</span><span class="n">stars</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">average_stars</span>
+</span><span id="__span-3-35"><a id="__codelineno-3-35" name="__codelineno-3-35" href="#__codelineno-3-35"></a><span class="k">FROM</span><span class="w"> </span><span class="n">games</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="k">g</span>
+</span><span id="__span-3-36"><a id="__codelineno-3-36" name="__codelineno-3-36" href="#__codelineno-3-36"></a><span class="k">JOIN</span><span class="w"> </span><span class="n">reviews</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">r</span><span class="p">.</span><span class="n">game_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">g</span><span class="p">.</span><span class="n">id</span>
+</span><span id="__span-3-37"><a id="__codelineno-3-37" name="__codelineno-3-37" href="#__codelineno-3-37"></a><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="k">g</span><span class="p">.</span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="k">g</span><span class="p">.</span><span class="n">title</span>
+</span><span id="__span-3-38"><a id="__codelineno-3-38" name="__codelineno-3-38" href="#__codelineno-3-38"></a><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">average_stars</span><span class="w"> </span><span class="k">DESC</span><span class="p">,</span><span class="w"> </span><span class="k">g</span><span class="p">.</span><span class="n">title</span><span class="p">;</span>
+</span><span id="__span-3-39"><a id="__codelineno-3-39" name="__codelineno-3-39" href="#__codelineno-3-39"></a>
+</span><span id="__span-3-40"><a id="__codelineno-3-40" name="__codelineno-3-40" href="#__codelineno-3-40"></a><span class="c1">-- Ερώτημα 5: πόσα παιχνίδια και ποια μέση τιμή έχει κάθε πλατφόρμα, ΜΑΖΙ με την πλατφόρμα που δεν έχει παιχνίδια:</span>
+</span><span id="__span-3-41"><a id="__codelineno-3-41" name="__codelineno-3-41" href="#__codelineno-3-41"></a><span class="c1">-- δύο LEFT JOIN, ξεκινώντας από τον πίνακα των πλατφορμών</span>
+</span><span id="__span-3-42"><a id="__codelineno-3-42" name="__codelineno-3-42" href="#__codelineno-3-42"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">platform</span><span class="p">,</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="k">g</span><span class="p">.</span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">games_n</span><span class="p">,</span><span class="w"> </span><span class="n">ROUND</span><span class="p">(</span><span class="k">AVG</span><span class="p">(</span><span class="k">g</span><span class="p">.</span><span class="n">price</span><span class="p">),</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">average</span>
+</span><span id="__span-3-43"><a id="__codelineno-3-43" name="__codelineno-3-43" href="#__codelineno-3-43"></a><span class="k">FROM</span><span class="w"> </span><span class="n">platforms</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">p</span>
+</span><span id="__span-3-44"><a id="__codelineno-3-44" name="__codelineno-3-44" href="#__codelineno-3-44"></a><span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">game_platforms</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">gp</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">gp</span><span class="p">.</span><span class="n">platform_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">id</span>
+</span><span id="__span-3-45"><a id="__codelineno-3-45" name="__codelineno-3-45" href="#__codelineno-3-45"></a><span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">games</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="k">g</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">gp</span><span class="p">.</span><span class="n">game_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">____</span><span class="p">.</span><span class="n">id</span>
+</span><span id="__span-3-46"><a id="__codelineno-3-46" name="__codelineno-3-46" href="#__codelineno-3-46"></a><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">name</span>
+</span><span id="__span-3-47"><a id="__codelineno-3-47" name="__codelineno-3-47" href="#__codelineno-3-47"></a><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">games_n</span><span class="w"> </span><span class="k">DESC</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">name</span><span class="p">;</span>
+</span><span id="__span-3-48"><a id="__codelineno-3-48" name="__codelineno-3-48" href="#__codelineno-3-48"></a>
+</span><span id="__span-3-49"><a id="__codelineno-3-49" name="__codelineno-3-49" href="#__codelineno-3-49"></a><span class="c1">-- Ερώτημα 6 (έτοιμο): πόση είναι η συνολική τιμή των παιχνιδιών; (το σωστό άθροισμα)</span>
+</span><span id="__span-3-50"><a id="__codelineno-3-50" name="__codelineno-3-50" href="#__codelineno-3-50"></a><span class="k">SELECT</span><span class="w"> </span><span class="k">SUM</span><span class="p">(</span><span class="n">price</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">total</span><span class="p">,</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">games_n</span>
+</span><span id="__span-3-51"><a id="__codelineno-3-51" name="__codelineno-3-51" href="#__codelineno-3-51"></a><span class="k">FROM</span><span class="w"> </span><span class="n">games</span><span class="p">;</span>
+</span><span id="__span-3-52"><a id="__codelineno-3-52" name="__codelineno-3-52" href="#__codelineno-3-52"></a>
+</span><span id="__span-3-53"><a id="__codelineno-3-53" name="__codelineno-3-53" href="#__codelineno-3-53"></a><span class="c1">-- Ερώτημα 7 (έτοιμο): ΠΑΓΙΔΑ. Το ίδιο SUM, αλλά μετά από JOIN με τον πίνακα σύνδεσης. Τι έγινε με το άθροισμα; Δες και το rows_n</span>
+</span><span id="__span-3-54"><a id="__codelineno-3-54" name="__codelineno-3-54" href="#__codelineno-3-54"></a><span class="k">SELECT</span><span class="w"> </span><span class="k">SUM</span><span class="p">(</span><span class="k">g</span><span class="p">.</span><span class="n">price</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">wrong_total</span><span class="p">,</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">rows_n</span>
+</span><span id="__span-3-55"><a id="__codelineno-3-55" name="__codelineno-3-55" href="#__codelineno-3-55"></a><span class="k">FROM</span><span class="w"> </span><span class="n">games</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="k">g</span>
+</span><span id="__span-3-56"><a id="__codelineno-3-56" name="__codelineno-3-56" href="#__codelineno-3-56"></a><span class="k">JOIN</span><span class="w"> </span><span class="n">game_platforms</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">gp</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">gp</span><span class="p">.</span><span class="n">game_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">g</span><span class="p">.</span><span class="n">id</span><span class="p">;</span>
+</span></code></pre></div>
+<h3 id="15-reportspy">1.5 Οι αναφορές ως συναρτήσεις: <code>reports.py</code><a class="headerlink" href="#15-reportspy" title="Permanent link">&para;</a></h3>
+<p>Όπως στο Μάθημα 15, βάζουμε κάθε αναφορά σε μια <strong>συνάρτηση πρόσβασης</strong>: παίρνει τη σύνδεση και <strong>επιστρέφει</strong> λίστα από λεξικά. Δεν τυπώνει και δεν γράφει αρχεία. Αυτό έχει σημασία σήμερα: τα <strong>ίδια
+δεδομένα</strong> πρέπει να πάνε και στην οθόνη και στο αρχείο CSV, και κάθε φορά διαφορετικό κομμάτι κώδικα αναλαμβάνει το «τι κάνουμε με αυτά».</p>
+<p>Δύο σημεία:</p>
+<ul>
+<li>Η <code>ratings_per_game(connection, min_reviews)</code> βάζει το ελάχιστο πλήθος κριτικών ως <strong>παράμετρο</strong> του <code>HAVING … &gt;= %s</code>, όπως έβαζες παραμέτρους στο <code>WHERE</code>.</li>
+<li>Οι μέσοι όροι είναι <strong><code>Decimal</code></strong> και, για μια ομάδα χωρίς στοιχεία, <strong><code>None</code></strong> (το <code>NULL</code> της βάσης). Ό,τι τα χρησιμοποιεί πρέπει να το περιμένει.</li>
+</ul>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="sd">"""Οι εντολές SQL των αναφορών.</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="sd">Όπως το queries.py του Μαθήματος 15: κάθε συνάρτηση παίρνει τη σύνδεση και ΕΠΙΣΤΡΕΦΕΙ δεδομένα (λίστα από λεξικά). Δεν τυπώνει</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="sd">και δεν γράφει αρχεία: αυτά τα κάνουν το export.py και το report.py. Έτσι τα ίδια δεδομένα μπορούν να πάνε και στην οθόνη και σε CSV.</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="sd">Συμπλήρωσε τα τέσσερα κενά (____).</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="sd">"""</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="k">def</span><span class="w"> </span><span class="nf">games_per_genre</span><span class="p">(</span><span class="n">connection</span><span class="p">):</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">    </span><span class="sd">"""Για κάθε είδος, ΚΑΙ για όσα δεν έχουν παιχνίδια: πλήθος παιχνιδιών και μέση τιμή. Λεξικά: genre, games_n, average."""</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>    <span class="c1"># TODO 1: αποτελέσματα ως λεξικά (το ξέρεις από το Μάθημα 13)</span>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>    <span class="k">with</span> <span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">(</span><span class="n">dictionary</span><span class="o">=</span><span class="n">____</span><span class="p">)</span> <span class="k">as</span> <span class="n">cursor</span><span class="p">:</span>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>        <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>            <span class="s2">"SELECT ge.name AS genre, COUNT(g.id) AS games_n, ROUND(AVG(g.price), 2) AS average "</span>
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>            <span class="s2">"FROM genres AS ge LEFT JOIN games AS g ON g.genre_id = ge.id "</span>
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>            <span class="s2">"GROUP BY ge.id, ge.name ORDER BY games_n DESC, ge.name"</span>
+</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>        <span class="p">)</span>
+</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>        <span class="k">return</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+</span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a>
+</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>
+</span><span id="__span-4-21"><a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a><span class="k">def</span><span class="w"> </span><span class="nf">ratings_per_game</span><span class="p">(</span><span class="n">connection</span><span class="p">,</span> <span class="n">min_reviews</span><span class="p">):</span>
+</span><span id="__span-4-22"><a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a><span class="w">    </span><span class="sd">"""Για κάθε παιχνίδι με τουλάχιστον min_reviews κριτικές: πλήθος κριτικών και μέσος όρος αστεριών.</span>
+</span><span id="__span-4-23"><a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a>
+</span><span id="__span-4-24"><a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a><span class="sd">    Λεξικά: title, reviews_n, average_stars (το average_stars είναι Decimal).</span>
+</span><span id="__span-4-25"><a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a><span class="sd">    """</span>
+</span><span id="__span-4-26"><a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a>    <span class="k">with</span> <span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">(</span><span class="n">dictionary</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">cursor</span><span class="p">:</span>
+</span><span id="__span-4-27"><a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a>        <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+</span><span id="__span-4-28"><a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a>            <span class="s2">"SELECT g.title, COUNT(*) AS reviews_n, ROUND(AVG(r.stars), 1) AS average_stars "</span>
+</span><span id="__span-4-29"><a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a>            <span class="s2">"FROM games AS g JOIN reviews AS r ON r.game_id = g.id "</span>
+</span><span id="__span-4-30"><a id="__codelineno-4-30" name="__codelineno-4-30" href="#__codelineno-4-30"></a>            <span class="s2">"GROUP BY g.id, g.title "</span>
+</span><span id="__span-4-31"><a id="__codelineno-4-31" name="__codelineno-4-31" href="#__codelineno-4-31"></a>            <span class="s2">"HAVING COUNT(*) &gt;= </span><span class="si">%s</span><span class="s2"> "</span>
+</span><span id="__span-4-32"><a id="__codelineno-4-32" name="__codelineno-4-32" href="#__codelineno-4-32"></a>            <span class="s2">"ORDER BY average_stars DESC, g.title"</span><span class="p">,</span>
+</span><span id="__span-4-33"><a id="__codelineno-4-33" name="__codelineno-4-33" href="#__codelineno-4-33"></a>            <span class="c1"># TODO 2: η τιμή της παραμέτρου %s του HAVING (πλειάδα με μία τιμή)</span>
+</span><span id="__span-4-34"><a id="__codelineno-4-34" name="__codelineno-4-34" href="#__codelineno-4-34"></a>            <span class="p">(</span><span class="n">____</span><span class="p">,),</span>
+</span><span id="__span-4-35"><a id="__codelineno-4-35" name="__codelineno-4-35" href="#__codelineno-4-35"></a>        <span class="p">)</span>
+</span><span id="__span-4-36"><a id="__codelineno-4-36" name="__codelineno-4-36" href="#__codelineno-4-36"></a>        <span class="k">return</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+</span><span id="__span-4-37"><a id="__codelineno-4-37" name="__codelineno-4-37" href="#__codelineno-4-37"></a>
+</span><span id="__span-4-38"><a id="__codelineno-4-38" name="__codelineno-4-38" href="#__codelineno-4-38"></a>
+</span><span id="__span-4-39"><a id="__codelineno-4-39" name="__codelineno-4-39" href="#__codelineno-4-39"></a><span class="k">def</span><span class="w"> </span><span class="nf">games_per_platform</span><span class="p">(</span><span class="n">connection</span><span class="p">):</span>
+</span><span id="__span-4-40"><a id="__codelineno-4-40" name="__codelineno-4-40" href="#__codelineno-4-40"></a><span class="w">    </span><span class="sd">"""Για κάθε πλατφόρμα, ΚΑΙ για όσες δεν έχουν παιχνίδια: πλήθος παιχνιδιών και μέση τιμή. Λεξικά: platform, games_n, average."""</span>
+</span><span id="__span-4-41"><a id="__codelineno-4-41" name="__codelineno-4-41" href="#__codelineno-4-41"></a>    <span class="k">with</span> <span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">(</span><span class="n">dictionary</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">cursor</span><span class="p">:</span>
+</span><span id="__span-4-42"><a id="__codelineno-4-42" name="__codelineno-4-42" href="#__codelineno-4-42"></a>        <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+</span><span id="__span-4-43"><a id="__codelineno-4-43" name="__codelineno-4-43" href="#__codelineno-4-43"></a>            <span class="s2">"SELECT p.name AS platform, COUNT(g.id) AS games_n, ROUND(AVG(g.price), 2) AS average "</span>
+</span><span id="__span-4-44"><a id="__codelineno-4-44" name="__codelineno-4-44" href="#__codelineno-4-44"></a>            <span class="s2">"FROM platforms AS p "</span>
+</span><span id="__span-4-45"><a id="__codelineno-4-45" name="__codelineno-4-45" href="#__codelineno-4-45"></a>            <span class="s2">"LEFT JOIN game_platforms AS gp ON gp.platform_id = p.id "</span>
+</span><span id="__span-4-46"><a id="__codelineno-4-46" name="__codelineno-4-46" href="#__codelineno-4-46"></a>            <span class="s2">"LEFT JOIN games AS g ON gp.game_id = g.id "</span>
+</span><span id="__span-4-47"><a id="__codelineno-4-47" name="__codelineno-4-47" href="#__codelineno-4-47"></a>            <span class="c1"># TODO 3: ομαδοποίηση με το id και το όνομα της πλατφόρμας</span>
+</span><span id="__span-4-48"><a id="__codelineno-4-48" name="__codelineno-4-48" href="#__codelineno-4-48"></a>            <span class="s2">"GROUP BY p.id, p.____ "</span>
+</span><span id="__span-4-49"><a id="__codelineno-4-49" name="__codelineno-4-49" href="#__codelineno-4-49"></a>            <span class="s2">"ORDER BY games_n DESC, p.name"</span>
+</span><span id="__span-4-50"><a id="__codelineno-4-50" name="__codelineno-4-50" href="#__codelineno-4-50"></a>        <span class="p">)</span>
+</span><span id="__span-4-51"><a id="__codelineno-4-51" name="__codelineno-4-51" href="#__codelineno-4-51"></a>        <span class="c1"># TODO 4: όλες οι γραμμές ως λίστα (από λεξικά)</span>
+</span><span id="__span-4-52"><a id="__codelineno-4-52" name="__codelineno-4-52" href="#__codelineno-4-52"></a>        <span class="k">return</span> <span class="n">cursor</span><span class="o">.</span><span class="n">____</span><span class="p">()</span>
+</span></code></pre></div>
+<h3 id="2-python">Στάδιο 2 — Οι αναφορές στην Python<a class="headerlink" href="#2-python" title="Permanent link">&para;</a></h3>
+<p>Άνοιξε το <code>reports.py</code>. Συμπλήρωσε τα τέσσερα κενά και τρέξε το <code>check_reports.py</code> (δεν έχει κενά):</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>python<span class="w"> </span>check_reports.py
+</span></code></pre></div>
+<p><img alt="Το check_reports.py στο τερματικό, με τέσσερα κόκκινα πλαίσια, ένα για κάθε αναφορά: 1 τα 11 είδη (το τελευταίο, «Μουσικά», με 0 παιχνίδια και μέση τιμή None), 2 οι βαθμολογίες όλων των παιχνιδιών, 3 οι βαθμολογίες με τουλάχιστον 2 κριτικές, 4 οι 5 πλατφόρμες (η τελευταία, «Meta Quest», με 0 παιχνίδια και None)" src="../images/terminal-check-reports.png" width="720" /></p>
+<p><strong>Συνέχισε στο Φύλλο εργασίας.</strong></p>
+<hr />
+<h2 id="2-csv">Κύκλος 2 — Αρχεία CSV και δεύτερο πρόγραμμα<a class="headerlink" href="#2-csv" title="Permanent link">&para;</a></h2>
+<p>Στον δεύτερο κύκλο γράφεις αρχεία από την Python και φτιάχνεις το πρόγραμμα των αναφορών.</p>
+<h3 id="21-python-with-open">2.1 Αρχεία στην Python: <code>with open(…)</code><a class="headerlink" href="#21-python-with-open" title="Permanent link">&para;</a></h3>
+<p>Για να γράψεις ένα αρχείο, το <strong>ανοίγεις</strong>, γράφεις, και το <strong>κλείνεις</strong>. Όπως με τη σύνδεση της βάσης, το <strong><code>with</code></strong> φροντίζει να κλείσει πάντα:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"notes.txt"</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">"utf-8"</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>    <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">"Γεια σου</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+</span></code></pre></div>
+<ul>
+<li>Το πρώτο όρισμα είναι το <strong>όνομα</strong> (ή η διαδρομή) του αρχείου. Χωρίς φάκελο, γράφεται στον <strong>τρέχοντα φάκελο</strong>, δηλαδή εκεί που έτρεξες το πρόγραμμα.</li>
+<li>Το δεύτερο είναι ο <strong>τρόπος</strong> (mode): <code>"w"</code> (<em>write</em>) <strong>δημιουργεί</strong> το αρχείο ή <strong>αντικαθιστά</strong> όποιο υπήρχε (χωρίς ερώτηση!)· <code>"r"</code> (<em>read</em>) το διαβάζει.</li>
+<li>Το <code>encoding</code> λέει <strong>πώς γράφονται οι χαρακτήρες</strong>. Για ελληνικά χρησιμοποιούμε <strong>UTF-8</strong>.</li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Το <code>"w"</code> σβήνει ό,τι υπήρχε</p>
+<p>Αν το αρχείο υπάρχει ήδη, το <code>"w"</code> το <strong>αδειάζει</strong> πριν γράψει. Γι' αυτό το πρόγραμμα των αναφορών ρωτά πριν αποθηκεύσει.</p>
+</div>
+<h3 id="22-csv">2.2 Το CSV<a class="headerlink" href="#22-csv" title="Permanent link">&para;</a></h3>
+<p>Το <strong>CSV</strong> (<em>comma-separated values</em>) είναι ένα <strong>αρχείο κειμένου</strong> με έναν πίνακα: <strong>μία γραμμή για κάθε γραμμή του πίνακα</strong>, και οι στήλες <strong>χωρισμένες με έναν διαχωριστή</strong>. Έτσι είναι η αναφορά
+μας:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>Είδος;Παιχνίδια;Μέση τιμή
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>Αγωνιστικό;5;14,38
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>Παζλ;5;3,19
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>Μουσικά;0;
+</span></code></pre></div>
+<p>Το Python έχει έτοιμο το module <strong><code>csv</code></strong>, που φροντίζει τις λεπτομέρειες (π.χ. κείμενα που περιέχουν τον διαχωριστή). Το χρησιμοποιείς έτσι:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">csv</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"report.csv"</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">"utf-8-sig"</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>    <span class="n">writer</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">writer</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s2">";"</span><span class="p">)</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>    <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">([</span><span class="s2">"Είδος"</span><span class="p">,</span> <span class="s2">"Παιχνίδια"</span><span class="p">])</span>      <span class="c1"># μία γραμμή</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>    <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">([</span><span class="s2">"Παζλ"</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+</span></code></pre></div>
+<h3 id="23-csv-excel">2.3 Το CSV και το ελληνικό Excel<a class="headerlink" href="#23-csv-excel" title="Permanent link">&para;</a></h3>
+<p>Το Excel θα ανοίξει το αρχείο με διπλό κλικ μόνο αν «συμφωνείτε» για τέσσερα πράγματα. Σε έναν υπολογιστή με <strong>ελληνικές ρυθμίσεις</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Θέμα</th>
+<th>Τι θέλει το ελληνικό Excel</th>
+<th>Πώς το κάνουμε</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Διαχωριστής στηλών</strong></td>
+<td><code>;</code> (ερωτηματικό), όχι κόμμα</td>
+<td><code>csv.writer(file, delimiter=";")</code></td>
+</tr>
+<tr>
+<td><strong>Ελληνικά γράμματα</strong></td>
+<td>UTF-8 <strong>με BOM</strong> (ένα αόρατο σήμα στην αρχή του αρχείου)</td>
+<td><code>encoding="utf-8-sig"</code></td>
+</tr>
+<tr>
+<td><strong>Δεκαδικά</strong></td>
+<td>υποδιαστολή <strong>κόμμα</strong> (<code>3,19</code>)</td>
+<td><code>str(value).replace(".", ",")</code></td>
+</tr>
+<tr>
+<td><strong>Ημερομηνίες</strong></td>
+<td><code>ΗΗ/ΜΜ/ΕΕΕΕ</code></td>
+<td><code>value.strftime("%d/%m/%Y")</code></td>
+</tr>
+</tbody>
+</table>
+<p>Επιπλέον, το <code>newline=""</code> το <strong>ζητά το module <code>csv</code></strong> (αλλιώς τα Windows προσθέτουν κενές γραμμές). Και μια τιμή <code>None</code> γράφεται ως <strong>κενό κελί</strong>.</p>
+<div class="admonition note">
+<p class="admonition-title">Αν το Excel σου έχει άλλες ρυθμίσεις</p>
+<p>Οι ρυθμίσεις της γλώσσας και της περιοχής του υπολογιστή αλλάζουν τον διαχωριστή και την υποδιαστολή. Αν το αρχείο ανοίξει σε <strong>μία στήλη</strong>, ή τα δεκαδικά φαίνονται λάθος, άλλαξε το
+<code>delimiter</code> ή το κόμμα των δεκαδικών, ή άνοιξέ το με <strong>Δεδομένα → Από κείμενο/CSV</strong>, όπου διαλέγεις τον διαχωριστή. Σε κάθε επεξεργαστή κειμένου (Σημειωματάριο, VS Code) φαίνεται κανονικά.</p>
+</div>
+<h3 id="24-exportpy">2.4 Το <code>export.py</code><a class="headerlink" href="#24-exportpy" title="Permanent link">&para;</a></h3>
+<p>Το <code>export.py</code> έχει δύο συναρτήσεις:</p>
+<ul>
+<li>Η <strong><code>format_value(value)</code></strong> μετατρέπει <strong>μία τιμή</strong> της βάσης σε κείμενο: <code>None</code> → κενό, <code>Decimal</code> → με κόμμα, <code>date</code> → <code>ΗΗ/ΜΜ/ΕΕΕΕ</code>. Ο έλεγχος τύπου γίνεται με την <strong><code>isinstance(τιμή, τύπος)</code></strong>, που απαντά <code>True</code>/<code>False</code>.</li>
+<li>Η <strong><code>write_csv(path, columns, rows)</code></strong> γράφει όλη την αναφορά. Το <code>columns</code> είναι <strong>λίστα από ζεύγη</strong> <code>(κλειδί, τίτλος)</code>: το <strong>κλειδί</strong> ψάχνεται στο λεξικό κάθε γραμμής και ο <strong>τίτλος</strong> γράφεται στην επικεφαλίδα.
+  Επιστρέφει πόσες γραμμές δεδομένων έγραψε.</li>
+</ul>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="sd">"""Εξαγωγή αναφορών σε αρχείο CSV.</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="sd">Το CSV (comma-separated values) είναι ένα αρχείο κειμένου με πίνακα: μία γραμμή για κάθε γραμμή του πίνακα, και οι στήλες</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="sd">χωρισμένες με έναν διαχωριστή. Ανοίγει στο Excel και σε κάθε επεξεργαστή κειμένου.</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="sd">Συμπλήρωσε τα πέντε κενά (____).</span>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="sd">"""</span>
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="kn">import</span><span class="w"> </span><span class="nn">csv</span>
+</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">date</span>
+</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="kn">from</span><span class="w"> </span><span class="nn">decimal</span><span class="w"> </span><span class="kn">import</span> <span class="n">Decimal</span>
+</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>
+</span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>
+</span><span id="__span-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="k">def</span><span class="w"> </span><span class="nf">format_value</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+</span><span id="__span-9-15"><a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a><span class="w">    </span><span class="sd">"""Μετατρέπει μια τιμή της βάσης σε κείμενο για το CSV και για την οθόνη."""</span>
+</span><span id="__span-9-16"><a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a>    <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-9-17"><a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a>        <span class="k">return</span> <span class="s2">""</span>
+</span><span id="__span-9-18"><a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a>    <span class="c1"># TODO 1: έλεγχος τύπου: η τιμή είναι Decimal; (η isinstance(τιμή, τύπος) απαντά True ή False)</span>
+</span><span id="__span-9-19"><a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a>    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">____</span><span class="p">):</span>
+</span><span id="__span-9-20"><a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a>        <span class="c1"># Το ελληνικό Excel θέλει υποδιαστολή κόμμα (3,49) και όχι τελεία (3.49)</span>
+</span><span id="__span-9-21"><a id="__codelineno-9-21" name="__codelineno-9-21" href="#__codelineno-9-21"></a>        <span class="c1"># TODO 2: το κείμενο που μπαίνει στη θέση της τελείας</span>
+</span><span id="__span-9-22"><a id="__codelineno-9-22" name="__codelineno-9-22" href="#__codelineno-9-22"></a>        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"."</span><span class="p">,</span> <span class="s2">"____"</span><span class="p">)</span>
+</span><span id="__span-9-23"><a id="__codelineno-9-23" name="__codelineno-9-23" href="#__codelineno-9-23"></a>    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">date</span><span class="p">):</span>
+</span><span id="__span-9-24"><a id="__codelineno-9-24" name="__codelineno-9-24" href="#__codelineno-9-24"></a>        <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">"</span><span class="si">%d</span><span class="s2">/%m/%Y"</span><span class="p">)</span>
+</span><span id="__span-9-25"><a id="__codelineno-9-25" name="__codelineno-9-25" href="#__codelineno-9-25"></a>    <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+</span><span id="__span-9-26"><a id="__codelineno-9-26" name="__codelineno-9-26" href="#__codelineno-9-26"></a>
+</span><span id="__span-9-27"><a id="__codelineno-9-27" name="__codelineno-9-27" href="#__codelineno-9-27"></a>
+</span><span id="__span-9-28"><a id="__codelineno-9-28" name="__codelineno-9-28" href="#__codelineno-9-28"></a><span class="k">def</span><span class="w"> </span><span class="nf">write_csv</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="n">rows</span><span class="p">):</span>
+</span><span id="__span-9-29"><a id="__codelineno-9-29" name="__codelineno-9-29" href="#__codelineno-9-29"></a><span class="w">    </span><span class="sd">"""Γράφει τις γραμμές rows (λίστα από λεξικά) στο αρχείο path, σε μορφή CSV.</span>
+</span><span id="__span-9-30"><a id="__codelineno-9-30" name="__codelineno-9-30" href="#__codelineno-9-30"></a>
+</span><span id="__span-9-31"><a id="__codelineno-9-31" name="__codelineno-9-31" href="#__codelineno-9-31"></a><span class="sd">    Το columns είναι λίστα από ζεύγη (κλειδί του λεξικού, τίτλος της στήλης). Επιστρέφει πόσες γραμμές δεδομένων γράφτηκαν.</span>
+</span><span id="__span-9-32"><a id="__codelineno-9-32" name="__codelineno-9-32" href="#__codelineno-9-32"></a><span class="sd">    """</span>
+</span><span id="__span-9-33"><a id="__codelineno-9-33" name="__codelineno-9-33" href="#__codelineno-9-33"></a>    <span class="c1"># TODO 3: "w" = write (το αρχείο δημιουργείται ή αντικαθίσταται)· newline="" το ζητά το csv· το utf-8-sig βάζει ένα σήμα BOM, για να διαβάζει το Excel τα ελληνικά</span>
+</span><span id="__span-9-34"><a id="__codelineno-9-34" name="__codelineno-9-34" href="#__codelineno-9-34"></a>    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">"____"</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">"utf-8-sig"</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+</span><span id="__span-9-35"><a id="__codelineno-9-35" name="__codelineno-9-35" href="#__codelineno-9-35"></a>        <span class="c1"># TODO 4: το αντικείμενο που γράφει γραμμές CSV· το ; είναι ο διαχωριστής στηλών του ελληνικού Excel</span>
+</span><span id="__span-9-36"><a id="__codelineno-9-36" name="__codelineno-9-36" href="#__codelineno-9-36"></a>        <span class="n">writer</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">____</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s2">";"</span><span class="p">)</span>
+</span><span id="__span-9-37"><a id="__codelineno-9-37" name="__codelineno-9-37" href="#__codelineno-9-37"></a>
+</span><span id="__span-9-38"><a id="__codelineno-9-38" name="__codelineno-9-38" href="#__codelineno-9-38"></a>        <span class="n">titles</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span id="__span-9-39"><a id="__codelineno-9-39" name="__codelineno-9-39" href="#__codelineno-9-39"></a>        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">title</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">:</span>
+</span><span id="__span-9-40"><a id="__codelineno-9-40" name="__codelineno-9-40" href="#__codelineno-9-40"></a>            <span class="n">titles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+</span><span id="__span-9-41"><a id="__codelineno-9-41" name="__codelineno-9-41" href="#__codelineno-9-41"></a>        <span class="c1"># TODO 5: μία γραμμή (η επικεφαλίδα) γράφεται με τη μέθοδο writerow</span>
+</span><span id="__span-9-42"><a id="__codelineno-9-42" name="__codelineno-9-42" href="#__codelineno-9-42"></a>        <span class="n">writer</span><span class="o">.</span><span class="n">____</span><span class="p">(</span><span class="n">titles</span><span class="p">)</span>
+</span><span id="__span-9-43"><a id="__codelineno-9-43" name="__codelineno-9-43" href="#__codelineno-9-43"></a>
+</span><span id="__span-9-44"><a id="__codelineno-9-44" name="__codelineno-9-44" href="#__codelineno-9-44"></a>        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
+</span><span id="__span-9-45"><a id="__codelineno-9-45" name="__codelineno-9-45" href="#__codelineno-9-45"></a>            <span class="n">values</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span id="__span-9-46"><a id="__codelineno-9-46" name="__codelineno-9-46" href="#__codelineno-9-46"></a>            <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">title</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">:</span>
+</span><span id="__span-9-47"><a id="__codelineno-9-47" name="__codelineno-9-47" href="#__codelineno-9-47"></a>                <span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">format_value</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">key</span><span class="p">]))</span>
+</span><span id="__span-9-48"><a id="__codelineno-9-48" name="__codelineno-9-48" href="#__codelineno-9-48"></a>            <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+</span><span id="__span-9-49"><a id="__codelineno-9-49" name="__codelineno-9-49" href="#__codelineno-9-49"></a>
+</span><span id="__span-9-50"><a id="__codelineno-9-50" name="__codelineno-9-50" href="#__codelineno-9-50"></a>    <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="3-csv">Στάδιο 3 — Το CSV<a class="headerlink" href="#3-csv" title="Permanent link">&para;</a></h3>
+<p>Άνοιξε το <code>export.py</code>. Συμπλήρωσε τα πέντε κενά και τρέξε το <code>check_export.py</code> (δεν έχει κενά). Γράφει ένα δοκιμαστικό <code>report-test.csv</code> με ψεύτικα δεδομένα και το διαβάζει πίσω, και δείχνει τα
+<strong>τρία πρώτα bytes</strong> του αρχείου: αυτά είναι το BOM.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>python<span class="w"> </span>check_export.py
+</span></code></pre></div>
+<p><img alt="Το check_export.py στο τερματικό, με τρία κόκκινα πλαίσια: 1 το μήνυμα «Γράφτηκαν 2 γραμμές δεδομένων», 2 τα τρία πρώτα bytes του αρχείου (b'\xef\xbb\xbf'), δηλαδή το BOM, 3 οι γραμμές του αρχείου: η επικεφαλίδα με ερωτηματικά, οι τιμές με κόμμα στα δεκαδικά, οι ημερομηνίες σε μορφή ΗΗ/ΜΜ/ΕΕΕΕ και το κενό κελί του None" src="../images/terminal-check-export.png" width="720" /></p>
+<h3 id="25-reportpy">2.5 Το <code>report.py</code>: ένα δεύτερο πρόγραμμα<a class="headerlink" href="#25-reportpy" title="Permanent link">&para;</a></h3>
+<p>Το <code>report.py</code> είναι <strong>άλλο πρόγραμμα</strong>, δίπλα στην εφαρμογή. Δεν έχει δικό του κώδικα βάσης: κάνει <code>import db</code> και <code>import ui</code> του Μαθήματος 15, και <code>import reports</code> και <code>import export</code> των δικών
+μας σημερινών modules. Αυτό ακριβώς σου υποσχέθηκαν τα modules: <strong>δεν αντιγράφεις</strong> κώδικα, τον ξαναχρησιμοποιείς.</p>
+<p>Κάθε αναφορά περνά από τα ίδια βήματα: <strong>παίρνεις τα δεδομένα</strong> (<code>reports</code>), <strong>τα δείχνεις στην οθόνη</strong> (<code>print_table</code>), <strong>ρωτάς</strong> αν θα αποθηκευτούν και <strong>τα γράφεις</strong> (<code>export</code>):</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">show_report</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="n">rows</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">    </span><span class="sd">"""Εμφανίζει μια αναφορά στην οθόνη και ρωτά αν θα αποθηκευτεί σε αρχείο CSV."""</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>    <span class="nb">print</span><span class="p">()</span>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>    <span class="n">print_table</span><span class="p">(</span><span class="n">columns</span><span class="p">,</span> <span class="n">rows</span><span class="p">)</span>
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>    <span class="n">answer</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Να αποθηκευτεί στο αρχείο </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">; (ναι/όχι): "</span><span class="p">)</span>
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>    <span class="c1"># TODO 2: αποθηκεύουμε μόνο αν η απάντηση είναι «ναι»</span>
+</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>    <span class="k">if</span> <span class="n">answer</span> <span class="o">==</span> <span class="s2">"____"</span><span class="p">:</span>
+</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>        <span class="c1"># TODO 3: η συνάρτηση του export που γράφει το αρχείο CSV</span>
+</span><span id="__span-11-11"><a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>        <span class="n">count</span> <span class="o">=</span> <span class="n">export</span><span class="o">.</span><span class="n">____</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="n">rows</span><span class="p">)</span>
+</span><span id="__span-11-12"><a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Αποθηκεύτηκε το </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">count</span><span class="si">}</span><span class="s2"> γραμμές)."</span><span class="p">)</span>
+</span></code></pre></div>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">    </span><span class="sd">"""Το κύριο πρόγραμμα: ανοίγει τη σύνδεση και τρέχει το μενού των αναφορών."""</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>    <span class="k">try</span><span class="p">:</span>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>        <span class="c1"># TODO 4: η συνάρτηση του db που ανοίγει σύνδεση (το with την κλείνει αυτόματα)</span>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>        <span class="k">with</span> <span class="n">db</span><span class="o">.</span><span class="n">____</span><span class="p">()</span> <span class="k">as</span> <span class="n">connection</span><span class="p">:</span>
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>            <span class="n">run_reports</span><span class="p">(</span><span class="n">connection</span><span class="p">)</span>
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>    <span class="k">except</span> <span class="n">mysql</span><span class="o">.</span><span class="n">connector</span><span class="o">.</span><span class="n">Error</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">"Σφάλμα της βάσης:"</span><span class="p">,</span> <span class="n">error</span><span class="o">.</span><span class="n">msg</span><span class="p">)</span>
+</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">"Έλεγξε ότι η MySQL τρέχει στο XAMPP Control Panel."</span><span class="p">)</span>
+</span><span id="__span-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a>
+</span><span id="__span-12-11"><a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a>
+</span><span id="__span-12-12"><a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a><span class="c1"># TODO 5: το όνομα που έχει το __name__ όταν τρέχεις το αρχείο απευθείας (όπως στο Μάθημα 15)</span>
+</span><span id="__span-12-13"><a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"____"</span><span class="p">:</span>
+</span><span id="__span-12-14"><a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a>    <span class="n">main</span><span class="p">()</span>
+</span></code></pre></div>
+<h3 id="4">Στάδιο 4 — Το πρόγραμμα των αναφορών<a class="headerlink" href="#4" title="Permanent link">&para;</a></h3>
+<p>Άνοιξε το <code>report.py</code>. Συμπλήρωσε τα πέντε κενά και τρέξε το από το τερματικό:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>python<span class="w"> </span>report.py
+</span></code></pre></div>
+<p>Διάλεξε την αναφορά 1 και απάντησε «ναι» στην ερώτηση. Θα δημιουργηθεί το <code>report-genres.csv</code> στον φάκελο. Δοκίμασε και τις άλλες.</p>
+<p><img alt="Το report.py στο τερματικό, με τρία κόκκινα πλαίσια: 1 το μενού των αναφορών, 2 ο πίνακας «Παιχνίδια ανά είδος» με το «Μουσικά» να έχει 0 παιχνίδια και κενή μέση τιμή, 3 η ερώτηση για αποθήκευση και το μήνυμα «Αποθηκεύτηκε το report-genres.csv (11 γραμμές).»" src="../images/terminal-report.png" width="720" /></p>
+<h3 id="26">2.6 Άνοιγμα του αρχείου<a class="headerlink" href="#26" title="Permanent link">&para;</a></h3>
+<p>Το αρχείο CSV είναι κείμενο, οπότε το βλέπεις και με απλό επεξεργαστή: δες το στο VS Code, ή στο τερματικό με <code>Get-Content report-genres.csv</code>. Στο <strong>Excel</strong>: διπλό κλικ στο αρχείο (αν οι ρυθμίσεις είναι
+ελληνικές), ή <strong>Δεδομένα → Από κείμενο/CSV</strong>.</p>
+<p><img alt="Το περιεχόμενο του report-genres.csv, όπως το δείχνει η εντολή Get-Content στο τερματικό, με δύο κόκκινα πλαίσια: 1 η επικεφαλίδα «Είδος;Παιχνίδια;Μέση τιμή», 2 η γραμμή του είδους «Μουσικά» με 0 παιχνίδια και κενή μέση τιμή" src="../images/terminal-csv.png" width="720" /></p>
+<div class="admonition note">
+<p class="admonition-title">Τα αρχεία των αναφορών δεν μπαίνουν στο git</p>
+<p>Τα <code>report-*.csv</code> είναι <strong>αποτελέσματα</strong> και περιέχουν <strong>δεδομένα</strong> της βάσης, όχι κώδικα. Γι' αυτό το <code>.gitignore</code> του μαθήματος τα αγνοεί: δεν ανεβαίνουν σε αποθετήριο μαζί με τον κώδικα.</p>
+</div>
+<p><strong>Συνέχισε στο Φύλλο εργασίας, Κύκλος 2.</strong></p>
+<hr />
+<h2 id="_5">Έλεγχος πριν ολοκληρώσεις<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<ul>
+<li>□ Στο Στάδιο 1 είδες ότι ο <code>INNER JOIN</code> χάνει το «Μουσικά» και ο <code>LEFT JOIN</code> το δείχνει με <code>0</code> και <code>NULL</code>.</li>
+<li>□ Είδες ότι το <code>SUM</code> μετά από <code>JOIN</code> έδωσε 753.49 αντί για 324.66, και ξέρεις γιατί.</li>
+<li>□ Το <code>check_reports.py</code> δείχνει <code>None</code> για τη μέση τιμή του «Μουσικά» και του «Meta Quest».</li>
+<li>□ Το <code>check_export.py</code> έδειξε το BOM, τα ερωτηματικά και τα κόμματα στα δεκαδικά.</li>
+<li>□ Το <code>report.py</code> δημιούργησε αρχεία <code>report-….csv</code> που ανοίγουν σωστά (με ελληνικά).</li>
+<li>□ Το <code>report.py</code> δεν έχει δικό του κώδικα βάσης: χρησιμοποιεί τα modules.</li>
+<li>□ Όταν τελείωσες, σταμάτησες τον Apache και τη MySQL.</li>
+</ul>
+<h2 id="_6">Για να θυμάσαι<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Μια <strong>αναφορά</strong> είναι συγκεντρωτικό αποτέλεσμα <strong>ανά ομάδα</strong>: <code>GROUP BY</code> + <code>COUNT</code>/<code>SUM</code>/<code>AVG</code> + <code>JOIN</code> για τα ονόματα. Ομαδοποίησε με <code>id</code> και όνομα (<code>GROUP BY ge.id, ge.name</code>).</li>
+<li>Όταν θες <strong>και τις κενές ομάδες</strong>: <code>LEFT JOIN</code> από τον πίνακα που κρατάς και <code>COUNT(στήλη)</code> (όχι <code>COUNT(*)</code>). Η μέση τιμή τους είναι <code>NULL</code>, δηλαδή <code>None</code>.</li>
+<li><strong><code>WHERE</code></strong> φιλτράρει γραμμές πριν τις ομάδες, <strong><code>HAVING</code></strong> φιλτράρει ομάδες μετά.</li>
+<li>Το <strong><code>JOIN</code> πολλαπλασιάζει</strong> τις γραμμές και μαζί τα <strong>αθροίσματα</strong>. Πριν αθροίσεις, ρώτα πόσες φορές εμφανίζεται κάθε γραμμή· χρησιμοποίησε <code>COUNT(DISTINCT …)</code> ή υπολόγισε χωρίς <code>JOIN</code>.</li>
+<li>Οι συναρτήσεις αναφορών <strong>επιστρέφουν</strong> δεδομένα. Η οθόνη και το αρχείο είναι δουλειά άλλων.</li>
+<li><strong><code>with open(όνομα, "w", encoding=…) as file</code></strong>: γράφει αρχείο και το κλείνει πάντα. Το <code>"w"</code> <strong>αντικαθιστά</strong> ό,τι υπήρχε.</li>
+<li><strong>CSV με το module <code>csv</code>:</strong> <code>csv.writer(file, delimiter=";")</code> και <code>writer.writerow(λίστα)</code>. Για ελληνικό Excel: <code>;</code>, <code>utf-8-sig</code>, κόμμα στα δεκαδικά, <code>newline=""</code>.</li>
+<li>Ένα <strong>δεύτερο πρόγραμμα</strong> ξαναχρησιμοποιεί τα modules (<code>db</code>, <code>ui</code>) χωρίς αντιγραφή κώδικα.</li>
+</ul>
+<h2 id="_7">Λεξιλόγιο<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<p><strong>αναφορά</strong> (report), <strong>ομάδα</strong>, <strong><code>GROUP BY</code></strong>, <strong><code>HAVING</code></strong>, <strong>πολλαπλασιασμός γραμμών</strong>, <strong>CSV</strong>, <strong>διαχωριστής</strong> (delimiter), <strong>κωδικοποίηση</strong> (encoding), <strong>UTF-8</strong>, <strong>BOM</strong>, <strong><code>open</code></strong>, <strong>mode</strong> (<code>"w"</code>, <code>"r"</code>),
+<strong><code>isinstance</code></strong>, <strong><code>csv.writer</code></strong>.</p>
+<h2 id="_8">Δική σου εκδοχή<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
+<p>Αν τελειώσεις νωρίτερα, δούλεψε <strong>με μία αλλαγή τη φορά</strong> και τρέχε το πρόγραμμα μετά από κάθε αλλαγή:</p>
+<ul>
+<li><strong>Πρόκληση 1:</strong> γράψε μια συνάρτηση <code>read_csv(path)</code> (στο <code>export.py</code>) που <strong>διαβάζει</strong> ένα αρχείο CSV και επιστρέφει τις γραμμές του ως λίστα από λίστες. Χρειάζεσαι <code>open(path, "r", newline="", encoding="utf-8-sig")</code>
+  και <code>csv.reader(file, delimiter=";")</code>. Δοκίμασέ τη στο <code>report-genres.csv</code>.</li>
+<li><strong>Πρόκληση 2:</strong> το όνομα του αρχείου να έχει την <strong>ημερομηνία</strong> (π.χ. <code>report-genres-2026-11-04.csv</code>), ώστε να μην αντικαθίσταται το παλιό. Χρησιμοποίησε <code>date.today()</code> και <code>strftime("%Y-%m-%d")</code> (Μάθημα 9).</li>
+<li><strong>Πρόκληση 3:</strong> νέα αναφορά <strong>«Προσθήκες ανά μήνα»</strong>: πόσα παιχνίδια προστέθηκαν κάθε μήνα (<code>GROUP BY YEAR(added_on), MONTH(added_on)</code>), από το <code>reports.py</code> μέχρι το μενού του <code>report.py</code> και το CSV. Σε ποια
+  αρχεία έκανες αλλαγές;</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Επιστροφή στην αρχή
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Υποσέλιδο" >
+        
+          
+          <a href="../../15-modules/worksheet-15/" class="md-footer__link md-footer__link--prev" aria-label="Προηγούμενο: Φύλλο εργασίας">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Προηγούμενο
+              </span>
+              <div class="md-ellipsis">
+                Φύλλο εργασίας
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../worksheet-16/" class="md-footer__link md-footer__link--next" aria-label="Επόμενο: Φύλλο εργασίας">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Επόμενο
+              </span>
+              <div class="md-ellipsis">
+                Φύλλο εργασίας
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2026 Θόδωρος Θεμελής — <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.el"
+   target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>
+
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.top", "navigation.footer", "content.code.copy", "content.code.annotate", "toc.follow", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "\u0391\u03bd\u03c4\u03b9\u03b3\u03c1\u03ac\u03c6\u03b7\u03ba\u03b5 \u03c3\u03c4\u03bf \u03c0\u03c1\u03cc\u03c7\u03b5\u03b9\u03c1\u03bf", "clipboard.copy": "\u0391\u03bd\u03c4\u03b9\u03b3\u03c1\u03b1\u03c6\u03ae \u03c3\u03c4\u03bf \u03c0\u03c1\u03cc\u03c7\u03b5\u03b9\u03c1\u03bf", "search.result.more.one": "1 \u03b1\u03ba\u03cc\u03bc\u03b1 \u03c3\u03b5 \u03b1\u03c5\u03c4\u03ae\u03bd \u03c4\u03b7 \u03c3\u03b5\u03bb\u03af\u03b4\u03b1", "search.result.more.other": "# \u03b1\u03ba\u03cc\u03bc\u03b1 \u03c3\u03b5 \u03b1\u03c5\u03c4\u03ae\u03bd \u03c4\u03b7 \u03c3\u03b5\u03bb\u03af\u03b4\u03b1", "search.result.none": "\u03b4\u03b5\u03bd \u03b2\u03c1\u03ae\u03ba\u03b5 \u03ba\u03ac\u03c0\u03bf\u03b9\u03bf \u03ad\u03b3\u03b3\u03c1\u03b1\u03c6\u03bf", "search.result.one": "1 \u03ad\u03b3\u03b3\u03c1\u03b1\u03c6\u03bf \u03c0\u03bf\u03c5 \u03c4\u03b1\u03b9\u03c1\u03b9\u03ac\u03b6\u03b5\u03b9", "search.result.other": "# \u03ad\u03b3\u03b3\u03c1\u03b1\u03c6\u03b1 \u03c0\u03bf\u03c5 \u03c4\u03b1\u03b9\u03c1\u03b9\u03ac\u03b6\u03bf\u03c5\u03bd", "search.result.placeholder": "\u03a0\u03bb\u03b7\u03ba\u03c4\u03c1\u03bf\u03bb\u03bf\u03b3\u03ae\u03c3\u03c4\u03b5 \u03b3\u03b9\u03b1 \u03bd\u03b1 \u03b1\u03c1\u03c7\u03af\u03c3\u03b5\u03b9 \u03b7 \u03b1\u03bd\u03b1\u03b6\u03ae\u03c4\u03b7\u03c3\u03b7", "search.result.term.missing": "\u039b\u03b5\u03af\u03c0\u03b5\u03b9", "select.version": "\u0395\u03c0\u03b9\u03bb\u03bf\u03b3\u03ae \u03ad\u03ba\u03b4\u03bf\u03c3\u03b7\u03c2"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+    
+  </body>
+</html>

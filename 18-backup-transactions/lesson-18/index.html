@@ -1,0 +1,3857 @@
+
+<!doctype html>
+<html lang="el" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Εργαστηριακό υλικό μαθήματος — ΕΠΑΛ">
+      
+      
+        <meta name="author" content="Θόδωρος Θεμελής">
+      
+      
+        <link rel="canonical" href="https://ththemelis.github.io/python-mysql-site/18-backup-transactions/lesson-18/">
+      
+      
+        <link rel="prev" href="../../17-security/worksheet-17/">
+      
+      
+        <link rel="next" href="../worksheet-18/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>Μάθημα - Βάσεις δεδομένων με Python και MySQL</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/course.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#18" class="md-skip">
+          Μετάβαση στο περιεχόμενο
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Κεφαλίδα">
+    <a href="../.." title="Βάσεις δεδομένων με Python και MySQL" class="md-header__button md-logo" aria-label="Βάσεις δεδομένων με Python και MySQL" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Βάσεις δεδομένων με Python και MySQL
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Μάθημα
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Σκοτεινό θέμα"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Σκοτεινό θέμα" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Φωτεινό θέμα"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Φωτεινό θέμα" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Αναζήτηση" placeholder="Αναζήτηση" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Αναζήτηση">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Καθαρισμός" aria-label="Καθαρισμός" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Αρχικοποίηση αναζήτησης
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Πλοήγηση" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Βάσεις δεδομένων με Python και MySQL" class="md-nav__button md-logo" aria-label="Βάσεις δεδομένων με Python και MySQL" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Βάσεις δεδομένων με Python και MySQL
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Αρχική
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Εγκατάσταση και ρύθμιση
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 1 — Η πρώτη μου βάση δεδομένων
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 1 — Η πρώτη μου βάση δεδομένων
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01-first-database/lesson-01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01-first-database/worksheet-01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 2 — Η γλώσσα SQL: CREATE, INSERT, SELECT
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 2 — Η γλώσσα SQL: CREATE, INSERT, SELECT
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02-sql-basics/lesson-02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02-sql-basics/worksheet-02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 3 — Η Python συνδέεται με τη βάση
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 3 — Η Python συνδέεται με τη βάση
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03-python-connects/lesson-03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03-python-connects/worksheet-03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 4 — Φιλτράρω και ταξινομώ
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 4 — Φιλτράρω και ταξινομώ
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04-filter-sort/lesson-04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04-filter-sort/worksheet-04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 5 — Προσθέτω δεδομένα από την Python
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 5 — Προσθέτω δεδομένα από την Python
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05-insert-python/lesson-05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05-insert-python/worksheet-05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 6 — Αλλάζω και σβήνω
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 6 — Αλλάζω και σβήνω
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06-update-delete/lesson-06/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06-update-delete/worksheet-06/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 7 — Εφαρμογή με μενού
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 7 — Εφαρμογή με μενού
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07-menu-app/lesson-07/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07-menu-app/worksheet-07/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 8 — Σφάλματα και έλεγχος εισόδου
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 8 — Σφάλματα και έλεγχος εισόδου
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08-errors-validation/lesson-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08-errors-validation/worksheet-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 9 — Ημερομηνίες και ώρες
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 9 — Ημερομηνίες και ώρες
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../09-dates/lesson-09/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../09-dates/worksheet-09/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 10 — Συγκεντρωτικά αποτελέσματα
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 10 — Συγκεντρωτικά αποτελέσματα
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../10-aggregates/lesson-10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../10-aggregates/worksheet-10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 11 — Πολλοί πίνακες: το ξένο κλειδί
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 11 — Πολλοί πίνακες: το ξένο κλειδί
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../11-foreign-key/lesson-11/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../11-foreign-key/worksheet-11/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_14" >
+        
+          
+          <label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 12 — JOIN: ερωτήματα σε πολλούς πίνακες
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_14">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 12 — JOIN: ερωτήματα σε πολλούς πίνακες
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12-join/lesson-12/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12-join/worksheet-12/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15" >
+        
+          
+          <label class="md-nav__link" for="__nav_15" id="__nav_15_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 13 — JOIN από την Python
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_15_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_15">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 13 — JOIN από την Python
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../13-join-python/lesson-13/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../13-join-python/worksheet-13/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_16" >
+        
+          
+          <label class="md-nav__link" for="__nav_16" id="__nav_16_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 14 — Πολλά-προς-πολλά: ο πίνακας σύνδεσης
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_16_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_16">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 14 — Πολλά-προς-πολλά: ο πίνακας σύνδεσης
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../14-many-to-many/lesson-14/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../14-many-to-many/worksheet-14/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_17" >
+        
+          
+          <label class="md-nav__link" for="__nav_17" id="__nav_17_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 15 — Οργάνωση του κώδικα: modules, with και ρυθμίσεις
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_17_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_17">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 15 — Οργάνωση του κώδικα: modules, with και ρυθμίσεις
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../15-modules/lesson-15/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../15-modules/worksheet-15/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_18" >
+        
+          
+          <label class="md-nav__link" for="__nav_18" id="__nav_18_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 16 — Αναφορές και εξαγωγή σε CSV
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_18_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_18">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 16 — Αναφορές και εξαγωγή σε CSV
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../16-reports-csv/lesson-16/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../16-reports-csv/worksheet-16/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_19" >
+        
+          
+          <label class="md-nav__link" for="__nav_19" id="__nav_19_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 17 — Ασφάλεια: λογαριασμοί, δικαιώματα και SQL injection
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_19_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_19">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 17 — Ασφάλεια: λογαριασμοί, δικαιώματα και SQL injection
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../17-security/lesson-17/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../17-security/worksheet-17/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_20" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_20" id="__nav_20_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 18 — Αντίγραφα ασφαλείας και συναλλαγές
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_20_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_20">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 18 — Αντίγραφα ασφαλείας και συναλλαγές
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Πίνακας περιεχομένων">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Πίνακας περιεχομένων
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Αρχεία εργαστηρίου
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Η αποστολή
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στο τέλος θα μπορείς
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Πριν αρχίσεις
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Κύκλος 1 — Αντίγραφα ασφαλείας
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Κύκλος 1 — Αντίγραφα ασφαλείας">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Γιατί αντίγραφα
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Τι είναι ένα αντίγραφο
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 Επαναφορά, και γιατί πρέπει να τη δοκιμάσεις
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-phpmyadmin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 1 — Το αντίγραφο από το phpMyAdmin
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-mariadb-dump" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4 Η γραμμή εντολών: mariadb-dump
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 2 — Το αντίγραφο από το τερματικό
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#15-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.5 Το αντίγραφο από την Python
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-backuppy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 3 — backup.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Κύκλος 2 — Συναλλαγές
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Κύκλος 2 — Συναλλαγές">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Το πρόβλημα: δύο βήματα, μία δουλειά
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Η συναλλαγή
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-phpmyadmin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 4 — Συναλλαγές στο phpMyAdmin
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Συναλλαγές από την Python
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 5 — Το λάθος που δεν φαίνεται
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-loanspy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 6 — loans.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lend_many" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Γράψε εσύ — η lend_many
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 Δύο συνδέσεις: απομόνωση και κλειδώματα
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5 Και τι άλλο
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Έλεγχος πριν ολοκληρώσεις
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Για να θυμάσαι
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Λεξιλόγιο
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Δική σου εκδοχή
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../worksheet-18/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Πίνακας περιεχομένων">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Πίνακας περιεχομένων
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Αρχεία εργαστηρίου
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Η αποστολή
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στο τέλος θα μπορείς
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Πριν αρχίσεις
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Κύκλος 1 — Αντίγραφα ασφαλείας
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Κύκλος 1 — Αντίγραφα ασφαλείας">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Γιατί αντίγραφα
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Τι είναι ένα αντίγραφο
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 Επαναφορά, και γιατί πρέπει να τη δοκιμάσεις
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-phpmyadmin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 1 — Το αντίγραφο από το phpMyAdmin
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-mariadb-dump" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4 Η γραμμή εντολών: mariadb-dump
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 2 — Το αντίγραφο από το τερματικό
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#15-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.5 Το αντίγραφο από την Python
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-backuppy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 3 — backup.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Κύκλος 2 — Συναλλαγές
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Κύκλος 2 — Συναλλαγές">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Το πρόβλημα: δύο βήματα, μία δουλειά
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Η συναλλαγή
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-phpmyadmin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 4 — Συναλλαγές στο phpMyAdmin
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Συναλλαγές από την Python
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 5 — Το λάθος που δεν φαίνεται
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-loanspy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 6 — loans.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lend_many" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Γράψε εσύ — η lend_many
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 Δύο συνδέσεις: απομόνωση και κλειδώματα
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5 Και τι άλλο
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Έλεγχος πριν ολοκληρώσεις
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Για να θυμάσαι
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Λεξιλόγιο
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Δική σου εκδοχή
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="18">Μάθημα 18: Αντίγραφα ασφαλείας και συναλλαγές<a class="headerlink" href="#18" title="Permanent link">&para;</a></h1>
+<p><strong>Βάση δεδομένων και Python:</strong> αντίγραφο ασφαλείας και επαναφορά (<code>Export</code>, <code>Import</code>, <code>mariadb-dump</code>), αντίγραφο από την Python (<code>subprocess</code>), συναλλαγές (<code>START TRANSACTION</code>, <code>COMMIT</code>, <code>ROLLBACK</code>) και συναλλαγές από την Python<br />
+<strong>Διάρκεια:</strong> 2 κύκλοι × περίπου 45′ εργασία (2 διδακτικές ώρες)</p>
+<div class="admonition info">
+<p class="admonition-title">Φύλλο εργασίας</p>
+<p>Αυτή η σελίδα εξηγεί τις έννοιες. Οι ασκήσεις και οι οδηγίες για κάθε κύκλο βρίσκονται στο
+<a href="../worksheet-18/">Φύλλο εργασίας 18</a>. Δούλεψε με τις δύο σελίδες ανοιχτές.</p>
+</div>
+<h2 id="_1">Αρχεία εργαστηρίου<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Αρχείο</th>
+<th>Κύκλος</th>
+<th>Τι είναι</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../code/starter/01-start-state.sql">01-start-state.sql</a></td>
+<td>πριν αρχίσεις</td>
+<td>η βάση όπως τελειώνει το Μάθημα 17</td>
+</tr>
+<tr>
+<td><a href="../code/starter/config.py">config.py</a></td>
+<td>1</td>
+<td><strong>αλλάζει</strong>: έχει δύο νέες γραμμές στο τέλος, χωρίς κενά</td>
+</tr>
+<tr>
+<td><a href="../code/starter/db.py">db.py</a>, <a href="../code/starter/ui.py">ui.py</a>, <a href="../code/starter/config_local.example.py">config_local.example.py</a></td>
+<td>1</td>
+<td>ίδια με το Μάθημα 17 (δεν έχουν κενά)</td>
+</tr>
+<tr>
+<td><a href="../code/starter/backup.py">backup.py</a></td>
+<td>1</td>
+<td><strong>νέο</strong>, με κενά</td>
+</tr>
+<tr>
+<td><a href="../code/starter/check_backup.py">check_backup.py</a></td>
+<td>1</td>
+<td><strong>νέο</strong>, έτοιμος έλεγχος</td>
+</tr>
+<tr>
+<td><a href="../code/starter/02-loans.sql">02-loans.sql</a></td>
+<td>2</td>
+<td><strong>νέο</strong>, έτοιμο</td>
+</tr>
+<tr>
+<td><a href="../code/starter/03-transactions.sql">03-transactions.sql</a></td>
+<td>2</td>
+<td><strong>νέο</strong>, με κενά</td>
+</tr>
+<tr>
+<td><a href="../code/starter/lab_data.py">lab_data.py</a>, <a href="../code/starter/lab_transactions.py">lab_transactions.py</a></td>
+<td>2</td>
+<td><strong>νέα</strong>, έτοιμα</td>
+</tr>
+<tr>
+<td><a href="../code/starter/loans.py">loans.py</a></td>
+<td>2</td>
+<td><strong>νέο</strong>, με κενά</td>
+</tr>
+<tr>
+<td><a href="../code/starter/lending.py">lending.py</a>, <a href="../code/starter/check_loans.py">check_loans.py</a></td>
+<td>2</td>
+<td><strong>νέα</strong>, έτοιμα</td>
+</tr>
+<tr>
+<td><a href="../code/starter/lab_isolation.py">lab_isolation.py</a></td>
+<td>2</td>
+<td><strong>νέο</strong>, έτοιμο (για την «Δική σου εκδοχή»)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_2">Η αποστολή<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>Η βάση σου δουλεύει. Δύο πράγματα όμως μπορούν να τη χαλάσουν <strong>χωρίς καμία επίθεση</strong>:</p>
+<ol>
+<li><strong>Ένα ατύχημα.</strong> Ένα <code>DELETE</code> χωρίς <code>WHERE</code> (το είδες στο Μάθημα 6), ένα <code>DROP TABLE</code> στον λάθος πίνακα, ένας δίσκος που χαλά. Χρειάζεσαι <strong>αντίγραφο ασφαλείας</strong>, και πρέπει να ξέρεις να <strong>επαναφέρεις</strong> από αυτό.</li>
+<li><strong>Μια δουλειά που σταματά στη μέση.</strong> Αν μια αλλαγή θέλει <strong>δύο</strong> εντολές και το πρόγραμμα σταματήσει ανάμεσά τους, η βάση μένει με <strong>μισή δουλειά</strong>. Χρειάζεσαι <strong>συναλλαγές</strong>: ή γίνονται όλες οι εντολές ή καμία.</li>
+</ol>
+<p>Το πρώτο σε σώζει όταν <strong>χαθούν</strong> δεδομένα. Το δεύτερο εμποδίζει να <strong>χαλάσουν</strong>.</p>
+<h2 id="_3">Στο τέλος θα μπορείς<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<ul>
+<li>να εξηγείς τι περιέχει ένα αντίγραφο ασφαλείας (και τι <strong>δεν</strong> περιέχει) και γιατί το αρχείο του πρέπει να φυλάσσεται σαν μυστικό.</li>
+<li>να παίρνεις αντίγραφο με το <strong>phpMyAdmin</strong> (<code>Export</code>) και με το <strong><code>mariadb-dump</code></strong>, και να <strong>επαναφέρεις</strong> με <code>Import</code> και με <code>mariadb … -e "source …"</code>.</li>
+<li>να <strong>ελέγχεις</strong> ένα αντίγραφο δοκιμάζοντας την επαναφορά, και να εξηγείς γιατί αυτό είναι απαραίτητο.</li>
+<li>να φτιάχνεις αντίγραφο από την <strong>Python</strong> με <code>subprocess.run</code>, με όνομα που έχει ημερομηνία και ώρα.</li>
+<li>να γράφεις συναλλαγές με <code>START TRANSACTION</code>, <code>COMMIT</code> και <code>ROLLBACK</code>, και να εξηγείς τι είναι το «αυτόματο COMMIT» (autocommit).</li>
+<li>να γράφεις στην Python μια αλλαγή με <strong>δύο βήματα</strong> (<code>commit</code>, <code>rollback</code>, <code>raise</code>) και να εξηγείς γιατί <strong>δεν</strong> πρέπει να «καταπίνεις» ένα σφάλμα χωρίς <code>rollback</code>.</li>
+</ul>
+<h2 id="_4">Πριν αρχίσεις<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Ξεκίνα τη <strong>MySQL</strong> και τον <strong>Apache</strong> από το XAMPP Control Panel.</li>
+<li>Φτιάξε έναν φάκελο <code>18-backup-transactions</code> μέσα στον φάκελο των μαθημάτων και κατέβασε εκεί τα <strong>δεκαπέντε</strong> αρχεία του πίνακα. Κράτησε ακριβώς τα ονόματα. <strong>Όλα τα <code>.py</code> στον ίδιο φάκελο</strong>, όπως στα Μαθήματα 15–17.
+   (Αν έχεις ακόμη τον φάκελο του Μαθήματος 17, αντίγραψέ τον και κατέβασε μόνο τα <strong>νέα</strong> και το <strong>αλλαγμένο</strong> <code>config.py</code>.) Μέσα στον φάκελο φτιάξε έναν υποφάκελο <strong><code>backups</code></strong>: εκεί θα μπουν τα αντίγραφα.</li>
+<li>Αντίγραψε το <code>config_local.example.py</code> ως <code>config_local.py</code> (όπως στο Μάθημα 17). Οι λογαριασμοί <code>game_app</code> και <code>game_reader</code> πρέπει να υπάρχουν· αν όχι, τρέξε το <code>02-users.sql</code> του Μαθήματος 17.</li>
+<li>Άνοιξε τον φάκελο στο VS Code και άνοιξε τερματικό.</li>
+<li>Φέρε τη βάση στην κατάσταση εκκίνησης: στο phpMyAdmin επίλεξε τη βάση <code>game_library</code>, άνοιξε την καρτέλα <strong>Import</strong>, διάλεξε το <code>01-start-state.sql</code> και πάτα <strong>Import</strong>.</li>
+<li>Έλεγξε στην καρτέλα <strong>Browse</strong> ότι ο <code>games</code> έχει <strong>30</strong> γραμμές, ο <code>genres</code> <strong>11</strong>, ο <code>reviews</code> <strong>12</strong>, ο <code>platforms</code> <strong>5</strong>, ο <code>game_platforms</code> <strong>63</strong> και ο <code>members</code> <strong>4</strong>.</li>
+</ol>
+<div class="admonition warning">
+<p class="admonition-title">Η επαναφορά σβήνει ό,τι έγινε μετά το αντίγραφο</p>
+<p>Σήμερα θα <strong>χαλάσεις τη βάση επίτηδες</strong> και θα την επαναφέρεις. Κάθε επαναφορά γυρίζει τη βάση <strong>στην ώρα του αντιγράφου</strong>: ό,τι αλλαγές έκανες μετά χάνονται. Το <code>01-start-state.sql</code> είναι το σωσίβιό σου όλη την ώρα.</p>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Ο κύκλος εργασίας</p>
+<p><strong>Πρόβλεψη → εκτέλεση → σύγκριση → εξήγηση.</strong> Σήμερα πρόβλεψε <strong>τι θα έχει η βάση</strong> μετά την επαναφορά (τα δεδομένα <strong>και</strong> οι κανόνες της) και <strong>τι θα μείνει</strong> στη βάση όταν μια συναλλαγή σταματήσει στη μέση.</p>
+</div>
+<hr />
+<h2 id="1">Κύκλος 1 — Αντίγραφα ασφαλείας<a class="headerlink" href="#1" title="Permanent link">&para;</a></h2>
+<p>Σε αυτόν τον κύκλο παίρνεις αντίγραφο με τρεις τρόπους, επαναφέρεις από αυτά, και βρίσκεις ένα σφάλμα που <strong>κανείς δεν σου λέει</strong>.</p>
+<h3 id="11">1.1 Γιατί αντίγραφα<a class="headerlink" href="#11" title="Permanent link">&para;</a></h3>
+<p>Τα δεδομένα χάνονται συνήθως <strong>από ατύχημα</strong>, όχι από επίθεση:</p>
+<ul>
+<li>ένα <code>DELETE FROM reviews;</code> χωρίς <code>WHERE</code> (Μάθημα 6)·</li>
+<li>ένα <code>DROP TABLE</code> στον λάθος πίνακα ή στη λάθος βάση·</li>
+<li>ένα πρόγραμμα με λάθος, που γράφει λάθος τιμές σε όλες τις γραμμές·</li>
+<li>ένας δίσκος που χαλά, ένας υπολογιστής που χάνεται ή κλέβεται.</li>
+</ul>
+<p>Ένα αντίγραφο στον <strong>ίδιο δίσκο</strong> με τη βάση σε σώζει από τα τρία πρώτα, όχι από το τελευταίο. Ο κανόνας <strong>3-2-1</strong> το λέει συνοπτικά: <strong>3</strong> αντίγραφα των δεδομένων, σε <strong>2</strong> διαφορετικά μέσα (π.χ. δίσκος και USB), με <strong>1</strong> σε άλλο μέρος (π.χ. στο σπίτι).</p>
+<h3 id="12">1.2 Τι είναι ένα αντίγραφο<a class="headerlink" href="#12" title="Permanent link">&para;</a></h3>
+<p>Ένα αντίγραφο ασφαλείας μιας βάσης είναι ένα απλό <strong>αρχείο κειμένου <code>.sql</code></strong> με εντολές <code>CREATE TABLE</code> και <code>INSERT</code>. Ξέρεις ήδη να το διαβάζεις και να το τρέχεις: <strong>όλα τα «σωσίβια» του μαθήματος</strong> (<code>01-start-state.sql</code> κ.λπ.) ήταν αντίγραφα ασφαλείας. Δες ένα κομμάτι από το αντίγραφο της <code>game_library</code>:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">DROP</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="o">`</span><span class="n">platforms</span><span class="o">`</span><span class="p">;</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="o">`</span><span class="n">platforms</span><span class="o">`</span><span class="w"> </span><span class="p">(</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="o">`</span><span class="n">id</span><span class="o">`</span><span class="w"> </span><span class="nb">int</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">  </span><span class="o">`</span><span class="n">name</span><span class="o">`</span><span class="w"> </span><span class="nb">varchar</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">  </span><span class="o">`</span><span class="n">maker</span><span class="o">`</span><span class="w"> </span><span class="nb">varchar</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">  </span><span class="o">`</span><span class="n">release_year</span><span class="o">`</span><span class="w"> </span><span class="nb">int</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">  </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="p">(</span><span class="o">`</span><span class="n">id</span><span class="o">`</span><span class="p">),</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">  </span><span class="k">UNIQUE</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="o">`</span><span class="n">name</span><span class="o">`</span><span class="w"> </span><span class="p">(</span><span class="o">`</span><span class="n">name</span><span class="o">`</span><span class="p">),</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">  </span><span class="k">CONSTRAINT</span><span class="w"> </span><span class="o">`</span><span class="n">chk_platform_year</span><span class="o">`</span><span class="w"> </span><span class="k">CHECK</span><span class="w"> </span><span class="p">(</span><span class="o">`</span><span class="n">release_year</span><span class="o">`</span><span class="w"> </span><span class="k">between</span><span class="w"> </span><span class="mi">1970</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="mi">2100</span><span class="p">)</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="p">)</span><span class="w"> </span><span class="n">ENGINE</span><span class="o">=</span><span class="n">InnoDB</span><span class="w"> </span><span class="n">AUTO_INCREMENT</span><span class="o">=</span><span class="mi">6</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="n">CHARSET</span><span class="o">=</span><span class="n">utf8mb4</span><span class="w"> </span><span class="k">COLLATE</span><span class="o">=</span><span class="n">utf8mb4_general_ci</span><span class="p">;</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="o">`</span><span class="n">platforms</span><span class="o">`</span><span class="w"> </span><span class="k">VALUES</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="s1">'PlayStation 5'</span><span class="p">,</span><span class="s1">'Sony'</span><span class="p">,</span><span class="mi">2020</span><span class="p">),</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="s1">'Xbox Series X'</span><span class="p">,</span><span class="s1">'Microsoft'</span><span class="p">,</span><span class="mi">2020</span><span class="p">),</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="s1">'Nintendo Switch'</span><span class="p">,</span><span class="s1">'Nintendo'</span><span class="p">,</span><span class="mi">2017</span><span class="p">),</span>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="s1">'Steam Deck'</span><span class="p">,</span><span class="s1">'Valve'</span><span class="p">,</span><span class="mi">2022</span><span class="p">),</span>
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="s1">'Meta Quest'</span><span class="p">,</span><span class="s1">'Meta'</span><span class="p">,</span><span class="mi">2020</span><span class="p">);</span>
+</span></code></pre></div>
+<p>Τρία πράγματα να προσέξεις:</p>
+<ul>
+<li>Πριν από κάθε <code>CREATE TABLE</code> υπάρχει <code>DROP TABLE IF EXISTS</code>: η επαναφορά <strong>σβήνει</strong> τον πίνακα που υπάρχει και τον ξαναφτιάχνει. Γι' αυτό γυρίζει τη βάση πίσω στο παρελθόν.</li>
+<li>Το <code>CONSTRAINT … CHECK</code> είναι <strong>μέρος της δομής του πίνακα</strong>. Αν λείπει από το αντίγραφο, η βάση που θα επαναφερθεί <strong>δεν θα ελέγχει</strong> τις τιμές (Μάθημα 8). Θα το δεις σήμερα να συμβαίνει.</li>
+<li>Το αντίγραφο έχει όλα τα δεδομένα. Άρα και τον πίνακα <code>members</code> με τα <strong>hash των κωδικών</strong> (Μάθημα 17).</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Μέσα στο αντίγραφο</th>
+<th><strong>Έξω</strong> από το αντίγραφο</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>οι πίνακες, οι στήλες, τα κλειδιά, οι περιορισμοί</td>
+<td>οι <strong>λογαριασμοί</strong> (<code>game_app</code>, <code>game_reader</code>) και τα δικαιώματά τους: ανήκουν στον εξυπηρετητή</td>
+</tr>
+<tr>
+<td>όλα τα δεδομένα, και τα hash των κωδικών</td>
+<td>το <code>config_local.py</code> με τους κωδικούς σύνδεσης</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition danger">
+<p class="admonition-title">Το αρχείο του αντιγράφου είναι μυστικό</p>
+<p>Το αντίγραφο περιέχει <strong>ό,τι περιέχει η βάση</strong>, και μπορεί να το διαβάσει όποιος το βρει, χωρίς κωδικό και χωρίς λογαριασμό. Μην το ανεβάζεις στο git και μην το στέλνεις σε κανέναν. Το <code>.gitignore</code> του μαθήματος αγνοεί τον φάκελο <strong><code>backups</code></strong>. Σε πραγματικό σύστημα τα αντίγραφα <strong>κρυπτογραφούνται</strong> και φυλάσσονται με δικαιώματα πρόσβασης.</p>
+</div>
+<h3 id="13">1.3 Επαναφορά, και γιατί πρέπει να τη δοκιμάσεις<a class="headerlink" href="#13" title="Permanent link">&para;</a></h3>
+<p><strong>Επαναφορά</strong> (restore) είναι να τρέξεις το αρχείο του αντιγράφου: οι πίνακες ξαναφτιάχνονται και γεμίζουν. Η βάση γυρίζει στην κατάσταση της ώρας που πήρες το αντίγραφο.</p>
+<p>Ένα αντίγραφο που <strong>δεν έχεις δοκιμάσει να επαναφέρεις</strong> δεν είναι αντίγραφο: είναι ένα αρχείο που <strong>ελπίζεις</strong> ότι δουλεύει. Θα το δεις σήμερα στην πράξη: ένα αντίγραφο που φαίνεται σωστό μπορεί να έχει χάσει κάτι σημαντικό.</p>
+<h3 id="1-phpmyadmin">Στάδιο 1 — Το αντίγραφο από το phpMyAdmin<a class="headerlink" href="#1-phpmyadmin" title="Permanent link">&para;</a></h3>
+<p><strong>Α. Πριν το αντίγραφο: δύο έλεγχοι.</strong> Στην καρτέλα <strong>SQL</strong> της βάσης <code>game_library</code> τρέξε:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">checks_n</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="k">FROM</span><span class="w"> </span><span class="n">information_schema</span><span class="p">.</span><span class="n">CHECK_CONSTRAINTS</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="k">WHERE</span><span class="w"> </span><span class="k">CONSTRAINT_SCHEMA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'game_library'</span><span class="p">;</span>
+</span></code></pre></div>
+<p>Η <code>information_schema</code> είναι μια βάση που έχει ο ίδιος ο εξυπηρετητής και <strong>περιγράφει</strong> όλες τις άλλες. Η εντολή μετρά τους περιορισμούς <code>CHECK</code> που έχεις φτιάξει στα Μαθήματα 8–11 (<code>chk_price</code>, <code>chk_year</code>, <code>chk_added</code>, <code>chk_platform_year</code>, <code>chk_stars</code>): το αποτέλεσμα είναι <strong>5</strong>. Μετά δοκίμασε μια τιμή που δεν επιτρέπεται:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">games</span><span class="w"> </span><span class="p">(</span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="n">release_year</span><span class="p">,</span><span class="w"> </span><span class="n">price</span><span class="p">,</span><span class="w"> </span><span class="n">genre_id</span><span class="p">)</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="s1">'Test Game'</span><span class="p">,</span><span class="w"> </span><span class="mi">2024</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+</span></code></pre></div>
+<p>Η βάση το <strong>απορρίπτει</strong> με <code>#4025 - CONSTRAINT chk_price failed</code> (Μάθημα 8).</p>
+<p><strong>Β. Το αντίγραφο.</strong> Επίλεξε τη βάση <code>game_library</code>, άνοιξε την καρτέλα <strong>Export</strong> και διάλεξε <strong>Export method: Custom</strong>. Κατέβα μέχρι τα <strong>Object creation options</strong> και άναψε τον διακόπτη <strong>Add DROP TABLE / VIEW / PROCEDURE / FUNCTION / EVENT / TRIGGER statement</strong>. Πάτα <strong>Export</strong> (στο τέλος της σελίδας).</p>
+<p><img alt="Η καρτέλα Export του phpMyAdmin, στο τμήμα Object creation options, με ένα κόκκινο πλαίσιο γύρω από τον διακόπτη «Add DROP TABLE / VIEW / PROCEDURE / FUNCTION / EVENT / TRIGGER statement», που είναι αναμμένος" src="../images/export-custom.png" width="720" /></p>
+<p>Ο <strong>Quick</strong> τρόπος (ο προεπιλεγμένος) <strong>δεν</strong> βάζει <code>DROP TABLE</code>. Με τέτοιο αρχείο η επαναφορά πάνω σε βάση που έχει ήδη τους πίνακες δίνει <code>#1050 - Table 'games' already exists</code>.</p>
+<p>Ο φυλλομετρητής κατεβάζει το αρχείο <code>game_library.sql</code>. <strong>Μετακίνησέ το</strong> στον φάκελο <code>backups</code> και <strong>μετονόμασέ το</strong> <code>pma-game_library.sql</code>.</p>
+<p><strong>Γ. Το ατύχημα.</strong> Στην καρτέλα <strong>SQL</strong> τρέξε, μία-μία:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">DELETE</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">reviews</span><span class="p">;</span>
+</span></code></pre></div>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">DROP</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">game_platforms</span><span class="p">;</span>
+</span></code></pre></div>
+<p>(Το phpMyAdmin ζητά επιβεβαίωση για το <code>DROP TABLE</code>: πάτα <strong>OK</strong>.) Στην καρτέλα <strong>Browse</strong> ο <code>reviews</code> είναι άδειος και ο <code>game_platforms</code> <strong>δεν υπάρχει</strong> πια.</p>
+<p><strong>Δ. Η επαναφορά.</strong> Στην καρτέλα <strong>Import</strong> της βάσης διάλεξε το <code>pma-game_library.sql</code>. <strong>Κλείσε</strong> τον διακόπτη <strong>Enable foreign key checks</strong> (στο τμήμα <em>Other options</em>) και πάτα <strong>Import</strong>.</p>
+<p><img alt="Η καρτέλα Import του phpMyAdmin με δύο κόκκινα πλαίσια: 1 το αρχείο που διαλέχτηκε, pma-game_library.sql, 2 ο διακόπτης «Enable foreign key checks», κλειστός" src="../images/import-options.png" width="720" /></p>
+<p>Γιατί κλείνει ο διακόπτης: το αρχείο σβήνει τους πίνακες έναν-έναν (<code>DROP TABLE</code>), και ο <code>games</code> <strong>αναφέρεται ακόμη από άλλους πίνακες</strong> με ξένο κλειδί (Μάθημα 11). Με τον έλεγχο ανοιχτό, η βάση απαντά <code>#1451 - Cannot delete or update a parent row</code> και η επαναφορά μένει μισή.</p>
+<p>Στην καρτέλα <strong>Browse</strong> ο <code>reviews</code> έχει πάλι <strong>12</strong> γραμμές και ο <code>game_platforms</code> υπάρχει με <strong>63</strong>. Όλα γύρισαν.</p>
+<p><strong>Ε. Η παγίδα.</strong> Ξαναδοκίμασε την ίδια εντολή με την τιμή <code>-5</code>:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">games</span><span class="w"> </span><span class="p">(</span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="n">release_year</span><span class="p">,</span><span class="w"> </span><span class="n">price</span><span class="p">,</span><span class="w"> </span><span class="n">genre_id</span><span class="p">)</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="s1">'Test Game'</span><span class="p">,</span><span class="w"> </span><span class="mi">2024</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+</span></code></pre></div>
+<p><img alt="Το αποτέλεσμα του INSERT με τιμή -5 στο phpMyAdmin, μετά την επαναφορά: ένα κόκκινο πλαίσιο γύρω από το μήνυμα «1 row inserted», δηλαδή η βάση το δέχτηκε" src="../images/restored-without-checks.png" width="720" /></p>
+<p>Η βάση <strong>δέχτηκε</strong> την τιμή <code>-5</code>! Το ίδιο το φανερώνει και το πρώτο ερώτημα του βήματος Α: τώρα δίνει <strong>0</strong> αντί για 5. Το αντίγραφο του phpMyAdmin έφερε πίσω τα <strong>δεδομένα</strong>, αλλά <strong>όχι τους περιορισμούς <code>CHECK</code></strong>. Η βάση που «επαναφέρθηκε» είναι πιο αδύναμη από την αρχική, και <strong>κανένα μήνυμα δεν το είπε</strong>.</p>
+<div class="admonition note">
+<p class="admonition-title">Σε ποια έκδοση το δοκιμάσαμε</p>
+<p>Αυτό παρατηρήθηκε στο phpMyAdmin <strong>5.2.3</strong> του XAMPP με MariaDB <strong>10.11</strong>. Στη δική σου έκδοση μπορεί να είναι διαφορετικό: <strong>δοκίμασε το</strong> (έλεγξε με το ερώτημα του βήματος Α). Το συμπέρασμα δεν αλλάζει: <strong>μην εμπιστεύεσαι ένα αντίγραφο που δεν έχεις ελέγξει με επαναφορά.</strong></p>
+</div>
+<p>Σβήσε τη δοκιμαστική γραμμή (<code>DELETE FROM games WHERE title = 'Test Game';</code>) και ξαναφέρε τη σωστή βάση με το <code>01-start-state.sql</code> (Import), για να πάρεις στο επόμενο στάδιο ένα <strong>σωστό</strong> αντίγραφο.</p>
+<h3 id="14-mariadb-dump">1.4 Η γραμμή εντολών: <code>mariadb-dump</code><a class="headerlink" href="#14-mariadb-dump" title="Permanent link">&para;</a></h3>
+<p>Η MariaDB έχει δικό της πρόγραμμα για αντίγραφα, το <strong><code>mariadb-dump</code></strong>. Στο XAMPP βρίσκεται στον φάκελο <code>C:\xampp\mysql\bin</code> (δίπλα του είναι το <code>mariadb.exe</code>, ο πελάτης της γραμμής εντολών). Στο τερματικό του VS Code (PowerShell) βάζουμε τη διαδρομή σε μια μεταβλητή:</p>
+<div class="language-powershell highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nv">$bin</span> <span class="p">=</span> <span class="s2">"C:\xampp\mysql\bin"</span>
+</span></code></pre></div>
+<p>και παίρνουμε το αντίγραφο:</p>
+<div class="language-powershell highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="p">&amp;</span> <span class="s2">"$bin\mariadb-dump.exe"</span> <span class="p">-</span><span class="n">-user</span><span class="p">=</span><span class="n">root</span> <span class="p">-</span><span class="n">-default-character-set</span><span class="p">=</span><span class="n">utf8mb4</span> <span class="p">-</span><span class="n">-single-transaction</span> <span class="p">-</span><span class="n">-databases</span> <span class="n">game_library</span> <span class="p">-</span><span class="n">-result</span><span class="o">-file</span><span class="p">=</span><span class="n">backups</span><span class="p">/</span><span class="n">game_library</span><span class="p">.</span><span class="n">sql</span>
+</span></code></pre></div>
+<p>(Το <code>&amp;</code> χρειάζεται στο PowerShell όταν η εντολή ξεκινά με διαδρομή σε εισαγωγικά. Στο <code>cmd.exe</code> γράφεις τα ίδια χωρίς το <code>&amp;</code>. Η μεταβλητή <code>$bin</code> ισχύει μόνο σε αυτό το τερματικό. Στα παλιότερα XAMPP το πρόγραμμα λέγεται <code>mysqldump.exe</code>.)</p>
+<table>
+<thead>
+<tr>
+<th>Επιλογή</th>
+<th>Τι κάνει</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--user=root</code></td>
+<td>με ποιον λογαριασμό συνδέεται (ο <code>root</code> του XAMPP δεν έχει κωδικό)</td>
+</tr>
+<tr>
+<td><code>--default-character-set=utf8mb4</code></td>
+<td>τα <strong>ελληνικά</strong> περνούν σωστά στο αρχείο</td>
+</tr>
+<tr>
+<td><code>--single-transaction</code></td>
+<td>παίρνει <strong>συνεπές</strong> αντίγραφο μέσα σε μία συναλλαγή, χωρίς να κλειδώνει τους πίνακες (περισσότερα στον Κύκλο 2)</td>
+</tr>
+<tr>
+<td><code>--databases game_library</code></td>
+<td>βάζει στο αρχείο και <code>CREATE DATABASE</code> και <code>USE</code>: το αντίγραφο φτιάχνει μόνο του τη βάση, ακόμη και σε <strong>κενό</strong> εξυπηρετητή</td>
+</tr>
+<tr>
+<td><code>--result-file=…</code></td>
+<td><strong>το αρχείο που θα γραφτεί</strong></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="admonition-title">Τρεις παγίδες του PowerShell</p>
+<p><strong>1.</strong> Μη γράψεις <code>… &gt; αρχείο.sql</code>. Το <code>&gt;</code> του PowerShell ξαναγράφει το κείμενο με δική του κωδικοποίηση (στο δοκιμαστικό περιβάλλον πρόσθεσε αόρατους χαρακτήρες στην αρχή του αρχείου): το αρχείο <strong>δεν είναι πια το ίδιο</strong>. Το <code>--result-file</code> γράφει το αρχείο ακριβώς όπως το φτιάχνει το πρόγραμμα.<br />
+<strong>2.</strong> Στην επαναφορά με το <code>source</code> γράφε τη διαδρομή με <strong>κάθετες προς τα εμπρός</strong> (<code>backups/game_library.sql</code>). Το <code>\g</code> είναι εντολή του προγράμματος (σημαίνει «εκτέλεσε») και η διαδρομή <code>backups\game_library.sql</code> σπάει στη μέση: <code>#1064 … near 'source backups'</code>.<br />
+<strong>3.</strong> Μην περάσεις το αρχείο με <code>Get-Content αρχείο.sql | mariadb …</code>: τα <strong>ελληνικά</strong> μπαίνουν στη βάση <strong>κατεστραμμένα</strong> (τα δοκιμάσαμε: <code>Αγωνιστικό</code> έγινε <code>Ξ‘Ξ³Ο‰Ξ½ΞΉΟƒΟ„ΞΉΞΊΟ</code>), και χωρίς κανένα σφάλμα.</p>
+</div>
+<p>Η <strong>επαναφορά</strong> γίνεται με τον πελάτη <code>mariadb.exe</code>, με λογαριασμό που μπορεί να φτιάχνει πίνακες (ο <code>root</code>):</p>
+<div class="language-powershell highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="p">&amp;</span> <span class="s2">"$bin\mariadb.exe"</span> <span class="p">-</span><span class="n">-user</span><span class="p">=</span><span class="n">root</span> <span class="n">-e</span> <span class="s2">"source backups/game_library.sql"</span>
+</span></code></pre></div>
+<p>Ο <code>game_app</code> <strong>δεν</strong> μπορεί να κάνει επαναφορά: δεν έχει δικαίωμα <code>DROP</code> και <code>CREATE</code> (Μάθημα 17). Η επαναφορά είναι δουλειά του <strong>διαχειριστή</strong>.</p>
+<h3 id="2">Στάδιο 2 — Το αντίγραφο από το τερματικό<a class="headerlink" href="#2" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Τρέξε το <code>01-start-state.sql</code> (<strong>Import</strong>): η βάση ξαναβρίσκει τους 5 περιορισμούς <code>CHECK</code>. Έλεγξε με το ερώτημα του Σταδίου 1 (πρέπει να δώσει <strong>5</strong>).</li>
+<li>
+<p>Πάρε το αντίγραφο με την εντολή της ενότητας 1.4 (πρέπει να υπάρχει ο φάκελος <code>backups</code>).</p>
+<p><img alt="Το τερματικό: πρώτα η μεταβλητή $bin, μετά η εντολή του mariadb-dump (κόκκινο πλαίσιο 1) και μετά η λίστα του φακέλου backups, όπου φαίνεται το αρχείο game_library.sql με το μέγεθός του (κόκκινο πλαίσιο 2)" src="../images/terminal-dump.png" width="720" /></p>
+</li>
+<li>
+<p>Άνοιξε το <code>backups/game_library.sql</code> στο VS Code. Με αναζήτηση (<code>Ctrl+F</code>) βρες: πόσα <code>CREATE TABLE</code> έχει (<strong>6</strong>)· πόσες φορές υπάρχει το κείμενο <code>CHECK (</code> (με κενό και παρένθεση: <strong>5</strong>· η λέξη <code>CHECK</code> μόνη της βρίσκεται και σε άλλες γραμμές της κεφαλίδας, π.χ. <code>FOREIGN_KEY_CHECKS</code>)· αν υπάρχει <code>CREATE USER</code> ή <code>GRANT</code> (<strong>όχι</strong>).</p>
+</li>
+<li>
+<p>Κάνε το ατύχημα και την επαναφορά, από το τερματικό:</p>
+<p><img alt="Το τερματικό με τρεις εντολές: 1 το DELETE χωρίς WHERE, που αφήνει τον πίνακα reviews με 0 γραμμές, 2 η επαναφορά με το source, 3 ο έλεγχος μετά την επαναφορά: ο reviews έχει πάλι 12 γραμμές" src="../images/terminal-restore.png" width="720" /></p>
+</li>
+<li>
+<p>Ξαναδοκίμασε το <code>INSERT</code> με την τιμή <code>-5</code> και ξανάτρεξε το ερώτημα των περιορισμών. Αυτή τη φορά η βάση <strong>απορρίπτει</strong> την τιμή (<code>#4025</code>) και το ερώτημα δίνει <strong>5</strong>: το αντίγραφο του <code>mariadb-dump</code> έφερε και τους κανόνες.</p>
+</li>
+</ol>
+<div class="admonition tip">
+<p class="admonition-title">Τι κερδίζεις με το <code>--single-transaction</code></p>
+<p>Αν ο <code>game_reader</code> τρέξει το <code>mariadb-dump</code> <strong>χωρίς</strong> αυτή την επιλογή, παίρνει <code>Got error: 1044 … when using LOCK TABLES</code> και το αρχείο μένει μισό: χωρίς την επιλογή το πρόγραμμα προσπαθεί να <strong>κλειδώσει</strong> τους πίνακες, και ο <code>game_reader</code> δεν έχει τέτοιο δικαίωμα. Με την επιλογή δεν κλειδώνει τίποτα: διαβάζει μέσα σε <strong>μία συναλλαγή</strong>, και ένας λογαριασμός που <strong>μόνο διαβάζει</strong> αρκεί για αντίγραφα.</p>
+</div>
+<h3 id="15-python">1.5 Το αντίγραφο από την Python<a class="headerlink" href="#15-python" title="Permanent link">&para;</a></h3>
+<p>Ένα αντίγραφο που το παίρνεις <strong>όταν θυμηθείς</strong> δεν είναι ασφάλεια. Θέλουμε ένα πρόγραμμα που το κάνει με <strong>μία εντολή</strong> (και, μετά, μπορεί να τρέχει αυτόματα κάθε μέρα). Η Python μπορεί να τρέξει οποιοδήποτε άλλο πρόγραμμα με τη <code>subprocess.run</code>: της δίνεις μια <strong>λίστα</strong> με το πρόγραμμα και τα ορίσματά του, και περιμένει να τελειώσει.</p>
+<p>Το <code>backup.py</code> κάνει ό,τι έκανες με το χέρι. Δες τι είναι καινούργιο:</p>
+<ul>
+<li><strong>Το όνομα</strong> έχει ημερομηνία και ώρα (<code>game_library-2026-11-05_14-30.sql</code>), με την <code>strftime</code> του Μαθήματος 9. Δεν βάζουμε <code>:</code> στην ώρα (τα Windows δεν το δέχονται σε όνομα αρχείου). Η σειρά έτος-μήνας-μέρα κάνει τα ονόματα να ταξινομούνται <strong>και χρονολογικά</strong>.</li>
+<li><strong>Ο λογαριασμός</strong> είναι ο <code>game_reader</code>: για αντίγραφο αρκεί λογαριασμός που <strong>μόνο διαβάζει</strong> (η αρχή των ελάχιστων δικαιωμάτων του Μαθήματος 17).</li>
+<li><strong>Ο κωδικός</strong> δεν μπαίνει στην εντολή (θα φαινόταν σε όποιον κοιτάξει τη λίστα των προγραμμάτων που τρέχουν). Περνά με <strong>μεταβλητή περιβάλλοντος</strong> (<code>MYSQL_PWD</code>), μόνο για αυτό το πρόγραμμα.</li>
+<li><strong>Ο έλεγχος:</strong> ένα πρόγραμμα που τελειώνει σωστά επιστρέφει <strong>0</strong> (<code>returncode</code>). Κάθε άλλος αριθμός είναι αποτυχία. Τότε το πρόγραμμά μας <strong>σβήνει το μισό αρχείο</strong> και σηκώνει <code>RuntimeError</code> με το μήνυμα του <code>mariadb-dump</code>.</li>
+</ul>
+<h3 id="3-backuppy">Στάδιο 3 — <code>backup.py</code><a class="headerlink" href="#3-backuppy" title="Permanent link">&para;</a></h3>
+<p>Άνοιξε το <code>backup.py</code> και συμπλήρωσε τα πέντε κενά:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="sd">"""Στάδιο 3: αντίγραφο ασφαλείας της βάσης από την Python.</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="sd">Τρέχει το mariadb-dump (το ίδιο πρόγραμμα που έτρεξες στο τερματικό) με τον λογαριασμό game_reader και γράφει το αντίγραφο στον φάκελο backups,</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="sd">με όνομα που έχει ημερομηνία και ώρα.</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="sd">Συμπλήρωσε τα πέντε κενά (____).</span>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="sd">"""</span>
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
+</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>
+</span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="kn">import</span><span class="w"> </span><span class="nn">config</span>
+</span><span id="__span-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>
+</span><span id="__span-9-15"><a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a>
+</span><span id="__span-9-16"><a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a><span class="k">def</span><span class="w"> </span><span class="nf">backup_file_name</span><span class="p">(</span><span class="n">moment</span><span class="p">):</span>
+</span><span id="__span-9-17"><a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a><span class="w">    </span><span class="sd">"""Το όνομα του αρχείου: η βάση, η ημερομηνία και η ώρα, π.χ. game_library-2026-11-05_14-30.sql.</span>
+</span><span id="__span-9-18"><a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a>
+</span><span id="__span-9-19"><a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a><span class="sd">    Δεν βάζουμε «:» στην ώρα (τα Windows δεν το δέχονται σε όνομα αρχείου). Η σειρά «έτος-μήνας-μέρα» κάνει τα ονόματα να ταξινομούνται και</span>
+</span><span id="__span-9-20"><a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a><span class="sd">    χρονολογικά: το τελευταίο στη λίστα είναι το νεότερο αντίγραφο.</span>
+</span><span id="__span-9-21"><a id="__codelineno-9-21" name="__codelineno-9-21" href="#__codelineno-9-21"></a><span class="sd">    """</span>
+</span><span id="__span-9-22"><a id="__codelineno-9-22" name="__codelineno-9-22" href="#__codelineno-9-22"></a>    <span class="c1"># TODO 1: η μέθοδος του datetime που γράφει την ημερομηνία και την ώρα με μορφή (Μάθημα 9)</span>
+</span><span id="__span-9-23"><a id="__codelineno-9-23" name="__codelineno-9-23" href="#__codelineno-9-23"></a>    <span class="n">stamp</span> <span class="o">=</span> <span class="n">moment</span><span class="o">.</span><span class="n">____</span><span class="p">(</span><span class="s2">"%Y-%m-</span><span class="si">%d</span><span class="s2">_%H-%M"</span><span class="p">)</span>
+</span><span id="__span-9-24"><a id="__codelineno-9-24" name="__codelineno-9-24" href="#__codelineno-9-24"></a>    <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">config</span><span class="o">.</span><span class="n">DATABASE</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">stamp</span><span class="si">}</span><span class="s2">.sql"</span>
+</span><span id="__span-9-25"><a id="__codelineno-9-25" name="__codelineno-9-25" href="#__codelineno-9-25"></a>
+</span><span id="__span-9-26"><a id="__codelineno-9-26" name="__codelineno-9-26" href="#__codelineno-9-26"></a>
+</span><span id="__span-9-27"><a id="__codelineno-9-27" name="__codelineno-9-27" href="#__codelineno-9-27"></a><span class="k">def</span><span class="w"> </span><span class="nf">make_backup</span><span class="p">(</span><span class="n">folder</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">BACKUP_FOLDER</span><span class="p">):</span>
+</span><span id="__span-9-28"><a id="__codelineno-9-28" name="__codelineno-9-28" href="#__codelineno-9-28"></a><span class="w">    </span><span class="sd">"""Φτιάχνει ένα αντίγραφο και επιστρέφει τη διαδρομή του αρχείου. Αν το mariadb-dump αποτύχει, σηκώνει RuntimeError."""</span>
+</span><span id="__span-9-29"><a id="__codelineno-9-29" name="__codelineno-9-29" href="#__codelineno-9-29"></a>    <span class="c1"># TODO 2: φτιάξε τον φάκελο αν δεν υπάρχει (και μην παραπονεθείς αν υπάρχει ήδη)</span>
+</span><span id="__span-9-30"><a id="__codelineno-9-30" name="__codelineno-9-30" href="#__codelineno-9-30"></a>    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">____</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-9-31"><a id="__codelineno-9-31" name="__codelineno-9-31" href="#__codelineno-9-31"></a>    <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">backup_file_name</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()))</span>
+</span><span id="__span-9-32"><a id="__codelineno-9-32" name="__codelineno-9-32" href="#__codelineno-9-32"></a>
+</span><span id="__span-9-33"><a id="__codelineno-9-33" name="__codelineno-9-33" href="#__codelineno-9-33"></a>    <span class="c1"># Η εντολή που έτρεξες στο τερματικό, σπασμένη σε κομμάτια: το πρώτο είναι το πρόγραμμα, τα υπόλοιπα τα ορίσματά του</span>
+</span><span id="__span-9-34"><a id="__codelineno-9-34" name="__codelineno-9-34" href="#__codelineno-9-34"></a>    <span class="n">command</span> <span class="o">=</span> <span class="p">[</span>
+</span><span id="__span-9-35"><a id="__codelineno-9-35" name="__codelineno-9-35" href="#__codelineno-9-35"></a>        <span class="n">config</span><span class="o">.</span><span class="n">DUMP_PROGRAM</span><span class="p">,</span>
+</span><span id="__span-9-36"><a id="__codelineno-9-36" name="__codelineno-9-36" href="#__codelineno-9-36"></a>        <span class="sa">f</span><span class="s2">"--host=</span><span class="si">{</span><span class="n">config</span><span class="o">.</span><span class="n">HOST</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+</span><span id="__span-9-37"><a id="__codelineno-9-37" name="__codelineno-9-37" href="#__codelineno-9-37"></a>        <span class="sa">f</span><span class="s2">"--user=</span><span class="si">{</span><span class="n">config</span><span class="o">.</span><span class="n">READER_USER</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>          <span class="c1"># ο λογαριασμός που ΜΟΝΟ διαβάζει: για αντίγραφο αρκεί</span>
+</span><span id="__span-9-38"><a id="__codelineno-9-38" name="__codelineno-9-38" href="#__codelineno-9-38"></a>        <span class="s2">"--default-character-set=utf8mb4"</span><span class="p">,</span>
+</span><span id="__span-9-39"><a id="__codelineno-9-39" name="__codelineno-9-39" href="#__codelineno-9-39"></a>        <span class="s2">"--single-transaction"</span><span class="p">,</span>
+</span><span id="__span-9-40"><a id="__codelineno-9-40" name="__codelineno-9-40" href="#__codelineno-9-40"></a>        <span class="s2">"--databases"</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">DATABASE</span><span class="p">,</span>
+</span><span id="__span-9-41"><a id="__codelineno-9-41" name="__codelineno-9-41" href="#__codelineno-9-41"></a>        <span class="sa">f</span><span class="s2">"--result-file=</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+</span><span id="__span-9-42"><a id="__codelineno-9-42" name="__codelineno-9-42" href="#__codelineno-9-42"></a>    <span class="p">]</span>
+</span><span id="__span-9-43"><a id="__codelineno-9-43" name="__codelineno-9-43" href="#__codelineno-9-43"></a>
+</span><span id="__span-9-44"><a id="__codelineno-9-44" name="__codelineno-9-44" href="#__codelineno-9-44"></a>    <span class="c1"># Ο κωδικός ΔΕΝ μπαίνει στην εντολή (θα φαινόταν σε όποιον κοιτάξει τη λίστα των διεργασιών): περνά με μεταβλητή περιβάλλοντος</span>
+</span><span id="__span-9-45"><a id="__codelineno-9-45" name="__codelineno-9-45" href="#__codelineno-9-45"></a>    <span class="c1"># TODO 3: ο κωδικός του λογαριασμού που διαβάζει, από το config</span>
+</span><span id="__span-9-46"><a id="__codelineno-9-46" name="__codelineno-9-46" href="#__codelineno-9-46"></a>    <span class="n">environment</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">,</span> <span class="n">MYSQL_PWD</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">____</span><span class="p">)</span>
+</span><span id="__span-9-47"><a id="__codelineno-9-47" name="__codelineno-9-47" href="#__codelineno-9-47"></a>
+</span><span id="__span-9-48"><a id="__codelineno-9-48" name="__codelineno-9-48" href="#__codelineno-9-48"></a>    <span class="c1"># TODO 4: η συνάρτηση του module subprocess που τρέχει ένα πρόγραμμα και περιμένει να τελειώσει</span>
+</span><span id="__span-9-49"><a id="__codelineno-9-49" name="__codelineno-9-49" href="#__codelineno-9-49"></a>    <span class="n">result</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">____</span><span class="p">(</span><span class="n">command</span><span class="p">,</span> <span class="n">env</span><span class="o">=</span><span class="n">environment</span><span class="p">,</span> <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-9-50"><a id="__codelineno-9-50" name="__codelineno-9-50" href="#__codelineno-9-50"></a>
+</span><span id="__span-9-51"><a id="__codelineno-9-51" name="__codelineno-9-51" href="#__codelineno-9-51"></a>    <span class="c1"># TODO 5: ένα πρόγραμμα που τελειώνει ΣΩΣΤΑ επιστρέφει 0· κάθε άλλος αριθμός σημαίνει αποτυχία (το χαρακτηριστικό του result)</span>
+</span><span id="__span-9-52"><a id="__codelineno-9-52" name="__codelineno-9-52" href="#__codelineno-9-52"></a>    <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">____</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+</span><span id="__span-9-53"><a id="__codelineno-9-53" name="__codelineno-9-53" href="#__codelineno-9-53"></a>        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+</span><span id="__span-9-54"><a id="__codelineno-9-54" name="__codelineno-9-54" href="#__codelineno-9-54"></a>            <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>              <span class="c1"># ένα μισό αρχείο είναι χειρότερο από κανένα: δεν το αφήνουμε</span>
+</span><span id="__span-9-55"><a id="__codelineno-9-55" name="__codelineno-9-55" href="#__codelineno-9-55"></a>        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+</span><span id="__span-9-56"><a id="__codelineno-9-56" name="__codelineno-9-56" href="#__codelineno-9-56"></a>    <span class="k">return</span> <span class="n">path</span>
+</span><span id="__span-9-57"><a id="__codelineno-9-57" name="__codelineno-9-57" href="#__codelineno-9-57"></a>
+</span><span id="__span-9-58"><a id="__codelineno-9-58" name="__codelineno-9-58" href="#__codelineno-9-58"></a>
+</span><span id="__span-9-59"><a id="__codelineno-9-59" name="__codelineno-9-59" href="#__codelineno-9-59"></a><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+</span><span id="__span-9-60"><a id="__codelineno-9-60" name="__codelineno-9-60" href="#__codelineno-9-60"></a>    <span class="k">try</span><span class="p">:</span>
+</span><span id="__span-9-61"><a id="__codelineno-9-61" name="__codelineno-9-61" href="#__codelineno-9-61"></a>        <span class="n">path</span> <span class="o">=</span> <span class="n">make_backup</span><span class="p">()</span>
+</span><span id="__span-9-62"><a id="__codelineno-9-62" name="__codelineno-9-62" href="#__codelineno-9-62"></a>    <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+</span><span id="__span-9-63"><a id="__codelineno-9-63" name="__codelineno-9-63" href="#__codelineno-9-63"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Δεν βρέθηκε το πρόγραμμα αντιγράφων: </span><span class="si">{</span><span class="n">config</span><span class="o">.</span><span class="n">DUMP_PROGRAM</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span><span id="__span-9-64"><a id="__codelineno-9-64" name="__codelineno-9-64" href="#__codelineno-9-64"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">"Έλεγξε τη διαδρομή (DUMP_PROGRAM στο config.py ή η μεταβλητή περιβάλλοντος DUMP_PROGRAM)."</span><span class="p">)</span>
+</span><span id="__span-9-65"><a id="__codelineno-9-65" name="__codelineno-9-65" href="#__codelineno-9-65"></a>        <span class="k">return</span>
+</span><span id="__span-9-66"><a id="__codelineno-9-66" name="__codelineno-9-66" href="#__codelineno-9-66"></a>    <span class="k">except</span> <span class="ne">RuntimeError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+</span><span id="__span-9-67"><a id="__codelineno-9-67" name="__codelineno-9-67" href="#__codelineno-9-67"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">"Το αντίγραφο ΑΠΕΤΥΧΕ:"</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span>
+</span><span id="__span-9-68"><a id="__codelineno-9-68" name="__codelineno-9-68" href="#__codelineno-9-68"></a>        <span class="k">return</span>
+</span><span id="__span-9-69"><a id="__codelineno-9-69" name="__codelineno-9-69" href="#__codelineno-9-69"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Το αντίγραφο γράφτηκε: </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getsize</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="si">}</span><span class="s2"> bytes)"</span><span class="p">)</span>
+</span><span id="__span-9-70"><a id="__codelineno-9-70" name="__codelineno-9-70" href="#__codelineno-9-70"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">"Έλεγξέ το με: python check_backup.py"</span><span class="p">)</span>
+</span><span id="__span-9-71"><a id="__codelineno-9-71" name="__codelineno-9-71" href="#__codelineno-9-71"></a>
+</span><span id="__span-9-72"><a id="__codelineno-9-72" name="__codelineno-9-72" href="#__codelineno-9-72"></a>
+</span><span id="__span-9-73"><a id="__codelineno-9-73" name="__codelineno-9-73" href="#__codelineno-9-73"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
+</span><span id="__span-9-74"><a id="__codelineno-9-74" name="__codelineno-9-74" href="#__codelineno-9-74"></a>    <span class="n">main</span><span class="p">()</span>
+</span></code></pre></div>
+<p>Τρέξε <code>python backup.py</code>. Μετά τρέξε τον έτοιμο έλεγχο, που <strong>διαβάζει</strong> ένα αντίγραφο και λέει τι περιέχει:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>python<span class="w"> </span>check_backup.py
+</span></code></pre></div>
+<p><img alt="Το python backup.py στο τερματικό, με δύο κόκκινα πλαίσια: 1 το όνομα του αρχείου που γράφτηκε και το μέγεθός του, 2 η υπόδειξη να το ελέγξεις" src="../images/terminal-backup.png" width="720" /></p>
+<p>Ο έλεγχος δείχνει τα αρχεία του φακέλου <code>backups</code> (το <code>pma-…</code> από το Στάδιο 1, το <code>game_library.sql</code> από το Στάδιο 2 και το νέο, με την ώρα στο όνομα). Διάλεξε το <code>pma-game_library.sql</code>:</p>
+<p><img alt="Το python check_backup.py στο τερματικό, με τρία κόκκινα πλαίσια: 1 η λίστα των τριών αντιγράφων του φακέλου backups, 2 οι περιορισμοί CHECK του αρχείου της εξαγωγής του phpMyAdmin, που είναι 0, 3 η προειδοποίηση ότι η βάση δεν θα ελέγχει πια τις τιμές" src="../images/terminal-check-backup.png" width="720" /></p>
+<p>Δοκίμασε και τα άλλα δύο αρχεία: έχουν <strong>5</strong> περιορισμούς. Αν το πρόγραμμα αποτύχει, το μήνυμά του είναι ό,τι είπε το <code>mariadb-dump</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Τι βλέπεις</th>
+<th>Τι σημαίνει</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Δεν βρέθηκε το πρόγραμμα αντιγράφων: …</code></td>
+<td>η διαδρομή <code>DUMP_PROGRAM</code> είναι λάθος (το XAMPP δεν είναι στο <code>C:\xampp</code>)</td>
+</tr>
+<tr>
+<td><code>Got error: 1045 … (using password: YES)</code></td>
+<td>λάθος κωδικός του <code>game_reader</code> στο <code>config_local.py</code></td>
+</tr>
+<tr>
+<td><code>Got error: 1045 … (using password: NO)</code></td>
+<td>δεν στάλθηκε κωδικός: το <code>config_local.py</code> λείπει ή έχει λάθος όνομα στη μεταβλητή</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Συνέχισε στο Φύλλο εργασίας.</strong></p>
+<hr />
+<h2 id="2_1">Κύκλος 2 — Συναλλαγές<a class="headerlink" href="#2_1" title="Permanent link">&para;</a></h2>
+<p>Στον δεύτερο κύκλο δίνεις στη βάση μια δουλειά με <strong>δύο βήματα</strong> και μαθαίνεις πώς να τη γράφεις ώστε να μένει πάντα ολόκληρη.</p>
+<h3 id="21">2.1 Το πρόβλημα: δύο βήματα, μία δουλειά<a class="headerlink" href="#21" title="Permanent link">&para;</a></h3>
+<p>Η βιβλιοθήκη μας δανείζει παιχνίδια στα μέλη. Κάθε παιχνίδι έχει <strong>2 αντίτυπα</strong>. Ο δανεισμός θέλει <strong>δύο εντολές</strong>:</p>
+<ol>
+<li><code>INSERT INTO loans …</code>: γράφεται ο δανεισμός.</li>
+<li><code>UPDATE games SET copies_available = copies_available - 1 …</code>: χάνεται ένα διαθέσιμο αντίτυπο.</li>
+</ol>
+<p>Τι γίνεται αν το πρόγραμμα σταματήσει (σφάλμα, διακοπή ρεύματος, κλείσιμο του υπολογιστή) <strong>ανάμεσα</strong> στις δύο εντολές;</p>
+<table>
+<thead>
+<tr>
+<th>Έγινε</th>
+<th>Δεν έγινε</th>
+<th>Αποτέλεσμα</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>και τα δύο</td>
+<td>τίποτα</td>
+<td>σωστό</td>
+</tr>
+<tr>
+<td>το <code>INSERT</code></td>
+<td>το <code>UPDATE</code></td>
+<td>υπάρχει δανεισμός, αλλά το αντίτυπο φαίνεται <strong>ακόμη διαθέσιμο</strong>: ο επόμενος θα το πάρει κι αυτός</td>
+</tr>
+<tr>
+<td>το <code>UPDATE</code></td>
+<td>το <code>INSERT</code></td>
+<td>χάθηκε ένα αντίτυπο <strong>χωρίς δανεισμό</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Το <code>02-loans.sql</code> φτιάχνει τη νέα στήλη <code>games.copies_available</code> (με <code>CHECK (copies_available &gt;= 0)</code>: δεν γίνεται αρνητικό) και τον πίνακα <code>loans</code> (ένας δανεισμός = ένα μέλος, ένα παιχνίδι, ημερομηνία δανεισμού και ημερομηνία επιστροφής, που είναι <code>NULL</code> όσο το παιχνίδι είναι δανεισμένο). Βάζει 4 δανεισμούς, οι τρεις ενεργοί: το <strong>Star Dodger</strong> (id 1) έχει 1 διαθέσιμο αντίτυπο και το <strong>Pixel Racer</strong> (id 2) κανένα.</p>
+<p>Έτσι έχουμε έναν <strong>κανόνα που πρέπει να ισχύει πάντα</strong>: για κάθε παιχνίδι, <strong>διαθέσιμα αντίτυπα + ενεργοί δανεισμοί = 2</strong>. Το πρόγραμμα <code>loans.py</code> έχει ερώτημα που τον ελέγχει (<code>check_consistency</code>), όπως το <code>&lt;&gt;</code> του Μαθήματος 13.</p>
+<p>Τρέξε το <code>02-loans.sql</code> (<strong>Import</strong>, με επιλεγμένη τη βάση <code>game_library</code>).</p>
+<h3 id="22">2.2 Η συναλλαγή<a class="headerlink" href="#22" title="Permanent link">&para;</a></h3>
+<p><strong>Συναλλαγή</strong> (transaction) είναι μια ομάδα εντολών που <strong>γίνονται όλες ή καμία</strong>. Τρεις εντολές τη διαχειρίζονται:</p>
+<table>
+<thead>
+<tr>
+<th>Εντολή</th>
+<th>Τι κάνει</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>START TRANSACTION</code></td>
+<td><strong>ξεκινά</strong> μια συναλλαγή: οι αλλαγές που ακολουθούν είναι <strong>προσωρινές</strong></td>
+</tr>
+<tr>
+<td><code>COMMIT</code></td>
+<td><strong>οριστικοποιεί</strong> όλες τις αλλαγές της συναλλαγής μαζί</td>
+</tr>
+<tr>
+<td><code>ROLLBACK</code></td>
+<td><strong>ακυρώνει</strong> όλες τις αλλαγές της συναλλαγής: η βάση γυρίζει όπως ήταν στην αρχή της</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Αυτόματο COMMIT (autocommit).</strong> Το phpMyAdmin (και ο πελάτης <code>mariadb</code>) δουλεύουν με <strong>αυτόματο COMMIT</strong>: κάθε εντολή είναι <strong>δική της συναλλαγή</strong> και οριστικοποιείται αμέσως. Το <code>START TRANSACTION</code> το <strong>σταματά</strong> μέχρι το επόμενο <code>COMMIT</code> ή <code>ROLLBACK</code>.</p>
+<p><strong>Στην Python</strong> το αντίθετο: το <code>mysql.connector</code> δουλεύει με <strong>κλειστό</strong> autocommit. Η συναλλαγή αρχίζει μόνη της με την πρώτη εντολή και τελειώνει με <code>connection.commit()</code> ή <code>connection.rollback()</code>. Αυτό που έκανες από το Μάθημα 5 («χωρίς commit δεν αποθηκεύεται τίποτα», και το <code>rollback</code> του Μαθήματος 6) ήταν <strong>συναλλαγές</strong>, χωρίς να τις λέγαμε έτσι.</p>
+<p>Οι συναλλαγές εγγυώνται τέσσερα πράγματα, που τα λένε <strong>ACID</strong> (θα τα δεις στην πράξη σήμερα):</p>
+<table>
+<thead>
+<tr>
+<th>Ιδιότητα</th>
+<th>Τι σημαίνει</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>A</strong>tomicity (ατομικότητα)</td>
+<td>όλες οι εντολές γίνονται ή καμία</td>
+</tr>
+<tr>
+<td><strong>C</strong>onsistency (συνέπεια)</td>
+<td>οι κανόνες της βάσης (<code>CHECK</code>, ξένα κλειδιά) ισχύουν πάντα στο τέλος</td>
+</tr>
+<tr>
+<td><strong>I</strong>solation (απομόνωση)</td>
+<td>ό,τι δεν έχει οριστικοποιηθεί, οι άλλοι <strong>δεν το βλέπουν</strong></td>
+</tr>
+<tr>
+<td><strong>D</strong>urability (αντοχή)</td>
+<td>ό,τι οριστικοποιήθηκε με <code>COMMIT</code> <strong>δεν χάνεται</strong>, ακόμη και με διακοπή ρεύματος</td>
+</tr>
+</tbody>
+</table>
+<p>Δύο προσοχές:</p>
+<ul>
+<li>Ένα <strong>σφάλμα στη μέση δεν ακυρώνει αυτόματα</strong> τις προηγούμενες εντολές. Η βάση απορρίπτει <strong>μόνο την εντολή που απέτυχε</strong>. Το <code>ROLLBACK</code> είναι <strong>δική σου</strong> δουλειά.</li>
+<li>Οι εντολές που αλλάζουν <strong>δομή</strong> (<code>CREATE</code>, <code>ALTER</code>, <code>DROP</code>) οριστικοποιούν <strong>αμέσως</strong> (αυτόματο <code>COMMIT</code>) και <strong>δεν γυρίζουν πίσω</strong>. (Θα το δοκιμάσεις στην Πρόκληση 3.) Το ίδιο ισχύει και για πίνακες τύπου <code>MyISAM</code>, που δεν υποστηρίζουν καθόλου συναλλαγές: οι πίνακες του XAMPP είναι <code>InnoDB</code>.</li>
+</ul>
+<h3 id="4-phpmyadmin">Στάδιο 4 — Συναλλαγές στο phpMyAdmin<a class="headerlink" href="#4-phpmyadmin" title="Permanent link">&para;</a></h3>
+<p>Άνοιξε το <code>03-transactions.sql</code>. Συμπλήρωσε τα τρία κενά. Μετά, στην καρτέλα <strong>SQL</strong> της βάσης <code>game_library</code>, τρέξε τα βήματα <strong>ένα-ένα</strong>: αντίγραψε <strong>ολόκληρο</strong> το μπλοκ ενός βήματος (από τη γραμμή <code>-- Βήμα</code> ως το κενό πριν από το επόμενο) και πάτα <strong>Go</strong> μία φορά. Το phpMyAdmin τρέχει όλες τις εντολές του μπλοκ στην <strong>ίδια</strong> σύνδεση, και δείχνει το αποτέλεσμα της καθεμιάς. Πριν από κάθε βήμα <strong>πρόβλεψε</strong> τι θα δείξει το κάθε <code>SELECT</code>.</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1">-- Στάδιο 4 — Συναλλαγές στο phpMyAdmin: START TRANSACTION, COMMIT, ROLLBACK.</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="c1">--</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="c1">-- Τρέχεις αυτό το αρχείο στην καρτέλα SQL της βάσης game_library (ΟΧΙ με Import), ένα ΒΗΜΑ τη φορά. Κάθε βήμα είναι ένα ΜΠΛΟΚ: αντίγραψε</span>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="c1">-- ΟΛΟ το μπλοκ (από τη γραμμή «-- Βήμα» ως το κενό πριν από το επόμενο) στο πεδίο SQL και πάτα Go ΜΙΑ φορά. Το phpMyAdmin τρέχει όλες τις</span>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="c1">-- εντολές του μπλοκ στην ΙΔΙΑ σύνδεση και δείχνει το αποτέλεσμα της καθεμιάς.</span>
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="c1">--</span>
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="c1">-- Πριν από κάθε βήμα ΠΡΟΒΛΕΨΕ τι θα δείξει το κάθε SELECT.</span>
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="c1">-- Προϋπόθεση: έχεις τρέξει το 02-loans.sql (το Star Dodger, id 1, έχει 1 διαθέσιμο αντίτυπο και υπάρχουν 4 δανεισμοί).</span>
+</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>
+</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a><span class="c1">-- Βήμα 1 (έτοιμο): η αρχική κατάσταση. Πόσα αντίτυπα έχει το Star Dodger;</span>
+</span><span id="__span-11-11"><a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="n">copies_available</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">games</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+</span><span id="__span-11-12"><a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a>
+</span><span id="__span-11-13"><a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a><span class="c1">-- Βήμα 2: ΔΟΚΙΜΗ με ROLLBACK. Η συναλλαγή αρχίζει, αλλάζει ένα αντίτυπο, το δείχνει, και μετά ΑΚΥΡΩΝΕΤΑΙ.</span>
+</span><span id="__span-11-14"><a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a><span class="n">____</span><span class="w"> </span><span class="k">TRANSACTION</span><span class="p">;</span>
+</span><span id="__span-11-15"><a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a><span class="k">UPDATE</span><span class="w"> </span><span class="n">games</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">copies_available</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">copies_available</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+</span><span id="__span-11-16"><a id="__codelineno-11-16" name="__codelineno-11-16" href="#__codelineno-11-16"></a><span class="c1">-- ΜΕΣΑ στη συναλλαγή:</span>
+</span><span id="__span-11-17"><a id="__codelineno-11-17" name="__codelineno-11-17" href="#__codelineno-11-17"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="n">copies_available</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">games</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+</span><span id="__span-11-18"><a id="__codelineno-11-18" name="__codelineno-11-18" href="#__codelineno-11-18"></a><span class="n">____</span><span class="p">;</span>
+</span><span id="__span-11-19"><a id="__codelineno-11-19" name="__codelineno-11-19" href="#__codelineno-11-19"></a><span class="c1">-- ΜΕΤΑ το τέλος της:</span>
+</span><span id="__span-11-20"><a id="__codelineno-11-20" name="__codelineno-11-20" href="#__codelineno-11-20"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="n">copies_available</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">games</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+</span><span id="__span-11-21"><a id="__codelineno-11-21" name="__codelineno-11-21" href="#__codelineno-11-21"></a>
+</span><span id="__span-11-22"><a id="__codelineno-11-22" name="__codelineno-11-22" href="#__codelineno-11-22"></a><span class="c1">-- Βήμα 3: το ίδιο, αλλά τώρα η συναλλαγή ΟΡΙΣΤΙΚΟΠΟΙΕΙΤΑΙ.</span>
+</span><span id="__span-11-23"><a id="__codelineno-11-23" name="__codelineno-11-23" href="#__codelineno-11-23"></a><span class="k">START</span><span class="w"> </span><span class="k">TRANSACTION</span><span class="p">;</span>
+</span><span id="__span-11-24"><a id="__codelineno-11-24" name="__codelineno-11-24" href="#__codelineno-11-24"></a><span class="k">UPDATE</span><span class="w"> </span><span class="n">games</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">copies_available</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">copies_available</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+</span><span id="__span-11-25"><a id="__codelineno-11-25" name="__codelineno-11-25" href="#__codelineno-11-25"></a><span class="n">____</span><span class="p">;</span>
+</span><span id="__span-11-26"><a id="__codelineno-11-26" name="__codelineno-11-26" href="#__codelineno-11-26"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="n">copies_available</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">games</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+</span><span id="__span-11-27"><a id="__codelineno-11-27" name="__codelineno-11-27" href="#__codelineno-11-27"></a>
+</span><span id="__span-11-28"><a id="__codelineno-11-28" name="__codelineno-11-28" href="#__codelineno-11-28"></a><span class="c1">-- Βήμα 4 (έτοιμο): ΧΩΡΙΣ START TRANSACTION. Το phpMyAdmin δουλεύει με «αυτόματο COMMIT» (autocommit): κάθε εντολή οριστικοποιείται αμέσως.</span>
+</span><span id="__span-11-29"><a id="__codelineno-11-29" name="__codelineno-11-29" href="#__codelineno-11-29"></a><span class="c1">-- Πρόβλεψη: τι θα δείξει το SELECT; Θα «γυρίσει πίσω» το ROLLBACK την αλλαγή;</span>
+</span><span id="__span-11-30"><a id="__codelineno-11-30" name="__codelineno-11-30" href="#__codelineno-11-30"></a><span class="k">UPDATE</span><span class="w"> </span><span class="n">games</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">copies_available</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+</span><span id="__span-11-31"><a id="__codelineno-11-31" name="__codelineno-11-31" href="#__codelineno-11-31"></a><span class="k">ROLLBACK</span><span class="p">;</span>
+</span><span id="__span-11-32"><a id="__codelineno-11-32" name="__codelineno-11-32" href="#__codelineno-11-32"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="n">copies_available</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">games</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+</span><span id="__span-11-33"><a id="__codelineno-11-33" name="__codelineno-11-33" href="#__codelineno-11-33"></a>
+</span><span id="__span-11-34"><a id="__codelineno-11-34" name="__codelineno-11-34" href="#__codelineno-11-34"></a><span class="c1">-- Βήμα 5 (έτοιμο): ένα ΣΦΑΛΜΑ στη μέση. Το Pixel Racer (id 2) δεν έχει διαθέσιμα αντίτυπα, άρα το δεύτερο UPDATE θα αποτύχει (CHECK).</span>
+</span><span id="__span-11-35"><a id="__codelineno-11-35" name="__codelineno-11-35" href="#__codelineno-11-35"></a><span class="c1">-- Πρόβλεψη: θα μείνει ο νέος δανεισμός στον loans;</span>
+</span><span id="__span-11-36"><a id="__codelineno-11-36" name="__codelineno-11-36" href="#__codelineno-11-36"></a><span class="k">START</span><span class="w"> </span><span class="k">TRANSACTION</span><span class="p">;</span>
+</span><span id="__span-11-37"><a id="__codelineno-11-37" name="__codelineno-11-37" href="#__codelineno-11-37"></a><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">loans</span><span class="w"> </span><span class="p">(</span><span class="n">game_id</span><span class="p">,</span><span class="w"> </span><span class="n">member_id</span><span class="p">)</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">);</span>
+</span><span id="__span-11-38"><a id="__codelineno-11-38" name="__codelineno-11-38" href="#__codelineno-11-38"></a><span class="k">UPDATE</span><span class="w"> </span><span class="n">games</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">copies_available</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">copies_available</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+</span><span id="__span-11-39"><a id="__codelineno-11-39" name="__codelineno-11-39" href="#__codelineno-11-39"></a><span class="k">COMMIT</span><span class="p">;</span>
+</span><span id="__span-11-40"><a id="__codelineno-11-40" name="__codelineno-11-40" href="#__codelineno-11-40"></a>
+</span><span id="__span-11-41"><a id="__codelineno-11-41" name="__codelineno-11-41" href="#__codelineno-11-41"></a><span class="c1">-- Βήμα 6 (έτοιμο): πόσοι δανεισμοί υπάρχουν τώρα;</span>
+</span><span id="__span-11-42"><a id="__codelineno-11-42" name="__codelineno-11-42" href="#__codelineno-11-42"></a><span class="k">SELECT</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">loans_n</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">loans</span><span class="p">;</span>
+</span></code></pre></div>
+<p>Στο <strong>Βήμα 2</strong> το πρώτο <code>SELECT</code> (μέσα στη συναλλαγή) δείχνει <strong>0</strong> και το δεύτερο (μετά το <code>ROLLBACK</code>) δείχνει <strong>1</strong>:</p>
+<p><img alt="Το αποτέλεσμα του Βήματος 2 στο phpMyAdmin: οι εντολές START TRANSACTION και UPDATE, ένα SELECT με δύο κόκκινα πλαίσια: 1 η τιμή copies_available μέσα στη συναλλαγή, που είναι 0, και μετά το ROLLBACK και ένα δεύτερο SELECT, 2 η τιμή μετά το ROLLBACK, που είναι πάλι 1" src="../images/transaction-rollback.png" width="720" /></p>
+<p>Το <strong>Βήμα 3</strong> (με <code>COMMIT</code>) αφήνει το Star Dodger με <strong>0</strong> αντίτυπα, οριστικά. Το <strong>Βήμα 4</strong> δείχνει το «αυτόματο COMMIT»: το <code>UPDATE</code> ξαναβάζει 1, και χωρίς <code>START TRANSACTION</code> το <code>ROLLBACK</code> <strong>δεν έχει τι να ακυρώσει</strong>, άρα η τιμή μένει 1 (και η βάση γυρίζει στην αρχική της κατάσταση). Στο <strong>Βήμα 5</strong> το δεύτερο <code>UPDATE</code> αποτυγχάνει:</p>
+<p><img alt="Το σφάλμα του Βήματος 5 στο phpMyAdmin, με ένα κόκκινο πλαίσιο: η εντολή UPDATE games SET copies_available = copies_available - 1 WHERE id = 2 και το μήνυμα «#4025 - CONSTRAINT chk_copies failed for game_library.games»" src="../images/transaction-error.png" width="720" /></p>
+<p>Το phpMyAdmin <strong>σταματά</strong> στο σφάλμα και <strong>κλείνει τη σύνδεση</strong>. Μια συναλλαγή που δεν τελείωσε ακυρώνεται όταν κλείσει η σύνδεση, γι' αυτό στο Βήμα 6 οι δανεισμοί είναι ακόμη <strong>4</strong> και όχι 5. Κράτα αυτή τη σκέψη: <strong>στην Python η σύνδεση δεν κλείνει</strong> μετά από ένα σφάλμα.</p>
+<h3 id="23-python">2.3 Συναλλαγές από την Python<a class="headerlink" href="#23-python" title="Permanent link">&para;</a></h3>
+<p>Στο Μάθημα 14 (<code>add_game</code>) έγραψες ένα μοτίβο: δύο ή περισσότερες εντολές, <strong>ένα <code>commit</code> στο τέλος</strong>, και <code>rollback</code> αν κάτι πάει στραβά. Αυτό είναι ακριβώς μια συναλλαγή. Για τον δανεισμό:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">lend_game</span><span class="p">(</span><span class="n">connection</span><span class="p">,</span> <span class="n">game_id</span><span class="p">,</span> <span class="n">member_id</span><span class="p">):</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">    </span><span class="sd">"""Δανείζει ένα παιχνίδι. ΔΥΟ αλλαγές που γίνονται ΜΑΖΙ ή καθόλου: (1) νέα γραμμή στον loans, (2) ένα διαθέσιμο αντίτυπο λιγότερο.</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="sd">    Επιστρέφει το id του δανεισμού. Αν η βάση δώσει σφάλμα (π.χ. 4025: δεν υπάρχει διαθέσιμο αντίτυπο), ακυρώνει ΟΛΑ και ξαναπετά το σφάλμα.</span>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="sd">    """</span>
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>    <span class="k">with</span> <span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span> <span class="k">as</span> <span class="n">cursor</span><span class="p">:</span>
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>        <span class="k">try</span><span class="p">:</span>
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>            <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"INSERT INTO loans (game_id, member_id) VALUES (</span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">)"</span><span class="p">,</span> <span class="p">(</span><span class="n">game_id</span><span class="p">,</span> <span class="n">member_id</span><span class="p">))</span>
+</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>            <span class="n">loan_id</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">lastrowid</span>
+</span><span id="__span-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a>            <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"UPDATE games SET copies_available = copies_available - 1 WHERE id = </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="p">(</span><span class="n">game_id</span><span class="p">,))</span>
+</span><span id="__span-12-11"><a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a>            <span class="c1"># TODO 1: οριστικοποίησε ΚΑΙ τις δύο αλλαγές μαζί</span>
+</span><span id="__span-12-12"><a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a>            <span class="n">connection</span><span class="o">.</span><span class="n">____</span><span class="p">()</span>
+</span><span id="__span-12-13"><a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a>        <span class="k">except</span> <span class="n">mysql</span><span class="o">.</span><span class="n">connector</span><span class="o">.</span><span class="n">Error</span><span class="p">:</span>
+</span><span id="__span-12-14"><a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a>            <span class="c1"># TODO 2: ακύρωσε ό,τι έγινε ως τώρα, ώστε να μη μείνει τίποτα μισό</span>
+</span><span id="__span-12-15"><a id="__codelineno-12-15" name="__codelineno-12-15" href="#__codelineno-12-15"></a>            <span class="n">connection</span><span class="o">.</span><span class="n">____</span><span class="p">()</span>
+</span><span id="__span-12-16"><a id="__codelineno-12-16" name="__codelineno-12-16" href="#__codelineno-12-16"></a>            <span class="c1"># TODO 3: ξαναπέτα το ίδιο σφάλμα προς τα πάνω (το lending.py ξέρει τι θα πει στον χρήστη)</span>
+</span><span id="__span-12-17"><a id="__codelineno-12-17" name="__codelineno-12-17" href="#__codelineno-12-17"></a>            <span class="n">____</span>
+</span><span id="__span-12-18"><a id="__codelineno-12-18" name="__codelineno-12-18" href="#__codelineno-12-18"></a>    <span class="k">return</span> <span class="n">loan_id</span>
+</span></code></pre></div>
+<p>Τρία κομμάτια, και <strong>τα τρία</strong> χρειάζονται:</p>
+<ol>
+<li><strong><code>commit()</code> μία φορά, μετά και τις δύο εντολές.</strong> Ένα <code>commit</code> ανάμεσά τους θα οριστικοποιούσε μισή δουλειά.</li>
+<li><strong><code>rollback()</code> όταν η βάση δώσει σφάλμα.</strong> Ακυρώνει και το <code>INSERT</code> που είχε ήδη γίνει.</li>
+<li><strong><code>raise</code>.</strong> Το σφάλμα <strong>ξαναπετιέται</strong> προς τα πάνω: το <code>lending.py</code> ξέρει τι θα πει στον χρήστη. Αν το «καταπιείς», το πρόγραμμα που καλεί τη συνάρτηση θα νομίζει ότι ο δανεισμός έγινε.</li>
+</ol>
+<p>Το παιχνίδι <strong>αναπαράγει το λάθος που δεν φαίνεται</strong>: ένα <code>try</code>/<code>except</code> που πιάνει το σφάλμα και <strong>ξεχνά το <code>rollback</code></strong>. Δες τις δύο εκδοχές στο <code>lab_transactions.py</code>:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">lend_forgetful</span><span class="p">(</span><span class="n">connection</span><span class="p">,</span> <span class="n">game_id</span><span class="p">,</span> <span class="n">member_id</span><span class="p">):</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">    </span><span class="sd">"""Δανείζει, αλλά αν η βάση δώσει σφάλμα το πιάνει και συνεχίζει, ΧΩΡΙΣ rollback."""</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>    <span class="k">with</span> <span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span> <span class="k">as</span> <span class="n">cursor</span><span class="p">:</span>
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>        <span class="k">try</span><span class="p">:</span>
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>            <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"INSERT INTO loans (game_id, member_id) VALUES (</span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">)"</span><span class="p">,</span> <span class="p">(</span><span class="n">game_id</span><span class="p">,</span> <span class="n">member_id</span><span class="p">))</span>
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>            <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"UPDATE games SET copies_available = copies_available - 1 WHERE id = </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="p">(</span><span class="n">game_id</span><span class="p">,))</span>
+</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>            <span class="n">connection</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+</span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>        <span class="k">except</span> <span class="n">mysql</span><span class="o">.</span><span class="n">connector</span><span class="o">.</span><span class="n">Error</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+</span><span id="__span-13-9"><a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  η βάση απάντησε: #</span><span class="si">{</span><span class="n">error</span><span class="o">.</span><span class="n">errno</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">error</span><span class="o">.</span><span class="n">msg</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span><span id="__span-13-10"><a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">"  (το πρόγραμμα πιάνει το σφάλμα και συνεχίζει)"</span><span class="p">)</span>
+</span><span id="__span-13-11"><a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a>
+</span><span id="__span-13-12"><a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a>
+</span><span id="__span-13-13"><a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a><span class="k">def</span><span class="w"> </span><span class="nf">lend_careful</span><span class="p">(</span><span class="n">connection</span><span class="p">,</span> <span class="n">game_id</span><span class="p">,</span> <span class="n">member_id</span><span class="p">):</span>
+</span><span id="__span-13-14"><a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a><span class="w">    </span><span class="sd">"""Το ίδιο, αλλά μετά το σφάλμα κάνει rollback."""</span>
+</span><span id="__span-13-15"><a id="__codelineno-13-15" name="__codelineno-13-15" href="#__codelineno-13-15"></a>    <span class="k">with</span> <span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span> <span class="k">as</span> <span class="n">cursor</span><span class="p">:</span>
+</span><span id="__span-13-16"><a id="__codelineno-13-16" name="__codelineno-13-16" href="#__codelineno-13-16"></a>        <span class="k">try</span><span class="p">:</span>
+</span><span id="__span-13-17"><a id="__codelineno-13-17" name="__codelineno-13-17" href="#__codelineno-13-17"></a>            <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"INSERT INTO loans (game_id, member_id) VALUES (</span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">)"</span><span class="p">,</span> <span class="p">(</span><span class="n">game_id</span><span class="p">,</span> <span class="n">member_id</span><span class="p">))</span>
+</span><span id="__span-13-18"><a id="__codelineno-13-18" name="__codelineno-13-18" href="#__codelineno-13-18"></a>            <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"UPDATE games SET copies_available = copies_available - 1 WHERE id = </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="p">(</span><span class="n">game_id</span><span class="p">,))</span>
+</span><span id="__span-13-19"><a id="__codelineno-13-19" name="__codelineno-13-19" href="#__codelineno-13-19"></a>            <span class="n">connection</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+</span><span id="__span-13-20"><a id="__codelineno-13-20" name="__codelineno-13-20" href="#__codelineno-13-20"></a>        <span class="k">except</span> <span class="n">mysql</span><span class="o">.</span><span class="n">connector</span><span class="o">.</span><span class="n">Error</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+</span><span id="__span-13-21"><a id="__codelineno-13-21" name="__codelineno-13-21" href="#__codelineno-13-21"></a>            <span class="n">connection</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+</span><span id="__span-13-22"><a id="__codelineno-13-22" name="__codelineno-13-22" href="#__codelineno-13-22"></a>            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  η βάση απάντησε: #</span><span class="si">{</span><span class="n">error</span><span class="o">.</span><span class="n">errno</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">error</span><span class="o">.</span><span class="n">msg</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span><span id="__span-13-23"><a id="__codelineno-13-23" name="__codelineno-13-23" href="#__codelineno-13-23"></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">"  (το πρόγραμμα πιάνει το σφάλμα ΚΑΙ κάνει rollback)"</span><span class="p">)</span>
+</span></code></pre></div>
+<p>Η μόνη διαφορά είναι μία γραμμή (<code>connection.rollback()</code>). Στην πρώτη, μετά το σφάλμα η σύνδεση <strong>κρατά</strong> το <code>INSERT</code> που έγινε. Δεν φαίνεται τίποτα, <strong>ώσπου κάποιο επόμενο <code>commit</code></strong> (και κάθε μενού μας κάνει <code>connection.commit()</code> στην αρχή του γύρου, Μάθημα 7) <strong>το οριστικοποιεί</strong>.</p>
+<h3 id="5">Στάδιο 5 — Το λάθος που δεν φαίνεται<a class="headerlink" href="#5" title="Permanent link">&para;</a></h3>
+<p>Τρέξε <code>python lab_transactions.py</code>. Δανείζει το Pixel Racer, που <strong>δεν έχει</strong> διαθέσιμο αντίτυπο, και στις δύο εκδοχές:</p>
+<p><img alt="Το lab_transactions.py στο τερματικό, με δύο κόκκινα πλαίσια: 1 η έκδοση χωρίς rollback, που τελειώνει με 5 δανεισμούς και την ένδειξη ΑΣΥΝΕΠΕΙΑ (το Pixel Racer έχει 0 διαθέσιμα και 3 ενεργούς δανεισμούς, ενώ έχει 2 αντίτυπα), 2 η έκδοση με rollback, που τελειώνει με 4 δανεισμούς και Έλεγχος συνέπειας: ΟΚ" src="../images/terminal-lab-transactions.png" width="720" /></p>
+<p>Στην πρώτη έκδοση η βάση έμεινε με έναν δανεισμό που <strong>δεν έπρεπε να υπάρχει</strong>: <strong>3</strong> άνθρωποι «έχουν» ένα παιχνίδι που έχει <strong>2</strong> αντίτυπα. Ο έλεγχος το πιάνει, αλλά το πρόγραμμα δεν έδωσε κανένα σφάλμα. (Το πρόγραμμα έβλεπε τη βάση από <strong>άλλη σύνδεση</strong>, γιατί η ίδια η σύνδεση βλέπει πάντα τις δικές της αλλαγές.)</p>
+<h3 id="6-loanspy">Στάδιο 6 — <code>loans.py</code><a class="headerlink" href="#6-loanspy" title="Permanent link">&para;</a></h3>
+<p>Άνοιξε το <code>loans.py</code> και συμπλήρωσε τα πέντε κενά, στις <code>lend_game</code> και <code>return_game</code>. Η <code>return_game</code> κάνει <strong>δύο</strong> αλλαγές: βάζει <code>returned_on</code> στον δανεισμό και <strong>ξαναδίνει</strong> ένα αντίτυπο. Χρησιμοποιεί <code>UPDATE … JOIN</code> (Μάθημα 12):</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">return_game</span><span class="p">(</span><span class="n">connection</span><span class="p">,</span> <span class="n">loan_id</span><span class="p">):</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="w">    </span><span class="sd">"""Επιστροφή παιχνιδιού: βάζει returned_on στον δανεισμό ΚΑΙ ξαναδίνει ένα διαθέσιμο αντίτυπο, ΜΑΖΙ.</span>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="sd">    Επιστρέφει True αν έγινε η επιστροφή, ή False αν ο δανεισμός δεν υπάρχει ή έχει ήδη επιστραφεί (και τότε δεν αλλάζει τίποτα).</span>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="sd">    """</span>
+</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>    <span class="k">with</span> <span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span> <span class="k">as</span> <span class="n">cursor</span><span class="p">:</span>
+</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>        <span class="k">try</span><span class="p">:</span>
+</span><span id="__span-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>            <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"UPDATE loans SET returned_on = CURDATE() WHERE id = </span><span class="si">%s</span><span class="s2"> AND returned_on IS NULL"</span><span class="p">,</span> <span class="p">(</span><span class="n">loan_id</span><span class="p">,))</span>
+</span><span id="__span-14-9"><a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a>            <span class="c1"># TODO 4: πόσες γραμμές άλλαξε το UPDATE; Αν καμία, δεν υπάρχει ενεργός δανεισμός με αυτό το id</span>
+</span><span id="__span-14-10"><a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a>            <span class="k">if</span> <span class="n">cursor</span><span class="o">.</span><span class="n">____</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span id="__span-14-11"><a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a>                <span class="n">connection</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+</span><span id="__span-14-12"><a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a>                <span class="k">return</span> <span class="kc">False</span>
+</span><span id="__span-14-13"><a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a>            <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+</span><span id="__span-14-14"><a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a>                <span class="s2">"UPDATE games AS g JOIN loans AS l ON l.game_id = g.id "</span>
+</span><span id="__span-14-15"><a id="__codelineno-14-15" name="__codelineno-14-15" href="#__codelineno-14-15"></a>                <span class="s2">"SET g.copies_available = g.copies_available + 1 WHERE l.id = </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
+</span><span id="__span-14-16"><a id="__codelineno-14-16" name="__codelineno-14-16" href="#__codelineno-14-16"></a>                <span class="p">(</span><span class="n">loan_id</span><span class="p">,),</span>
+</span><span id="__span-14-17"><a id="__codelineno-14-17" name="__codelineno-14-17" href="#__codelineno-14-17"></a>            <span class="p">)</span>
+</span><span id="__span-14-18"><a id="__codelineno-14-18" name="__codelineno-14-18" href="#__codelineno-14-18"></a>            <span class="c1"># TODO 5: οριστικοποίησε και τις δύο αλλαγές μαζί</span>
+</span><span id="__span-14-19"><a id="__codelineno-14-19" name="__codelineno-14-19" href="#__codelineno-14-19"></a>            <span class="n">connection</span><span class="o">.</span><span class="n">____</span><span class="p">()</span>
+</span><span id="__span-14-20"><a id="__codelineno-14-20" name="__codelineno-14-20" href="#__codelineno-14-20"></a>        <span class="k">except</span> <span class="n">mysql</span><span class="o">.</span><span class="n">connector</span><span class="o">.</span><span class="n">Error</span><span class="p">:</span>
+</span><span id="__span-14-21"><a id="__codelineno-14-21" name="__codelineno-14-21" href="#__codelineno-14-21"></a>            <span class="n">connection</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+</span><span id="__span-14-22"><a id="__codelineno-14-22" name="__codelineno-14-22" href="#__codelineno-14-22"></a>            <span class="k">raise</span>
+</span><span id="__span-14-23"><a id="__codelineno-14-23" name="__codelineno-14-23" href="#__codelineno-14-23"></a>    <span class="k">return</span> <span class="kc">True</span>
+</span></code></pre></div>
+<p>Η <code>return_game</code> επιστρέφει <code>False</code> (και κάνει <code>rollback</code>) αν ο δανεισμός δεν υπάρχει ή έχει ήδη επιστραφεί: η πρώτη εντολή, με το <code>AND returned_on IS NULL</code>, <strong>δεν αλλάζει καμία γραμμή</strong> (<code>rowcount</code> 0, Μάθημα 6).</p>
+<p>Τρέξε τον έτοιμο έλεγχο:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>python<span class="w"> </span>check_loans.py
+</span></code></pre></div>
+<p><img alt="Το check_loans.py στο τερματικό: λίστα ελέγχων με OK στο τέλος κάθε γραμμής. Ένα κόκκινο πλαίσιο, 1, γύρω από τον δανεισμό χωρίς διαθέσιμο αντίτυπο, όπου η lend_game ξαναπετά το σφάλμα 4025 και ο δανεισμός δεν μένει μισός, και ένα κόκκινο πλαίσιο, 2, γύρω από το τελικό μήνυμα «Όλοι οι έλεγχοι βγήκαν όπως αναμενόταν»" src="../images/terminal-check-loans.png" width="720" /></p>
+<p>Ο έλεγχος χρησιμοποιεί <strong>δύο συνδέσεις</strong>: η μία κάνει τις κινήσεις και η άλλη βλέπει μόνο ό,τι έχει οριστικοποιηθεί. Αν λείπει το <code>rollback</code>, βγαίνει <code>ΛΑΘΟΣ  έμεινε μισός δανεισμός</code>.</p>
+<p>Δοκίμασε και το πρόγραμμα με το μενού (<code>python lending.py</code>): δάνεισε το Pixel Racer (id 2) στο μέλος 4, και μετά το Star Dodger (id 1):</p>
+<p><img alt="Το lending.py στο τερματικό, με τρία κόκκινα πλαίσια: 1 ο δανεισμός του Pixel Racer, που απορρίπτεται με το μήνυμα «Δεν υπάρχει διαθέσιμο αντίτυπο», 2 ο δανεισμός του Star Dodger, που γίνεται με id 6, 3 η λίστα των δανεισμών, όπου λείπει το id 5" src="../images/terminal-lending.png" width="720" /></p>
+<p>Πρόσεξε ότι το νέο id είναι το <strong>6</strong>, και ότι στη λίστα <strong>λείπει το 5</strong>: η αποτυχημένη προσπάθεια έκανε <code>INSERT</code> (που πήρε το id 5) και μετά <code>rollback</code>. <strong>Ένα id που χρησιμοποιήθηκε δεν ξαναδίνεται</strong>, ακόμη κι όταν η γραμμή ακυρωθεί (το είδες και στο Μάθημα 6). Δεν είναι λάθος: τα id είναι ταυτότητες, όχι αρίθμηση χωρίς κενά.</p>
+<h3 id="lend_many">Γράψε εσύ — η <code>lend_many</code><a class="headerlink" href="#lend_many" title="Permanent link">&para;</a></h3>
+<p>Πρόσθεσε στο <code>loans.py</code> τη συνάρτηση <code>lend_many(connection, game_ids, member_id)</code>, που δανείζει <strong>πολλά</strong> παιχνίδια στο ίδιο μέλος: <strong>ή όλα ή κανένα</strong>. Επιστρέφει τη λίστα με τα id των δανεισμών. Αν ένα παιχνίδι δεν έχει διαθέσιμο αντίτυπο, κανένα από τα προηγούμενα δεν πρέπει να μείνει δανεισμένο, και το σφάλμα ξαναπετιέται. Τρέξε ξανά το <code>check_loans.py</code>: όταν υπάρχει η <code>lend_many</code>, δοκιμάζει και αυτήν.</p>
+<h3 id="24">2.4 Δύο συνδέσεις: απομόνωση και κλειδώματα<a class="headerlink" href="#24" title="Permanent link">&para;</a></h3>
+<p>Μέχρι τώρα δούλευε <strong>ένας</strong> χρήστης. Στην πράξη, πολλοί χρήστες (και προγράμματα) δουλεύουν ταυτόχρονα. Η <strong>απομόνωση</strong> (το «I» του ACID) λέει: <strong>ό,τι δεν έχει οριστικοποιηθεί, οι άλλοι δεν το βλέπουν.</strong> Το ξέρεις ήδη από το Μάθημα 7: μια σύνδεση έχει μια «φωτογραφία» της βάσης ώσπου να κάνει <code>commit</code> ή <code>rollback</code>.</p>
+<p>Υπάρχει και δεύτερο αποτέλεσμα: όσο μια συναλλαγή έχει αλλάξει μια γραμμή <strong>χωρίς να τελειώσει</strong>, η γραμμή είναι <strong>κλειδωμένη</strong>. Μια άλλη συναλλαγή που θέλει να την αλλάξει <strong>περιμένει</strong>, και μετά από λίγο παίρνει <code>#1205 - Lock wait timeout exceeded</code> (στο XAMPP μετά από <strong>50″</strong>). Γι' αυτό οι συναλλαγές πρέπει να είναι <strong>σύντομες</strong>: γράψε τις εντολές, <code>commit</code>, τέλος. Μη «ξεχνάς» ανοιχτή μια συναλλαγή.</p>
+<p>Θα τα δεις στην Πρόκληση 1 με το <code>lab_isolation.py</code>.</p>
+<h3 id="25">2.5 Και τι άλλο<a class="headerlink" href="#25" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Σημεία αποθήκευσης (<code>SAVEPOINT</code>):</strong> επιτρέπουν να ακυρώσεις <strong>μέρος</strong> μιας συναλλαγής. Εκτός ύλης.</li>
+<li><strong>Αδιέξοδο (deadlock):</strong> δύο συναλλαγές που περιμένουν η μία την άλλη. Η βάση ακυρώνει τη μία με σφάλμα· το πρόγραμμα πρέπει να ξαναδοκιμάσει. Εκτός ύλης.</li>
+<li><strong>Να κλειδώσεις μια γραμμή από πριν:</strong> το <code>SELECT … FOR UPDATE</code>. Εκτός ύλης.</li>
+<li><strong>Αυτόματα αντίγραφα:</strong> το <code>backup.py</code> μπορεί να τρέχει κάθε μέρα με τον Χρονοπρογραμματιστή εργασιών (Task Scheduler) των Windows. Εκτός ύλης.</li>
+<li><strong>Αντίγραφα μεγάλων συστημάτων:</strong> συνεχής αντιγραφή των αλλαγών (binary log), ώστε να επαναφέρεις ακόμη και «στις 14:03». Εκτός ύλης.</li>
+</ul>
+<p><strong>Συνέχισε στο Φύλλο εργασίας, Κύκλος 2.</strong></p>
+<hr />
+<h2 id="_5">Έλεγχος πριν ολοκληρώσεις<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<ul>
+<li>□ Πήρες αντίγραφο με το phpMyAdmin και με το <code>mariadb-dump</code>, και επανέφερες από καθένα.</li>
+<li>□ Βρήκες ότι το αντίγραφο του phpMyAdmin <strong>δεν έφερε</strong> τους περιορισμούς <code>CHECK</code>, ενώ του <code>mariadb-dump</code> τους έφερε.</li>
+<li>□ Το <code>backup.py</code> έφτιαξε αντίγραφο με ημερομηνία και ώρα στο όνομα, και το <code>check_backup.py</code> το διάβασε.</li>
+<li>□ Έτρεξες τα βήματα του <code>03-transactions.sql</code> και είδες τι κάνουν το <code>COMMIT</code> και το <code>ROLLBACK</code>.</li>
+<li>□ Είδες στο <code>lab_transactions.py</code> τι μένει στη βάση όταν ξεχνάς το <code>rollback</code>.</li>
+<li>□ Το <code>check_loans.py</code> βγήκε με «Όλοι οι έλεγχοι βγήκαν όπως αναμενόταν».</li>
+<li>□ Όταν τελείωσες, σταμάτησες τον Apache και τη MySQL.</li>
+</ul>
+<h2 id="_6">Για να θυμάσαι<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Αντίγραφο ασφαλείας</strong> = αρχείο <code>.sql</code> με <code>CREATE TABLE</code> και <code>INSERT</code>. <strong>Δεν</strong> έχει τους λογαριασμούς. <strong>Έχει</strong> τα δεδομένα, και τα hash των κωδικών: φύλαξέ το σαν μυστικό (όχι στο git).</li>
+<li><strong><code>mariadb-dump --single-transaction --databases βάση --result-file=αρχείο</code></strong> φτιάχνει αντίγραφο· <strong><code>mariadb -e "source αρχείο"</code></strong> (με κάθετες <code>/</code>) επαναφέρει. Όχι <code>&gt;</code> και όχι <code>Get-Content |</code>.</li>
+<li><strong>Επαναφορά</strong> = γυρνάς στην ώρα του αντιγράφου. Ό,τι έγινε μετά χάνεται. Την κάνει ο διαχειριστής, όχι το πρόγραμμα της εφαρμογής.</li>
+<li><strong>Ένα αντίγραφο που δεν το έχεις δοκιμάσει δεν είναι αντίγραφο.</strong> Το phpMyAdmin (στην έκδοση που δοκιμάσαμε) <strong>χάνει τους <code>CHECK</code></strong>.</li>
+<li>Από την Python: <strong><code>subprocess.run(λίστα, capture_output=True, text=True)</code></strong>, έλεγχος του <code>returncode</code>, κωδικός με <code>MYSQL_PWD</code>, όνομα με <code>strftime</code>.</li>
+<li><strong>Συναλλαγή</strong> = ομάδα εντολών που γίνονται <strong>όλες ή καμία</strong>: <code>START TRANSACTION</code>, <code>COMMIT</code>, <code>ROLLBACK</code>. Το phpMyAdmin έχει autocommit, η Python (<code>mysql.connector</code>) <strong>όχι</strong>.</li>
+<li>Ένα <strong>σφάλμα στη μέση δεν ακυρώνει</strong> τις προηγούμενες εντολές: <strong><code>except … rollback … raise</code></strong>. Ένα <code>try</code>/<code>except</code> χωρίς <code>rollback</code> αφήνει <strong>μισή δουλειά</strong>, που τη βγάζει στη φόρα ένα επόμενο <code>commit</code>.</li>
+<li><code>CREATE</code>, <code>ALTER</code>, <code>DROP</code> οριστικοποιούν αμέσως και <strong>δεν ακυρώνονται</strong>.</li>
+</ul>
+<h2 id="_7">Λεξιλόγιο<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<p><strong>αντίγραφο ασφαλείας</strong> (backup), <strong>επαναφορά</strong> (restore), <strong>κανόνας 3-2-1</strong>, <strong><code>mariadb-dump</code></strong>, <strong><code>subprocess</code></strong>, <strong>κωδικός εξόδου</strong> (<code>returncode</code>), <strong>συναλλαγή</strong> (transaction), <strong><code>COMMIT</code></strong>, <strong><code>ROLLBACK</code></strong>, <strong>αυτόματο COMMIT</strong> (autocommit), <strong>ACID</strong>, <strong>απομόνωση</strong> (isolation), <strong>κλείδωμα</strong> (lock).</p>
+<h2 id="_8">Δική σου εκδοχή<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
+<p>Αν τελειώσεις νωρίτερα, δούλεψε <strong>με μία αλλαγή τη φορά</strong> και τρέχε το πρόγραμμα μετά από κάθε αλλαγή:</p>
+<ul>
+<li><strong>Πρόκληση 1:</strong> τρέξε <code>python lab_isolation.py</code>. Πριν το τρέξεις, <strong>πρόβλεψε</strong> τι θα διαβάζει η σύνδεση Β σε κάθε βήμα. Εξήγησε τρία πράγματα: γιατί η Β δεν είδε την αλλαγή της Α πριν από το <code>COMMIT</code>, γιατί δεν την είδε <strong>ούτε αμέσως μετά</strong>, και γιατί η Β πήρε <code>#1205</code>.</li>
+<li><strong>Πρόκληση 2:</strong> πρόσθεσε στο <code>backup.py</code> τη συνάρτηση <code>keep_last(folder, count)</code>, που σβήνει τα <strong>παλιότερα</strong> αντίγραφα και κρατά μόνο τα <code>count</code> τελευταία (βοήθεια: <code>os.listdir</code>, <code>sorted</code>, <code>os.remove</code>, και τα ονόματα ταξινομούνται χρονολογικά). Δοκίμασέ τη με <code>count = 2</code> μόνο στον φάκελο <code>backups</code>.</li>
+<li><strong>Πρόκληση 3:</strong> στην καρτέλα <strong>SQL</strong> φτιάξε έναν δοκιμαστικό πίνακα: <code>CREATE TABLE zz_test (x INT); INSERT INTO zz_test VALUES (1);</code>. Τρέξε σε <strong>ένα μπλοκ</strong> <code>START TRANSACTION; DELETE FROM zz_test; CREATE TABLE zz_other (y INT); ROLLBACK; SELECT COUNT(*) FROM zz_test;</code>. <strong>Πρόβλεψε</strong> πρώτα τι θα δείξει το <code>SELECT</code>. Μετά βάλε πάλι μια γραμμή (<code>INSERT INTO zz_test VALUES (1);</code>) και τρέξε το ίδιο μπλοκ <strong>χωρίς</strong> το <code>CREATE TABLE zz_other</code>. Τι διαφέρει και γιατί; (Σκέψου τι κάνει το <code>CREATE TABLE</code> στη συναλλαγή.) Σβήσε τους πίνακες όταν τελειώσεις: <code>DROP TABLE zz_test, zz_other;</code>.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Επιστροφή στην αρχή
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Υποσέλιδο" >
+        
+          
+          <a href="../../17-security/worksheet-17/" class="md-footer__link md-footer__link--prev" aria-label="Προηγούμενο: Φύλλο εργασίας">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Προηγούμενο
+              </span>
+              <div class="md-ellipsis">
+                Φύλλο εργασίας
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../worksheet-18/" class="md-footer__link md-footer__link--next" aria-label="Επόμενο: Φύλλο εργασίας">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Επόμενο
+              </span>
+              <div class="md-ellipsis">
+                Φύλλο εργασίας
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2026 Θόδωρος Θεμελής — <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.el"
+   target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>
+
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.top", "navigation.footer", "content.code.copy", "content.code.annotate", "toc.follow", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "\u0391\u03bd\u03c4\u03b9\u03b3\u03c1\u03ac\u03c6\u03b7\u03ba\u03b5 \u03c3\u03c4\u03bf \u03c0\u03c1\u03cc\u03c7\u03b5\u03b9\u03c1\u03bf", "clipboard.copy": "\u0391\u03bd\u03c4\u03b9\u03b3\u03c1\u03b1\u03c6\u03ae \u03c3\u03c4\u03bf \u03c0\u03c1\u03cc\u03c7\u03b5\u03b9\u03c1\u03bf", "search.result.more.one": "1 \u03b1\u03ba\u03cc\u03bc\u03b1 \u03c3\u03b5 \u03b1\u03c5\u03c4\u03ae\u03bd \u03c4\u03b7 \u03c3\u03b5\u03bb\u03af\u03b4\u03b1", "search.result.more.other": "# \u03b1\u03ba\u03cc\u03bc\u03b1 \u03c3\u03b5 \u03b1\u03c5\u03c4\u03ae\u03bd \u03c4\u03b7 \u03c3\u03b5\u03bb\u03af\u03b4\u03b1", "search.result.none": "\u03b4\u03b5\u03bd \u03b2\u03c1\u03ae\u03ba\u03b5 \u03ba\u03ac\u03c0\u03bf\u03b9\u03bf \u03ad\u03b3\u03b3\u03c1\u03b1\u03c6\u03bf", "search.result.one": "1 \u03ad\u03b3\u03b3\u03c1\u03b1\u03c6\u03bf \u03c0\u03bf\u03c5 \u03c4\u03b1\u03b9\u03c1\u03b9\u03ac\u03b6\u03b5\u03b9", "search.result.other": "# \u03ad\u03b3\u03b3\u03c1\u03b1\u03c6\u03b1 \u03c0\u03bf\u03c5 \u03c4\u03b1\u03b9\u03c1\u03b9\u03ac\u03b6\u03bf\u03c5\u03bd", "search.result.placeholder": "\u03a0\u03bb\u03b7\u03ba\u03c4\u03c1\u03bf\u03bb\u03bf\u03b3\u03ae\u03c3\u03c4\u03b5 \u03b3\u03b9\u03b1 \u03bd\u03b1 \u03b1\u03c1\u03c7\u03af\u03c3\u03b5\u03b9 \u03b7 \u03b1\u03bd\u03b1\u03b6\u03ae\u03c4\u03b7\u03c3\u03b7", "search.result.term.missing": "\u039b\u03b5\u03af\u03c0\u03b5\u03b9", "select.version": "\u0395\u03c0\u03b9\u03bb\u03bf\u03b3\u03ae \u03ad\u03ba\u03b4\u03bf\u03c3\u03b7\u03c2"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+    
+  </body>
+</html>
