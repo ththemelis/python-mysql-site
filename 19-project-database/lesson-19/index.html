@@ -1,0 +1,3954 @@
+
+<!doctype html>
+<html lang="el" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Εργαστηριακό υλικό μαθήματος — ΕΠΑΛ">
+      
+      
+        <meta name="author" content="Θόδωρος Θεμελής">
+      
+      
+        <link rel="canonical" href="https://ththemelis.github.io/python-mysql-site/19-project-database/lesson-19/">
+      
+      
+        <link rel="prev" href="../../18-backup-transactions/worksheet-18/">
+      
+      
+        <link rel="next" href="../worksheet-19/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>Μάθημα - Βάσεις δεδομένων με Python και MySQL</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/course.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#19-project-12" class="md-skip">
+          Μετάβαση στο περιεχόμενο
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Κεφαλίδα">
+    <a href="../.." title="Βάσεις δεδομένων με Python και MySQL" class="md-header__button md-logo" aria-label="Βάσεις δεδομένων με Python και MySQL" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Βάσεις δεδομένων με Python και MySQL
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Μάθημα
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Σκοτεινό θέμα"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Σκοτεινό θέμα" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Φωτεινό θέμα"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Φωτεινό θέμα" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Αναζήτηση" placeholder="Αναζήτηση" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Αναζήτηση">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Καθαρισμός" aria-label="Καθαρισμός" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Αρχικοποίηση αναζήτησης
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Πλοήγηση" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Βάσεις δεδομένων με Python και MySQL" class="md-nav__button md-logo" aria-label="Βάσεις δεδομένων με Python και MySQL" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Βάσεις δεδομένων με Python και MySQL
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Αρχική
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Εγκατάσταση και ρύθμιση
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 1 — Η πρώτη μου βάση δεδομένων
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 1 — Η πρώτη μου βάση δεδομένων
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01-first-database/lesson-01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01-first-database/worksheet-01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 2 — Η γλώσσα SQL: CREATE, INSERT, SELECT
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 2 — Η γλώσσα SQL: CREATE, INSERT, SELECT
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02-sql-basics/lesson-02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02-sql-basics/worksheet-02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 3 — Η Python συνδέεται με τη βάση
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 3 — Η Python συνδέεται με τη βάση
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03-python-connects/lesson-03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03-python-connects/worksheet-03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 4 — Φιλτράρω και ταξινομώ
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 4 — Φιλτράρω και ταξινομώ
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04-filter-sort/lesson-04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04-filter-sort/worksheet-04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 5 — Προσθέτω δεδομένα από την Python
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 5 — Προσθέτω δεδομένα από την Python
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05-insert-python/lesson-05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05-insert-python/worksheet-05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 6 — Αλλάζω και σβήνω
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 6 — Αλλάζω και σβήνω
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06-update-delete/lesson-06/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06-update-delete/worksheet-06/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 7 — Εφαρμογή με μενού
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 7 — Εφαρμογή με μενού
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07-menu-app/lesson-07/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07-menu-app/worksheet-07/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 8 — Σφάλματα και έλεγχος εισόδου
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 8 — Σφάλματα και έλεγχος εισόδου
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08-errors-validation/lesson-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08-errors-validation/worksheet-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 9 — Ημερομηνίες και ώρες
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 9 — Ημερομηνίες και ώρες
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../09-dates/lesson-09/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../09-dates/worksheet-09/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 10 — Συγκεντρωτικά αποτελέσματα
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 10 — Συγκεντρωτικά αποτελέσματα
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../10-aggregates/lesson-10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../10-aggregates/worksheet-10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 11 — Πολλοί πίνακες: το ξένο κλειδί
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 11 — Πολλοί πίνακες: το ξένο κλειδί
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../11-foreign-key/lesson-11/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../11-foreign-key/worksheet-11/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_14" >
+        
+          
+          <label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 12 — JOIN: ερωτήματα σε πολλούς πίνακες
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_14">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 12 — JOIN: ερωτήματα σε πολλούς πίνακες
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12-join/lesson-12/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12-join/worksheet-12/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15" >
+        
+          
+          <label class="md-nav__link" for="__nav_15" id="__nav_15_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 13 — JOIN από την Python
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_15_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_15">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 13 — JOIN από την Python
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../13-join-python/lesson-13/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../13-join-python/worksheet-13/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_16" >
+        
+          
+          <label class="md-nav__link" for="__nav_16" id="__nav_16_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 14 — Πολλά-προς-πολλά: ο πίνακας σύνδεσης
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_16_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_16">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 14 — Πολλά-προς-πολλά: ο πίνακας σύνδεσης
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../14-many-to-many/lesson-14/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../14-many-to-many/worksheet-14/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_17" >
+        
+          
+          <label class="md-nav__link" for="__nav_17" id="__nav_17_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 15 — Οργάνωση του κώδικα: modules, with και ρυθμίσεις
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_17_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_17">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 15 — Οργάνωση του κώδικα: modules, with και ρυθμίσεις
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../15-modules/lesson-15/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../15-modules/worksheet-15/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_18" >
+        
+          
+          <label class="md-nav__link" for="__nav_18" id="__nav_18_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 16 — Αναφορές και εξαγωγή σε CSV
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_18_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_18">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 16 — Αναφορές και εξαγωγή σε CSV
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../16-reports-csv/lesson-16/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../16-reports-csv/worksheet-16/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_19" >
+        
+          
+          <label class="md-nav__link" for="__nav_19" id="__nav_19_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 17 — Ασφάλεια: λογαριασμοί, δικαιώματα και SQL injection
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_19_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_19">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 17 — Ασφάλεια: λογαριασμοί, δικαιώματα και SQL injection
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../17-security/lesson-17/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../17-security/worksheet-17/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_20" >
+        
+          
+          <label class="md-nav__link" for="__nav_20" id="__nav_20_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 18 — Αντίγραφα ασφαλείας και συναλλαγές
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_20_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_20">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 18 — Αντίγραφα ασφαλείας και συναλλαγές
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../18-backup-transactions/lesson-18/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../18-backup-transactions/worksheet-18/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_21" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_21" id="__nav_21_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 19 — Project (1/2): από την ιδέα στη βάση
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_21_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_21">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 19 — Project (1/2): από την ιδέα στη βάση
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Πίνακας περιεχομένων">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Πίνακας περιεχομένων
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Αρχεία εργαστηρίου
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Η αποστολή
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στο τέλος θα μπορείς
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Πριν αρχίσεις
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Κύκλος 1 — Από την ιδέα στο σχέδιο
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Κύκλος 1 — Από την ιδέα στο σχέδιο">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Ξεκίνα από τις ερωτήσεις
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Οι πίνακες: από τα «πράγματα» στις στήλες
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 Οι σχέσεις
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4 Οι κανόνες
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.5 Πέντε συνηθισμένα λάθη σχεδιασμού
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 1 — Γνωριμία με το παράδειγμα
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 2 — Το δικό σου σχέδιο
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Κύκλος 2 — Από το σχέδιο στη βάση
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Κύκλος 2 — Από το σχέδιο στη βάση">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-create-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Από το σχέδιο στο CREATE TABLE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 3 — Το σχήμα της βάσης σου
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Δεδομένα δοκιμής
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 4 — Τα δεδομένα και ο λογαριασμός
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-sql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Οι ερωτήσεις γίνονται SQL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-project" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 5 — Οι ερωτήσεις του project σου
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 Αντίγραφο ασφαλείας και παράδοση
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Έλεγχος πριν ολοκληρώσεις
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Για να θυμάσαι
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Λεξιλόγιο
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Δική σου εκδοχή
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../worksheet-19/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_22" >
+        
+          
+          <label class="md-nav__link" for="__nav_22" id="__nav_22_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 20 — Project (2/2): από το πρωτότυπο στην εφαρμογή
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_22_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_22">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 20 — Project (2/2): από το πρωτότυπο στην εφαρμογή
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../20-project-app/lesson-20/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../20-project-app/worksheet-20/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Πίνακας περιεχομένων">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Πίνακας περιεχομένων
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Αρχεία εργαστηρίου
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Η αποστολή
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στο τέλος θα μπορείς
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Πριν αρχίσεις
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Κύκλος 1 — Από την ιδέα στο σχέδιο
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Κύκλος 1 — Από την ιδέα στο σχέδιο">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Ξεκίνα από τις ερωτήσεις
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Οι πίνακες: από τα «πράγματα» στις στήλες
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 Οι σχέσεις
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4 Οι κανόνες
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.5 Πέντε συνηθισμένα λάθη σχεδιασμού
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 1 — Γνωριμία με το παράδειγμα
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 2 — Το δικό σου σχέδιο
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Κύκλος 2 — Από το σχέδιο στη βάση
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Κύκλος 2 — Από το σχέδιο στη βάση">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-create-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Από το σχέδιο στο CREATE TABLE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 3 — Το σχήμα της βάσης σου
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Δεδομένα δοκιμής
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 4 — Τα δεδομένα και ο λογαριασμός
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-sql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Οι ερωτήσεις γίνονται SQL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-project" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Στάδιο 5 — Οι ερωτήσεις του project σου
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 Αντίγραφο ασφαλείας και παράδοση
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Έλεγχος πριν ολοκληρώσεις
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Για να θυμάσαι
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Λεξιλόγιο
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Δική σου εκδοχή
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="19-project-12">Μάθημα 19: Project (1/2): από την ιδέα στη βάση<a class="headerlink" href="#19-project-12" title="Permanent link">&para;</a></h1>
+<p><strong>Βάση δεδομένων:</strong> σχεδιασμός μιας δικής σου βάσης από το μηδέν (ερωτήσεις, πίνακες, σχέσεις, κανόνες), <code>CREATE TABLE</code> με όσα έμαθες, δεδομένα δοκιμής, λογαριασμός εφαρμογής, έλεγχος με την <code>information_schema</code><br />
+<strong>Διάρκεια:</strong> 2 κύκλοι × περίπου 45′ εργασία (2 διδακτικές ώρες). <strong>Δουλεύετε σε ζεύγη.</strong></p>
+<div class="admonition info">
+<p class="admonition-title">Φύλλο εργασίας</p>
+<p>Αυτή η σελίδα εξηγεί τα βήματα. Οι ασκήσεις και οι οδηγίες για κάθε κύκλο βρίσκονται στο
+<a href="../worksheet-19/">Φύλλο εργασίας 19</a>. Δούλεψε με τις δύο σελίδες ανοιχτές.</p>
+</div>
+<h2 id="_1">Αρχεία εργαστηρίου<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Αρχείο</th>
+<th>Κύκλος</th>
+<th>Τι είναι</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../code/starter/project-design.txt">project-design.txt</a></td>
+<td>1</td>
+<td>το <strong>έντυπο σχεδιασμού</strong> που συμπληρώνεις</td>
+</tr>
+<tr>
+<td><a href="../code/starter/example/project-design.txt">example/</a></td>
+<td>1–2</td>
+<td>το <strong>παράδειγμα</strong> της πιτσαρίας: <code>project-design.txt</code>, <a href="../code/starter/example/01-schema.sql">01-schema.sql</a>, <a href="../code/starter/example/02-data.sql">02-data.sql</a>, <a href="../code/starter/example/04-queries.sql">04-queries.sql</a></td>
+</tr>
+<tr>
+<td><a href="../code/starter/01-schema.sql">01-schema.sql</a>, <a href="../code/starter/02-data.sql">02-data.sql</a>, <a href="../code/starter/04-queries.sql">04-queries.sql</a></td>
+<td>2</td>
+<td><strong>σκελετοί</strong>: τα γράφεις εσύ για τη δική σου βάση</td>
+</tr>
+<tr>
+<td><a href="../code/starter/03-account.sql">03-account.sql</a></td>
+<td>2</td>
+<td>σκελετός με τρία κενά</td>
+</tr>
+<tr>
+<td><a href="../code/starter/config.py">config.py</a>, <a href="../code/starter/config_local.example.py">config_local.example.py</a>, <a href="../code/starter/db.py">db.py</a></td>
+<td>2</td>
+<td>οι ρυθμίσεις και η σύνδεση του project σου</td>
+</tr>
+<tr>
+<td><a href="../code/starter/check_project_db.py">check_project_db.py</a></td>
+<td>2</td>
+<td><strong>έτοιμος έλεγχος</strong> της βάσης σου</td>
+</tr>
+</tbody>
+</table>
+<p>Σε αυτό το μάθημα <strong>δεν υπάρχει</strong> έτοιμη λύση για το δικό σου θέμα: υπάρχει ένα <strong>παράδειγμα</strong> (η πιτσαρία) που δείχνει κάθε βήμα, και εσείς κάνετε τα ίδια βήματα για <strong>δικό σας</strong> θέμα.</p>
+<h2 id="_2">Η αποστολή<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>Στα Μαθήματα 19 και 20 φτιάχνεις, μαζί με έναν συμμαθητή, <strong>μια δική σας εφαρμογή με βάση δεδομένων</strong>: από την ιδέα μέχρι το πρόγραμμα που τρέχει.</p>
+<ul>
+<li><strong>Σήμερα (19):</strong> η <strong>βάση</strong>. Διαλέγετε θέμα, σχεδιάζετε πίνακες και σχέσεις, φτιάχνετε τη βάση και τη γεμίζετε με δεδομένα δοκιμής.</li>
+<li><strong>Την επόμενη φορά (20):</strong> το <strong>πρόγραμμα</strong> σε Python που δουλεύει πάνω σε αυτή τη βάση, ο πίνακας δοκιμών και η παρουσίαση.</li>
+</ul>
+<p>Όλα όσα έμαθες χρησιμοποιούνται εδώ: τύποι και κλειδιά (Μαθήματα 1–2), κανόνες <code>UNIQUE</code>/<code>CHECK</code>/<code>DEFAULT</code> (8), ημερομηνίες (9), ξένα κλειδιά και πίνακες σύνδεσης (11, 14), <code>JOIN</code> και ομάδες (10, 12, 16), λογαριασμός με λίγα δικαιώματα (17) και αντίγραφο ασφαλείας (18).</p>
+<h2 id="_3">Στο τέλος θα μπορείς<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<ul>
+<li>να ξεκινάς έναν σχεδιασμό από <strong>ερωτήσεις</strong>, και να βρίσκεις από αυτές τους πίνακες και τις σχέσεις.</li>
+<li>να διαλέγεις <strong>τύπους</strong> και <strong>κανόνες</strong> (<code>NOT NULL</code>, <code>UNIQUE</code>, <code>DEFAULT</code>, <code>CHECK</code>, ξένο κλειδί) για κάθε στήλη.</li>
+<li>να υλοποιείς μια σχέση <strong>ένα-προς-πολλά</strong> (ξένο κλειδί) και μια σχέση <strong>πολλά-προς-πολλά</strong> (πίνακας σύνδεσης, και με επιπλέον στήλη).</li>
+<li>να γράφεις ένα <code>schema.sql</code> που ξανατρέχει όσες φορές θέλεις, και δεδομένα δοκιμής που ελέγχουν το σχέδιο.</li>
+<li>να ελέγχεις τη βάση σου με το <code>check_project_db.py</code> και να διαβάζεις το διάγραμμά της στο <strong>Designer</strong> του phpMyAdmin.</li>
+<li>να αποδεικνύεις ότι το σχέδιο <strong>δουλεύει</strong>, με πέντε ερωτήματα SQL διαφορετικού είδους.</li>
+</ul>
+<h2 id="_4">Πριν αρχίσεις<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Ξεκίνα τη <strong>MySQL</strong> και τον <strong>Apache</strong> από το XAMPP Control Panel.</li>
+<li>Φτιάξε έναν φάκελο <code>19-project-database</code> και κατέβασε εκεί τα αρχεία του πίνακα (τα αρχεία του φακέλου <code>example</code> κράτα τα σε υποφάκελο <code>example</code>). Άνοιξε τον φάκελο στο VS Code και άνοιξε τερματικό.</li>
+<li>Βρες <strong>συμμαθητή</strong>. Δουλεύετε σε <strong>έναν υπολογιστή</strong>, και <strong>αλλάζετε ρόλους</strong>: ένας γράφει, ο άλλος διαβάζει και ελέγχει. Αλλάζετε κάθε 10′ περίπου.</li>
+<li>Οι βάσεις του project <strong>δεν αγγίζουν</strong> τη <code>game_library</code>: κάθε ζεύγος φτιάχνει δική του βάση, με δικό της όνομα.</li>
+</ol>
+<div class="admonition warning">
+<p class="admonition-title">Μόνο φανταστικά στοιχεία</p>
+<p>Στα δεδομένα δοκιμής βάζεις <strong>φανταστικά</strong> ονόματα, τηλέφωνα και διευθύνσεις. <strong>Ποτέ</strong> πραγματικά προσωπικά στοιχεία συμμαθητών, καθηγητών ή άλλων ανθρώπων.</p>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Ο κύκλος εργασίας</p>
+<p><strong>Πρόβλεψη → εκτέλεση → σύγκριση → εξήγηση.</strong> Σήμερα πρόβλεψε <strong>τι θα απαντήσει η βάση</strong> πριν τρέξεις κάθε ερώτημα, και <strong>ποιο κανόνα</strong> θα παραβιάσει μια τιμή πριν τη δοκιμάσεις.</p>
+</div>
+<hr />
+<h2 id="1">Κύκλος 1 — Από την ιδέα στο σχέδιο<a class="headerlink" href="#1" title="Permanent link">&para;</a></h2>
+<p>Σε αυτόν τον κύκλο <strong>δεν γράφεις ακόμη SQL</strong>. Σχεδιάζεις στο έντυπο <code>project-design.txt</code>. Ένα καλό σχέδιο κάνει τη SQL του επόμενου κύκλου σχεδόν μηχανική δουλειά.</p>
+<h3 id="11">1.1 Ξεκίνα από τις ερωτήσεις<a class="headerlink" href="#11" title="Permanent link">&para;</a></h3>
+<p>Οι αρχάριοι ξεκινούν από τους πίνακες. Οι έμπειροι ξεκινούν από τις <strong>ερωτήσεις</strong>: <em>τι πρέπει να μπορεί να απαντήσει η βάση;</em> Αν μια ερώτηση δεν απαντιέται από το σχέδιο, το σχέδιο έχει <strong>τρύπα</strong>.</p>
+<p>Το παράδειγμά μας είναι η πιτσαρία «Φούρνος»: κρατά πελάτες και παραγγελίες. Οι <strong>πέντε ερωτήσεις</strong> της (κάθε μία διαφορετικού είδους):</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">#</th>
+<th>Ερώτηση</th>
+<th>Είδος</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1</td>
+<td>Ποια προϊόντα κοστίζουν λιγότερο από 8 €, με τα φθηνότερα πρώτα;</td>
+<td>φίλτρο και ταξινόμηση</td>
+</tr>
+<tr>
+<td style="text-align: center;">2</td>
+<td>Τι περιέχει η παραγγελία 8 και ποιος πελάτης την έκανε;</td>
+<td>στοιχεία από <strong>πολλούς</strong> πίνακες</td>
+</tr>
+<tr>
+<td style="text-align: center;">3</td>
+<td>Πόσα έσοδα έχει φέρει κάθε κατηγορία προϊόντων;</td>
+<td>σύνολα ανά ομάδα</td>
+</tr>
+<tr>
+<td style="text-align: center;">4</td>
+<td>Ποιοι πελάτες δεν έχουν κάνει καμία παραγγελία;</td>
+<td>«ποιοι δεν έχουν ποτέ …»</td>
+</tr>
+<tr>
+<td style="text-align: center;">5</td>
+<td>Ποια είναι τα τρία πιο δημοφιλή προϊόντα;</td>
+<td>«τα πιο …»</td>
+</tr>
+</tbody>
+</table>
+<p>Για να απαντήσει η βάση στην ερώτηση 3, χρειάζεται να ξέρει <strong>σε ποια κατηγορία ανήκει</strong> κάθε προϊόν και <strong>πόσα τεμάχια</strong> πουλήθηκαν. Αυτό <strong>προδιαγράφει τους πίνακες</strong>.</p>
+<h3 id="12">1.2 Οι πίνακες: από τα «πράγματα» στις στήλες<a class="headerlink" href="#12" title="Permanent link">&para;</a></h3>
+<p><strong>Πίνακας</strong> είναι μια συλλογή από <strong>ίδιου είδους πράγματα</strong>: πελάτες, προϊόντα, παραγγελίες. Βρες τους πίνακες από τα <strong>ουσιαστικά</strong> των ερωτήσεων. Για κάθε υποψήφιο πίνακα ρώτα:</p>
+<ol>
+<li>Θα έχω <strong>πολλά</strong> τέτοια πράγματα; (αλλιώς δεν χρειάζεται πίνακας)</li>
+<li>Κάθε ένα έχει <strong>δική του ταυτότητα</strong>; (αλλιώς είναι στήλη κάποιου άλλου πίνακα)</li>
+<li>Η <strong>μία γραμμή</strong> του πίνακα παριστάνει <strong>ένα</strong> πράγμα, π.χ. <em>έναν</em> πελάτη; (αλλιώς σπάσε τον πίνακα)</li>
+</ol>
+<p>Οι <strong>στήλες</strong> είναι τα <strong>χαρακτηριστικά</strong> του πράγματος. Κάθε πίνακας έχει ένα <code>id</code> (<code>INT</code>, <code>AUTO_INCREMENT</code>, <strong>πρωτεύον κλειδί</strong>). Για τους τύπους:</p>
+<table>
+<thead>
+<tr>
+<th>Τι αποθηκεύεις</th>
+<th>Τύπος</th>
+<th>Παράδειγμα</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ακέραιος αριθμός, ταυτότητα</td>
+<td><code>INT</code></td>
+<td><code>id</code>, <code>quantity</code></td>
+</tr>
+<tr>
+<td>κείμενο με όριο μήκους</td>
+<td><code>VARCHAR(n)</code></td>
+<td><code>name VARCHAR(60)</code></td>
+</tr>
+<tr>
+<td>χρήματα, τιμές</td>
+<td><code>DECIMAL(5,2)</code> (ποτέ <code>FLOAT</code>)</td>
+<td><code>price DECIMAL(5,2)</code></td>
+</tr>
+<tr>
+<td>ημερομηνία</td>
+<td><code>DATE</code></td>
+<td><code>birth_date</code></td>
+</tr>
+<tr>
+<td>ημερομηνία <strong>και ώρα</strong></td>
+<td><code>DATETIME</code></td>
+<td><code>ordered_at</code></td>
+</tr>
+</tbody>
+</table>
+<p>Τα <strong>ονόματα</strong> γράφονται με <strong>πεζά λατινικά και κάτω παύλα</strong>: πίνακες στον πληθυντικό (<code>customers</code>, <code>order_items</code>), στήλες στον ενικό (<code>phone</code>, <code>ordered_at</code>), ξένο κλειδί = ενικός του γονέα + <code>_id</code> (<code>customer_id</code>). Το <code>check_project_db.py</code> το ελέγχει.</p>
+<h3 id="13">1.3 Οι σχέσεις<a class="headerlink" href="#13" title="Permanent link">&para;</a></h3>
+<p>Δύο πίνακες συνδέονται με μία από δύο σχέσεις. Ρώτα, και προς τις <strong>δύο</strong> κατευθύνσεις:</p>
+<table>
+<thead>
+<tr>
+<th>Ερώτηση</th>
+<th>Απάντηση</th>
+<th>Σχέση</th>
+<th>Υλοποίηση</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ένας πελάτης έχει <strong>πολλές</strong> παραγγελίες; Μια παραγγελία έχει <strong>έναν</strong> πελάτη;</td>
+<td>ναι / ναι</td>
+<td><strong>ένα-προς-πολλά</strong> (1:N)</td>
+<td><strong>ξένο κλειδί</strong> στον πίνακα της <strong>πολλαπλής</strong> πλευράς (<code>orders.customer_id</code>)</td>
+</tr>
+<tr>
+<td>Μια παραγγελία έχει <strong>πολλά</strong> προϊόντα; Ένα προϊόν είναι σε <strong>πολλές</strong> παραγγελίες;</td>
+<td>ναι / ναι</td>
+<td><strong>πολλά-προς-πολλά</strong> (N:N)</td>
+<td><strong>πίνακας σύνδεσης</strong> με δύο ξένα κλειδιά (<code>order_items</code>)</td>
+</tr>
+</tbody>
+</table>
+<p>Ο <strong>πίνακας σύνδεσης</strong> (Μάθημα 14) έχει πρωτεύον κλειδί από <strong>δύο στήλες</strong> που είναι και οι δύο ξένα κλειδιά. Αν η σχέση έχει <strong>δικά της στοιχεία</strong> (εδώ: <strong>πόσα τεμάχια</strong>), αυτά γίνονται <strong>επιπλέον στήλες</strong> του πίνακα σύνδεσης:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">order_id</th>
+<th style="text-align: center;">product_id</th>
+<th style="text-align: center;">quantity</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+</tr>
+<tr>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">2</td>
+</tr>
+</tbody>
+</table>
+<p>Η ποσότητα <strong>δεν ανήκει</strong> ούτε στην παραγγελία ούτε στο προϊόν: ανήκει στο <strong>ζευγάρι</strong> τους.</p>
+<h3 id="14">1.4 Οι κανόνες<a class="headerlink" href="#14" title="Permanent link">&para;</a></h3>
+<p>Οι κανόνες προστατεύουν τα δεδομένα (θυμήσου: το XAMPP <strong>δεν</strong> είναι αυστηρό και δέχεται σιωπηλά λάθος τιμές, Μάθημα 8). Για <strong>κάθε στήλη</strong> ρώτα:</p>
+<table>
+<thead>
+<tr>
+<th>Ερώτηση</th>
+<th>Κανόνας</th>
+<th>Παράδειγμα της πιτσαρίας</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Μπορεί να <strong>λείπει</strong>;</td>
+<td><code>NOT NULL</code> (αλλιώς <code>NULL</code>)</td>
+<td>κάθε πελάτης έχει όνομα</td>
+</tr>
+<tr>
+<td>Μπορεί να <strong>επαναλαμβάνεται</strong>;</td>
+<td><code>UNIQUE</code></td>
+<td>ένα τηλέφωνο, ένας πελάτης</td>
+</tr>
+<tr>
+<td>Έχει <strong>συνηθισμένη</strong> τιμή;</td>
+<td><code>DEFAULT</code></td>
+<td>κατάσταση <code>'new'</code>, ποσότητα 1</td>
+</tr>
+<tr>
+<td>Έχει <strong>όρια</strong>;</td>
+<td><code>CHECK</code></td>
+<td>τιμή &gt; 0, ποσότητα 1–20, κατάσταση ανάμεσα σε τρεις επιτρεπόμενες</td>
+</tr>
+<tr>
+<td>Δείχνει σε <strong>άλλον πίνακα</strong>;</td>
+<td>ξένο κλειδί (<code>FOREIGN KEY</code>)</td>
+<td>η παραγγελία δείχνει σε έναν πελάτη που <strong>υπάρχει</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="15">1.5 Πέντε συνηθισμένα λάθη σχεδιασμού<a class="headerlink" href="#15" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Λάθος</th>
+<th>Παράδειγμα</th>
+<th>Διόρθωση</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Λίστα μέσα σε στήλη</strong></td>
+<td><code>products = 'Margherita, Κόκα Κόλα'</code> στην παραγγελία</td>
+<td>πίνακας σύνδεσης (Μάθημα 14)</td>
+</tr>
+<tr>
+<td><strong>Επανάληψη κειμένου</strong> αντί για πίνακα</td>
+<td><code>category = 'Πίτσες'</code> σε κάθε προϊόν</td>
+<td>πίνακας <code>categories</code> και ξένο κλειδί (Μάθημα 11)</td>
+</tr>
+<tr>
+<td><strong>Υπολογισμένη τιμή</strong> αποθηκευμένη</td>
+<td>στήλη <code>order_total</code></td>
+<td>δεν την αποθηκεύεις: την <strong>υπολογίζεις</strong> με <code>SUM</code> (Μάθημα 10)</td>
+</tr>
+<tr>
+<td><strong>Ημερομηνία ως κείμενο</strong></td>
+<td><code>'26/10/2026'</code> σε <code>VARCHAR</code></td>
+<td>τύπος <code>DATE</code> ή <code>DATETIME</code> (Μάθημα 9)</td>
+</tr>
+<tr>
+<td><strong>Στήλες με αριθμό</strong></td>
+<td><code>phone1</code>, <code>phone2</code>, <code>phone3</code></td>
+<td>ξεχωριστός πίνακας, με ξένο κλειδί</td>
+</tr>
+</tbody>
+</table>
+<h3 id="1_1">Στάδιο 1 — Γνωριμία με το παράδειγμα<a class="headerlink" href="#1_1" title="Permanent link">&para;</a></h3>
+<p>Πριν σχεδιάσεις τα δικά σου, <strong>φόρτωσε</strong> το παράδειγμα και δες το. Στο phpMyAdmin, καρτέλα <strong>Import</strong> (χωρίς επιλεγμένη βάση), τρέξε τα <code>example/01-schema.sql</code> και μετά <code>example/02-data.sql</code>. Φτιάχνεται η βάση <strong><code>pizzeria</code></strong> (δεν είναι η δική σου).</p>
+<p>Επίλεξε τη βάση <code>pizzeria</code> και άνοιξε το <strong>Designer</strong> (καρτέλα <strong>More → Designer</strong>). Δείχνει τους πίνακες και τις <strong>σχέσεις</strong> τους ως γραμμές:</p>
+<p><img alt="Το διάγραμμα της βάσης pizzeria στο Designer του phpMyAdmin: πέντε πίνακες και οι γραμμές που δείχνουν τα ξένα κλειδιά. Δύο κόκκινα πλαίσια: 1 ο πίνακας σύνδεσης order_items, που δέχεται δύο γραμμές (από τον orders και από τον products), 2 ο πίνακας customers, που είναι «γονέας» του orders και δεν έχει δικό του ξένο κλειδί" src="../images/designer.png" width="720" /></p>
+<p>Διάβασέ το: η γραμμή ξεκινά από το <strong>ξένο κλειδί</strong> του «παιδιού» και καταλήγει στο <strong>πρωτεύον κλειδί</strong> του «γονέα». Οι <code>categories</code> και <code>customers</code> είναι <strong>γονείς</strong> (δεν δείχνουν σε κανέναν). Ο <code>order_items</code> είναι <strong>παιδί και των δύο</strong> <code>orders</code> και <code>products</code>: είναι ο <strong>πίνακας σύνδεσης</strong>.</p>
+<p>Μετά άνοιξε το <code>example/project-design.txt</code>: <strong>έτσι</strong> πρέπει να είναι συμπληρωμένο το δικό σου έντυπο.</p>
+<h3 id="2">Στάδιο 2 — Το δικό σου σχέδιο<a class="headerlink" href="#2" title="Permanent link">&para;</a></h3>
+<p>Συμπλήρωσε το <code>project-design.txt</code>, <strong>με τη σειρά</strong>, ακολουθώντας το Φύλλο εργασίας:</p>
+<ol>
+<li><strong>Θέμα και όνομα βάσης.</strong> Διάλεξε ένα θέμα από τον πίνακα, ή δικό σου <strong>με τη σύμφωνη γνώμη του διδάσκοντα</strong>.</li>
+<li><strong>Πέντε ερωτήσεις</strong> (τμήμα 2 του εντύπου), διαφορετικού είδους η καθεμιά.</li>
+<li><strong>Πίνακες και στήλες</strong> (τμήμα 3): τουλάχιστον <strong>τέσσερις</strong> πίνακες.</li>
+<li><strong>Σχέσεις</strong> (τμήμα 4): τουλάχιστον μία <strong>1:N</strong> και μία <strong>N:N</strong> (με πίνακα σύνδεσης).</li>
+<li><strong>Κανόνες</strong>: για κάθε στήλη (στη στήλη «Κανόνες» του τμήματος 3).</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Θέμα</th>
+<th>Ιδέες για πίνακες</th>
+<th>Πιθανή σχέση N:N</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Κτηνιατρείο</strong></td>
+<td>ιδιοκτήτες, ζώα, επισκέψεις, θεραπείες</td>
+<td>επισκέψεις ↔ θεραπείες</td>
+</tr>
+<tr>
+<td><strong>Ταινιοθήκη / σινεμά</strong></td>
+<td>ταινίες, ηθοποιοί, είδη, προβολές</td>
+<td>ταινίες ↔ ηθοποιοί</td>
+</tr>
+<tr>
+<td><strong>Αθλητικός σύλλογος</strong></td>
+<td>αθλητές, ομάδες, αγώνες</td>
+<td>αθλητές ↔ αγώνες (με λεπτά συμμετοχής)</td>
+</tr>
+<tr>
+<td><strong>Ωδείο</strong></td>
+<td>μαθητές, καθηγητές, μαθήματα, όργανα</td>
+<td>μαθητές ↔ μαθήματα</td>
+</tr>
+<tr>
+<td><strong>Ενοικίαση ποδηλάτων</strong></td>
+<td>πελάτες, ποδήλατα, ενοικιάσεις, σταθμοί</td>
+<td>πελάτες ↔ ποδήλατα (ενοικίαση με ημερομηνίες)</td>
+</tr>
+<tr>
+<td><strong>Σχολικές εκδρομές</strong></td>
+<td>εκδρομές, μαθητές, τμήματα, λεωφορεία</td>
+<td>εκδρομές ↔ μαθητές (εγγραφές)</td>
+</tr>
+<tr>
+<td><strong>Βιβλιοπωλείο</strong></td>
+<td>βιβλία, συγγραφείς, πελάτες, πωλήσεις</td>
+<td>βιβλία ↔ συγγραφείς</td>
+</tr>
+<tr>
+<td><strong>Ξενοδοχείο</strong></td>
+<td>δωμάτια, πελάτες, κρατήσεις, υπηρεσίες</td>
+<td>κρατήσεις ↔ υπηρεσίες</td>
+</tr>
+<tr>
+<td><strong>Συνταγές</strong></td>
+<td>συνταγές, υλικά, κατηγορίες</td>
+<td>συνταγές ↔ υλικά (με ποσότητα)</td>
+</tr>
+</tbody>
+</table>
+<p>Όταν τελειώσετε, <strong>ανταλλάξτε έντυπα με άλλο ζεύγος</strong> και ελέγξτε το ο ένας του άλλου με τη λίστα του Φύλλου εργασίας: υπάρχει η σχέση που λείπει; Υπάρχει στήλη που είναι λίστα;</p>
+<p><strong>Συνέχισε στο Φύλλο εργασίας.</strong></p>
+<hr />
+<h2 id="2_1">Κύκλος 2 — Από το σχέδιο στη βάση<a class="headerlink" href="#2_1" title="Permanent link">&para;</a></h2>
+<p>Σε αυτόν τον κύκλο το σχέδιο γίνεται <strong>βάση</strong>: SQL, δεδομένα, λογαριασμός και έλεγχος.</p>
+<h3 id="21-create-table">2.1 Από το σχέδιο στο <code>CREATE TABLE</code><a class="headerlink" href="#21-create-table" title="Permanent link">&para;</a></h3>
+<p>Κάθε κομμάτι του σχεδίου έχει δική του γραμμή SQL:</p>
+<table>
+<thead>
+<tr>
+<th>Στο σχέδιο</th>
+<th>Στην SQL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>στήλη <code>id</code>, πρωτεύον κλειδί</td>
+<td><code>id INT NOT NULL AUTO_INCREMENT,</code> … <code>PRIMARY KEY (id)</code></td>
+</tr>
+<tr>
+<td>στήλη που δεν επιτρέπεται κενή</td>
+<td><code>… NOT NULL</code></td>
+</tr>
+<tr>
+<td>στήλη που δεν επιτρέπεται να επαναλαμβάνεται</td>
+<td><code>UNIQUE (στήλη)</code></td>
+</tr>
+<tr>
+<td>συνηθισμένη τιμή</td>
+<td><code>… DEFAULT 'new'</code> ή, για ώρα, <code>DEFAULT (NOW())</code></td>
+</tr>
+<tr>
+<td>όριο τιμών</td>
+<td><code>CONSTRAINT chk_πίνακας_στήλη CHECK (συνθήκη)</code></td>
+</tr>
+<tr>
+<td>σχέση 1:N</td>
+<td><code>CONSTRAINT fk_παιδί_γονέας FOREIGN KEY (γονέας_id) REFERENCES γονέας (id)</code></td>
+</tr>
+<tr>
+<td>σχέση N:N</td>
+<td>πίνακας σύνδεσης, με <code>PRIMARY KEY (α_id, β_id)</code> και δύο <code>FOREIGN KEY</code></td>
+</tr>
+</tbody>
+</table>
+<p>Δύο κανόνες για τη <strong>σειρά</strong>:</p>
+<ul>
+<li>Τους πίνακες τους <strong>φτιάχνεις</strong> πρώτα τους <strong>γονείς</strong>, μετά τα <strong>παιδιά</strong> (ένα ξένο κλειδί δείχνει σε πίνακα που πρέπει να υπάρχει ήδη).</li>
+<li>Τους <strong>σβήνεις</strong> (<code>DROP TABLE IF EXISTS</code>) με την <strong>ανάποδη</strong> σειρά: πρώτα τα παιδιά, αλλιώς η βάση δίνει <code>#1451</code> (Μάθημα 11).</li>
+</ul>
+<p>Έτσι το αρχείο <strong>ξανατρέχει</strong> όσες φορές θέλεις: κάθε φορά σβήνει και ξαναφτιάχνει τους πίνακες. Δες το παράδειγμα (η <code>orders</code> έχει <code>DEFAULT</code> και <code>CHECK</code> και ξένο κλειδί, η <code>order_items</code> είναι ο πίνακας σύνδεσης):</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">-- Καθαρισμός: πρώτα οι πίνακες που ΑΝΑΦΕΡΟΝΤΑΙ σε άλλους (τα «παιδιά»), μετά οι «γονείς»</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="k">DROP</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="n">order_items</span><span class="p">;</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="k">DROP</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="n">orders</span><span class="p">;</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="k">DROP</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="n">products</span><span class="p">;</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="k">DROP</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="n">customers</span><span class="p">;</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="k">DROP</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="n">categories</span><span class="p">;</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="c1">-- Δημιουργία: πρώτα οι γονείς, μετά τα παιδιά</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">categories</span><span class="w"> </span><span class="p">(</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">  </span><span class="n">id</span><span class="w">    </span><span class="nb">INT</span><span class="w">          </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">  </span><span class="n">name</span><span class="w">  </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span><span class="w">  </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">  </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="p">(</span><span class="n">id</span><span class="p">),</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">  </span><span class="k">UNIQUE</span><span class="w"> </span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="p">);</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">customers</span><span class="w"> </span><span class="p">(</span>
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="w">  </span><span class="n">id</span><span class="w">       </span><span class="nb">INT</span><span class="w">           </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="w">  </span><span class="n">name</span><span class="w">     </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">60</span><span class="p">)</span><span class="w">   </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="w">  </span><span class="n">phone</span><span class="w">    </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span><span class="w">   </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="w">  </span><span class="n">address</span><span class="w">  </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span><span class="w">  </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="w">  </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="p">(</span><span class="n">id</span><span class="p">),</span>
+</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="w">  </span><span class="k">UNIQUE</span><span class="w"> </span><span class="p">(</span><span class="n">phone</span><span class="p">)</span>
+</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a><span class="p">);</span>
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>
+</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">products</span><span class="w"> </span><span class="p">(</span>
+</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="w">  </span><span class="n">id</span><span class="w">           </span><span class="nb">INT</span><span class="w">           </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a><span class="w">  </span><span class="n">name</span><span class="w">         </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">60</span><span class="p">)</span><span class="w">   </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a><span class="w">  </span><span class="n">category_id</span><span class="w">  </span><span class="nb">INT</span><span class="w">           </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a><span class="w">  </span><span class="n">price</span><span class="w">        </span><span class="nb">DECIMAL</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="w">  </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a><span class="w">  </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="p">(</span><span class="n">id</span><span class="p">),</span>
+</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a><span class="w">  </span><span class="k">UNIQUE</span><span class="w"> </span><span class="p">(</span><span class="n">name</span><span class="p">),</span>
+</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a><span class="w">  </span><span class="k">CONSTRAINT</span><span class="w"> </span><span class="n">chk_products_price</span><span class="w"> </span><span class="k">CHECK</span><span class="w"> </span><span class="p">(</span><span class="n">price</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">),</span>
+</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a><span class="w">  </span><span class="k">CONSTRAINT</span><span class="w"> </span><span class="n">fk_products_category</span><span class="w"> </span><span class="k">FOREIGN</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="p">(</span><span class="n">category_id</span><span class="p">)</span><span class="w"> </span><span class="k">REFERENCES</span><span class="w"> </span><span class="n">categories</span><span class="w"> </span><span class="p">(</span><span class="n">id</span><span class="p">)</span>
+</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a><span class="p">);</span>
+</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a>
+</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">orders</span><span class="w"> </span><span class="p">(</span>
+</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37" href="#__codelineno-0-37"></a><span class="w">  </span><span class="n">id</span><span class="w">           </span><span class="nb">INT</span><span class="w">          </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38" href="#__codelineno-0-38"></a><span class="w">  </span><span class="n">customer_id</span><span class="w">  </span><span class="nb">INT</span><span class="w">          </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+</span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39" href="#__codelineno-0-39"></a><span class="w">  </span><span class="n">ordered_at</span><span class="w">   </span><span class="n">DATETIME</span><span class="w">     </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="p">(</span><span class="n">NOW</span><span class="p">()),</span>
+</span><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40" href="#__codelineno-0-40"></a><span class="w">  </span><span class="n">status</span><span class="w">       </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="w">  </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="s1">'new'</span><span class="p">,</span>
+</span><span id="__span-0-41"><a id="__codelineno-0-41" name="__codelineno-0-41" href="#__codelineno-0-41"></a><span class="w">  </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="p">(</span><span class="n">id</span><span class="p">),</span>
+</span><span id="__span-0-42"><a id="__codelineno-0-42" name="__codelineno-0-42" href="#__codelineno-0-42"></a><span class="w">  </span><span class="k">CONSTRAINT</span><span class="w"> </span><span class="n">chk_orders_status</span><span class="w"> </span><span class="k">CHECK</span><span class="w"> </span><span class="p">(</span><span class="n">status</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="s1">'new'</span><span class="p">,</span><span class="w"> </span><span class="s1">'ready'</span><span class="p">,</span><span class="w"> </span><span class="s1">'delivered'</span><span class="p">)),</span>
+</span><span id="__span-0-43"><a id="__codelineno-0-43" name="__codelineno-0-43" href="#__codelineno-0-43"></a><span class="w">  </span><span class="k">CONSTRAINT</span><span class="w"> </span><span class="n">fk_orders_customer</span><span class="w"> </span><span class="k">FOREIGN</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="p">(</span><span class="n">customer_id</span><span class="p">)</span><span class="w"> </span><span class="k">REFERENCES</span><span class="w"> </span><span class="n">customers</span><span class="w"> </span><span class="p">(</span><span class="n">id</span><span class="p">)</span>
+</span><span id="__span-0-44"><a id="__codelineno-0-44" name="__codelineno-0-44" href="#__codelineno-0-44"></a><span class="p">);</span>
+</span><span id="__span-0-45"><a id="__codelineno-0-45" name="__codelineno-0-45" href="#__codelineno-0-45"></a>
+</span><span id="__span-0-46"><a id="__codelineno-0-46" name="__codelineno-0-46" href="#__codelineno-0-46"></a><span class="c1">-- Πίνακας σύνδεσης με ΕΞΤΡΑ στήλη: δύο στήλες στο πρωτεύον κλειδί, και η quantity λέει «πόσα τεμάχια»</span>
+</span><span id="__span-0-47"><a id="__codelineno-0-47" name="__codelineno-0-47" href="#__codelineno-0-47"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">order_items</span><span class="w"> </span><span class="p">(</span>
+</span><span id="__span-0-48"><a id="__codelineno-0-48" name="__codelineno-0-48" href="#__codelineno-0-48"></a><span class="w">  </span><span class="n">order_id</span><span class="w">    </span><span class="nb">INT</span><span class="w">  </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+</span><span id="__span-0-49"><a id="__codelineno-0-49" name="__codelineno-0-49" href="#__codelineno-0-49"></a><span class="w">  </span><span class="n">product_id</span><span class="w">  </span><span class="nb">INT</span><span class="w">  </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+</span><span id="__span-0-50"><a id="__codelineno-0-50" name="__codelineno-0-50" href="#__codelineno-0-50"></a><span class="w">  </span><span class="n">quantity</span><span class="w">    </span><span class="nb">INT</span><span class="w">  </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+</span><span id="__span-0-51"><a id="__codelineno-0-51" name="__codelineno-0-51" href="#__codelineno-0-51"></a><span class="w">  </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="p">(</span><span class="n">order_id</span><span class="p">,</span><span class="w"> </span><span class="n">product_id</span><span class="p">),</span>
+</span><span id="__span-0-52"><a id="__codelineno-0-52" name="__codelineno-0-52" href="#__codelineno-0-52"></a><span class="w">  </span><span class="k">CONSTRAINT</span><span class="w"> </span><span class="n">chk_items_quantity</span><span class="w"> </span><span class="k">CHECK</span><span class="w"> </span><span class="p">(</span><span class="n">quantity</span><span class="w"> </span><span class="k">BETWEEN</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="mi">20</span><span class="p">),</span>
+</span><span id="__span-0-53"><a id="__codelineno-0-53" name="__codelineno-0-53" href="#__codelineno-0-53"></a><span class="w">  </span><span class="k">CONSTRAINT</span><span class="w"> </span><span class="n">fk_items_order</span><span class="w">   </span><span class="k">FOREIGN</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="p">(</span><span class="n">order_id</span><span class="p">)</span><span class="w">   </span><span class="k">REFERENCES</span><span class="w"> </span><span class="n">orders</span><span class="w"> </span><span class="p">(</span><span class="n">id</span><span class="p">),</span>
+</span><span id="__span-0-54"><a id="__codelineno-0-54" name="__codelineno-0-54" href="#__codelineno-0-54"></a><span class="w">  </span><span class="k">CONSTRAINT</span><span class="w"> </span><span class="n">fk_items_product</span><span class="w"> </span><span class="k">FOREIGN</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="p">(</span><span class="n">product_id</span><span class="p">)</span><span class="w"> </span><span class="k">REFERENCES</span><span class="w"> </span><span class="n">products</span><span class="w"> </span><span class="p">(</span><span class="n">id</span><span class="p">)</span>
+</span><span id="__span-0-55"><a id="__codelineno-0-55" name="__codelineno-0-55" href="#__codelineno-0-55"></a><span class="p">);</span>
+</span></code></pre></div>
+<h3 id="3">Στάδιο 3 — Το σχήμα της βάσης σου<a class="headerlink" href="#3" title="Permanent link">&para;</a></h3>
+<p>Άνοιξε το <code>01-schema.sql</code> (σκελετός). <strong>Αντικατέστησε</strong> το <code>my_project</code> με το όνομα της βάσης σου (VS Code: <code>Ctrl+H</code>, «Αντικατάσταση όλων»). Γράψε τα <code>DROP TABLE</code> και τα <code>CREATE TABLE</code> της βάσης σου, με βάση το <code>project-design.txt</code>. Τρέξε το με <strong>Import</strong> (χωρίς επιλεγμένη βάση).</p>
+<p>Αν η βάση δώσει σφάλμα, διάβασε το μήνυμα (Μάθημα 2) και διόρθωσε: τα πιο συνηθισμένα είναι <code>#1064</code> (σύνταξη: ξεχασμένο κόμμα ή παρένθεση) και <code>#1005 … Foreign key constraint is incorrectly formed</code>. Το <code>#1005</code> βγαίνει όταν το ξένο κλειδί <strong>δεν ταιριάζει</strong> με το πρωτεύον κλειδί του γονέα (πρέπει να έχουν ίδιο τύπο και μέγεθος) <strong>ή</strong> όταν ο πίνακας-γονέας <strong>δεν υπάρχει ακόμη</strong> (λάθος σειρά δημιουργίας).</p>
+<h3 id="22">2.2 Δεδομένα δοκιμής<a class="headerlink" href="#22" title="Permanent link">&para;</a></h3>
+<p>Μια βάση χωρίς δεδομένα δεν δοκιμάζεται. Τα <strong>δεδομένα δοκιμής</strong> πρέπει να είναι αρκετά <strong>και</strong> να έχουν «δύσκολες» περιπτώσεις:</p>
+<ul>
+<li><strong>Σειρά:</strong> πρώτα οι <strong>γονείς</strong>, μετά τα παιδιά, τελευταίος ο πίνακας σύνδεσης (αλλιώς <code>#1452</code>: ο γονέας δεν υπάρχει).</li>
+<li><strong>Ποσότητα:</strong> τουλάχιστον <strong>3</strong> γραμμές σε κάθε πίνακα και <strong>10 ή περισσότερες</strong> στον πίνακα σύνδεσης ή των κινήσεων.</li>
+<li><strong>Δύσκολες περιπτώσεις:</strong> ένας πελάτης <strong>χωρίς</strong> παραγγελίες, ένα προϊόν που δεν πουλήθηκε <strong>ποτέ</strong>, ένα όνομα με <strong>τόνους</strong>. Αυτές τις περιπτώσεις θα ζητήσουν οι ερωτήσεις σου (π.χ. η ερώτηση 4 της πιτσαρίας).</li>
+<li><strong>Φανταστικά</strong> στοιχεία.</li>
+</ul>
+<p>Δες πώς γεμίζει ο πίνακας σύνδεσης της πιτσαρίας (27 γραμμές):</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">order_items</span><span class="w"> </span><span class="p">(</span><span class="n">order_id</span><span class="p">,</span><span class="w"> </span><span class="n">product_id</span><span class="p">,</span><span class="w"> </span><span class="n">quantity</span><span class="p">)</span><span class="w"> </span><span class="k">VALUES</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">),</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">11</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">),</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">  </span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">11</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">),</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">  </span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">  </span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="mi">11</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">  </span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">),</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">  </span><span class="p">(</span><span class="mi">9</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="p">(</span><span class="mi">9</span><span class="p">,</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">  </span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">11</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span>
+</span></code></pre></div>
+<h3 id="4">Στάδιο 4 — Τα δεδομένα και ο λογαριασμός<a class="headerlink" href="#4" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Γράψε το <code>02-data.sql</code> (σκελετός), με το όνομα της βάσης σου, και τρέξ' το μετά το <code>01-schema.sql</code>.</li>
+<li>Στο <code>03-account.sql</code> συμπλήρωσε τα <strong>τρία κενά</strong> και αντικατάστησε το <code>my_project</code>. Τρέξ' το <strong>ως <code>root</code></strong> (στο phpMyAdmin είσαι ήδη <code>root</code>), ένα ερώτημα τη φορά. Όπως στο Μάθημα 17: η εφαρμογή <strong>δεν</strong> συνδέεται ως <code>root</code>· παίρνει δικό της λογαριασμό, με δικαιώματα <strong>μόνο</strong> στη βάση του project.</li>
+<li>Αντίγραψε το <code>config_local.example.py</code> ως <code>config_local.py</code>. Στο <code>config.py</code> άλλαξε το <code>my_project</code> στο όνομα της βάσης σου.</li>
+<li>Τρέξε τον έλεγχο:</li>
+</ol>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>python<span class="w"> </span>check_project_db.py
+</span></code></pre></div>
+<p>Το πρόγραμμα συνδέεται ως ο λογαριασμός σου και διαβάζει από την <strong><code>information_schema</code></strong> (το «βιβλίο περιγραφής» του εξυπηρετητή: ξέρει τους πίνακες, τα κλειδιά και τους περιορισμούς κάθε βάσης) πώς είναι φτιαγμένη η βάση σου. Ελέγχει τις <strong>ελάχιστες απαιτήσεις του project</strong>, και για κάθε αποτυχία σου λέει τι να σκεφτείς. Έτσι μοιάζει όταν η βάση ικανοποιεί τις απαιτήσεις (εδώ για την πιτσαρία):</p>
+<p><img alt="Το check_project_db.py στο τερματικό για τη βάση pizzeria, με τρία κόκκινα πλαίσια: 1 ο πίνακας με τους πίνακες της βάσης, τις στήλες, τις γραμμές και τα κλειδιά τους, 2 ο έλεγχος «Υπάρχει πίνακας σύνδεσης για σχέση πολλά-προς-πολλά», που βρήκε τον order_items, 3 το τελικό μήνυμα ότι όλοι οι έλεγχοι βγήκαν OK" src="../images/terminal-check-ok.png" width="720" /></p>
+<p>Και έτσι μοιάζει ένα <strong>πρόχειρο</strong> σχήμα: ο έλεγχος δείχνει τι λείπει και βάζει βέλος (→) με υπόδειξη:</p>
+<p><img alt="Το check_project_db.py για ένα πρόχειρο σχήμα, με τρία κόκκινα πλαίσια: 1 τέσσερις απαιτήσεις που δεν ικανοποιούνται (UNIQUE, CHECK, DEFAULT, ημερομηνία), 2 δύο απαιτήσεις για τα δεδομένα (λίγες γραμμές), 3 το συνολικό μήνυμα «6 απαιτήσεις δεν ικανοποιούνται ακόμη»" src="../images/terminal-check-fail.png" width="720" /></p>
+<div class="admonition note">
+<p class="admonition-title">Οι απαιτήσεις του project</p>
+<p>Το <code>check_project_db.py</code> ζητά: <strong>τουλάχιστον 4 πίνακες</strong>, πρωτεύον κλειδί σε <strong>κάθε</strong> πίνακα, <strong>τουλάχιστον 3 ξένα κλειδιά</strong>, <strong>έναν πίνακα σύνδεσης</strong> (N:N), και τουλάχιστον ένα <code>UNIQUE</code>, ένα <code>CHECK</code>, ένα <code>DEFAULT</code> και μία στήλη <code>DATE</code>/<code>DATETIME</code>. Ζητά και <strong>δεδομένα</strong> (τουλάχιστον 3 γραμμές σε κάθε πίνακα, 10 στον μεγαλύτερο), <strong>κανένας πίνακας μόνος</strong> (όλοι συνδέονται με ξένο κλειδί) και σωστά <strong>ονόματα</strong>. Είναι <strong>ελάχιστα</strong>: ένα καλό project τα ξεπερνά.</p>
+</div>
+<h3 id="23-sql">2.3 Οι ερωτήσεις γίνονται SQL<a class="headerlink" href="#23-sql" title="Permanent link">&para;</a></h3>
+<p>Το σχέδιο είναι σωστό όταν η βάση <strong>απαντά στις ερωτήσεις του</strong>. Στο <code>04-queries.sql</code> γράφεις ένα ερώτημα για κάθε μία από τις πέντε ερωτήσεις σου. Πρόσεξε τα πέντε <strong>είδη</strong>, όπως στην πιτσαρία. <strong>Πρόβλεψε πρώτα</strong> πόσες γραμμές θα βγουν.</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1">-- Οι πέντε ερωτήσεις της βάσης «pizzeria»: το ΠΑΡΑΔΕΙΓΜΑ του Μαθήματος 19 (δεν είναι η δική σου βάση).</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="c1">--</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="c1">-- Κάθε ερώτηση είναι ένα ερώτημα SQL. Τρέξε τα ένα-ένα στην καρτέλα SQL της βάσης pizzeria.</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c1">-- Οι ερωτήσεις καλύπτουν διαφορετικά εργαλεία: φίλτρο, JOIN πολλών πινάκων, ομάδες, LEFT JOIN και ταξινόμηση με όριο.</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="n">USE</span><span class="w"> </span><span class="n">pizzeria</span><span class="p">;</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="c1">-- Ερώτηση 1: Ποια προϊόντα κοστίζουν λιγότερο από 8 €, με τα φθηνότερα πρώτα;   (WHERE, ORDER BY)</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">price</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="k">FROM</span><span class="w"> </span><span class="n">products</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">price</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">8</span>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">price</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">;</span>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="c1">-- Ερώτηση 2: Τι περιέχει η παραγγελία 8 και ποιος πελάτης την έκανε;   (JOIN τεσσάρων πινάκων)</span>
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="k">SELECT</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">customer</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">product</span><span class="p">,</span><span class="w"> </span><span class="n">oi</span><span class="p">.</span><span class="n">quantity</span><span class="p">,</span><span class="w"> </span><span class="n">oi</span><span class="p">.</span><span class="n">quantity</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">price</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">line_total</span>
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="k">FROM</span><span class="w"> </span><span class="n">customers</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="k">c</span>
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="k">JOIN</span><span class="w"> </span><span class="n">orders</span><span class="w">      </span><span class="k">AS</span><span class="w"> </span><span class="n">o</span><span class="w">  </span><span class="k">ON</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">customer_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">id</span>
+</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="k">JOIN</span><span class="w"> </span><span class="n">order_items</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">oi</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">oi</span><span class="p">.</span><span class="n">order_id</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">id</span>
+</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="k">JOIN</span><span class="w"> </span><span class="n">products</span><span class="w">    </span><span class="k">AS</span><span class="w"> </span><span class="n">p</span><span class="w">  </span><span class="k">ON</span><span class="w"> </span><span class="n">oi</span><span class="p">.</span><span class="n">product_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">id</span>
+</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">8</span>
+</span><span id="__span-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">name</span><span class="p">;</span>
+</span><span id="__span-3-22"><a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a>
+</span><span id="__span-3-23"><a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a><span class="c1">-- Ερώτηση 3: Πόσα έσοδα έχει φέρει κάθε κατηγορία προϊόντων;   (JOIN, GROUP BY, SUM)</span>
+</span><span id="__span-3-24"><a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">ca</span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">category</span><span class="p">,</span><span class="w"> </span><span class="k">SUM</span><span class="p">(</span><span class="n">oi</span><span class="p">.</span><span class="n">quantity</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">price</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">revenue</span>
+</span><span id="__span-3-25"><a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a><span class="k">FROM</span><span class="w"> </span><span class="n">categories</span><span class="w">  </span><span class="k">AS</span><span class="w"> </span><span class="n">ca</span>
+</span><span id="__span-3-26"><a id="__codelineno-3-26" name="__codelineno-3-26" href="#__codelineno-3-26"></a><span class="k">JOIN</span><span class="w"> </span><span class="n">products</span><span class="w">    </span><span class="k">AS</span><span class="w"> </span><span class="n">p</span><span class="w">  </span><span class="k">ON</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">category_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ca</span><span class="p">.</span><span class="n">id</span>
+</span><span id="__span-3-27"><a id="__codelineno-3-27" name="__codelineno-3-27" href="#__codelineno-3-27"></a><span class="k">JOIN</span><span class="w"> </span><span class="n">order_items</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">oi</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">oi</span><span class="p">.</span><span class="n">product_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">id</span>
+</span><span id="__span-3-28"><a id="__codelineno-3-28" name="__codelineno-3-28" href="#__codelineno-3-28"></a><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">ca</span><span class="p">.</span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">ca</span><span class="p">.</span><span class="n">name</span>
+</span><span id="__span-3-29"><a id="__codelineno-3-29" name="__codelineno-3-29" href="#__codelineno-3-29"></a><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">revenue</span><span class="w"> </span><span class="k">DESC</span><span class="p">;</span>
+</span><span id="__span-3-30"><a id="__codelineno-3-30" name="__codelineno-3-30" href="#__codelineno-3-30"></a>
+</span><span id="__span-3-31"><a id="__codelineno-3-31" name="__codelineno-3-31" href="#__codelineno-3-31"></a><span class="c1">-- Ερώτηση 4: Ποιοι πελάτες δεν έχουν κάνει καμία παραγγελία;   (LEFT JOIN, IS NULL)</span>
+</span><span id="__span-3-32"><a id="__codelineno-3-32" name="__codelineno-3-32" href="#__codelineno-3-32"></a><span class="k">SELECT</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">phone</span>
+</span><span id="__span-3-33"><a id="__codelineno-3-33" name="__codelineno-3-33" href="#__codelineno-3-33"></a><span class="k">FROM</span><span class="w"> </span><span class="n">customers</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="k">c</span>
+</span><span id="__span-3-34"><a id="__codelineno-3-34" name="__codelineno-3-34" href="#__codelineno-3-34"></a><span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">orders</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">o</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">customer_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">id</span>
+</span><span id="__span-3-35"><a id="__codelineno-3-35" name="__codelineno-3-35" href="#__codelineno-3-35"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NULL</span><span class="p">;</span>
+</span><span id="__span-3-36"><a id="__codelineno-3-36" name="__codelineno-3-36" href="#__codelineno-3-36"></a>
+</span><span id="__span-3-37"><a id="__codelineno-3-37" name="__codelineno-3-37" href="#__codelineno-3-37"></a><span class="c1">-- Ερώτηση 5: Ποια είναι τα τρία πιο δημοφιλή προϊόντα (σύνολο τεμαχίων);   (SUM, ORDER BY, LIMIT)</span>
+</span><span id="__span-3-38"><a id="__codelineno-3-38" name="__codelineno-3-38" href="#__codelineno-3-38"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="k">SUM</span><span class="p">(</span><span class="n">oi</span><span class="p">.</span><span class="n">quantity</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">pieces</span>
+</span><span id="__span-3-39"><a id="__codelineno-3-39" name="__codelineno-3-39" href="#__codelineno-3-39"></a><span class="k">FROM</span><span class="w"> </span><span class="n">products</span><span class="w">    </span><span class="k">AS</span><span class="w"> </span><span class="n">p</span>
+</span><span id="__span-3-40"><a id="__codelineno-3-40" name="__codelineno-3-40" href="#__codelineno-3-40"></a><span class="k">JOIN</span><span class="w"> </span><span class="n">order_items</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">oi</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">oi</span><span class="p">.</span><span class="n">product_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">id</span>
+</span><span id="__span-3-41"><a id="__codelineno-3-41" name="__codelineno-3-41" href="#__codelineno-3-41"></a><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">name</span>
+</span><span id="__span-3-42"><a id="__codelineno-3-42" name="__codelineno-3-42" href="#__codelineno-3-42"></a><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">pieces</span><span class="w"> </span><span class="k">DESC</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">name</span>
+</span><span id="__span-3-43"><a id="__codelineno-3-43" name="__codelineno-3-43" href="#__codelineno-3-43"></a><span class="k">LIMIT</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span>
+</span></code></pre></div>
+<p>Η ερώτηση 2 περνά από <strong>τέσσερις πίνακες</strong> (<code>customers</code>, <code>orders</code>, <code>order_items</code>, <code>products</code>): το <code>JOIN</code> ακολουθεί <strong>τα ξένα κλειδιά</strong>, ένα βήμα τη φορά, όπως τις έχεις δει στο Designer:</p>
+<p><img alt="Το αποτέλεσμα της ερώτησης 2 στο phpMyAdmin: τα προϊόντα της παραγγελίας 8, με την ποσότητα και την αξία κάθε γραμμής. Δύο κόκκινα πλαίσια: 1 η στήλη του πελάτη, που έρχεται από τον customers, 2 η στήλη line_total, που υπολογίζεται από την ποσότητα του order_items και την τιμή του products" src="../images/query-result.png" width="720" /></p>
+<h3 id="5-project">Στάδιο 5 — Οι ερωτήσεις του project σου<a class="headerlink" href="#5-project" title="Permanent link">&para;</a></h3>
+<p>Άνοιξε το <code>04-queries.sql</code> (σκελετός), αντικατέστησε το <code>my_project</code>, και γράψε τα πέντε ερωτήματα. Τρέξε τα ένα-ένα στην καρτέλα <strong>SQL</strong> της βάσης σου. Αν κάποια ερώτηση <strong>δεν απαντιέται</strong>, το σχέδιο έχει τρύπα: σκέψου ποιος πίνακας ή ποια στήλη λείπει, και διόρθωσε το <code>01-schema.sql</code>.</p>
+<h3 id="24">2.4 Αντίγραφο ασφαλείας και παράδοση<a class="headerlink" href="#24" title="Permanent link">&para;</a></h3>
+<p>Πριν κλείσεις, πάρε <strong>αντίγραφο ασφαλείας</strong> της βάσης σου (Μάθημα 18) με το <code>mariadb-dump</code>:</p>
+<div class="language-powershell highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nv">$bin</span> <span class="p">=</span> <span class="s2">"C:\xampp\mysql\bin"</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="p">&amp;</span> <span class="s2">"$bin\mariadb-dump.exe"</span> <span class="p">-</span><span class="n">-user</span><span class="p">=</span><span class="n">root</span> <span class="p">-</span><span class="n">-default-character-set</span><span class="p">=</span><span class="n">utf8mb4</span> <span class="p">-</span><span class="n">-single-transaction</span> <span class="p">-</span><span class="n">-databases</span> <span class="n">my_project</span> <span class="p">-</span><span class="n">-result</span><span class="o">-file</span><span class="p">=</span><span class="n">my_project</span><span class="p">.</span><span class="n">sql</span>
+</span></code></pre></div>
+<p>(Βάλε το όνομα της βάσης σου.) Χρησιμοποίησε το <strong><code>mariadb-dump</code></strong> και όχι το Export του phpMyAdmin, που στην έκδοση που δοκιμάσαμε <strong>χάνει τους περιορισμούς <code>CHECK</code></strong>. Το αντίγραφο είναι το <strong>σωσίβιο</strong> σου και ο τρόπος να μεταφέρεις τη βάση σε άλλον υπολογιστή για το Μάθημα 20.</p>
+<p><strong>Τι παραδίδεις σήμερα</strong> (φάκελος του ζεύγους):</p>
+<ul>
+<li>□ <code>project-design.txt</code> συμπληρωμένο·</li>
+<li>□ <code>01-schema.sql</code>, <code>02-data.sql</code>, <code>03-account.sql</code>, <code>04-queries.sql</code> γραμμένα για <strong>τη δική σας</strong> βάση·</li>
+<li>□ <code>python check_project_db.py</code> με <strong>όλες</strong> τις γραμμές <code>[OK]</code>·</li>
+<li>□ ένα <strong>στιγμιότυπο του Designer</strong> (διάγραμμα της βάσης σας)·</li>
+<li>□ το αντίγραφο ασφαλείας (<code>.sql</code>).</li>
+</ul>
+<p><strong>Συνέχισε στο Φύλλο εργασίας, Κύκλος 2.</strong></p>
+<hr />
+<h2 id="_5">Έλεγχος πριν ολοκληρώσεις<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<ul>
+<li>□ Το σχέδιο ξεκίνησε από <strong>ερωτήσεις</strong>, και η βάση απαντά και στις πέντε.</li>
+<li>□ Κάθε πίνακας έχει πρωτεύον κλειδί και κάθε σχέση 1:N έχει ξένο κλειδί.</li>
+<li>□ Υπάρχει πίνακας σύνδεσης για τη σχέση N:N.</li>
+<li>□ Υπάρχουν <code>UNIQUE</code>, <code>CHECK</code>, <code>DEFAULT</code> και στήλη <code>DATE</code>/<code>DATETIME</code> εκεί που έχουν νόημα (όχι μόνο για να βγει το ΟΚ).</li>
+<li>□ Τα δεδομένα δοκιμής είναι φανταστικά και έχουν «δύσκολες» περιπτώσεις.</li>
+<li>□ Η εφαρμογή θα συνδέεται με τον λογαριασμό της, όχι ως <code>root</code>, και ο κωδικός είναι στο <code>config_local.py</code>.</li>
+<li>□ Πήρες αντίγραφο με το <code>mariadb-dump</code>.</li>
+<li>□ Όταν τελείωσες, σταμάτησες τον Apache και τη MySQL.</li>
+</ul>
+<h2 id="_6">Για να θυμάσαι<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Ξεκίνα από τις ερωτήσεις</strong>: τι πρέπει να απαντά η βάση. Από αυτές βγαίνουν οι πίνακες και οι σχέσεις.</li>
+<li><strong>Ένας πίνακας = ένα είδος πράγματος.</strong> Η μία γραμμή του παριστάνει <strong>ένα</strong> πράγμα. Λίστα μέσα σε στήλη ή επαναλαμβανόμενο κείμενο σημαίνει ότι λείπει πίνακας.</li>
+<li><strong>1:N</strong> → ξένο κλειδί στην πλευρά του «πολλά». <strong>N:N</strong> → πίνακας σύνδεσης με σύνθετο πρωτεύον κλειδί, και επιπλέον στήλες για τα στοιχεία της σχέσης (π.χ. <code>quantity</code>).</li>
+<li><strong>Κανόνες</strong> για κάθε στήλη: <code>NOT NULL</code>, <code>UNIQUE</code>, <code>DEFAULT</code>, <code>CHECK</code>, ξένο κλειδί.</li>
+<li><strong>Σειρά:</strong> <code>CREATE</code> πρώτα οι γονείς, <code>DROP</code> πρώτα τα παιδιά, <code>INSERT</code> πρώτα οι γονείς.</li>
+<li><strong>Ό,τι υπολογίζεται</strong> (σύνολα, μέσοι όροι) <strong>δεν αποθηκεύεται</strong>: υπολογίζεται με ερώτημα.</li>
+<li>Το σχέδιο είναι σωστό όταν <strong>απαντά στις ερωτήσεις του</strong>. Ο έλεγχος της <code>information_schema</code> δείχνει μόνο ότι <strong>δεν λείπει κάτι προφανές</strong>.</li>
+<li>Αντίγραφο με το <code>mariadb-dump</code>, όχι με το Export του phpMyAdmin.</li>
+</ul>
+<h2 id="_7">Λεξιλόγιο<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<p><strong>οντότητα / πίνακας</strong>, <strong>σχέση</strong> (1:N, N:N), <strong>πίνακας σύνδεσης</strong>, <strong>γονέας / παιδί</strong> (πίνακες), <strong>σχήμα</strong> (schema), <strong>δεδομένα δοκιμής</strong>, <strong>διάγραμμα σχέσεων</strong> (Designer), <strong><code>information_schema</code></strong>, <strong>απαιτήσεις</strong> (requirements).</p>
+<h2 id="_8">Δική σου εκδοχή<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
+<p>Αν τελειώσετε νωρίτερα, δουλέψτε <strong>με μία αλλαγή τη φορά</strong> και τρέχετε τον έλεγχο μετά από κάθε αλλαγή:</p>
+<ul>
+<li><strong>Πρόκληση 1:</strong> η τιμή ενός προϊόντος αλλάζει με τον καιρό, αλλά μια παλιά παραγγελία πρέπει να θυμάται την τιμή <strong>που πλήρωσε</strong> ο πελάτης. Πρόσθεσε στον πίνακα σύνδεσης (στο παράδειγμα, <code>order_items</code>) μια στήλη <code>unit_price DECIMAL(5,2)</code>. Γιατί ανήκει εκεί και όχι στον <code>orders</code> ή στον <code>products</code>;</li>
+<li><strong>Πρόκληση 2:</strong> πρόσθεσε στο project σας <strong>ακόμη έναν πίνακα</strong> με δική του σχέση (π.χ. <code>reviews</code> ή <code>suppliers</code>), με <code>CHECK</code> στη βαθμολογία ή στην ποσότητα. Ξανατρέξτε τον έλεγχο.</li>
+<li><strong>Πρόκληση 3:</strong> <strong>χάλασε επίτηδες</strong> τη βάση σου: σβήσε στο <code>01-schema.sql</code> έναν περιορισμό <code>CHECK</code> και ξανατρέξε το. Τι λέει ο έλεγχος; Μετά διόρθωσέ το. (Και δοκίμασε να βάλεις μια τιμή που θα απέρριπτε ο περιορισμός.)</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Επιστροφή στην αρχή
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Υποσέλιδο" >
+        
+          
+          <a href="../../18-backup-transactions/worksheet-18/" class="md-footer__link md-footer__link--prev" aria-label="Προηγούμενο: Φύλλο εργασίας">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Προηγούμενο
+              </span>
+              <div class="md-ellipsis">
+                Φύλλο εργασίας
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../worksheet-19/" class="md-footer__link md-footer__link--next" aria-label="Επόμενο: Φύλλο εργασίας">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Επόμενο
+              </span>
+              <div class="md-ellipsis">
+                Φύλλο εργασίας
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2026 Θόδωρος Θεμελής — <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.el"
+   target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>
+
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.top", "navigation.footer", "content.code.copy", "content.code.annotate", "toc.follow", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "\u0391\u03bd\u03c4\u03b9\u03b3\u03c1\u03ac\u03c6\u03b7\u03ba\u03b5 \u03c3\u03c4\u03bf \u03c0\u03c1\u03cc\u03c7\u03b5\u03b9\u03c1\u03bf", "clipboard.copy": "\u0391\u03bd\u03c4\u03b9\u03b3\u03c1\u03b1\u03c6\u03ae \u03c3\u03c4\u03bf \u03c0\u03c1\u03cc\u03c7\u03b5\u03b9\u03c1\u03bf", "search.result.more.one": "1 \u03b1\u03ba\u03cc\u03bc\u03b1 \u03c3\u03b5 \u03b1\u03c5\u03c4\u03ae\u03bd \u03c4\u03b7 \u03c3\u03b5\u03bb\u03af\u03b4\u03b1", "search.result.more.other": "# \u03b1\u03ba\u03cc\u03bc\u03b1 \u03c3\u03b5 \u03b1\u03c5\u03c4\u03ae\u03bd \u03c4\u03b7 \u03c3\u03b5\u03bb\u03af\u03b4\u03b1", "search.result.none": "\u03b4\u03b5\u03bd \u03b2\u03c1\u03ae\u03ba\u03b5 \u03ba\u03ac\u03c0\u03bf\u03b9\u03bf \u03ad\u03b3\u03b3\u03c1\u03b1\u03c6\u03bf", "search.result.one": "1 \u03ad\u03b3\u03b3\u03c1\u03b1\u03c6\u03bf \u03c0\u03bf\u03c5 \u03c4\u03b1\u03b9\u03c1\u03b9\u03ac\u03b6\u03b5\u03b9", "search.result.other": "# \u03ad\u03b3\u03b3\u03c1\u03b1\u03c6\u03b1 \u03c0\u03bf\u03c5 \u03c4\u03b1\u03b9\u03c1\u03b9\u03ac\u03b6\u03bf\u03c5\u03bd", "search.result.placeholder": "\u03a0\u03bb\u03b7\u03ba\u03c4\u03c1\u03bf\u03bb\u03bf\u03b3\u03ae\u03c3\u03c4\u03b5 \u03b3\u03b9\u03b1 \u03bd\u03b1 \u03b1\u03c1\u03c7\u03af\u03c3\u03b5\u03b9 \u03b7 \u03b1\u03bd\u03b1\u03b6\u03ae\u03c4\u03b7\u03c3\u03b7", "search.result.term.missing": "\u039b\u03b5\u03af\u03c0\u03b5\u03b9", "select.version": "\u0395\u03c0\u03b9\u03bb\u03bf\u03b3\u03ae \u03ad\u03ba\u03b4\u03bf\u03c3\u03b7\u03c2"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+    
+  </body>
+</html>

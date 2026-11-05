@@ -1,0 +1,3670 @@
+
+<!doctype html>
+<html lang="el" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Εργαστηριακό υλικό μαθήματος — ΕΠΑΛ">
+      
+      
+        <meta name="author" content="Θόδωρος Θεμελής">
+      
+      
+        <link rel="canonical" href="https://ththemelis.github.io/python-mysql-site/19-project-database/worksheet-19/">
+      
+      
+        <link rel="prev" href="../lesson-19/">
+      
+      
+        <link rel="next" href="../../20-project-app/lesson-20/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>Φύλλο εργασίας - Βάσεις δεδομένων με Python και MySQL</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/course.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#19-project-12" class="md-skip">
+          Μετάβαση στο περιεχόμενο
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Κεφαλίδα">
+    <a href="../.." title="Βάσεις δεδομένων με Python και MySQL" class="md-header__button md-logo" aria-label="Βάσεις δεδομένων με Python και MySQL" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Βάσεις δεδομένων με Python και MySQL
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Φύλλο εργασίας
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Σκοτεινό θέμα"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Σκοτεινό θέμα" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Φωτεινό θέμα"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Φωτεινό θέμα" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Αναζήτηση" placeholder="Αναζήτηση" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Αναζήτηση">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Καθαρισμός" aria-label="Καθαρισμός" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Αρχικοποίηση αναζήτησης
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Πλοήγηση" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Βάσεις δεδομένων με Python και MySQL" class="md-nav__button md-logo" aria-label="Βάσεις δεδομένων με Python και MySQL" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Βάσεις δεδομένων με Python και MySQL
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Αρχική
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Εγκατάσταση και ρύθμιση
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 1 — Η πρώτη μου βάση δεδομένων
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 1 — Η πρώτη μου βάση δεδομένων
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01-first-database/lesson-01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01-first-database/worksheet-01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 2 — Η γλώσσα SQL: CREATE, INSERT, SELECT
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 2 — Η γλώσσα SQL: CREATE, INSERT, SELECT
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02-sql-basics/lesson-02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02-sql-basics/worksheet-02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 3 — Η Python συνδέεται με τη βάση
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 3 — Η Python συνδέεται με τη βάση
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03-python-connects/lesson-03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03-python-connects/worksheet-03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 4 — Φιλτράρω και ταξινομώ
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 4 — Φιλτράρω και ταξινομώ
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04-filter-sort/lesson-04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04-filter-sort/worksheet-04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 5 — Προσθέτω δεδομένα από την Python
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 5 — Προσθέτω δεδομένα από την Python
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05-insert-python/lesson-05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05-insert-python/worksheet-05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 6 — Αλλάζω και σβήνω
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 6 — Αλλάζω και σβήνω
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06-update-delete/lesson-06/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06-update-delete/worksheet-06/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 7 — Εφαρμογή με μενού
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 7 — Εφαρμογή με μενού
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07-menu-app/lesson-07/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07-menu-app/worksheet-07/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 8 — Σφάλματα και έλεγχος εισόδου
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 8 — Σφάλματα και έλεγχος εισόδου
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08-errors-validation/lesson-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08-errors-validation/worksheet-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 9 — Ημερομηνίες και ώρες
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 9 — Ημερομηνίες και ώρες
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../09-dates/lesson-09/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../09-dates/worksheet-09/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 10 — Συγκεντρωτικά αποτελέσματα
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 10 — Συγκεντρωτικά αποτελέσματα
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../10-aggregates/lesson-10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../10-aggregates/worksheet-10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 11 — Πολλοί πίνακες: το ξένο κλειδί
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 11 — Πολλοί πίνακες: το ξένο κλειδί
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../11-foreign-key/lesson-11/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../11-foreign-key/worksheet-11/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_14" >
+        
+          
+          <label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 12 — JOIN: ερωτήματα σε πολλούς πίνακες
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_14">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 12 — JOIN: ερωτήματα σε πολλούς πίνακες
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12-join/lesson-12/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12-join/worksheet-12/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15" >
+        
+          
+          <label class="md-nav__link" for="__nav_15" id="__nav_15_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 13 — JOIN από την Python
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_15_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_15">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 13 — JOIN από την Python
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../13-join-python/lesson-13/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../13-join-python/worksheet-13/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_16" >
+        
+          
+          <label class="md-nav__link" for="__nav_16" id="__nav_16_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 14 — Πολλά-προς-πολλά: ο πίνακας σύνδεσης
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_16_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_16">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 14 — Πολλά-προς-πολλά: ο πίνακας σύνδεσης
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../14-many-to-many/lesson-14/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../14-many-to-many/worksheet-14/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_17" >
+        
+          
+          <label class="md-nav__link" for="__nav_17" id="__nav_17_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 15 — Οργάνωση του κώδικα: modules, with και ρυθμίσεις
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_17_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_17">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 15 — Οργάνωση του κώδικα: modules, with και ρυθμίσεις
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../15-modules/lesson-15/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../15-modules/worksheet-15/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_18" >
+        
+          
+          <label class="md-nav__link" for="__nav_18" id="__nav_18_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 16 — Αναφορές και εξαγωγή σε CSV
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_18_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_18">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 16 — Αναφορές και εξαγωγή σε CSV
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../16-reports-csv/lesson-16/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../16-reports-csv/worksheet-16/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_19" >
+        
+          
+          <label class="md-nav__link" for="__nav_19" id="__nav_19_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 17 — Ασφάλεια: λογαριασμοί, δικαιώματα και SQL injection
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_19_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_19">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 17 — Ασφάλεια: λογαριασμοί, δικαιώματα και SQL injection
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../17-security/lesson-17/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../17-security/worksheet-17/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_20" >
+        
+          
+          <label class="md-nav__link" for="__nav_20" id="__nav_20_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 18 — Αντίγραφα ασφαλείας και συναλλαγές
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_20_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_20">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 18 — Αντίγραφα ασφαλείας και συναλλαγές
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../18-backup-transactions/lesson-18/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../18-backup-transactions/worksheet-18/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_21" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_21" id="__nav_21_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 19 — Project (1/2): από την ιδέα στη βάση
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_21_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_21">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 19 — Project (1/2): από την ιδέα στη βάση
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lesson-19/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Πίνακας περιεχομένων">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Πίνακας περιεχομένων
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-45" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Κύκλος 1 — Από την ιδέα στο σχέδιο (45′)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Κύκλος 1 — Από την ιδέα στο σχέδιο (45′)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Θεωρία (8′)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Α. Πρόβλεψη (3′)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Β. Στάδιο 1 — Γνωριμία με το παράδειγμα (6′)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-14-6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Γ. Στάδιο 2 — Το δικό σας σχέδιο (14′ + 6′)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Δ. Έλεγχος από άλλο ζεύγος (3′)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ε. Κάρτα εξόδου (2′)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-45" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Κύκλος 2 — Από το σχέδιο στη βάση (45′)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Κύκλος 2 — Από το σχέδιο στη βάση (45′)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Θεωρία (4′)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Α. Πρόβλεψη (2′)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Β. Στάδιο 3 — Το σχήμα της βάσης σας (15′)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Γ. Στάδιο 4 — Δεδομένα, λογαριασμός και έλεγχος (9′)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-sql-6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Δ. Στάδιο 5 — Οι ερωτήσεις σας γίνονται SQL (6′)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ε. Αντίγραφο και παράδοση (2′)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ΣΤ. Κάρτα εξόδου (2′)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Αυτοέλεγχος
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_22" >
+        
+          
+          <label class="md-nav__link" for="__nav_22" id="__nav_22_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα 20 — Project (2/2): από το πρωτότυπο στην εφαρμογή
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_22_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_22">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Μάθημα 20 — Project (2/2): από το πρωτότυπο στην εφαρμογή
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../20-project-app/lesson-20/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Μάθημα
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../20-project-app/worksheet-20/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Φύλλο εργασίας
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Πίνακας περιεχομένων">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Πίνακας περιεχομένων
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-45" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Κύκλος 1 — Από την ιδέα στο σχέδιο (45′)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Κύκλος 1 — Από την ιδέα στο σχέδιο (45′)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Θεωρία (8′)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Α. Πρόβλεψη (3′)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Β. Στάδιο 1 — Γνωριμία με το παράδειγμα (6′)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-14-6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Γ. Στάδιο 2 — Το δικό σας σχέδιο (14′ + 6′)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Δ. Έλεγχος από άλλο ζεύγος (3′)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ε. Κάρτα εξόδου (2′)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-45" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Κύκλος 2 — Από το σχέδιο στη βάση (45′)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Κύκλος 2 — Από το σχέδιο στη βάση (45′)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Θεωρία (4′)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Α. Πρόβλεψη (2′)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Β. Στάδιο 3 — Το σχήμα της βάσης σας (15′)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Γ. Στάδιο 4 — Δεδομένα, λογαριασμός και έλεγχος (9′)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-sql-6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Δ. Στάδιο 5 — Οι ερωτήσεις σας γίνονται SQL (6′)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ε. Αντίγραφο και παράδοση (2′)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ΣΤ. Κάρτα εξόδου (2′)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Αυτοέλεγχος
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="19-project-12">Φύλλο εργασίας — Μάθημα 19: Project (1/2): από την ιδέα στη βάση<a class="headerlink" href="#19-project-12" title="Permanent link">&para;</a></h1>
+<div class="admonition info">
+<p class="admonition-title">Πώς δουλεύουμε</p>
+<p>Η θεωρία είναι στη σελίδα <a href="../lesson-19/">Μάθημα 19</a>. Εδώ είναι οι ασκήσεις. <strong>Δουλεύετε σε ζεύγη</strong>, σε έναν υπολογιστή, και αλλάζετε ρόλους κάθε 10′ περίπου. Στις ασκήσεις
+πρόβλεψης <strong>γράψτε πρώτα την απάντησή σας</strong> και μετά τρέξτε την εντολή. Το <strong>κυρίως σχέδιο</strong> συμπληρώνεται στο αρχείο <code>project-design.txt</code>· οι πίνακες εδώ είναι οι σύντομες
+απαντήσεις και η λίστα ελέγχου.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Κύκλος</th>
+<th>Εργασία</th>
+<th>Αποτέλεσμα</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>γνωριμία με το παράδειγμα, θέμα, ερωτήσεις, πίνακες, σχέσεις, κανόνες</td>
+<td>Ένα συμπληρωμένο <code>project-design.txt</code>, ελεγμένο από άλλο ζεύγος</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>01-schema.sql</code>, δεδομένα, λογαριασμός, έλεγχος, πέντε ερωτήματα, αντίγραφο</td>
+<td>Μια βάση που περνά τον έλεγχο και απαντά στις ερωτήσεις σας</td>
+</tr>
+</tbody>
+</table>
+<p>Οι δύο κύκλοι είναι οι δύο διδακτικές ώρες του μαθήματος.</p>
+<p>Πριν αρχίσετε, ξεκινήστε τη MySQL και τον Apache, και ανοίξτε στο VS Code τον φάκελο <code>19-project-database</code>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Μόνο φανταστικά στοιχεία</p>
+<p>Στα δεδομένα βάζετε <strong>φανταστικά</strong> ονόματα, τηλέφωνα και διευθύνσεις. Ποτέ πραγματικά προσωπικά στοιχεία.</p>
+</div>
+<hr />
+<h2 id="1-45">Κύκλος 1 — Από την ιδέα στο σχέδιο (45′)<a class="headerlink" href="#1-45" title="Permanent link">&para;</a></h2>
+<h3 id="8">Θεωρία (8′)<a class="headerlink" href="#8" title="Permanent link">&para;</a></h3>
+<p>Παρακολουθήστε την επίδειξη και διαβάστε τις ενότητες <strong>1.1–1.5</strong> του <a href="../lesson-19/">μαθήματος</a>.</p>
+<h3 id="3">Α. Πρόβλεψη (3′)<a class="headerlink" href="#3" title="Permanent link">&para;</a></h3>
+<p>Προβλέψτε το αποτέλεσμα. <strong>Μην τρέξετε τίποτα ακόμη.</strong> Σκεφτείτε την πιτσαρία: μια παραγγελία έχει πολλά προϊόντα (με ποσότητα) και κάθε προϊόν μπαίνει σε πολλές παραγγελίες.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">#</th>
+<th>Ερώτηση</th>
+<th>Πρόβλεψη</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1</td>
+<td>Πού θα αποθηκεύσετε το «πόσα τεμάχια» από κάθε προϊόν σε κάθε παραγγελία; Στον πίνακα των παραγγελιών, των προϊόντων ή αλλού;</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align: center;">2</td>
+<td>Πόσα ξένα κλειδιά θα έχει ο πίνακας που συνδέει τις παραγγελίες με τα προϊόντα;</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align: center;">3</td>
+<td>Ποιος πίνακας δημιουργείται <strong>πρώτος</strong>: ο <code>customers</code> ή ο <code>orders</code>; Γιατί;</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align: center;">4</td>
+<td>Αν αποθηκεύατε στον <code>orders</code> μια στήλη <code>total</code> (το σύνολο της παραγγελίας), τι πρόβλημα θα είχατε όταν ένας πελάτης αλλάζει μια ποσότητα;</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="1-6">Β. Στάδιο 1 — Γνωριμία με το παράδειγμα (6′)<a class="headerlink" href="#1-6" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Φορτώστε τη βάση <code>pizzeria</code>: καρτέλα <strong>Import</strong> (χωρίς επιλεγμένη βάση), πρώτα το <code>example/01-schema.sql</code> και μετά το <code>example/02-data.sql</code>.</li>
+<li>
+<p>Επιλέξτε τη βάση <code>pizzeria</code> και ανοίξτε το <strong>Designer</strong> (<strong>More → Designer</strong>). Τρέξτε και το <code>example/04-queries.sql</code>, ένα ερώτημα τη φορά (καρτέλα <strong>SQL</strong>). Συμπληρώστε:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Ερώτημα</th>
+<th>Αποτέλεσμα</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">πόσους πίνακες έχει η βάση;</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align: center;">πόσες γραμμές-σχέσεις δείχνει το Designer;</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align: center;">πόσες γραμμές έχει ο <code>order_items</code>;</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>Ερώτηση 4</strong> (πελάτες χωρίς παραγγελία): πρόβλεψη και πραγματικό αποτέλεσμα</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>Ερώτηση 5</strong>: ποιο προϊόν είναι πρώτο και με πόσα τεμάχια;</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>Στο <code>example/project-design.txt</code>: ποιες στήλες έχουν <code>UNIQUE</code> και ποιες <code>CHECK</code>; Γιατί χρειάζεται <code>CHECK</code> στην <code>quantity</code>; ______________________________________________</p>
+</li>
+</ol>
+<h3 id="2-14-6">Γ. Στάδιο 2 — Το δικό σας σχέδιο (14′ + 6′)<a class="headerlink" href="#2-14-6" title="Permanent link">&para;</a></h3>
+<p>Συμπληρώστε το <code>project-design.txt</code>, <strong>με τη σειρά</strong> των παρακάτω βημάτων. Εδώ κρατήστε τις σύντομες απαντήσεις.</p>
+<ol>
+<li><strong>Θέμα και όνομα βάσης</strong> (πεζά λατινικά, χωρίς κενά): ______________________________________________</li>
+<li>
+<p><strong>Οι πέντε ερωτήσεις</strong> (διαφορετικού είδους η καθεμιά):</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">#</th>
+<th>Είδος</th>
+<th>Η ερώτησή σας</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1</td>
+<td>φίλτρο και ταξινόμηση</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align: center;">2</td>
+<td>στοιχεία από <strong>πολλούς</strong> πίνακες</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align: center;">3</td>
+<td>σύνολα ανά ομάδα</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align: center;">4</td>
+<td>«ποιοι δεν έχουν ποτέ …»</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align: center;">5</td>
+<td>«τα πιο …» (top 3)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>Οι πίνακες</strong> (τουλάχιστον τέσσερις). Για καθέναν, τι παριστάνει <strong>μία γραμμή</strong> του:</p>
+<table>
+<thead>
+<tr>
+<th>Πίνακας</th>
+<th>Μία γραμμή του είναι …</th>
+<th>Οι κύριες στήλες του</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>Οι σχέσεις</strong> (μία 1:N τουλάχιστον και μία N:N):</p>
+<table>
+<thead>
+<tr>
+<th>Πίνακας Α</th>
+<th>Πίνακας Β</th>
+<th style="text-align: center;">Είδος (1:N ή N:N)</th>
+<th>Πώς υλοποιείται</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td style="text-align: center;"></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td style="text-align: center;"></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td style="text-align: center;"></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>Οι κανόνες.</strong> Συμπληρώστε σε ποια στήλη (και με ποια τιμή/όριο) θα βάλετε:</p>
+<table>
+<thead>
+<tr>
+<th>Κανόνας</th>
+<th>Στήλη και τιμή/όριο</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>UNIQUE</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>CHECK</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>DEFAULT</code></td>
+<td></td>
+</tr>
+<tr>
+<td>στήλη <code>DATE</code> ή <code>DATETIME</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>Ο πίνακας σύνδεσης.</strong> Ποιος είναι; Έχει <strong>επιπλέον στήλες</strong> (όπως η <code>quantity</code> της πιτσαρίας); Ποιες; ______________________________________________</p>
+</li>
+</ol>
+<h3 id="3_1">Δ. Έλεγχος από άλλο ζεύγος (3′)<a class="headerlink" href="#3_1" title="Permanent link">&para;</a></h3>
+<p><strong>Ανταλλάξτε έντυπα</strong> με άλλο ζεύγος και ελέγξτε το με τη λίστα. Σημειώστε <strong>Ναι</strong> ή <strong>Όχι</strong>. Αν πείτε <strong>Όχι</strong>, γράψτε τι να διορθωθεί.</p>
+<table>
+<thead>
+<tr>
+<th>Έλεγχος</th>
+<th style="text-align: center;">Ναι / Όχι</th>
+<th>Τι να διορθωθεί</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Οι πέντε ερωτήσεις είναι <strong>διαφορετικού</strong> είδους και σαφείς</td>
+<td style="text-align: center;"></td>
+<td></td>
+</tr>
+<tr>
+<td>Κάθε ερώτηση <strong>απαντιέται</strong> από τους πίνακες που σχεδίασαν</td>
+<td style="text-align: center;"></td>
+<td></td>
+</tr>
+<tr>
+<td>Η μία γραμμή κάθε πίνακα παριστάνει <strong>ένα</strong> πράγμα</td>
+<td style="text-align: center;"></td>
+<td></td>
+</tr>
+<tr>
+<td>Δεν υπάρχει <strong>λίστα μέσα σε στήλη</strong> ούτε επαναλαμβανόμενο κείμενο που θα έπρεπε να είναι πίνακας</td>
+<td style="text-align: center;"></td>
+<td></td>
+</tr>
+<tr>
+<td>Κάθε σχέση 1:N έχει το ξένο κλειδί στην πλευρά του «πολλά»</td>
+<td style="text-align: center;"></td>
+<td></td>
+</tr>
+<tr>
+<td>Η σχέση N:N έχει <strong>πίνακα σύνδεσης</strong></td>
+<td style="text-align: center;"></td>
+<td></td>
+</tr>
+<tr>
+<td>Δεν αποθηκεύεται <strong>υπολογισμένη</strong> τιμή (σύνολο, μέσος όρος)</td>
+<td style="text-align: center;"></td>
+<td></td>
+</tr>
+<tr>
+<td>Οι ημερομηνίες είναι <code>DATE</code>/<code>DATETIME</code>, όχι κείμενο</td>
+<td style="text-align: center;"></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="2">Ε. Κάρτα εξόδου (2′)<a class="headerlink" href="#2" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Γιατί ξεκινάμε τον σχεδιασμό από τις <strong>ερωτήσεις</strong> και όχι από τους πίνακες; ______________________________________________</li>
+<li>Πώς υλοποιείται μια σχέση <strong>πολλά-προς-πολλά</strong>; Δώστε ένα δικό σας παράδειγμα. ______________________________________________</li>
+</ol>
+<hr />
+<h2 id="2-45">Κύκλος 2 — Από το σχέδιο στη βάση (45′)<a class="headerlink" href="#2-45" title="Permanent link">&para;</a></h2>
+<h3 id="4">Θεωρία (4′)<a class="headerlink" href="#4" title="Permanent link">&para;</a></h3>
+<p>Ενότητες <strong>2.1–2.3</strong> του <a href="../lesson-19/">μαθήματος</a>: από το σχέδιο στο <code>CREATE TABLE</code>, δεδομένα δοκιμής, οι ερωτήσεις γίνονται SQL.</p>
+<h3 id="2_1">Α. Πρόβλεψη (2′)<a class="headerlink" href="#2_1" title="Permanent link">&para;</a></h3>
+<p>Προβλέψτε το αποτέλεσμα. <strong>Μην τρέξετε τίποτα ακόμη.</strong> Δείτε το παράδειγμα της πιτσαρίας (<code>example/01-schema.sql</code>).</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">#</th>
+<th>Ερώτηση</th>
+<th>Πρόβλεψη</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1</td>
+<td>Στην πιτσαρία δοκιμάζετε <code>INSERT INTO orders (customer_id) VALUES (99);</code> και δεν υπάρχει πελάτης 99. Τι σφάλμα βγαίνει;</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align: center;">2</td>
+<td>Βάζετε στον <code>order_items</code> το <strong>ίδιο</strong> ζεύγος (παραγγελία, προϊόν) δύο φορές. Τι σφάλμα βγαίνει;</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align: center;">3</td>
+<td>Βάζετε <code>quantity = 25</code>. Τι σφάλμα βγαίνει; Ποιος περιορισμός το προκαλεί;</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align: center;">4</td>
+<td>Τρέχετε το <code>02-data.sql</code> <strong>πριν</strong> το <code>01-schema.sql</code>. Τι θα πάθετε;</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="3-15">Β. Στάδιο 3 — Το σχήμα της βάσης σας (15′)<a class="headerlink" href="#3-15" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p>Αντικαταστήστε το <code>my_project</code> στο <code>01-schema.sql</code> και γράψτε τα <code>DROP TABLE</code> και τα <code>CREATE TABLE</code> της βάσης σας. Τρέξτε το με <strong>Import</strong> (χωρίς επιλεγμένη βάση). Συμπληρώστε:</p>
+<table>
+<thead>
+<tr>
+<th>Ερώτημα</th>
+<th>Απάντηση</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>πόσα <code>CREATE TABLE</code> γράψατε;</td>
+<td></td>
+</tr>
+<tr>
+<td>ποια σφάλματα βγήκαν στην πρώτη προσπάθεια (αριθμός και τι ήταν);</td>
+<td></td>
+</tr>
+<tr>
+<td>πώς τα διορθώσατε;</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>Τρέξτε το αρχείο <strong>δεύτερη φορά</strong>. Δουλεύει; Γιατί; ______________________________________________</p>
+</li>
+<li>Με τη σειρά των <code>DROP TABLE</code> και των <code>CREATE TABLE</code> του αρχείου σας: ποιοι πίνακες είναι «γονείς» και ποιοι «παιδιά»; Γιατί έχει σημασία η σειρά; ______________________________________________</li>
+</ol>
+<h3 id="4-9">Γ. Στάδιο 4 — Δεδομένα, λογαριασμός και έλεγχος (9′)<a class="headerlink" href="#4-9" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Γράψτε το <code>02-data.sql</code> (με το όνομα της βάσης σας) και τρέξτε το μετά το <code>01-schema.sql</code>.</li>
+<li>Συμπληρώστε τα <strong>τρία κενά</strong> του <code>03-account.sql</code> και τρέξτε το (ως <code>root</code>, ένα ερώτημα τη φορά). Ποια ήταν τα κενά; ______________________________________________</li>
+<li>
+<p>Αντιγράψτε το <code>config_local.example.py</code> ως <code>config_local.py</code> και αλλάξτε το <code>DATABASE</code> στο <code>config.py</code>. Τρέξτε <code>python check_project_db.py</code>. Συμπληρώστε:</p>
+<table>
+<thead>
+<tr>
+<th>Ερώτημα</th>
+<th>Απάντηση</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>πόσες γραμμές <code>[OK]</code> βγήκαν στην πρώτη εκτέλεση;</td>
+<td></td>
+</tr>
+<tr>
+<td>ποιες απαιτήσεις έβγαλαν <code>[ΛΑΘΟΣ]</code>;</td>
+<td></td>
+</tr>
+<tr>
+<td>τι αλλάξατε για να περάσουν;</td>
+<td></td>
+</tr>
+<tr>
+<td>το τελικό μήνυμα</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>Τι σφάλμα θα έβλεπε ο έλεγχος αν είχατε γράψει <strong>λάθος κωδικό</strong> στο <code>config_local.py</code>; ______________________________________________</p>
+</li>
+<li>Γιατί η εφαρμογή σας έχει δικό της λογαριασμό και δεν συνδέεται ως <code>root</code>; Ποια δικαιώματα έχει και ποια <strong>δεν</strong> έχει; ______________________________________________</li>
+</ol>
+<h3 id="5-sql-6">Δ. Στάδιο 5 — Οι ερωτήσεις σας γίνονται SQL (6′)<a class="headerlink" href="#5-sql-6" title="Permanent link">&para;</a></h3>
+<p>Γράψτε στο <code>04-queries.sql</code> ένα ερώτημα για κάθε μία από τις πέντε ερωτήσεις σας. <strong>Προβλέψτε πρώτα</strong> πόσες γραμμές θα βγουν και μετά τρέξτε το.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">#</th>
+<th>Είδος</th>
+<th style="text-align: center;">Πρόβλεψη γραμμών</th>
+<th style="text-align: center;">Πραγματικές γραμμές</th>
+<th>Έβγαλε αυτό που περιμένατε;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1</td>
+<td>φίλτρο και ταξινόμηση</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align: center;">2</td>
+<td>πολλοί πίνακες</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align: center;">3</td>
+<td>σύνολα ανά ομάδα</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align: center;">4</td>
+<td>«ποιοι δεν έχουν ποτέ …»</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align: center;">5</td>
+<td>«τα πιο …»</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Αν κάποια ερώτηση <strong>δεν απαντιέται</strong>, ποιος πίνακας ή ποια στήλη έλειπε από το σχέδιο; Τι αλλάξατε; ______________________________________________</p>
+<h3 id="2_2">Ε. Αντίγραφο και παράδοση (2′)<a class="headerlink" href="#2_2" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Πάρτε αντίγραφο ασφαλείας με το <code>mariadb-dump</code> (εντολή στην ενότητα 2.4). Πόσα bytes έχει το αρχείο; _____________</li>
+<li>Βγάλτε στιγμιότυπο του <strong>Designer</strong> για τη βάση σας και αποθηκεύστε το στον φάκελο του project.</li>
+<li>
+<p>Ελέγξτε τη λίστα παράδοσης:</p>
+<ul>
+<li>□ <code>project-design.txt</code> συμπληρωμένο</li>
+<li>□ <code>01-schema.sql</code>, <code>02-data.sql</code>, <code>03-account.sql</code>, <code>04-queries.sql</code> για <strong>τη δική σας</strong> βάση</li>
+<li>□ <code>python check_project_db.py</code> με <strong>όλες</strong> τις γραμμές <code>[OK]</code></li>
+<li>□ στιγμιότυπο του Designer</li>
+<li>□ αντίγραφο ασφαλείας (<code>.sql</code>)</li>
+</ul>
+</li>
+</ol>
+<h3 id="2_3">ΣΤ. Κάρτα εξόδου (2′)<a class="headerlink" href="#2_3" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Γιατί η σειρά των <code>DROP TABLE</code>, <code>CREATE TABLE</code> και <code>INSERT</code> έχει σημασία; ______________________________________________</li>
+<li>Αν ο έλεγχος βγάλει όλα <code>[OK]</code>, αποδεικνύει ότι το σχέδιό σας είναι <strong>σωστό</strong>; Τι <strong>δεν</strong> μπορεί να ελέγξει; ______________________________________________</li>
+</ol>
+<hr />
+<h2 id="_1">Αυτοέλεγχος<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<ul>
+<li>□ Ξεκινώ τον σχεδιασμό από τις <strong>ερωτήσεις</strong> της βάσης.</li>
+<li>□ Βρίσκω πίνακες και σχέσεις (1:N, N:N) και ξέρω πώς υλοποιείται καθεμιά.</li>
+<li>□ Διαλέγω τύπους και κανόνες (<code>NOT NULL</code>, <code>UNIQUE</code>, <code>DEFAULT</code>, <code>CHECK</code>) για κάθε στήλη.</li>
+<li>□ Γράφω ένα <code>schema.sql</code> που ξανατρέχει, με σωστή σειρά <code>DROP</code> και <code>CREATE</code>.</li>
+<li>□ Γράφω δεδομένα δοκιμής με «δύσκολες» περιπτώσεις, και <strong>φανταστικά</strong> στοιχεία.</li>
+<li>□ Φτιάχνω λογαριασμό για την εφαρμογή με δικαιώματα μόνο στη βάση μου.</li>
+<li>□ Διαβάζω το αποτέλεσμα του <code>check_project_db.py</code> και το διάγραμμα του Designer.</li>
+<li>□ Αποδεικνύω το σχέδιο με πέντε ερωτήματα διαφορετικού είδους.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Επιστροφή στην αρχή
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Υποσέλιδο" >
+        
+          
+          <a href="../lesson-19/" class="md-footer__link md-footer__link--prev" aria-label="Προηγούμενο: Μάθημα">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Προηγούμενο
+              </span>
+              <div class="md-ellipsis">
+                Μάθημα
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../../20-project-app/lesson-20/" class="md-footer__link md-footer__link--next" aria-label="Επόμενο: Μάθημα">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Επόμενο
+              </span>
+              <div class="md-ellipsis">
+                Μάθημα
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2026 Θόδωρος Θεμελής — <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.el"
+   target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>
+
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.top", "navigation.footer", "content.code.copy", "content.code.annotate", "toc.follow", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "\u0391\u03bd\u03c4\u03b9\u03b3\u03c1\u03ac\u03c6\u03b7\u03ba\u03b5 \u03c3\u03c4\u03bf \u03c0\u03c1\u03cc\u03c7\u03b5\u03b9\u03c1\u03bf", "clipboard.copy": "\u0391\u03bd\u03c4\u03b9\u03b3\u03c1\u03b1\u03c6\u03ae \u03c3\u03c4\u03bf \u03c0\u03c1\u03cc\u03c7\u03b5\u03b9\u03c1\u03bf", "search.result.more.one": "1 \u03b1\u03ba\u03cc\u03bc\u03b1 \u03c3\u03b5 \u03b1\u03c5\u03c4\u03ae\u03bd \u03c4\u03b7 \u03c3\u03b5\u03bb\u03af\u03b4\u03b1", "search.result.more.other": "# \u03b1\u03ba\u03cc\u03bc\u03b1 \u03c3\u03b5 \u03b1\u03c5\u03c4\u03ae\u03bd \u03c4\u03b7 \u03c3\u03b5\u03bb\u03af\u03b4\u03b1", "search.result.none": "\u03b4\u03b5\u03bd \u03b2\u03c1\u03ae\u03ba\u03b5 \u03ba\u03ac\u03c0\u03bf\u03b9\u03bf \u03ad\u03b3\u03b3\u03c1\u03b1\u03c6\u03bf", "search.result.one": "1 \u03ad\u03b3\u03b3\u03c1\u03b1\u03c6\u03bf \u03c0\u03bf\u03c5 \u03c4\u03b1\u03b9\u03c1\u03b9\u03ac\u03b6\u03b5\u03b9", "search.result.other": "# \u03ad\u03b3\u03b3\u03c1\u03b1\u03c6\u03b1 \u03c0\u03bf\u03c5 \u03c4\u03b1\u03b9\u03c1\u03b9\u03ac\u03b6\u03bf\u03c5\u03bd", "search.result.placeholder": "\u03a0\u03bb\u03b7\u03ba\u03c4\u03c1\u03bf\u03bb\u03bf\u03b3\u03ae\u03c3\u03c4\u03b5 \u03b3\u03b9\u03b1 \u03bd\u03b1 \u03b1\u03c1\u03c7\u03af\u03c3\u03b5\u03b9 \u03b7 \u03b1\u03bd\u03b1\u03b6\u03ae\u03c4\u03b7\u03c3\u03b7", "search.result.term.missing": "\u039b\u03b5\u03af\u03c0\u03b5\u03b9", "select.version": "\u0395\u03c0\u03b9\u03bb\u03bf\u03b3\u03ae \u03ad\u03ba\u03b4\u03bf\u03c3\u03b7\u03c2"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+    
+  </body>
+</html>
